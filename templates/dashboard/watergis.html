@@ -294,7 +294,7 @@
             <div class="text-center">
                 <div class="checkbox" id="boundary">
                     <tr>
-                        <tb> <label><input type="checkbox" value="{state}" onchange="getBoundary(this)"></tb><tb><span> State </span></label></tb>
+                        <tb> <label><input type="checkbox" value="{state}" onchange="getBoundary(this)" ></tb><tb><span> State </span></label></tb>
                     </tr>
                 </div>
                 <div class="checkbox">
@@ -431,6 +431,20 @@
                                     <div class="checkbox">
                                         <label><input type="checkbox" value="{agrani_basin}" onchange="getBoundary(this)"disabled><span> Agrani Basin</span></label>
                                     </div>
+                                </div>
+                            </div>
+                            &nbsp;&nbsp;
+
+                            <div class="multiselect">
+                                <div class="selectBox" onclick="showCheckboxes13()">
+                                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Bhandara</button>
+                                    <div class="overSelect"></div>
+                                </div>
+                                <div id="checkboxes13" style="display:none">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{wainganaga_basin}" onchange="getBoundary(this)"><span> Wainganaga Basin </span></label>
+                                    </div>
+                                   
                                 </div>
                             </div>
                             &nbsp;&nbsp;
@@ -1072,6 +1086,15 @@
 
                                     // });
                                     //console.log("hi",indstate);
+                                                                let indiaState = L.tileLayer.wms("https://geoserver2.communitygis.net/geoserver/wms", {
+                                        layers: "geonode:states_in_india",
+                                        format: "image/png",
+                                        transparent: "true",
+                                        tiled: "true",
+                                        opacity: 0.7,
+                                        }
+                                    );
+                                    indiaState.addTo(mymap);
 
                                     $('#district').on('change', function() {
                                         //$("#block").show();
@@ -1356,6 +1379,16 @@
                                         expanded = false;
                                     }
                                 }
+                                function showCheckboxes13() {
+                                    var checkboxes3 = document.getElementById("checkboxes13");
+                                    if (!expanded) {
+                                        checkboxes3.style.display = "block";
+                                        expanded = true;
+                                    } else {
+                                        checkboxes3.style.display = "none";
+                                        expanded = false;
+                                    }
+                                }
 
                                 function showCheckboxes4() {
                                     var checkboxes4 = document.getElementById("checkboxes4");
@@ -1460,13 +1493,17 @@
                                             // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
                                             putWMS1("mini_15_district0"); }
                                         else if (boundary == "{pawana_basin}"){// Rivers Basin 
-                                            putWMS1("Pawana_Basin_Layer0" );
+                                            putWMS1("Pawana_Basin_Layer0");
                                             console.log("Boundary is "+boundary)
                                         }   
                                         else if (boundary == "{indrayani_basin}"){// Rivers Basin 
                                             putWMS1("Indrayani_Basin" );
                                             console.log("Boundary is "+boundary)
-                                        }   
+                                        }  
+                                        else if (boundary == "{wainganaga_basin}"){
+                                            putWMS1("wainganga_riverline_7april23");
+                                            console.log("Boundary is "+boundary)
+                                        } 
                                         else if (boundary == "{poisar}"){
                                             putWMS1("poisar_River_Nov22");
                                             console.log("Boundary is "+boundary)
@@ -4001,6 +4038,8 @@ function setView1(layerName, selectedBoundary) {
                 mymap.setView([18.637,73.605],11);
             if(layer == 'Indrayani_Basin' )
                 mymap.setView([18.688,73.598],11);
+            else if(layer == 'wainganga_riverline_7april23' )
+                mymap.setView([21.077,79.599],11);
             else if(layer == 'poisar_River_Nov22')
                 mymap.setView([19.210712,72.835955],14);
             else if(layer == 'Dahisar_River_Nov22')
