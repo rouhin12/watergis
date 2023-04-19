@@ -174,7 +174,16 @@
         display: none;
         /* border: 1px #dadada solid; */
     }
-    
+    #checkboxes13 label 
+    {
+        display: block;
+        text-align: left;
+        margin: 10px;   
+    }
+    #checkboxes13 {
+        display: none;
+        /* border: 1px #dadada solid; */
+    }
     .btn {
         margin: 10px;
     }
@@ -463,7 +472,7 @@
                                     <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Bhandara</button>
                                     <div class="overSelect"></div>
                                 </div>
-                                <div id="checkboxes13" style="display:none">
+                                <div id="checkboxes13">
                                     <div class="checkbox">
                                         <label><input type="checkbox" value="{wainganaga_basin}" onchange="getBoundary(this)"><span> Wainganaga Basin </span></label>
                                     </div>
@@ -3198,6 +3207,11 @@ function setView1(layerName, selectedBoundary) {
 
                                 function putWMSru(layer) {
                                     var selectedDistrict=document.getElementById("district").value;
+                                    if(selectedDistrict=="")
+                                    {
+                                        alert("Please select above state and district");
+                                    }
+                                    else {
                                     if (layer == "geonode:maha_taluka_13march2021") {
                                         var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
                                         layers: layer,
@@ -3234,6 +3248,7 @@ function setView1(layerName, selectedBoundary) {
                                     wms_layer.addTo(mymap);
                                     newLayerList.push(wms_layer);
                                     //console.log(wms_layer);
+                                }
                                 }
 
 
@@ -3508,6 +3523,112 @@ function setView1(layerName, selectedBoundary) {
                                     });
 
                                 }
+
+                                function Identify(e) {
+
+//console.log("Identify");
+// set parameters needed for GetFeatureInfo WMS request
+var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
+var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
+var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
+var WIDTH = mymap.getSize().x;
+var HEIGHT = mymap.getSize().y;
+
+var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
+var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+
+// compose the URL for the request
+console.log(e);
+
+var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
+// console.log(URL);
+//send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
+$.ajax({
+    url: URL,
+    dataType: "json",
+    type: "GET",
+    success: function(data) {
+        if (data.features.length !== 0) { // at least one feature returned in response
+            var feature = data.features[0]; // first feature from response
+            console.log(feature);
+            // Set up popup for clicked feature and open it
+            var popup = new L.Popup({
+                maxWidth: 300
+            });
+            if (feature.properties.category === "at") {
+                //console.log("I reached at");
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+            } else if (feature.properties.category === "m") {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+            } else if (feature.properties.category === "mm") {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+
+            } else if (feature.properties.category === "t") {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+
+            }else if (feature.properties.f_ill) {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>"+
+                    "<tr><td>Total Population</td><td>"+feature.properties.tot_p+"</td></tr>"+
+                    "<tr><td>Total Female Population</td><td>"+feature.properties.tot_f+"</td></tr>"+
+                    "<tr><td>Total Male Population</td><td>"+feature.properties.tot_m+"</td></tr>"+
+                    "<tr><td>Illiterate Population</td><td>"+feature.properties.p_ill+"</tr>"+
+                    "<tr><td>Literate: Population</td><td>"+feature.properties.p_lit+"</tr></table>";
+
+            }else if (feature.properties.ass_car) {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>"+
+                     "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>"+ feature.properties.msdw_taput+"<b></td></tr>"+    
+                    "<tr><td>% of Thratched Roof type</td><td><b>"+ feature.properties.mroof_gra+"<b></td></tr>"+    
+                    "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>"+ feature.properties.plat_vent+"<b></td></tr>"+    
+                    "<tr><td>% sof Bathroom without Roof</td><td><b>"+ feature.properties.nobathroom+"<b></td></tr></table>";
+
+            }else if (feature.properties.town_name) {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
+                     "<tr><td>Total Population of Town</td><td><b>"+ feature.properties.tot_pop+"<b></td></tr>"+    
+                    "<tr><td>Total Scheduled Castes Population of Town</td><td><b>"+ feature.properties.tot_sc_pop+"<b></td></tr>"+    
+                    "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>"+ feature.properties.tot_st_pop+"<b></td></tr>"+    
+                    "<tr><td>Density (Census 2011)</td><td><b>"+ feature.properties.density_20+"<b></td></tr></table>";
+
+            }else if (feature.properties.village_na) {
+                insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
+                    "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>"+
+                     "<tr><td>Total Population</td><td><b>"+ feature.properties.tot_popu+"<b></td></tr>"+    
+                    "<tr><td>Total Household</td><td><b>"+ feature.properties.tot_hh+"<b></td></tr>"+    
+                    "<tr><td>Number of Govt Pre-Primary School</td><td><b>"+ feature.properties.govt_pre_1+"<b></td></tr>"+
+                    "<tr><td>Number of Govt Primary School</td><td><b>"+ feature.properties.govt_pri_1+"<b></td></tr></table>";
+
+            }
+
+            popup.setContent(insti_content);
+            popup.setLatLng(e.latlng);
+            mymap.openPopup(popup);
+        }
+    }
+});
+}
+
+mymap.addEventListener('click', Identify);
 
 
                                 function putArogya(facility) {
