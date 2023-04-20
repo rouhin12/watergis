@@ -207,7 +207,9 @@
         margin: 0 0 5px;
         color: #777;
     }
-    
+    #wells_district {
+    display: none;
+}
     .table {
         border-collapse: collapse;
         padding: 50px;
@@ -382,7 +384,11 @@
                 </div>
             
                 &nbsp;&nbsp;
-               
+                <div class="tooltips" title="Please select the Wells" id="wells_district">
+        
+                    <label><input type="checkbox" value="Wells" id ="chwells" onchange="defineWell(this)"><span style="color:black;"><b> Show Wells  </b></span></label><br>
+                    <label><input type="checkbox" value="Wells" id ="driange" onchange="defineWell(this)"><span style="color:black;"><b> Show Drainage  </b></span></label>               
+              </div>
                 
                 <div class="tooltips" style="display:none;" title="Please select the Maharashtra's Blocks" id="block">
                     &nbsp;&nbsp;
@@ -423,7 +429,7 @@
             </div>
             <hr>
             <!-- Wells  -->
-            <div class="multiselect">
+            <!-- <div class="multiselect">
                 <div class="selectBox" onclick="showCheckboxes12()">
                     <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; ">Wells</button>
                     <div class="overSelect"></div>
@@ -438,7 +444,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div> -->
 
             <!-- Rivers  -->
             <div class="multiselect ">
@@ -1134,6 +1140,10 @@
                                         //$("#block").show();
                                         // var state=document.getElementById("indstate");
                                         // console.log(state);
+
+                                      
+                                        $("#wells_district").show();
+
                                         if (this.value == 'Mumbai City') {
                                             $("#mumwards").show();
                                             $("#mumsubwards").hide();
@@ -1202,6 +1212,122 @@
 
                                     });
                                 });
+
+                                
+function defineWell(checkbox)
+{
+    let value = checkbox.value;
+    var state = document.getElementById('indstate').value;
+    var dist_fetch =document.getElementById('district').value;
+    console.log(state);
+    console.log(value);
+    
+    if ($(checkbox).is(':checked')) {
+       
+
+        
+        {% for i in wells %}
+
+        var wellIcon = L.icon({
+              iconUrl: "{% static 'map/images/well.png' %}",
+              iconSize:     [30, 40], // size of the icon
+              //shadowSize:   [50, 64], // size of the shadow
+              iconAnchor:   [25,10], // point of the icon which will correspond to marker's location
+              // shadowAnchor: [4, 62],  // the same for the shadow
+              popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+          });
+          var wellslayerGroup = L.layerGroup();   
+
+        var table = 
+            
+            `<table class="w3-table" id="popup" style="font-size:12px; align:center;" >
+              <tbody>
+            {% if i.picture %}
+              <tr>
+                <tr><img src=../media{{ i.picture.url }} alt="No image uploaded" style="height:100px; width:170px; border:2px solid #555;"/>
+              </tr>
+              {% endif %}
+
+              {% if i.name %}
+              <tr>
+              <th>Information by</th>
+              <th>{{ i.name }}</th>
+          </tr>
+          {% endif %}
+    
+              {% if i.well_nm %}
+              <tr>
+                  <th>Well's name</th>
+                  <th>{{ i.well_nm }}</th>
+              </tr>
+              {% endif %}
+    
+              {% if i.radius %}
+              <tr>
+                <td>Radius</td>
+                <td>{{ i.radius }} mtr</td>
+              </tr>
+              {% endif %}
+    
+              {% if i.depth %}
+              <tr>
+                <td>Depth</td>
+                <td>{{ i.depth }} mtr</td>
+              </tr>
+              {% endif %}
+    
+              {% if i.level %}
+              <tr>
+                <td>Level</td>
+                <td>{{ i.level }} mtr</td>
+              </tr>
+              {% endif %}
+    
+              {% if i.village %}
+              <tr>
+                <td>Village</td>
+                <td>{{ i.village }}</td>
+              </tr>
+              {% endif %}
+    
+              {% if i.district %}
+              <tr>
+                <td>District</td>
+                <td>{{ i.district }}</td>
+              </tr>
+              {% endif %}
+    
+              {% if i.state %}
+              <tr>
+                <td>State</td>
+                <td>{{ i.state }}</td>
+              </tr>
+              {% endif %}
+    
+            </tbody>
+          </table>
+          </br>`
+
+          var popupOptions =
+        {
+          'maxWidth': '500',
+          'className' : 'another-popup' // classname for another popup
+        }
+           var markers = L.marker(["{{ i.lat }}", "{{ i.lng }}"], {icon:wellIcon}).bindPopup(table, popupOptions);
+           wellslayerGroup.addLayer(markers).addTo(mymap);
+
+
+        {% endfor %}
+    }
+    else{
+
+    }
+   
+      
+
+     
+}
+
 
 
                                 //code for dependent dropdown start    
