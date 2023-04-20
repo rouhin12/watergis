@@ -17,7 +17,10 @@ def map(request):
     return render(request, "dashboard/map.html") 
 
 def watergis(request):
-    return render(request,'dashboard/watergis.html')
+    wells = UploadWellPictureModel.objects.all()
+    wellcount = UploadWellPictureModel.objects.count()
+    context = {'wells': wells,'wellcount':wellcount}
+    return render(request,'dashboard/watergis.html',context)
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
