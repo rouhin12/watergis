@@ -110,7 +110,16 @@
         display: none;
         /* border: 1px #dadada solid; */
     }
-
+    #checkboxes15 label {
+        display: block;
+        text-align: left;
+        margin: 10px;
+    }
+    
+    #checkboxes15 {
+        display: none;
+        /* border: 1px #dadada solid; */
+    }
     #checkboxes6 label {
         display: block;
         text-align: left;
@@ -384,10 +393,11 @@
                 </div>
             
                 &nbsp;&nbsp;
-                <div class="tooltips" title="Please select the Wells" id="wells_district">
-        
+                <div class="tooltips" title="Please select the Wells" id="wells_district">    
                     <label><input type="checkbox" value="Wells" id ="chwells" onchange="defineWell(this)"><span style="color:black;"><b> Show Wells  </b></span></label><br>
-                    <label><input type="checkbox" value="Wells" id ="driange" onchange="defineWell(this)"><span style="color:black;"><b> Show Drainage  </b></span></label>               
+                    <label><em>Wells Last updated 20-04-2023</em></label><br>
+                    <label><input type="checkbox" value="{nashik_wells}" onchange="GetSelectedWells(this)"><span><b> Nashik Wells </b></span></label><br>
+                    <label><input type="checkbox" value="{drainage}" id ="drainage" onchange="getBoundary(this)"><span style="color:black;"><b> Show Drainage Basins</b></span></label>               
               </div>
                 
                 <div class="tooltips" style="display:none;" title="Please select the Maharashtra's Blocks" id="block">
@@ -425,6 +435,30 @@
                     <!-- <div class="checkbox">
                         <label><input type="checkbox" value="{}" onchange="getBoundaryru(this)"><span> Road Network</span></label>
                     </div> -->
+                </div>
+            </div>
+            <hr>
+
+            <div class="multiselect">
+                <div class="selectBox" onclick="showCheckboxes15()">
+                    <button type="button" class="btn btn-outline-dark" style="width: 90%;font-size:12px; "> Census Information 2011</button>
+                    <div class="overSelect"></div>
+                </div>
+                <div id="checkboxes15">
+                    <div class="checkbox" id="boundary">
+                        <label><input type="checkbox" value="{demog}" onchange="getBoundaryru(this)"><span> Demographics</span></label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="{house}" onchange="getBoundaryru(this)"><span> Household Amenities</span></label>
+                    </div>
+                    <!-- <div class="checkbox">
+                        <label><input type="checkbox" value="{vill}" onchange="getBoundaryru(this)"><span> Village Amenities</span></label>
+                    </div> -->
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="{town}" onchange="getBoundaryru(this)"><span> Town Amenities</span></label>
+                    </div>
+                   
+                
                 </div>
             </div>
             <hr>
@@ -1221,14 +1255,16 @@ function defineWell(checkbox)
     var dist_fetch =document.getElementById('district').value;
     console.log(state);
     console.log(value);
-    
+    var wellIcon;
+    var wellslayerGroup ;
+    var markers;
     if ($(checkbox).is(':checked')) {
        
 
         
         {% for i in wells %}
 
-        var wellIcon = L.icon({
+        wellIcon = L.icon({
               iconUrl: "{% static 'map/images/well.png' %}",
               iconSize:     [30, 40], // size of the icon
               //shadowSize:   [50, 64], // size of the shadow
@@ -1236,7 +1272,7 @@ function defineWell(checkbox)
               // shadowAnchor: [4, 62],  // the same for the shadow
               popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
           });
-          var wellslayerGroup = L.layerGroup();   
+          wellslayerGroup = L.layerGroup();   
 
         var table = 
             
@@ -1313,14 +1349,14 @@ function defineWell(checkbox)
           'maxWidth': '500',
           'className' : 'another-popup' // classname for another popup
         }
-           var markers = L.marker(["{{ i.lat }}", "{{ i.lng }}"], {icon:wellIcon}).bindPopup(table, popupOptions);
+            markers = L.marker(["{{ i.lat }}", "{{ i.lng }}"], {icon:wellIcon}).bindPopup(table, popupOptions);
            wellslayerGroup.addLayer(markers).addTo(mymap);
 
-
+           
         {% endfor %}
     }
     else{
-
+        mymap.removeLayer(wellslayerGroup);
     }
    
       
@@ -1559,6 +1595,16 @@ function defineWell(checkbox)
                                         expanded = false;
                                     }
                                 }
+                                function showCheckboxes15() {
+                                    var checkboxes3 = document.getElementById("checkboxes15");
+                                    if (!expanded) {
+                                        checkboxes3.style.display = "block";
+                                        expanded = true;
+                                    } else {
+                                        checkboxes3.style.display = "none";
+                                        expanded = false;
+                                    }
+                                }
 
                                 function showCheckboxes4() {
                                     var checkboxes4 = document.getElementById("checkboxes4");
@@ -1664,6 +1710,10 @@ function defineWell(checkbox)
                                             putWMS1("mini_15_district0"); }
                                         else if (boundary == "{pawana_basin}"){// Rivers Basin 
                                             putWMS1("Pawana_Basin_Layer0");
+                                            console.log("Boundary is "+boundary)
+                                        }   
+                                        else if (boundary == "{drainage}"){//Drainage Basin 
+                                            putWMS1("Ahamadnagar_drainage_files");
                                             console.log("Boundary is "+boundary)
                                         }   
                                         else if (boundary == "{indrayani_basin}"){// Rivers Basin 
@@ -1806,6 +1856,10 @@ function defineWell(checkbox)
                                             removeWMS("wainganga_riverline_7april23");
                                             
                                         } 
+                                        else if (boundary == "{drainage}"){//Drainage Basin 
+                                            removeWMS("Ahamadnagar_drainage_files");
+                                            
+                                        }   
                                         else if (boundary == "{bhandara_village}")
                                             removeWMS("Bhandara_Shapefile_village" ); 
                                         else if (boundary == "{mithi}")
@@ -1942,7 +1996,19 @@ function defineWell(checkbox)
                                             putWMSru("geonode:maha_village_polygon_29mar");
                                         else if (boundary == "{taluka}")
                                             putWMSru("geonode:maha_taluka_13march2021");
-                                        
+                                        else if (boundary == "{town}")
+                                            putWMSru("geonode:TownCensus_maharashtra_1_00");
+                                        else if (boundary == "{maharural}")
+                                            putWMSru("geonode:maha_village_polygon_29mar");
+                                        else if (boundary == "{pincode}")
+                                            putWMSru("geonode:india_pincodes_12june");
+
+                                        else if (boundary == "{demog}")
+                                            putWMSru("geonode:maha_demography_with_mumbai");
+                                        else if (boundary == "{house}")
+                                            putWMSru("geonode:household");
+                                        else if (boundary == "{vill}")
+                                            putWMSru("geonode:maha_village_amenities");
 
                                     } else {
                                         if (boundary == "{mahatown}")
@@ -1951,7 +2017,19 @@ function defineWell(checkbox)
                                             removeWMS("geonode:maha_village_polygon_29mar");
                                         else if (boundary == "{taluka}")
                                             removeWMS("geonode:maha_taluka_13march2021");
-
+                                        else if (boundary == "{town}")
+                                            removeWMS("geonode:TownCensus_maharashtra_1_00");
+                                        else if (boundary == "{maharural}")
+                                            removeWMS("geonode:maha_village_polygon_29mar");
+                                        else if (boundary == "{pincode}")
+                                            removeWMS("geonode:india_pincodes_12june");
+                                        
+                                        else if (boundary == "{demog}")
+                                            removeWMS("geonode:maha_demography_with_mumbai");
+                                        else if (boundary == "{house}")
+                                            removeWMS("geonode:household");
+                                        else if (boundary == "{vill}")
+                                        removeWMS("geonode:maha_village_amenities");
                                     };
 
 
@@ -3339,6 +3417,7 @@ function setView1(layerName, selectedBoundary) {
                                     }
                                     else {
                                     if (layer == "geonode:maha_taluka_13march2021") {
+                                        
                                         var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
                                         layers: layer,
                                         format: 'image/png',
@@ -3359,6 +3438,63 @@ function setView1(layerName, selectedBoundary) {
 
 
                                     }
+                                    else if (layer == "geonode:maha_demography_with_mumbai") {
+                                       
+                                        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                                            layers: layer,
+                                            format: 'image/png',
+                                            transparent: 'true',
+                                            cql_filter: "district_n='"+selectedDistrict.toLowerCase()+"'"
+                                        });
+                                        TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                                    
+
+
+                                    }
+                                
+                                    else if (layer == "geonode:household") {
+                                        var newstring=selectedDistrict.charAt(0).toUpperCase()+selectedDistrict.slice(1)
+                                       
+                                       var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                                        layers: layer,
+                                        format: 'image/png',
+                                        transparent: 'true',
+                                        cql_filter: "district_n='"+newstring+"'"
+                                    });
+                                       TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                                   
+
+
+                                   }
+                                
+                                   else if (layer == "geonode:maha_village_amenities") {
+                                    
+                                    var newstring=selectedDistrict.charAt(0).toUpperCase()+selectedDistrict.slice(1)
+                                    // alert(newstring);
+                                    var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                                           layers: layer,
+                                           format: 'image/png',
+                                           transparent: 'true',
+                                           cql_filter: "district_n='"+newstring+"'"
+                                       });
+                                       TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                                  
+
+
+                                   }
+                                   else if (layer == "geonode:TownCensus_maharashtra_1_00") {
+                                       
+                                       var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                                           layers: layer,
+                                           format: 'image/png',
+                                           transparent: 'true',
+                                           cql_filter: "district_n='"+selectedDistrict.toUpperCase()+"'"
+                                       });
+                                       TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                                   
+
+
+                                   }
                                     else
                                     {
                                         var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
@@ -3369,7 +3505,7 @@ function setView1(layerName, selectedBoundary) {
                                         // cql_filter: "distname='"+selectedDistrict+"'"
                                     });
                                     }
-
+                                    
                                     
                                     wms_layer.addTo(mymap);
                                     newLayerList.push(wms_layer);
@@ -4367,6 +4503,8 @@ mymap.addEventListener('click', Identify);
                 mymap.setView([19.210712,72.835955],14);
             else if(layer == 'Dahisar_River_Nov22')
                 mymap.setView([19.255310,72.854402],14);
+            else if(layer=='Ahamadnagar_drainage_files')
+                mymap.setView([19.423,74.548],10);
             else if(layer == 'Oshiwara_River_Nov22')
                 mymap.setView([19.161106,72.858474],13);
             else if(layer == 'River_line_layers' )
