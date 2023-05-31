@@ -1,11 +1,16 @@
 from django.shortcuts import render,redirect
 from .models import UploadWellPictureModel
+from .models import Features
+from .models import Layers
+from .models import water_quality_model
 from django.contrib import messages
 import re,base64,time
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 from django.contrib.gis.geos import Point
 from .forms import UploadWellPictureForm
+from .forms import quality_form
+from django.http import JsonResponse
 
 def HomePage(request):
     return render(request, "HomePage.html")
@@ -16,11 +21,31 @@ def Dash(request):
 def map(request):
     return render(request, "dashboard/map.html") 
 
-def watergis(request):
+def watergis_new(request):
+    user_district = request.GET.get('district')
     wells = UploadWellPictureModel.objects.all()
     wellcount = UploadWellPictureModel.objects.count()
-    context = {'wells': wells,'wellcount':wellcount}
+    # Query the Features model to get the relevant district
+    features = Features.objects.filter(district_name=user_district)
+
+    # Query the Layers model to get the layers related to the district
+    layers = Layers.objects.filter(features__district_name=user_district)
+
+    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
     return render(request,'dashboard/watergis.html',context)
+
+def watergis(request):
+    # user_district = request.GET.get('district')
+    wells = UploadWellPictureModel.objects.all()
+    wellcount = UploadWellPictureModel.objects.count()
+    # Query the Features model to get the relevant district
+    # features = Features.objects.filter(district_name=user_district)
+
+    # # Query the Layers model to get the layers related to the district
+    # layers = Layers.objects.filter(features__district_name=user_district)
+
+    context = {'wells': wells,'wellcount':wellcount}
+    return render(request,'dashboard/watergis_backup.html',context)
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -78,4 +103,62 @@ def uploadwellpic(request):
     return render(request,'dashboard/uploadWellPic.html',{})
 
 
+def district_view(request):
+    # Get the user response for district (replace 'user_district' with the actual user input)
+    user_district = "Nashik"
+
+    # Query the Features model to get the relevant district
+    features = Features.objects.filter(district_name=user_district)
+
+    # Query the Layers model to get the layers related to the district
+    layers = Layers.objects.filter(features__district_name=user_district)
+
+    # Render the data in a template or return it as a JSON response
+    return render(request, 'dashboard/test.html', {'features': features, 'layers': layers})
+
+def water_quality_form(request):
+    if request.method == 'POST':
+        form = quality_form(request.POST)
+        if form.is_valid():
+            # Extract form data
+            print(request.POST['name'])
+            name = request.POST['name']
+            state = request.POST['state']
+            district = request.POST['district']
+            taluka = request.POST['taluka']
+            village = request.POST['village']
+            gram_panch = request.POST['gram_panch']
+            water_quality = request.POST['water_quality']
+            color= request.POST['color']
+            odour= request.POST['odour']
+            taste= request.POST['taste']
+            ph = request.POST['ph']
+            turbid = request.POST['turbid']
+            hard = request.POST['hard']
+            chloride = request.POST['chloride']
+            alkaline = request.POST['alkaline']
+            nitrate = request.POST['nitrate']
+            fluoride = request.POST['fluoride']
+            iron = request.POST['iron']
+            chlorine = request.POST['chlorine']
+            calcium = request.POST['calcium']
+            magnesium = request.POST['magnesium']
+            date = request.POST['date']
+            
+                # Create and save the model instance
+            quality_model = water_quality_model(name=name, state=state, district=district, taluka=taluka,
+                                                    village=village, gram_panch=gram_panch, water_quality=water_quality,
+                                                    color=color,odour=odour,taste=taste,
+                                                    ph=ph, turbid=turbid, hard=hard, chloride=chloride,
+                                                    alkaline=alkaline, nitrate=nitrate, fluoride=fluoride,
+                                                    iron=iron, chlorine=chlorine, calcium=calcium,
+                                                    magnesium=magnesium, date=date)
+            quality_model.save()
+            messages.success(request, 'Form submitted successfully!')
+            print('sucesss')
+        # return redirect('success')  # Redirect to a success page after saving the data
+        else:
+            messages.success(request, 'Enter Correct Details!')
+            form = quality_form()
     
+    return render(request,'dashboard/water_quality_form.html',{})

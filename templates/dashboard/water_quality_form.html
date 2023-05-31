@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Water Quality Form</title>
+
+  <style>
+    /* table {
+      display: table;
+      border-collapse: separate;
+      box-sizing: border-box;
+      width: 700px;
+      text-indent: initial;
+      border-spacing: 2px;
+      border-color: gray;
+    }
+
+    h1 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    h2 {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 25px;
+      text-align: center;
+    }
+
+    input[type=text],
+    input[type=password],
+    #lstType {
+      width: 160%;
+      padding: 8px;
+      border: 1px solid #171010;
+      border-radius: 4px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    .form-control {
+      display: block;
+      width: 50%;
+      height: 1rem;
+      padding: 0.375rem 0.75rem;
+      color: rgb(11, 16, 15);
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #085a1a;
+      border-radius: 0rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .form-date {
+      display: block;
+      width: 70%;
+      height: 1rem;
+      padding: 0.375rem 0.75rem;
+    }
+
+
+
+    input[type=submit],
+    input[type=reset] {
+      background-color: #009;
+      color: white;
+      padding: 12px 25px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      float: left;
+    }
+
+
+
+    input[type=submit]:hover {
+      background-color: #03F;
+    }
+
+    select {
+      width: 100%;
+      padding: 8px;
+    }
+
+    div {
+      border-radius: 5px;
+      background-color: #8bc6eb;
+      padding: 20px;
+      padding-left: 200px;
+      padding-right: 50px;
+    } */
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<!-- add  side nav -->
+
+<body>
+  <div class="m-5 ">
+    <a href="/dashboard/watergis" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  ">
+      Back to HomePage
+    </a>
+  </div>
+
+
+  <form id="form" class="container mx-auto px-4 py-8" name="form" method="post">
+    {% csrf_token %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+      <span class="block sm:inline">{{ message }}</span>
+      <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+        <svg class="fill-current h-6 w-6 text-green-500 close-btn cursor-pointer" role="button"
+          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+          <title>Close</title>
+          <path
+            d="M14.348 5.652c-.195-.195-.512-.195-.707 0L10 9.293 5.652 5.652c-.195-.195-.512-.195-.707 0s-.195.512 0 .707L9.293 10l-4.34 4.348c-.195.195-.195.512 0 .707s.512.195.707 0L10 10.707l4.348 4.34c.195.195.512.195.707 0s.195-.512 0-.707L10.707 10l4.34-4.348c.195-.195.195-.512 0-.707z" />
+        </svg>
+      </span>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="max-w-xl mx-auto">
+      <h1 class="text-3xl font-bold mb-8">Water Quality Form</h1>
+      <div class="mb-6">
+        <label for="name" class="block mb-2 font-medium">Name of Source</label>
+        <input type="text" name="name" id="name" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="state" class="block mb-2 font-medium">State</label>
+        <input type="text" name="state" id="state" readonly="readonly" value="Maharashtra"
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="district" class="block mb-2 font-medium">District</label>
+        <input type="text" name="district" id="district" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="taluka" class="block mb-2 font-medium">Taluka</label>
+        <input type="text" name="taluka" id="taluka" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="village" class="block mb-2 font-medium">Village Name</label>
+        <input type="text" name="village" id="village" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="gram_panch" class="block mb-2 font-medium">Gram Panchayat Name</label>
+        <input type="text" name="gram_panch" id="gram_panch" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="water_quality" class="block mb-2 font-medium">Quality of Water</label>
+        <input type="text" name="water_quality" id="water_quality" placeholder="Drinking/Agriculture" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <h2 class="text-2xl font-bold mb-8">Chemical Inspection Types</h2>
+      <div class="mb-6">
+        <label for="ph" class="block mb-2 font-medium">Color</label>
+        <select class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          name="color">
+          <option value="color">Color</option>
+          <option value="colorless">Colorless</option>
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="ph" class="block mb-2 font-medium">Odour</label>
+        <select class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          name="odour">
+          <option value="odour">Odour</option>
+          <option value="odourless">Odourless</option>
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="ph" class="block mb-2 font-medium">Taste</label>
+        <select class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+          name="taste">
+          <option value="taste">Taste</option>
+          <option value="tasteless">Tasteless</option>
+        </select>
+      </div>
+      <div class="mb-6">
+        <label for="ph" class="block mb-2 font-medium">pH Content (in units)</label>
+        <input type="number" name="ph" id="ph" min="1" max="20" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="turbid" class="block mb-2 font-medium">Turbidity Content (in NTU)</label>
+        <input type="number" name="turbid" id="turbid" min="1" max="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="hard" class="block mb-2 font-medium">Total Hardness Content (in units)</label>
+        <input type="number" name="hard" id="hard" min="1" max="800" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="chloride" class="block mb-2 font-medium">Chlorides Content (in units)</label>
+        <input type="number" name="chloride" id="chloride" min="1" max="600" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="alkaline" class="block mb-2 font-medium">Total Alkalinity Content (in units)</label>
+        <input type="number" name="alkaline" id="alkaline" min="1" max="800" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="nitrate" class="block mb-2 font-medium">Nitrate Content (in units)</label>
+        <input type="number" name="nitrate" id="nitrate" min="1" max="100" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="fluoride" class="block mb-2 font-medium">Fluoride Content (in units)</label>
+        <input type="number" name="fluoride" id="fluoride" min="1" max="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="iron" class="block mb-2 font-medium">Iron Content (in units)</label>
+        <input type="number" name="iron" id="iron" min="1" max="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="chlorine" class="block mb-2 font-medium">Residual Chlorine Content (in units)</label>
+        <input type="number" name="chlorine" id="chlorine" min="1" max="3" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="calcium" class="block mb-2 font-medium">Calcium Content (in units)</label>
+        <input type="number" name="calcium" id="calcium" min="1" max="300" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="magnesium" class="block mb-2 font-medium">Magnesium Content (in units)</label>
+        <input type="number" name="magnesium" id="magnesium" min="1" max="100" required
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="mb-6">
+        <label for="date" class="block mb-2 font-medium">Date</label>
+        <input type="date" name="date" id="date" min="2020-01-01"
+          class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+      </div>
+      <div class="flex justify-end">
+        <input type="submit" name="submit" id="submit" value="Submit" onClick="ValidateAll()"
+          class="px-6 py-3 bg-blue-500 text-white font-medium rounded hover:bg-blue-600 cursor-pointer">
+        <input type="reset" name="reset" id="reset" value="Reset"
+          class="ml-4 px-6 py-3 bg-gray-300 text-gray-700 font-medium rounded hover:bg-gray-400 cursor-pointer">
+      </div>
+    </div>
+  </form>
+
+
+
+
+</body>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const closeButtons = document.querySelectorAll(".close-btn");
+
+    closeButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        this.parentNode.parentNode.remove();
+      });
+    });
+  });
+</script>
+
+</html>
