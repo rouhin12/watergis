@@ -295,6 +295,11 @@
         /* background:rgba(191, 149, 233, 0.473); */
     }
 
+    .popup-content {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
     /* css to customize Leaflet default styles  */
 
     .leaflet-popup-content-wrapper {
@@ -1109,7 +1114,16 @@
                         <div class="overSelect"></div>
                     </div>
                     <div id="checkboxes25">
+                        {% for layer in layers %}
+                        {% if layer.sub_title == "antodaya" %}
 
+                        <div class="checkbox">
+                            <label><input type="checkbox" value="{{layer.value}}" onchange="{{layer.method}}"><span>
+                                    {{layer.display_checkbox_name }}
+                                </span></label>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
 
@@ -1653,44 +1667,31 @@
 
             <script src="https://d3js.org/d3.v4.min.js"></script>
 
-
+            <!-- script start -->
             <script>
                 $(document).ready(function () {
 
-                    //  $('#indstate').on('change', function() {
-                    //    if (this.value == 'Chhattisgarh'){
-                    //        $("#block").hide();
-                    //    }
-
-                    // });
-                    //console.log("hi",indstate);
-
                     // code that selects states automatically 
                     var element = document.getElementById('indstate');
-                    var event = new Event('change');
-                    element.dispatchEvent(event);
+                    element.value = "Maharashtra";
 
-                    var url = new URL(window.location.href);
+                    // Trigger the change event manually
+                    setTimeout(function () {
+                        $(element).trigger('change');
 
-                    // Get the value of the "district" parameter
+                        var url = new URL(window.location.href);
+                        var district_url = url.searchParams.get("district");
 
-                    var district_url = url.searchParams.get("district");
-                    if (district_url) {
-                        var selectElement = document.getElementById('district');
+                        if (district_url) {
+                            var selectElement = document.getElementById('district');
+                            selectElement.value = district_url;
 
-                        selectElement.value = district_url;
-                        // if (area) {
-                        //     mymap.removeLayer(area);
-                        // }
-                        // //clear_layer();
-                        // clearpoint_layer();
-                        // clear_pinlayer();
-                        // let district = document.getElementById('district').value;
+                            // Trigger the change event after a delay
 
-                        putWMSLayerdist();
+                            putWMSLayerdist();
 
-                        // $('#form_district').submit();
-                    }
+                        }
+                    }, 100);
 
 
 
@@ -1780,6 +1781,14 @@
 
                     });
                 });
+
+
+
+
+
+
+
+
 
 
                 function defineWell(checkbox) {
@@ -2298,6 +2307,7 @@
                     let boundary = obj.value;
                     if ($(obj).is(":checked")) {
 
+
                         if (district == "Nanded")
                             putWMS1("geonode:Nanded_drainage_line");
 
@@ -2372,6 +2382,23 @@
                             removeWMS("Washim_Drainage_files")
                         else if (district == "Ahmadnagar")
                             removeWMS("Ahamadnagar_drainage_filess")
+                    }
+                }
+
+                function showAntodaya(obj) {
+                    let district = document.getElementById('district').value;
+                    // alert(district);
+                    var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+                    let boundary = obj.value;
+                    var antodaya = "geonode:" + newstring + "_antodaya_merged"
+                    if ($(obj).is(":checked")) {
+
+                        putWMS1(antodaya)
+
+                    } else {
+
+                        removeWMS(antodaya);
+
                     }
                 }
                 function getBoundary(obj) {
@@ -4530,6 +4557,7 @@
                     var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
                     // console.log(URL);
                     //send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
+                    console.log("url tribe", URL)
                     $.ajax({
                         url: URL,
                         dataType: "json",
@@ -4606,6 +4634,31 @@
                                         "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
 
                                 }
+                                else if (feature.properties.area_irr) {
+
+                                    insti_content = "<table class = 'popupclass' ><tr><td><b>Antodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
+                                        "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
+                                        "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
+                                        "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
+                                        "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
+                                        "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
+                                        "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
+
+                                }
+                                else if (feature.properties.SEGMENT_ID) {
+
+                                    insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
+                                        "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
+                                        "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
+                                        "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
+                                        "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
+                                        "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
+                                        "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
+                                        "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
+
+                                }
+
+
 
                                 popup.setContent(insti_content);
                                 popup.setLatLng(e.latlng);
@@ -4980,6 +5033,8 @@
                         newurl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AJS2OBW0&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326';
                         // + `&cql_filter=chc_num>0 AND district_n='${district}'`;
                     }
+
+                    /// Popups for all
                     function onEachFeatureForPoint(feature, layer) {
                         console.log("Hello")
                         if (facility === 'nashik_wells') {
@@ -5262,6 +5317,7 @@
                             zoom: '14',
                             // propertyName: 'field_13,latitude,longitude', 
                         });
+
                     }
                     wms_layer1.addTo(mymap);
                     newLayerList.push(wms_layer1);
@@ -5365,6 +5421,9 @@
                     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
 
                     // console.log(TRIBLAYER);
+
+                    // Function to fetch data from WFS
+
 
                 }
 
