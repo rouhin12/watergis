@@ -108,12 +108,12 @@ class water_quality_model(models.Model):
     hard = models.IntegerField(max_length=15,blank=True, null=True)
     chloride = models.IntegerField(max_length=15,blank=True, null=True)
     alkaline = models.IntegerField(max_length=15,blank=True, null=True)
-    nitrate = models.IntegerField(max_length=15,blank=True, null=True)
-    fluoride = models.IntegerField(max_length=15,blank=True, null=True)
-    iron = models.IntegerField(max_length=15,blank=True, null=True)
-    chlorine = models.IntegerField(max_length=15,blank=True, null=True)
-    calcium = models.IntegerField(max_length=15,blank=True, null=True)
-    magnesium = models.IntegerField(max_length=15,blank=True, null=True)
+    nitrate = models.FloatField(max_length=15,blank=True, null=True)
+    fluoride = models.FloatField(max_length=15,blank=True, null=True)
+    iron = models.FloatField(max_length=15,blank=True, null=True)
+    chlorine = models.FloatField(max_length=15,blank=True, null=True)
+    calcium = models.FloatField(max_length=15,blank=True, null=True)
+    magnesium = models.FloatField(max_length=15,blank=True, null=True)
     date = models.DateField()
 
     def __str__(self):
