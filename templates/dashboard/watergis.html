@@ -368,6 +368,17 @@
         margin-right: 8px;
         opacity: 0.7;
     }
+
+    #myModal .modal-dialog {
+        max-width: 800px;
+        /* Set the desired max-width */
+    }
+
+    #myModal .modal-content {
+        height: 500px;
+        /* Set the desired height */
+        overflow: auto;
+    }
 </style>
 
 <div id="side-bar" style="background-color: rgba(255, 255, 255);overflow-y: scroll;max-height: 80vh;">
@@ -1129,6 +1140,9 @@
 
                 <div class="text-center">
                     <button title="Show Attribute table" class='btn btn-info select'
+                        style="margin-left:-12px;width: 42px;" id="displayfulltable"><i class="fa fa-list-alt"
+                            aria-hidden="true"></i></button>
+                    <button title="Show Attribute table" class='btn btn-info select'
                         style="margin-left:-12px;width: 42px;" id="displaytable"><i class="fa fa-table"
                             aria-hidden="true"></i></button>
                     <button title="Download Attribute table" class='btn btn-success' id="downloadtable"
@@ -1145,7 +1159,10 @@
                             </div>
                             <div class="modal-body" id="modal_info">
                                 <!-- Add your model details here -->
+                                <!-- Content longer than the height will have a vertical scrollbar -->
 
+                                <!-- Example of long content -->
+                                <h1 class="text-center">Loading <i class="fa fa-spinner fa-spin"></i></h1>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -1810,6 +1827,7 @@
                 });
 
                 var tableurl2;
+                var tableurl;
 
                 /// Script to download form data 
                 function create_property_json(feature) {
@@ -1865,80 +1883,161 @@
                 }
 
                 $("#displaytable").click(function () {
-                    $('#myModal').modal('show');
+                    if (tableurl) {
 
-                    console.log(TRIBLAYER);
 
-                    // ctlSidebar.hide();
+                        $('#myModal').modal('show');
+                        // console.log(TRIBLAYER);
+                        var div = document.getElementById("modal_info");
 
-                    // var div = L.DomUtil.create('div', 'myAttributeTable');
-                    // div.innerHTML += "<button style='float: left'class='btn btn-danger' onclick='hideTable()'><i class='fa fa-times-circle' aria-hidden='true'></i></button>";
-                    // layer_name = fetch_layer_name();
-                    // layer_name ='geonode:maha_village_health_centroid_29mar';
-                    // if(layer_name[1] == undefined){
-                    // mymap.messagebox.show("please select block and structure");
-                    // // }else{
-                    //                 url = 'https://communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar'+`&cql_filter=chc_num>0&AND&district_n='Ahmadnagar'`;
+                        console.log("table url", tableurl);
+                        fetch(tableurl)
+                            .then(
+                                function (response) {
+                                    if (response.status !== 200) {
+                                        console.log('Looks like there was a problem. Status Code: ' +
+                                            response.status);
+                                        return;
+                                    }
 
-                    var div = document.getElementById("modal_info");
+                                    response.json().then(function (layer) {
 
-                    console.log("table url", tableurl);
-                    fetch(tableurl)
-                        .then(
-                            function (response) {
-                                if (response.status !== 200) {
-                                    console.log('Looks like there was a problem. Status Code: ' +
-                                        response.status);
-                                    return;
-                                }
-
-                                response.json().then(function (layer) {
-
-                                    var propsJSON = create_property_json(layer.features);
-                                    var col = [];
-                                    for (var i = 0; i < propsJSON.length; i++) {
-                                        for (var key in propsJSON[i]) {
-                                            if (col.indexOf(key) === -1) {
-                                                col.push(key);
+                                        var propsJSON = create_property_json(layer.features);
+                                        var col = [];
+                                        for (var i = 0; i < propsJSON.length; i++) {
+                                            for (var key in propsJSON[i]) {
+                                                if (col.indexOf(key) === -1) {
+                                                    col.push(key);
+                                                }
                                             }
                                         }
-                                    }
 
-                                    var table = document.createElement("table");
-                                    table.classList.add("table", "table-bordered", "table-responsive");
+                                        var table = document.createElement("table");
+                                        table.classList.add("table", "table-bordered", "table-responsive");
 
-                                    var tr = table.insertRow(-1);
+                                        var tr = table.insertRow(-1);
 
-                                    for (var i = 0; i < col.length; i++) {
-                                        var th = document.createElement("th");
-                                        th.innerHTML = col[i];
-                                        tr.appendChild(th);
-                                    }
-
-                                    for (var i = 0; i < propsJSON.length; i++) {
-                                        tr = table.insertRow(-1);
-                                        for (var j = 0; j < col.length; j++) {
-                                            var tabCell = tr.insertCell(-1);
-                                            tabCell.innerHTML = propsJSON[i][col[j]];
+                                        for (var i = 0; i < col.length; i++) {
+                                            var th = document.createElement("th");
+                                            th.innerHTML = col[i];
+                                            tr.appendChild(th);
                                         }
+
+                                        for (var i = 0; i < propsJSON.length; i++) {
+                                            tr = table.insertRow(-1);
+                                            for (var j = 0; j < col.length; j++) {
+                                                var tabCell = tr.insertCell(-1);
+                                                tabCell.innerHTML = propsJSON[i][col[j]];
+                                            }
+                                        }
+
+                                        console.log("tableact", table);
+                                        div.innerHTML = "";
+                                        div.appendChild(table);
+
+                                        // div.innerHTML += table;
+                                        url = "";
+                                        downloadThisTable = table;
+                                    });
+
+
+                                }
+                            )
+                            .catch(function (err) {
+                                console.log('Fetch Error :-S', err);
+                            });
+                        return div;
+
+                    }
+                    else {
+                        swal({
+                            title: "Please select layers",
+                            text: "click on particular layer on map to display it's info",
+                            timer: 2000
+                        });
+                    }
+
+                    // }
+                });
+
+                $("#displayfulltable").click(function () {
+
+                    // console.log("table url", tableurl2);
+                    if (tableurl2) {
+                        $('#myModal').modal('show');
+
+
+                        // ctlSidebar.hide();
+
+
+                        var div = document.getElementById("modal_info");
+
+
+                        fetch(tableurl2)
+                            .then(
+                                function (response) {
+                                    if (response.status !== 200) {
+                                        console.log('Looks like there was a problem. Status Code: ' +
+                                            response.status);
+                                        return;
                                     }
 
-                                    console.log("tableact", table);
-                                    div.innerHTML = "";
-                                    div.appendChild(table);
+                                    response.json().then(function (layer) {
 
-                                    // div.innerHTML += table;
-                                    url = "";
-                                    downloadThisTable = table;
-                                });
+                                        var propsJSON = create_property_json(layer.features);
+                                        var col = [];
+                                        for (var i = 0; i < propsJSON.length; i++) {
+                                            for (var key in propsJSON[i]) {
+                                                if (col.indexOf(key) === -1) {
+                                                    col.push(key);
+                                                }
+                                            }
+                                        }
+
+                                        var table = document.createElement("table");
+                                        table.classList.add("table", "table-bordered", "table-responsive");
+
+                                        var tr = table.insertRow(-1);
+
+                                        for (var i = 0; i < col.length; i++) {
+                                            var th = document.createElement("th");
+                                            th.innerHTML = col[i];
+                                            tr.appendChild(th);
+                                        }
+
+                                        for (var i = 0; i < propsJSON.length; i++) {
+                                            tr = table.insertRow(-1);
+                                            for (var j = 0; j < col.length; j++) {
+                                                var tabCell = tr.insertCell(-1);
+                                                tabCell.innerHTML = propsJSON[i][col[j]];
+                                            }
+                                        }
+
+                                        console.log("tableact", table);
+                                        div.innerHTML = "";
+                                        div.appendChild(table);
+
+                                        // div.innerHTML += table;
+                                        url = "";
+                                        downloadThisTable = table;
+                                    });
 
 
-                            }
-                        )
-                        .catch(function (err) {
-                            console.log('Fetch Error :-S', err);
+                                }
+                            )
+                            .catch(function (err) {
+                                console.log('Fetch Error :-S', err);
+                            });
+                        return div;
+                    }
+                    else {
+                        swal({
+                            title: "Please Select Layers To Display",
+                            text: "select checkbox for ex antodaya",
+                            timer: 2000
                         });
-                    return div;
+                    }
+
 
 
 
@@ -1950,6 +2049,11 @@
                         export_table_to_csv(downloadThisTable, "my_attribute_table.csv");
                     } else {
                         mymap.messagebox.show("Please display attribute table first");
+                        swal({
+                            title: "Please select layers",
+                            text: "select checkbox for ex antodaya",
+                            timer: 1500
+                        });
                     }
                 })
 
@@ -4078,6 +4182,7 @@
                     console.log(wms_legend);
                     addWMSLegend(layer);
                     TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
                     // setView2(layer);
                     //styling(layer);
 
@@ -4322,6 +4427,7 @@
                                 cql_filter: "district_n='" + selectedDistrict + "'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
@@ -4335,6 +4441,7 @@
                                 cql_filter: "district_n='" + selectedDistrict.toLowerCase() + "'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
@@ -4350,6 +4457,7 @@
                                 cql_filter: "district_n='" + newstring + "'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
@@ -4366,6 +4474,7 @@
                                 cql_filter: "district_n='" + newstring + "'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
@@ -4379,6 +4488,7 @@
                                 cql_filter: "district_n='" + selectedDistrict.toUpperCase() + "'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
@@ -4398,6 +4508,7 @@
 
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
                         }
@@ -4410,6 +4521,7 @@
                                 // cql_filter: "distname='"+selectedDistrict+"'"
                             });
                             TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                            tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
                         }
 
 
@@ -4594,6 +4706,7 @@
                     //console.log(wms_legend); 
                     addWMSLegend(facility);
                     TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
                     wmshealthLayerList.push(wms_layer);
                     activeKoboAllIndiaHealthFacity[facility] = wms_layer;
                 }
@@ -5587,7 +5700,7 @@
                     addWMSLegend1(layer);
                     // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
-
+                    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
                     // console.log(TRIBLAYER);
 
                     // Function to fetch data from WFS
