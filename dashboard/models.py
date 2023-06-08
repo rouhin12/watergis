@@ -51,6 +51,7 @@ class Features(models.Model):
     census = models.BooleanField()
     geographical_hierarchy= models.BooleanField()
     antodaya = models.BooleanField()
+    contours=models.BooleanField()
     state_name = models.CharField(max_length=100)
     district_name = models.CharField(max_length=100)
 
@@ -78,6 +79,7 @@ class Layers(models.Model):
         ('geographical_hierarchy','geographical_hierarchy'),
         ('antodaya','antodaya'),
         ('basins','basins'),
+        ('contours','contours'),
 
     ]
     id = models.BigAutoField(primary_key=True)
