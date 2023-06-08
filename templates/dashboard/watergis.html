@@ -607,6 +607,7 @@
                                         onchange="showDrainage(this)"><span style="color:black;"><b> Show Drainage
                                             Basins</b></span></label>
                             </div>
+
                             <!--      -->
                             <div class="multiselect " style="{% if feature.rivers == False %}display:none{% endif %}">
                                 <div class="selectBox" onclick="showCheckboxes11()">
@@ -843,8 +844,7 @@
                                 </div>
                             </div>
 
-                            <div class="multiselect"
-                                style="{% if feature.villages_near_river == False %}display:none{% endif %}">
+                            <div class="multiselect">
                                 <div class="selectBox" onclick="showCheckboxes5()">
                                     <button type="button" class="btn btn-outline-dark"
                                         style="width: 90%;font-size:12px; ">Villages Near River </button>
@@ -853,6 +853,28 @@
                                 <div id="checkboxes5">
                                     {% for layer in layers %}
                                     {% if layer.sub_title == "villages_near_river" %}
+
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{layer.value}}"
+                                                onchange="{{layer.method}}"><span>
+                                                {{ layer.display_checkbox_name }}
+                                            </span></label>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+
+
+                                </div>
+                            </div>
+                            <div class="multiselect" style="{% if feature.contours == False %}display:none{% endif %}">
+                                <div class="selectBox" onclick="showCheckboxes16()">
+                                    <button type="button" class="btn btn-outline-dark"
+                                        style="width: 90%;font-size:12px; "> Contours </button>
+                                    <div class="overSelect"></div>
+                                </div>
+                                <div id="checkboxes16">
+                                    {% for layer in layers %}
+                                    {% if layer.sub_title == "contours" %}
 
                                     <div class="checkbox">
                                         <label><input type="checkbox" value="{{layer.value}}"
@@ -2440,6 +2462,16 @@
                         expanded = false;
                     }
                 }
+                function showCheckboxes16() {
+                    var checkboxes3 = document.getElementById("checkboxes16");
+                    if (!expanded) {
+                        checkboxes3.style.display = "block";
+                        expanded = true;
+                    } else {
+                        checkboxes3.style.display = "none";
+                        expanded = false;
+                    }
+                }
 
                 function showCheckboxes4() {
                     var checkboxes4 = document.getElementById("checkboxes4");
@@ -2655,6 +2687,20 @@
                     }
                 }
 
+                function showContours(obj) {
+                    let district = document.getElementById('district').value;
+                    // alert(district);
+                    let boundary = obj.value;
+                    if ($(obj).is(":checked")) {
+
+                        putWMS1(boundary);
+
+                    } else {
+
+                        removeWMS(boundary);
+
+                    }
+                }
                 function showAntodaya(obj) {
                     let district = document.getElementById('district').value;
                     // alert(district);
