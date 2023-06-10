@@ -19,7 +19,8 @@ urlpatterns = [
     path('dashboard/watergis/waterquality', views.water_quality_form, name = 'waterquality'),
     path('dashboard/watergis/district', views.district_view, name = 'district_view'),
     path('dashboard/capt_wells', views.capt_wells, name = 'capt_wells'),
-    path('dashboard/uploadwellpic', views.uploadwellpic, name='uploadwellpic')
+    path('dashboard/uploadwellpic', views.uploadwellpic, name='uploadwellpic'),
+    path('dashboard/resources', views.static_files_view, name='resources')
     
 
 ]

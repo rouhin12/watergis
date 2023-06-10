@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect
 from .models import UploadWellPictureModel
 from .models import Features
 from .models import Layers
-from .models import water_quality_model
+from .models import water_quality_model 
+# from .models import 
 from django.contrib import messages
 import re,base64,time
 from django.core.files.base import ContentFile
@@ -11,6 +12,10 @@ from django.contrib.gis.geos import Point
 from .forms import UploadWellPictureForm
 from .forms import quality_form
 from django.http import JsonResponse
+from wagtail.documents.models import Document
+from wagtail.images.models import Image
+
+import os
 
 def HomePage(request):
     return render(request, "HomePage.html")
@@ -162,3 +167,21 @@ def water_quality_form(request):
             form = quality_form()
     
     return render(request,'dashboard/water_quality_form.html',{})
+
+
+def static_files_view(request):
+    # static_folder = 'dashboard/static/'
+    # folder_path = 'doc'
+    # files = os.listdir(static_folder)
+    # folder_full_path = os.path.join(static_folder, folder_path)
+    # files = os.listdir(folder_full_path)
+    documents=Document.objects.all()
+    images = Image.objects.all()
+    context = {
+        # 'files': files,
+        # 'folder_path': folder_path,
+        'documents':documents,
+        'images': images,
+        
+    }
+    return render(request, 'dashboard/tutorial.html', context)
