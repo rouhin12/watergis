@@ -628,6 +628,12 @@
                                         </div>
 
                                         {% endif %}
+                                        {% empty %}
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert"
+                                            style="">
+                                            No Data Found
+                                            {{feature.district_name}}
+                                        </div>
                                         {% endfor %}
                                         <!-- <div class="selectBox" onclick="showCheckboxes2()">
                                         <button type="button" class="btn btn-outline-dark"
@@ -793,53 +799,22 @@
                                     <div class="overSelect"></div>
                                 </div>
                                 <div id="checkboxes">
-                                    <ul>
-                                        <!-- <li><b>Region- Konkan</b></li> -->
-                                        <ul>
-                                            <!-- <li><b>District - Thane</b></li> -->
-                                            <ul>
-                                                <!-- <li><b>Taluka - Ambarnath</b></li> -->
-                                                <ul>
-                                                    {% for layer in layers %}
-                                                    {% if layer.sub_title == "ground_water_recharge_priority" %}
+                                    {% for layer in layers %}
+                                    {% if layer.sub_title == "ground_water_recharge_priority" %}
 
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" value="{{layer.value}}"
-                                                                onchange="{{layer.method}}"><span>
-                                                                {{ layer.display_checkbox_name }}
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{layer.value}}"
+                                                onchange="{{layer.method}}"><span>
+                                                {{ layer.display_checkbox_name }}
 
-                                                            </span></label>
-                                                    </div>
-                                                    {% endif %}
-                                                    {% endfor %}
-
-                                                    <!-- <div class="checkbox">
-                                                        <label><input type="checkbox" value="{ashele}"
-                                                                onchange="getBoundary(this)"><span> Ashele Village
-                                                            </span></label>
-                                                    </div>
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" value="{ashele_priority}"
-                                                                onchange="getBoundary(this)"><span> Ashele-Priority
-                                                                of water
-                                                                recharge </span></label>
-                                                    </div>
-                                                    <div class="checkbox">
-                                                        <label><input type="checkbox" value="{ashele_line}"
-                                                                onchange="getBoundary(this)"><span>
-                                                                Ashele-Drainage/Lineament</span></label>
-                                                    </div> -->
+                                            </span></label>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
 
 
-                                                </ul>
-                                            </ul>
-                                        </ul>
 
-                                        <!-- <li><b>Region- Pune</b></li>
-                                <ul><li><b>District - Satara</b></li>
-                                    <ul><li><b>Taluka - Khatav</b></li>
-                                    </ul>
-                                </ul> -->
+
 
                                 </div>
                             </div>
@@ -4963,7 +4938,7 @@
                                 }
                                 else if (feature.properties.area_irr) {
 
-                                    insti_content = "<table class = 'popupclass' ><tr><td><b>Antodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
+                                    insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
                                         "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
                                         "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
                                         "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
@@ -4982,6 +4957,14 @@
                                         "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
                                         "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
                                         "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
+
+                                }
+                                else if (feature.properties.ELEV) {
+
+                                    insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
+                                        "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
+                                        "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
+                                        "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
 
                                 }
 
@@ -5615,6 +5598,7 @@
                 function putWMS1(layer) {
                     console.log("layer" + layer);
                     var wms_layer1;
+                    var selectedLayerBounds;
                     if (layer == "maharashtra_rivers_from_osm") {
                         wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                             layers: layer,
@@ -5646,91 +5630,111 @@
                         });
 
                     }
+
+
+
                     wms_layer1.addTo(mymap);
                     newLayerList.push(wms_layer1);
+
                     console.log(wms_layer1);
                     if (layer == 'Pawana_Basin_Layer0')
-                        mymap.setView([18.637, 73.605], 11);
-                    if (layer == 'Indrayani_Basin')
-                        mymap.setView([18.688, 73.598], 11);
+                        mymap.flyTo([18.637, 73.605], 11);
+                    else if (layer == 'Indrayani_Basin')
+                        mymap.flyTo([18.688, 73.598], 11);
                     else if (layer == 'wainganga_riverline_7april23')
-                        mymap.setView([21.077, 79.599], 11);
+                        mymap.flyTo([21.077, 79.599], 11);
                     else if (layer == 'poisar_River_Nov22')
-                        mymap.setView([19.210712, 72.835955], 14);
+                        mymap.flyTo([19.210712, 72.835955], 14);
                     else if (layer == 'Dahisar_River_Nov22')
-                        mymap.setView([19.255310, 72.854402], 14);
+                        mymap.flyTo([19.255310, 72.854402], 14);
                     else if (layer == 'Ahamadnagar_drainage_files')
-                        mymap.setView([19.423, 74.548], 10);
+                        mymap.flyTo([19.423, 74.548], 10);
                     else if (layer == 'Oshiwara_River_Nov22')
-                        mymap.setView([19.161106, 72.858474], 13);
+                        mymap.flyTo([19.161106, 72.858474], 13);
                     else if (layer == 'River_line_layers')
-                        mymap.setView([18.663, 73.59], 12);
+                        mymap.flyTo([18.663, 73.59], 12);
                     else if (layer == 'Indrayani_river_line_layer')
-                        mymap.setView([18.741, 73.587], 11);
+                        mymap.flyTo([18.741, 73.587], 11);
                     else if (layer == 'Mithi_River_Nov22')
-                        mymap.setView([19.09546, 72.87995], 14);
+                        mymap.flyTo([19.09546, 72.87995], 14);
                     else if (layer == 'ulhas_villages')
-                        mymap.setView([19.244, 73.12], 11);
+                        mymap.flyTo([19.244, 73.12], 11);
                     else if (layer == 'maharashtra_rivers_from_osm')
-                        mymap.setView([19.6322, 76.032], 7);
+                        mymap.flyTo([19.6322, 76.032], 7);
                     else if (layer == 'mini_15_district0')
-                        mymap.setView([19.6322, 76.032], 7);
-                    if (layer == 'pawana_villages_poly_layers')
-                        mymap.setView([18.633, 73.604], 12);
-                    if (layer == 'Indrayani_poly_village')
-                        mymap.setView([18.688, 73.598], 11);
+                        mymap.flyTo([19.6322, 76.032], 7);
+                    else if (layer == 'pawana_villages_poly_layers')
+                        mymap.flyTo([18.633, 73.604], 12);
+                    else if (layer == 'Indrayani_poly_village')
+                        mymap.flyTo([18.688, 73.598], 11);
                     else if (layer == 'Agrani_villages')
-                        mymap.setView([17.054, 74.765], 11);
+                        mymap.flyTo([17.054, 74.765], 11);
                     else if (layer == 'Ashele_GW') {
-                        mymap.setView([19.2107, 73.1523], 15);
+                        mymap.flyTo([19.2107, 73.1523], 15);
+                        addWMSLegend1(layer);
+                    }
+                    else if (layer == 'Bhandara_tumsar_mothagaon_gsda_priority') {
+                        mymap.flyTo([21.509, 79.6621], 14);
+                        addWMSLegend1(layer);
+                    }
+                    else if (layer == 'Bhandara_tumsar_bhondki_gsda_priority') {
+                        mymap.flyTo([21.4666, 79.7138], 14);
+                        addWMSLegend1(layer);
+                    }
+                    else if (layer == 'Bhandara_tumsar_mothagaon_gsda_lineament') {
+                        mymap.flyTo([21.51, 79.662], 14);
+                        addWMSLegend1(layer);
+                    }
+                    else if (layer == 'Bhandara_tumsar_binakhi_gsda_lineament') {
+                        mymap.flyTo([21.489, 79.8818], 14);
                         addWMSLegend1(layer);
                     }
                     else if (layer == 'Ashele_priority') {
-                        mymap.setView([19.2107, 73.1523], 15);
+                        mymap.flyTo([19.2107, 73.1523], 15);
                         addWMSLegend1(layer);
                     }
                     else if (layer == 'Ashele_line') {
-                        mymap.setView([19.2107, 73.1523], 15);
+                        mymap.flyTo([19.2107, 73.1523], 15);
                         addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_turbidity') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_alkanility0') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_ph') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Nitrates') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Flourides') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Chloride') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Sulphate') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Odour') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Nashik_water_quality_Taste') {
-                        mymap.setView([19.2107, 73.1523], 8);
+                        mymap.flyTo([19.2107, 73.1523], 8);
                         // addWMSLegend1(layer);
                     }
                     else if (layer == 'Bhandara_Shapefile_village') {
-                        mymap.setView([21.1085634965, 79.786], 8);
+                        mymap.flyTo([21.1085634965, 79.786], 8);
                         // addWMSLegend1(layer);
                     }
 
