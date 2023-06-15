@@ -166,6 +166,11 @@
         .navbar {
             border: red;
         }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -200,25 +205,53 @@
         </div>
     </nav>
 
-    <div class="container ">
-        <div class="project-title" style="font-size: small;">
-            Website is under construction. For suggestions, please contact Prof Jitendra Shah (Info@communitygis.net) or
-            Monika Shah (samanvay.mumbai@gmail.com). Design Incharge: Ms. Sweta Jhunjhunwala from Jalbiradari
-            (sweta@tulsipatra.org)
+    <style>
+        /* ... Your existing styles ... */
+
+        .scrollable-container {
+            height: 500px;
+            /* Set the desired height for the scrollable container */
+            overflow: auto;
+            /* Enable scrolling */
+        }
+    </style>
+
+    <!-- Your existing code -->
+
+    <div class="container mt-5 scrollable-container">
+        <!-- Content goes here -->
+        <h1>Resources</h1>
+        <hr>
+
+        <ul class="list-group">
+            <h6>Documents</h6>
+            {% for doc in documents %}
+            <li class="list-group-item">
+                <a href="{{ doc.url }}">{{ doc }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="row mt-5">
+            <h6>Images</h6>
+            {% for image in images %}
+            <div class="col-md-6 mb-4">
+                <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
+                    <img src="{{ image.file.url }}" alt="{{ image.title }}">
+                </a>
+            </div>
+            {% endfor %}
         </div>
 
-
-
-        <div class="container mt-5">
-            <h1>Resources</h1>
-            <hr>
-
-            <ul class="list-group">
-                {% for doc in documents %}
-                <li class="list-group-item">
-                    <a href="{{ doc.url }}">{{ doc }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+        <div class="row mt-5">
+            <h6>Links </h6><br>
+            {% for link in links %}
+            <div class="col-md-6 mb-4">
+                <a href="{{ link.url }}">
+                    {{ link.title }}
+                </a>
+            </div>
+            {% endfor %}
         </div>
+    </div>
 </body>

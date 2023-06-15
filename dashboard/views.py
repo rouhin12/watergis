@@ -3,6 +3,7 @@ from .models import UploadWellPictureModel
 from .models import Features
 from .models import Layers
 from .models import water_quality_model 
+from .models import links
 # from .models import 
 from django.contrib import messages
 import re,base64,time
@@ -38,6 +39,19 @@ def watergis_new(request):
 
     context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
     return render(request,'dashboard/watergis.html',context)
+
+def watergis_new2(request):
+    user_district = request.GET.get('district')
+    wells = UploadWellPictureModel.objects.all()
+    wellcount = UploadWellPictureModel.objects.count()
+    # Query the Features model to get the relevant district
+    features = Features.objects.filter(district_name=user_district)
+
+    # Query the Layers model to get the layers related to the district
+    layers = Layers.objects.filter(features__district_name=user_district)
+
+    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
+    return render(request,'dashboard/watergis2.html',context)
 
 def watergis(request):
     # user_district = request.GET.get('district')
@@ -177,11 +191,13 @@ def static_files_view(request):
     # files = os.listdir(folder_full_path)
     documents=Document.objects.all()
     images = Image.objects.all()
+    link=links.objects.all()
     context = {
         # 'files': files,
         # 'folder_path': folder_path,
         'documents':documents,
         'images': images,
+        'links': link,
         
     }
     return render(request, 'dashboard/tutorial.html', context)
