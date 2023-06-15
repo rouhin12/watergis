@@ -15,6 +15,7 @@ urlpatterns = [
     path('dashboard/', views.Dash, name = 'dash'),
     path('dashboard/fgis', views.map, name = 'map'),
     path('dashboard/watergis', views.watergis_new, name = 'watergis'),
+    path('dashboard/watergis2', views.watergis_new2, name = 'watergis2'),
     path('dashboard/watergis_old', views.watergis, name = 'watergis_old'),
     path('dashboard/watergis/waterquality', views.water_quality_form, name = 'waterquality'),
     path('dashboard/watergis/district', views.district_view, name = 'district_view'),
