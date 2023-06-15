@@ -435,7 +435,7 @@
                             <option value="Karnataka">Karnataka</option>
                             <option value="Kerala">Kerala</option>
                             <option value="Madhya Pradesh">Madhya Pradesh</option> -->
-                            <option value="Maharashtra" selected>Maharashtra</option>
+                            <option value="Maharashtra">Maharashtra</option>
                             <!-- <option value="Manipur">Manipur</option>
                             <option value="Meghalaya">Meghalaya</option>
                             <option value="Mizoram">Mizoram</option>
@@ -1713,17 +1713,19 @@
                 $(document).ready(function () {
 
                     // code that selects states automatically 
-                    var element = document.getElementById('indstate');
-                    element.value = "Maharashtra";
+
 
                     // Trigger the change event manually
                     setTimeout(function () {
-                        $(element).trigger('change');
+
 
                         var url = new URL(window.location.href);
                         var district_url = url.searchParams.get("district");
 
                         if (district_url) {
+                            var element = document.getElementById('indstate');
+                            element.value = "Maharashtra";
+                            $(element).trigger('change');
                             var selectElement = document.getElementById('district');
                             selectElement.value = district_url;
 
@@ -2273,24 +2275,41 @@
                 }
 
 
-
-
-
+                // Direct fetching maharashtra district values
                 d3.csv("{% static 'data/healthdash/st_dist_pin.csv' %}", function (data) {
-                    $('#indstate').on("change", function (d) {
-                        var val = d3.select(this).property("value");
-                        $('#district').find('option').not(':first').remove();
-                        var data_1 = filterCSV(data, 'statename', val);
-                        var select = document.getElementById("district");
-                        for (var i = 0; i < data_1.length; i++) {
-                            var opt = data_1[i];
-                            var el = document.createElement("option");
-                            el.textContent = opt;
-                            el.value = opt;
-                            select.appendChild(el);
-                        }
-                        $('#districtd3').val("");
-                    });
+                    // $('#indstate').on("change", function (d) {
+                    var val = d3.select(this).property("value");
+                    console.log("ind", val)
+                    $('#district').find('option').not(':first').remove();
+                    var data_1 = filterCSV(data, 'statename', 'Maharashtra');
+                    var select = document.getElementById("district");
+                    for (var i = 0; i < data_1.length; i++) {
+                        var opt = data_1[i];
+                        var el = document.createElement("option");
+                        el.textContent = opt;
+                        el.value = opt;
+                        select.appendChild(el);
+                    }
+                    $('#districtd3').val("");
+                    // });
+
+                    // Based on state selection 
+                    // d3.csv("{% static 'data/healthdash/st_dist_pin.csv' %}", function (data) {
+                    //     $('#indstate').on("change", function (d) {
+                    //         var val = d3.select(this).property("value");
+                    //         console.log("ind", val)
+                    //         $('#district').find('option').not(':first').remove();
+                    //         var data_1 = filterCSV(data, 'statename', val);
+                    //         var select = document.getElementById("district");
+                    //         for (var i = 0; i < data_1.length; i++) {
+                    //             var opt = data_1[i];
+                    //             var el = document.createElement("option");
+                    //             el.textContent = opt;
+                    //             el.value = opt;
+                    //             select.appendChild(el);
+                    //         }
+                    //         $('#districtd3').val("");
+                    //     });
 
                     $('#district').on("change", function (d) {
                         var val1 = document.getElementById("indstate").value;

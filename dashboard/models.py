@@ -120,3 +120,8 @@ class water_quality_model(models.Model):
 
     def __str__(self):
         return self.name
+class links(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    url = models.CharField(max_length=100)
+    def __str__(self):
+        return self.title
