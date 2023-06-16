@@ -5,7 +5,7 @@ from django import forms
 class UploadWellPictureForm(forms.ModelForm):
     class Meta:
         model = UploadWellPictureModel
-        fields = ('picture','name','well_nm','radius','depth','level','village','district','state','pincode', 'lat', 'lng')
+        fields = ('picture','name','well_nm','radius','depth','level','village','district','state','pincode', 'lat', 'lng','water_quality','wells_type')
 
 class quality_form(forms.ModelForm):
     class Meta:

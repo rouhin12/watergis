@@ -91,6 +91,8 @@ def capt_wells(request):
         pincode = request.POST.get('pincode')
         lat = request.POST.get('lat')
         lng = request.POST.get('lng')
+        water_quality=request.POST.get('water_quality')
+        wells_type=request.POST.get('wells_type')
         try:
             imgstr = re.search(r'base64,(.*)', datauri).group(1)
             data = ContentFile(base64.b64decode(imgstr))
