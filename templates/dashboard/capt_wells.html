@@ -1,28 +1,29 @@
 {% load static%}
 {% block content %}
 
-<head>  
-  <link type="text/css" href= "{% static 'css/style.css' %}" rel="stylesheet">
+<head>
+  <link type="text/css" href="{% static 'css/style.css' %}" rel="stylesheet">
   <link type="text/css" href="{%static 'css/materialize.min.css' %}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <!--<link type="text/css" href="{% static 'home/css/style.css' %}" rel="stylesheet">-->
   <style>
-    #form{
-      width:40%;
+    #form {
+      width: 40%;
     }
-    #form label{
+
+    #form label {
       color: black;
       font-size: 18px;
     }
   </style>
 </head>
-  <!-- recipes -->
-  <div class="recipes container text-darken-1">
-    <img src="{% static 'images/well.jpg' %}" alt="Well" class="main-image">
+<!-- recipes -->
+<div class="recipes container text-darken-1">
+  <img src="{% static 'images/well.jpg' %}" alt="Well" class="main-image">
 
 
-    <p class='msg-box'>Add Well's Information</p>
-    <!-- <div class="card-panel recipe white row">
+  <p class='msg-box'>Add Well's Information</p>
+  <!-- <div class="card-panel recipe white row">
       <img src="/img/dish.png" alt="recipe thumb">
       <div class="recipe-details">
         <div class="recipe-title">Edame Noodles</div>
@@ -32,125 +33,160 @@
         <i class="material-icons">delete_outline</i>
       </div>
     </div> -->
-  </div>
+</div>
 
-  <div class="center">
-    <a class="btn-floating btn-small btn-large add-btn">
-      <i class="material-icons" style=" background-color: #4CAF50;">add</i>
-    </a>
-  </div>
+<div class="center">
+  <a class="btn-floating btn-small btn-large add-btn">
+    <i class="material-icons" style=" background-color: #4CAF50;">add</i>
+  </a>
+</div>
 
-  <!-- add  side nav -->
-  <div id="side-form" class="side-form">
-    <div class="image-options">
-      <div class="camera-div">
-        <a class="btn-floating btn-large capture-btn">
-          <i class="material-icons">camera_alt</i>
-        </a>
-        <hr style="width:50% ;text-align:center;">
+<!-- add  side nav -->
+<div id="side-form" class="side-form">
+  <div class="image-options">
+    <div class="camera-div">
+      <a class="btn-floating btn-large capture-btn">
+        <i class="material-icons">camera_alt</i>
+      </a>
+      <hr style="width:50% ;text-align:center;">
 
-        <small>click image from your camera</small>
-      </div>
-      <div class="upload-div">
-        <a href="{% url 'uploadwellpic' %}" class="btn-floating  btn-large upload-btn">
-          <i class="material-icons">upload</i>
-        </a>
-        <hr style="width:50%;text-align:center;">
-        <small>Upload images</small>
-
-      </div>
+      <small>click image from your camera</small>
     </div>
-    <div class="capture-div" style='display:none'>
-      <form id = "form" class="container section" method="post">
-        {% csrf_token %}
-        <h6 >Add Wells Information</h6>
-        <div class="divider"></div>
-          <video id="player" autoplay></video>
-          <canvas id='canvas' width="320px" height="240px" name="myfile" required></canvas>
-          <div class="input-field center">
-            <a id="capture-btn" class="waves-effect waves-light btn-small" style=" background-color: #4CAF50;">Capture</a>
-          </div>
-  
-          <div id='pick-image'>
-            <small>Allow Camera access to app</small>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter your name" id="name" type="text" name="name" required>
-            <label for="title">Name</label>
-          </div>          
-          <div class="input-field">
-            <input placeholder="Enter the name of the well(if any)" id="wellnm" type="text" name="well_nm">
-            <label for="title">Name of the well</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the radius of the well" id="radius" type="number" name="radius">
-            <label for="title">Radius(in metres)</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the depth of the well" id="depth" type="number" name="depth">
-            <label for="title">Depth(in metres)</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the water level of the well" id="level" type="number" name="level">
-            <label for="title">Water level(in metres)</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter village name" id="Village" type="text" name="village" required>
-            <label for="title">Village</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the district" id="district" type="text" name="district" required>
-            <label for="title">District</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the state" id="state" type="text" name="state" required>
-            <label for="title">State</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Enter the pincode" id="pincode" type="text" name="pincode" required>
-            <label for="title">Pincode</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Allow location access to capture your location" id="lat" type="text" name="lat" readonly="readonly" required>
-            <label for="title">Latitude</label>
-          </div>
-          <div class="input-field">
-            <input placeholder="Allow location access to capture your location" id="lng" type="text" name="lng" readonly="readonly" required>
-            <label for="title">Longitude</label>
-          </div>
-          <div class="input-section center">
-          <a id="location-btn" class="waves-effect waves-light btn-small" style=" background-color: #4CAF50; visibility: hidden;">Get Location</a>
-  
-  
-            <div class="preloader-wrapper small active" id="location-loader">
-              <div class="spinner-layer spinner-green-only">
-                <div class="circle-clipper left">
-                  <div class="circle"></div>
-                </div><div class="gap-patch">
-                  <div class="circle"></div>
-                </div><div class="circle-clipper right">
-                  <div class="circle"></div>
-                </div>
-              </div>
+    <div class="upload-div">
+      <a href="{% url 'uploadwellpic' %}" class="btn-floating  btn-large upload-btn">
+        <i class="material-icons">upload</i>
+      </a>
+      <hr style="width:50%;text-align:center;">
+      <small>Upload images</small>
+
+    </div>
+  </div>
+  <div class="capture-div" style='display:none'>
+    <form id="form" class="container section" method="post">
+      {% csrf_token %}
+      <h6>Add Wells Information</h6>
+      <div class="divider"></div>
+      <video id="player" autoplay></video>
+      <canvas id='canvas' width="320px" height="240px" name="myfile" required></canvas>
+      <div class="input-field center">
+        <a id="capture-btn" class="waves-effect waves-light btn-small" style=" background-color: #4CAF50;">Capture</a>
+      </div>
+
+      <div id='pick-image'>
+        <small>Allow Camera access to app</small>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter your name" id="name" type="text" name="name" required>
+        <label for="title">Name</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the name of the well(if any)" id="wellnm" type="text" name="well_nm">
+        <label for="title">Name of the well</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the radius of the well" id="radius" type="number" name="radius">
+        <label for="title">Radius(in metres)</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the depth of the well" id="depth" type="number" name="depth">
+        <label for="title">Depth(in metres)</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the water level of the well" id="level" type="number" name="level">
+        <label for="title">Water level(in metres)</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter village name" id="Village" type="text" name="village" required>
+        <label for="title">Village</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the district" id="district" type="text" name="district" required>
+        <label for="title">District</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the state" id="state" type="text" name="state" required>
+        <label for="title">State</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the pincode" id="pincode" type="text" name="pincode" required>
+        <label for="title">Pincode</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Allow location access to capture your location" id="lat" type="text" name="lat"
+          readonly="readonly" required>
+        <label for="title">Latitude</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Allow location access to capture your location" id="lng" type="text" name="lng"
+          readonly="readonly" required>
+        <label for="title">Longitude</label>
+      </div>
+      <div class="input-field">
+        <input placeholder="Enter the date" id="date" type="date" name="date" required>
+        <label for="title">Date</label>
+      </div>
+
+      <div class="input-field">
+        <label style="font-size: 15px;">Quality of water:</label><br>
+        <select id="water_quality" name="water_quality" style="display:block" required>
+          <option value="">--Select--</option>
+          <option value="drinking">Drinking</option>
+          <option value="agriculture">Agriculture</option>
+        </select>
+      </div>
+
+      <div class="input-field">
+        <label style="font-size: 15px;">Types of Wells:</label><br>
+        <select id="wells_type" name="wells_type" style="display:block" required>
+          <option value="">--Select--</option>
+          <option value="Bore Well">Bore Well</option>
+          <option value="Community Well">Community Well</option>
+          <option value="Dug Well">Dug Well</option>
+          <option value="Hand Pump">Hand Pump</option>
+          <option value="Open Well">Open Well</option>
+          <option value="Private Well">Private Well</option>
+          <option value="Public Well">Public Well</option>
+          <option value="Tube Well">Tube Well</option>
+          <option value="Others">Others</option>
+        </select>
+      </div>
+
+      <div class="input-section center">
+        <a id="location-btn" class="waves-effect waves-light btn-small"
+          style=" background-color: #4CAF50; visibility: hidden;">Get Location</a>
+
+
+        <div class="preloader-wrapper small active" id="location-loader">
+          <div class="spinner-layer spinner-green-only">
+            <div class="circle-clipper left">
+              <div class="circle"></div>
             </div>
-  
+            <div class="gap-patch">
+              <div class="circle"></div>
+            </div>
+            <div class="circle-clipper right">
+              <div class="circle"></div>
+            </div>
           </div>
-  
-          
-          <div class="input-field center">
-            <button class="btn-small" type="submit" name="action" style=" background-color: #4CAF50;">Submit</button>
-          </div>
-      </form>
-      <script>
-        window.onload = function(){
-          document.getElementById('location-btn').click();
-        }
-      </script>
-    </div>
+        </div>
+
+      </div>
 
 
-    
-    <!-- <div style="display:none ">
+      <div class="input-field center">
+        <button class="btn-small" type="submit" name="action" style=" background-color: #4CAF50;">Submit</button>
+      </div>
+    </form>
+    <script>
+      window.onload = function () {
+        document.getElementById('location-btn').click();
+      }
+    </script>
+  </div>
+
+
+
+  <!-- <div style="display:none ">
       <form class="container section" enctype="multipart/form-data"method="post">
         {% csrf_token %}
           {{form.as_p}} 
@@ -162,19 +198,17 @@
     </div> -->
 
 
-    <div class="center">
-      <a class="btn-floating btn-small btn-large close-btn">
-        <i class="material-icons" style=" background-color: #4CAF50;">close</i>
-      </a>
-    </div>
-  </div> 
- 
-  {% endblock %}
-  <script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-  
-  <script src="{% static 'js/ajax_csrf.js' %}"></script>
-  <script src="{% static 'js/ui.js' %}"></script>
+  <div class="center">
+    <a class="btn-floating btn-small btn-large close-btn">
+      <i class="material-icons" style=" background-color: #4CAF50;">close</i>
+    </a>
+  </div>
+</div>
 
-  
+{% endblock %}
+<script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+<script src="{% static 'js/ajax_csrf.js' %}"></script>
+<script src="{% static 'js/ui.js' %}"></script>
