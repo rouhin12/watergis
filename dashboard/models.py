@@ -101,7 +101,7 @@ class Layers(models.Model):
     
     class Meta:
        managed = True
-       db_table = 'features'
+       db_table = 'layers'
     
 class water_quality_model(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -129,8 +129,15 @@ class water_quality_model(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+       managed = True
+       db_table = 'water_quality_model'
+    
 class links(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=100)
     def __str__(self):
         return self.title
+    class Meta:
+       managed = True
+       db_table = 'layers'
