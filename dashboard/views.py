@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 from .models import UploadWellPictureModel
 from .models import Features
 from .models import Layers
-from .models import water_quality_model
+from .models import water_quality_model 
+from .models import links
+# from .models import 
 from django.contrib import messages
 import re,base64,time
 from django.core.files.base import ContentFile
@@ -11,6 +13,10 @@ from django.contrib.gis.geos import Point
 from .forms import UploadWellPictureForm
 from .forms import quality_form
 from django.http import JsonResponse
+from wagtail.documents.models import Document
+from wagtail.images.models import Image
+
+import os
 
 def HomePage(request):
     return render(request, "HomePage.html")
@@ -33,6 +39,19 @@ def watergis_new(request):
 
     context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
     return render(request,'dashboard/watergis.html',context)
+
+def watergis_new2(request):
+    user_district = request.GET.get('district')
+    wells = UploadWellPictureModel.objects.all()
+    wellcount = UploadWellPictureModel.objects.count()
+    # Query the Features model to get the relevant district
+    features = Features.objects.filter(district_name=user_district)
+
+    # Query the Layers model to get the layers related to the district
+    layers = Layers.objects.filter(features__district_name=user_district)
+
+    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
+    return render(request,'dashboard/watergis2.html',context)
 
 def watergis(request):
     # user_district = request.GET.get('district')
@@ -72,6 +91,8 @@ def capt_wells(request):
         pincode = request.POST.get('pincode')
         lat = request.POST.get('lat')
         lng = request.POST.get('lng')
+        water_quality=request.POST.get('water_quality')
+        wells_type=request.POST.get('wells_type')
         try:
             imgstr = re.search(r'base64,(.*)', datauri).group(1)
             data = ContentFile(base64.b64decode(imgstr))
@@ -162,3 +183,23 @@ def water_quality_form(request):
             form = quality_form()
     
     return render(request,'dashboard/water_quality_form.html',{})
+
+
+def static_files_view(request):
+    # static_folder = 'dashboard/static/'
+    # folder_path = 'doc'
+    # files = os.listdir(static_folder)
+    # folder_full_path = os.path.join(static_folder, folder_path)
+    # files = os.listdir(folder_full_path)
+    documents=Document.objects.all()
+    images = Image.objects.all()
+    link=links.objects.all()
+    context = {
+        # 'files': files,
+        # 'folder_path': folder_path,
+        'documents':documents,
+        'images': images,
+        'links': link,
+        
+    }
+    return render(request, 'dashboard/tutorial.html', context)

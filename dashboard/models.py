@@ -17,6 +17,8 @@ class UploadWellPictureModel(models.Model):
     pincode = models.CharField(max_length=8, blank=True, null=True)
     lat = models.CharField(max_length=15)
     lng = models.CharField(max_length=15)
+    water_quality = models.CharField(max_length=40)
+    wells_type = models.CharField(max_length=40)
     def save(self, *args, **kwargs):
         if not self.id:
             self.picture = self.compressImage(self.picture)
@@ -51,6 +53,7 @@ class Features(models.Model):
     census = models.BooleanField()
     geographical_hierarchy= models.BooleanField()
     antodaya = models.BooleanField()
+    contours=models.BooleanField()
     state_name = models.CharField(max_length=100)
     district_name = models.CharField(max_length=100)
 
@@ -78,6 +81,7 @@ class Layers(models.Model):
         ('geographical_hierarchy','geographical_hierarchy'),
         ('antodaya','antodaya'),
         ('basins','basins'),
+        ('contours','contours'),
 
     ]
     id = models.BigAutoField(primary_key=True)
@@ -108,13 +112,18 @@ class water_quality_model(models.Model):
     hard = models.IntegerField(max_length=15,blank=True, null=True)
     chloride = models.IntegerField(max_length=15,blank=True, null=True)
     alkaline = models.IntegerField(max_length=15,blank=True, null=True)
-    nitrate = models.IntegerField(max_length=15,blank=True, null=True)
-    fluoride = models.IntegerField(max_length=15,blank=True, null=True)
-    iron = models.IntegerField(max_length=15,blank=True, null=True)
-    chlorine = models.IntegerField(max_length=15,blank=True, null=True)
-    calcium = models.IntegerField(max_length=15,blank=True, null=True)
-    magnesium = models.IntegerField(max_length=15,blank=True, null=True)
+    nitrate = models.FloatField(max_length=15,blank=True, null=True)
+    fluoride = models.FloatField(max_length=15,blank=True, null=True)
+    iron = models.FloatField(max_length=15,blank=True, null=True)
+    chlorine = models.FloatField(max_length=15,blank=True, null=True)
+    calcium = models.FloatField(max_length=15,blank=True, null=True)
+    magnesium = models.FloatField(max_length=15,blank=True, null=True)
     date = models.DateField()
 
     def __str__(self):
         return self.name
+class links(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    url = models.CharField(max_length=100)
+    def __str__(self):
+        return self.title
