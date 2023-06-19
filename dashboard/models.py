@@ -139,5 +139,5 @@ class links(models.Model):
     def __str__(self):
         return self.title
     class Meta:
-       managed = True
+       managed = False
        db_table = 'links'
