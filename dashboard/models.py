@@ -17,6 +17,8 @@ class UploadWellPictureModel(models.Model):
     pincode = models.CharField(max_length=8, blank=True, null=True)
     lat = models.CharField(max_length=15)
     lng = models.CharField(max_length=15)
+    water_quality = models.CharField(max_length=40)
+    wells_type = models.CharField(max_length=40)
     def save(self, *args, **kwargs):
         if not self.id:
             self.picture = self.compressImage(self.picture)
