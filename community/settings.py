@@ -17,12 +17,12 @@ from decouple import config
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # GDAL PATH
-GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
+# GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
 
-# GEOS PATH
-GEOS_LIBRARY_PATH = r'C:\OSGeo4W\bin\geos_c.dll'
+# # GEOS PATH
+# GEOS_LIBRARY_PATH = r'C:\OSGeo4W\bin\geos_c.dll'
 
-PROJ_LIBRARY_PATH = r'C:\OSGeo4W64\share\proj'
+# PROJ_LIBRARY_PATH = r'C:\OSGeo4W64\share\proj'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -140,3 +140,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 print(BASE_DIR)
+
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
