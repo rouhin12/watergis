@@ -130,7 +130,7 @@ class water_quality_model(models.Model):
     def __str__(self):
         return self.name
     class Meta:
-       managed = True
+       managed = False
        db_table = 'water_quality_model'
     
 class links(models.Model):
