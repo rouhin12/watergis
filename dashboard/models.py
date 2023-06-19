@@ -99,6 +99,10 @@ class Layers(models.Model):
     def __str__(self):
         return f"{self.sub_title}, {self.display_checkbox_name}"
     
+    class Meta:
+       managed = True
+       db_table = 'features'
+    
 class water_quality_model(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100)
