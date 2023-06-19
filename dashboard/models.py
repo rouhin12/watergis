@@ -140,4 +140,4 @@ class links(models.Model):
         return self.title
     class Meta:
        managed = True
-       db_table = 'layers'
+       db_table = 'links'
