@@ -59,6 +59,9 @@ class Features(models.Model):
 
     def __str__(self):
         return f"{self.state_name}, {self.district_name}"
+    class Meta:
+       managed = True
+       db_table = 'features'
 
 
 
@@ -107,11 +110,11 @@ class water_quality_model(models.Model):
     color=models.CharField(max_length=100, null=True)
     odour=models.CharField(max_length=100, null=True)
     taste=models.CharField(max_length=100, null=True)
-    ph = models.IntegerField(max_length=5,blank=True, null=True)
-    turbid = models.IntegerField(max_length=5,blank=True, null=True)
-    hard = models.IntegerField(max_length=15,blank=True, null=True)
-    chloride = models.IntegerField(max_length=15,blank=True, null=True)
-    alkaline = models.IntegerField(max_length=15,blank=True, null=True)
+    ph = models.IntegerField(blank=True, null=True)
+    turbid = models.IntegerField(blank=True, null=True)
+    hard = models.IntegerField(blank=True, null=True)
+    chloride = models.IntegerField(blank=True, null=True)
+    alkaline = models.IntegerField(blank=True, null=True)
     nitrate = models.FloatField(max_length=15,blank=True, null=True)
     fluoride = models.FloatField(max_length=15,blank=True, null=True)
     iron = models.FloatField(max_length=15,blank=True, null=True)
