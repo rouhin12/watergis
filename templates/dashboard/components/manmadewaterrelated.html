@@ -1,0 +1,104 @@
+<div class="subContent" id="Manmadewaterfeatures">
+    <h5 class="heading">Man-made water related features</h5>
+    <hr>
+    <div class="custom-control custom-switch m-2  ">
+        <input type="checkbox" class="custom-control-input" value="Wells" id="chwells" onchange="defineWell(this)">
+        <label class="custom-control-label" for="chwells">Show Wells</label>
+        <label><em>Wells Last updated 20-04-2023</em></label><br>
+
+    </div>
+    <div class="custom-control custom-switch  m-2"
+        style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
+        <input type="checkbox" class="custom-control-input" value="{nashik_wells}" id="nashik_wells"
+            onchange="GetSelectedWells(this)">
+        <label class="custom-control-label" for="nashik_wells">Nashik Wells</label>
+    </div>
+    <div class="custom-control custom-switch  m-2"
+        style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+        <input type="checkbox" class="custom-control-input" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
+            onchange="GetSelectedWells(this)">
+        <label class="custom-control-label" for="bhandara_obs_wells">Observation Wells</label>
+    </div>
+
+    <div class="card" style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
+        <div class="card-header" id="headingsix">
+            <h2 class="mb-0">
+                <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                    data-target="#nashikwaterquality" aria-expanded="false" aria-controls="collapseThree">
+                    Water Quality - Nashik
+                </button>
+            </h2>
+        </div>
+        <div id="nashikwaterquality" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+            <div class="card-body">
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_turbidity}" id="wq-1"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-1">on
+                        basis of <b> Turbidity</b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_alkalinity}" id="wq-2"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-2">on
+                        basis of <b> Alkanility </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_ph}" id="wq-3"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-3">on basis of
+                        <b> Ph </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_nitrates}" id="wq-4"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-4">on basis of
+                        <b> Nitrates </b></label>
+                </div>
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_flourides}" id="wq-5"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-5">on basis of
+                        <b> Flourides </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_chloride}" id="wq-6"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-6">on basis of
+                        <b> Chloride </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_sulphate}" id="wq-7"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-7">on basis of
+                        <b> Sulphate </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_odour}" id="wq-8"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-8">on basis of
+                        <b> Odour </b></label>
+                </div>
+
+                <div class="custom-control custom-switch  m-2">
+                    <input type="checkbox" class="custom-control-input" value="{nashik_taste}" id="wq-9"
+                        onchange="getBoundary(this)">
+                    <label class="custom-control-label" for="wq-9">on basis of
+                        <b> Taste </b></label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
