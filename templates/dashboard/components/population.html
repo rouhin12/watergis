@@ -1,0 +1,94 @@
+<div class="subContent" id="Population">
+    <h5 class="heading">Population</h5>
+    <hr>
+
+    <div class="accordion" id="accordionExample3">
+        <div class="card" style="{% if feature.census == False %}display:none{% endif %}">
+            <div class="card-header" id="headingFour2">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#census1" aria-expanded="false" aria-controls="collapseThree">
+                        Census Information 2011
+                    </button>
+                </h2>
+            </div>
+            <div id="census1" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="demog1" value="{demog}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="demog1">Demographics</label>
+                    </div>
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="house1" value="{house}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="house1">Household Amenities</label>
+                    </div>
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="house3" value="{town}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="house3">Town Amenities</label>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="card" style="{% if feature.geographical_hierarchy == False %}display:none{% endif %}">
+            <div class="card-header" id="headingFour21">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#geom12" aria-expanded="false" aria-controls="collapseThree">
+                        Geographical Hierarchy
+                    </button>
+                </h2>
+            </div>
+            <div id="geom12" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="talu1" value="{taluka}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="talu1">Taluka</label>
+                    </div>
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="maharural1" value="{maharural}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="maharural1">Village</label>
+                    </div>
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="mahatown2" value="{mahatown}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="mahatown2">Towns</label>
+                    </div>
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" id="pincode2" value="{pincode}"
+                            onchange="getBoundaryru(this)">
+                        <label class="custom-control-label " for="pincode2">Pincode</label>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
