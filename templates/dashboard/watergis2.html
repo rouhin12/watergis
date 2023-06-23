@@ -414,6 +414,7 @@
         overflow-y: auto;
         background-color: #333;
         padding: 0;
+        border-radius: 5px;
 
     }
 
@@ -549,6 +550,18 @@
         visibility: visible;
         left: 14.5rem;
     }
+
+    .fa-angles-right {
+        font-size: 1.3rem;
+    }
+
+
+
+    #mymodal {
+        position: absolute;
+
+        z-index: 8;
+    }
 </style>
 
 
@@ -562,7 +575,7 @@
             <a data-target="#top" data-toggle="sidebar-colapse"
                 class="text-white bg-dark list-group-item list-group-item-action d-flex align-items-center">
                 <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span id="collapse-icon" class="fa fa-2x mr-3"></span>
+                    <span id="collapse-icon" class="fa fa-angles-right mr-3"></span>
                     <span id="collapse-text" class="menu-collapsed ">Collapse</span>
                 </div>
             </a>
@@ -630,9 +643,11 @@
                 <!-- Feature List -->
                 {% for feature in features %}
                 <a onclick="showContent('NaturalFeatures')" class="bg-dark list-group-item list-group-item-action"
-                    style="{% if feature.natural_features == False %}display:none{% endif %}">
+                    style="{% if feature.natural_features == False %}display:none{% endif %}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Natural Features">
+
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-calendar fa-fw mr-3"></span>
+                        <span class="fa-fw mr-3 fa fa-n"></span>
                         <span class="menu-collapsed">Natural Features</span>
                     </div>
                 </a>
@@ -641,7 +656,7 @@
                 <a onclick="showContent('Manmadewaterfeatures')" class="bg-dark list-group-item list-group-item-action"
                     style="{% if feature.man_made_water_related_features == False %}display:none{% endif %}">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-calendar fa-fw mr-3"></span>
+                        <span class="fa fa-water fa-fw mr-3"></span>
                         <span class="menu-collapsed" style="flex-grow: 1;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -653,7 +668,7 @@
                 <a onclick="showContent('Manmadeotherfeatures')" class="bg-dark list-group-item list-group-item-action"
                     style="{% if feature.man_made_other_features == False %}display:none{% endif %}">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-calendar fa-fw mr-3"></span>
+                        <span class="fa fa-bridge-water fa-fw mr-3"></span>
                         <span class="menu-collapsed" style="flex-grow: 1;
                         overflow: hidden;
                         text-overflow: ellipsis;
@@ -672,18 +687,39 @@
                 <a onclick="showContent('Population')" class="bg-dark list-group-item list-group-item-action"
                     style="{% if feature.population == False %}display:none{% endif %}">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-calendar fa-fw mr-3"></span>
+                        <span class="fa fa-person-shelter fa-fw mr-3"></span>
                         <span class="menu-collapsed">Population</span>
                     </div>
                 </a>
                 <a onclick="showContent('Antyodaya')" class="bg-dark list-group-item list-group-item-action"
                     style="{% if feature.antodaya == False %}display:none{% endif %}">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-envelope-o fa-fw mr-3"></span>
+                        <span class="fa fa-people-roof fa-fw mr-3"></span>
                         <span class="menu-collapsed">Antyodaya <span
                                 class="badge badge-pill badge-primary ml-2">5</span></span>
                     </div>
                 </a>
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <!-- Modal content -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">More Details</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body" id="modal_info">
+                                <!-- Add your model details here -->
+                                <!-- Content longer than the height will have a vertical scrollbar -->
+
+                                <!-- Example of long content -->
+                                <h1 class="text-center">Loading <i class="fa fa-spinner fa-spin"></i></h1>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 {% empty %}
 
 
@@ -699,7 +735,7 @@
                 <!-- /END Separator -->
                 <a onclick="showContent('Staterelateddata')" class="bg-dark list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-start align-items-center">
-                        <span class="fa fa-question fa-fw mr-3"></span>
+                        <span class="fa fa-earth-asia fa-fw mr-3"></span>
                         <span class="menu-collapsed">State Related
                             Data</span>
                     </div>
@@ -717,13 +753,34 @@
             <span id="closeNavContent">
                 <i class="fa fa-close"></i>
             </span>
+
             {% for feature in features %}
+
             {%include "dashboard/components/naturalfeatures.html"%}
             {%include "dashboard/components/manmadewaterrelated.html"%}
             {%include "dashboard/components/manmadeother.html"%}
             {%include "dashboard/components/population.html"%}
             {%include "dashboard/components/antyodaya.html"%}
+
             {% endfor %}
+            {%include "dashboard/components/staterelateddata.html"%}
+
+            <div class="text-center">
+                <div class="btn-group" role="group" aria-label="Attribute Buttons">
+                    <button title="Show Attribute table" class="btn btn-info select" id="displayfulltable">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                    </button>
+                    <button title="Show Attribute table" class="btn btn-info select" id="displaytable">
+                        <i class="fa fa-table" aria-hidden="true"></i>
+                    </button>
+                    <button title="Download Attribute table" class="btn btn-success" id="downloadtable">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+
+
+
         </div>
 
 
@@ -752,6 +809,7 @@
     //     }
     // );
 
+
     $('#body-row .collapse').collapse('hide');
 
     // Collapse/Expand icon
@@ -770,6 +828,8 @@
         });
     });
 
+    let sidebarVar = true;
+
     function SidebarCollapse() {
         $('.menu-collapsed').toggleClass('d-none');
         $('.sidebar-submenu').toggleClass('d-none');
@@ -780,16 +840,37 @@
         var SeparatorTitle = $('.sidebar-separator-title');
         if (SeparatorTitle.hasClass('d-flex')) {
             SeparatorTitle.removeClass('d-flex');
+            // sidebar close 
+            var element = document.getElementById('sidebar-container');
+            element.style.height = "calc(100vh - 200px)";
+            element.style.marginTop = "60px";
+            element.style.transition = "height 0.5s, margin-top 0.5s";
+            sidebarVar = false;
+
         } else {
             SeparatorTitle.addClass('d-flex');
+            var element = document.getElementById('sidebar-container');
+            element.style.height = "calc(100vh - 56px)";
+            element.style.marginTop = "0px";
+            element.style.transition = "height 0.5s, margin-top 0.5s";
+            sidebarVar = true;
+
         }
 
         // Collapse/Expand icon
         $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-        if ($('#sidebar-container').hasClass('sidebar-collapsed')) {
-            $('.open').css('left', '4rem');
-        } else {
+        // code to manage sidebar marginleft on collapse 
+        // if ($('#sidebar-container').hasClass('sidebar-collapsed')) {
+        //     $('.open').css('left', '4rem');
+        // } else {
+        //     $('.open').css('left', '14.6rem');
+        // }
+        // console.log(sidebarVar)
+        if (sidebarVar) {
             $('.open').css('left', '14.6rem');
+        }
+        else {
+            $('.open').css('left', '4rem');
         }
 
     }
@@ -804,29 +885,24 @@
     });
 
     function showContent(id) {
-        var district = document.getElementById('district').value;
-        if (district) {
-            if (!open) {
-                $(".navContent").addClass("open");
-                open = true;
-                $(".subContent").removeClass("d-block");
-                $("#" + id + ".subContent").addClass("d-block");
-                $(".menuItem").removeClass("active");
-                $("#" + id + "CTA").addClass("active");
-            } else {
-                $(".subContent").removeClass("d-block");
-                $("#" + id + ".subContent").addClass("d-block");
-                $(".menuItem").removeClass("active");
-                $("#" + id + "CTA").addClass("active");
-            }
+
+
+
+        if (!open) {
+            $(".navContent").addClass("open");
+            open = true;
+            $(".subContent").removeClass("d-block");
+            $("#" + id + ".subContent").addClass("d-block");
+            $(".menuItem").removeClass("active");
+            $("#" + id + "CTA").addClass("active");
+        } else {
+            $(".subContent").removeClass("d-block");
+            $("#" + id + ".subContent").addClass("d-block");
+            $(".menuItem").removeClass("active");
+            $("#" + id + "CTA").addClass("active");
         }
-        else {
-            swal({
-                title: "Please select district",
-                text: "select district ",
-                timer: 2000
-            });
-        }
+
+
 
     }
 
@@ -933,6 +1009,10 @@
             var district_url = url.searchParams.get("district");
 
             if (district_url) {
+                var element = document.getElementById('sidebar-container');
+                element.style.height = "calc(100vh - 56px)";
+                element.style.marginTop = "0";
+                element.style.transition = "height 0.5s, margin-top 0.5s";
                 var element = document.getElementById('indstate');
                 element.value = "Maharashtra";
                 $(element).trigger('change');
@@ -4843,6 +4923,7 @@
             wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                 layers: 'maharashtra_rivers_from_osm',
                 format: 'image/png',
+
                 transparent: 'true',
                 zoom: '14',
 

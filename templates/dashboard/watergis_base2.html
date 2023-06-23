@@ -89,8 +89,10 @@
 
   <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- leaflet lagend graphic -->
 
   <script src="{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
@@ -222,7 +224,7 @@
   </style>
 
   <nav class="navbar navbar-expand-lg navbar-light " style="background-color:#191825;">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'watergis2' %}">
       <img src="{% static 'images/amrutvahinilogo.png' %}" alt="community-gis" class="logo-img">
     </a>
 
@@ -242,10 +244,13 @@
           <a class="nav-link text-white" href="/">Home</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="#">About</a>
+          <a class="nav-link text-white" href="{% url 'about' %}">About</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
           <a class="nav-link text-white" href="{% url 'waterquality' %}">Water Quality</a>
+        </li>
+        <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
+          <a class="nav-link text-white" href="{% url 'capt_wells' %}">Capture Wells</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
           <a class="nav-link text-white" href="{% url 'resources' %}">Resources</a>
