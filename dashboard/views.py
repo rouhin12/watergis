@@ -66,6 +66,9 @@ def watergis(request):
     context = {'wells': wells,'wellcount':wellcount}
     return render(request,'dashboard/watergis_backup.html',context)
 
+def about(request):
+    return render(request,'dashboard/about.html')
+
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 

@@ -1,257 +1,55 @@
-{% load static%}
-{% load i18n %}
-<!doctype html>
-<html lang="en">
+{% extends 'dashboard/watergis_base2.html' %}
+{% load static%} {% block content %}
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<style>
+    /* ... Your existing styles ... */
 
-    <!-- Bootstrap CSS -->
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    .scrollable-container {
+        height: 500px;
+        /* Set the desired height for the scrollable container */
+        overflow: auto;
+        /* Enable scrolling */
+    }
+</style>
 
-    <link rel="stylesheet" href="{% static 'footer.css' %}">
-    <link rel="stylesheet" href="{% static 'leaflet.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/L.Control.Pan.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/L.Control.Zoomslider.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/L.Control.MousePosition.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/L.Control.Sidebar.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/Leaflet.PolylineMeasure.css' %}">
-    <link rel="stylesheet" href="{% static 'plugins/easy-button.css' %}">
-    <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/mycss.css' %}">
+<!-- Your existing code -->
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-    <link rel="stylesheet" href="{% static 'front.css' %}">
+<div class="container mt-5 scrollable-container">
+    <!-- Content goes here -->
+    <h1>Resources</h1>
+    <hr>
+    <h6>Documents</h6>
+    <ul class="list-group">
 
-    <script src="{% static 'leaflet-src.js' %}"></script>
-    <!-- <script src="src/jquery-3.2.0.min.js"></script> -->
-    <script src="{% static 'plugins/L.Control.Pan.js' %}"></script>
-    <script src="{% static 'plugins/L.Control.Zoomslider.js' %}"></script>
-    <script src="{% static 'plugins/L.Control.MousePosition.js' %}"></script>
-    <script src="{% static 'plugins/L.Control.Sidebar.js' %}"></script>
-    <script src="{% static 'plugins/Leaflet.PolylineMeasure.js' %}"></script>
-    <script src="{% static 'plugins/easy-button.js' %}"></script>
-    <script src="{% static 'plugins/leaflet-providers.js' %}"></script>
-    <script src="{% static 'plugins/leaflet-opencage/src/js/L.Control.OpenCageSearch.js' %}"></script>
-    <!-- <script src="{% static 'app.js' %}"></script> -->
-    <!-- <link rel="stylesheet" type="leaflet.wms.js" href="{% static 'css/component.css' %}"  /> -->
-    <link rel="stylesheet" href="{% static 'mystyle.css' %}">
-    <link rel='stylesheet' href="{% static 'css/component.css' %}">
-    <script src="{% static 'plugins/leaflet.ajax.min.js' %}"></script>
-    <script src="{% static 'js/modernizr-custom.js' %}"></script>
-    <script src="{% static 'leaflet.wms.js' %}"></script>
+        {% for doc in documents %}
+        <li class="list-group-item">
+            <a href="{{ doc.url }}">{{ doc }}</a>
+        </li>
+        {% endfor %}
+    </ul><br>
+    <h6>Images</h6>
+    <div class="row mt-5">
 
-    <script src="{% static 'js/classie.js' %}"></script>
-    <!-- <script src="js/dummydata.js"></script> -->
-    <!-- <script src="src/js/main.js"></script> -->
-    <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'myscript.js' %}"></script>
-
-
-    <!-- scripts for spinner -->
-
-    <script src="{% static 'spin/spin.js'%}"></script>
-    <script src="{% static 'leaflet.spin.min.js' %}"></script>
-
-    <!-- font-awesome -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-
-
-    <!-- script for leaflet font awesome-->
-    <script src="{% static 'leaflet.awesome-markers.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet.awesome-markers.css' %}">
-
-
-
-    <!-- leaflet-messagebox-->
-    <script src="{% static 'leaflet-messagebox.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet-messagebox.css' %}">
-
-    <!-- leaflet-measure-->
-    <script src="{% static 'leaflet_measure/leaflet.measure.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet_measure/leaflet.measure.css' %}">
-
-
-    <!-- leaflet-search -->
-    <script src="{% static 'leaflet-search/leaflet-search.src.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet-search/leaflet-search.src.css' %}">
-
-
-    <!-- leaflet minimap -->
-    <script src="{% static 'leaflet-minimap/Control.MiniMap.min.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet-minimap/Control.MiniMap.min.css' %}">
-
-
-    <script src="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://common.olemiss.edu/_js/sweet-alert/sweet-alert.css">
-
-
-    <!-- leaflet lagend graphic -->
-
-    <script src="{% static 'leaflet-legend-graphics/leaflet.wmslegend.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'leaflet-legend-graphics/leaflet.wmslegend.css' %}">
-
-    <!-- <link rel="stylesheet" href=""/>
-<script src="leaflet-legend-graphics/leaflet.wmslegend.js"></script> -->
-
-    <!-- <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script> -->
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
-        integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
-        crossorigin="anonymous"></script>
-
-
-</head>
-
-<body>
-    <style>
-        body {
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            margin: 0;
-            overflow: hidden;
-        }
-
-        .full-height {
-            height: 100%;
-        }
-
-        .header {
-            height: 50px;
-        }
-
-        .mobileShow {
-            display: none;
-        }
-
-        /* Smartphone Portrait and Landscape */
-        @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-            .mobileShow {
-                display: inline;
-            }
-        }
-
-        .logo-img {
-            width: 300px !important;
-            height: 50px !important;
-        }
-
-        .project-title {
-            color: #000000;
-            font-size: 20px;
-            margin-right: 100px;
-            text-align: center;
-        }
-
-
-        .navbar {
-            border: red;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">
-            <img src="{% static 'images/amrutvahinilogo.png' %}" alt="community-gis" class="logo-img">
-        </a>
-
-        <div class="project-title">
-            चला जाणूया नदीला
-            <div style="font-size: small;">
-                Census Data Source : Census 2011
-            </div>
+        {% for image in images %}
+        <div class="col-md-6 mb-4">
+            <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
+                <img src="{{ image.file.url }}" alt="{{ image.title }}">
+            </a>
         </div>
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="btn btn-primary text-white" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'waterquality' %}" class="btn btn-primary text-white ml-2">Water Quality</a>
-                </li>
-                <li class="nav-item">
-                    <a href="{% url 'resources' %}" class="btn btn-primary text-white ml-2">Resources</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <style>
-        /* ... Your existing styles ... */
-
-        .scrollable-container {
-            height: 500px;
-            /* Set the desired height for the scrollable container */
-            overflow: auto;
-            /* Enable scrolling */
-        }
-    </style>
-
-    <!-- Your existing code -->
-
-    <div class="container mt-5 scrollable-container">
-        <!-- Content goes here -->
-        <h1>Resources</h1>
-        <hr>
-
-        <ul class="list-group">
-            <h6>Documents</h6>
-            {% for doc in documents %}
-            <li class="list-group-item">
-                <a href="{{ doc.url }}">{{ doc }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-
-        <div class="row mt-5">
-            <h6>Images</h6>
-            {% for image in images %}
-            <div class="col-md-6 mb-4">
-                <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
-                    <img src="{{ image.file.url }}" alt="{{ image.title }}">
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-
-        <div class="row mt-5">
-            <h6>Links </h6><br>
-            {% for link in links %}
-            <div class="col-md-6 mb-4">
-                <a href="{{ link.url }}">
-                    {{ link.title }}
-                </a>
-            </div>
-            {% endfor %}
-        </div>
+        {% endfor %}
     </div>
-</body>
+    <h6>Links </h6><br>
+    <ul class="list-group">
+
+        {% for link in links %}
+        <li class="list-group-item">
+            <a href="{{ link.url }}">
+                {{ link.title }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+{% endblock %}
