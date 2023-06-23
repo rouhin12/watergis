@@ -1,0 +1,167 @@
+<div class="subContent" id="NaturalFeatures">
+    <h5 class="heading">Natural Features</h5>
+    <hr>
+    <div class="custom-control custom-switch  m-2  ">
+        <input type="checkbox" class="custom-control-input" value="{drainage}" id="drainage"
+            onchange="showDrainage(this)">
+        <label class="custom-control-label" for="drainage">Show Drainage Basins</label>
+    </div>
+    <div class="accordion" id="accordionExample">
+        <div class="card" style="{% if feature.rivers == False %}display:none{% endif %}">
+            <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                    <button class="btn btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Rivers And Basins
+
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+
+                    {% for layer in layers %}
+
+                    {% if layer.sub_title == "basins" %}
+
+
+                    <div class="custom-control custom-switch m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="river_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label"
+                            for="river_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+
+                    {% endif %}
+                    {% empty %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert" style="">
+                        No Data Found
+                        {{feature.district_name}}
+                    </div>
+                    {% endfor %}
+
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "rivers" %}
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="rivers_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label "
+                            for="rivers_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="{% if feature.ground_water_recharge_priority == False %}display:none{% endif %}">
+            <div class="card-header" id="headingTwo">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Ground Water Recharge Priority
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div class="card-body">
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "ground_water_recharge_priority" %}
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="groundwater_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label "
+                            for="groundwater_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="card" style="{% if feature.villages_near_river == False %}display:none{% endif %}">
+            <div class="card-header" id="headingThree">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Villages Near River
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "villages_near_river" %}
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="villagenear_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label "
+                            for="villagenear_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        <div class="card" style="{% if feature.contours == False %}display:none{% endif %}">
+            <div class="card-header" id="headingFour">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                        Contours
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "contours" %}
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="contours_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label "
+                            for="contours_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="{% if feature.water_shed_boundaries == False %}display:none{% endif %}">
+            <div class="card-header" id="headingfive">
+                <h2 class="mb-0">
+                    <button class="btn  btn-block text-left collapsed" type="button" data-toggle="collapse"
+                        data-target="#collapseFive" aria-expanded="false" aria-controls="collapseThree">
+                        WaterShed Boundaries
+                    </button>
+                </h2>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                <div class="card-body">
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "watershed_boundaries" %}
+
+                    <div class="custom-control custom-switch  m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="watershed_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label "
+                            for="watershed_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+</div>

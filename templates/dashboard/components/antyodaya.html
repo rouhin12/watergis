@@ -1,0 +1,53 @@
+<div class="subContent" id="Antyodaya">
+    <h5 class="heading">Antyodaya</h5>
+    <hr>
+
+
+    <div class="accordion" id="accordionExample21">
+        <div class="card" style="{% if feature.antodaya == False %}display:none{% endif %}">
+            <div class="card-header" id="headingOne54">
+                <h2 class="mb-0">
+                    <button class="btn btn-block text-left" type="button" data-toggle="collapse"
+                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Antyodaya
+
+                    </button>
+                </h2>
+            </div>
+
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+
+                    {% for layer in layers %}
+                    {% if layer.sub_title == "antodaya" %}
+
+
+                    <div class="custom-control custom-switch m-2  ">
+                        <input type="checkbox" class="custom-control-input" value="{{layer.value}}"
+                            id="antyodaya_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                        <label class="custom-control-label"
+                            for="antyodaya_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                    </div>
+
+                    {% endif %}
+                    {% empty %}
+
+                    {% endfor %}
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+</div>
