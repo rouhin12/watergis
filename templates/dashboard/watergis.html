@@ -2747,6 +2747,10 @@
                             putWMS1("Indrayani_Basin");
                             console.log("Boundary is " + boundary)
                         }
+                        else if (boundary == "{Chandrapur_river}") {// Rivers Basin 
+                            putWMS1("Chandrapur_river__osm_22june2023");
+                            console.log("Boundary is " + boundary)
+                        }
                         else if (boundary == "{wainganaga_basin}") {
                             putWMS1("wainganga_riverline_7april23");
                             console.log("Boundary is " + boundary)
@@ -2891,6 +2895,9 @@
                         else if (boundary == "{drainage}") {//Drainage Basin 
                             removeWMS("Ahamadnagar_drainage_files");
 
+                        }
+                        else if (boundary == "{Chandrapur_river}") {//Drainage Basin 
+                            removeWMS("Chandrapur_river__osm_22june2023");
                         }
                         else if (boundary == "{ulhas_villages}") {
                             removeWMS("ulhas_villages");
