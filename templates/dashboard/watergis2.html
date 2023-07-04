@@ -10,6 +10,10 @@
 
 
 
+
+
+
+
     table,
     th,
     td {
@@ -87,180 +91,6 @@
         background: repeating-linear-gradient(to right, #ccc, #ccc 10%, #000 10%, #000 11%, #ccc 11%, #ccc 20%);
     }
 
-    #checkboxes9 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes9 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes8 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes8 label {
-        display: block;
-        text-align: left;
-        margin: 40px;
-    }
-
-    #checkboxes7 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes7 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes15 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes15 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes6 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes6 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes5 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes5 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes4 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes4 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes3 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes3 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    /* #checkboxes label:hover {
-  background-color: #1e90ff;
-} */
-
-    #checkboxes2 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes2 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes13 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes13 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes21 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes21 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes22 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes22 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes23 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes23 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes23 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes24 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes25 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes25 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
 
     .btn {
         margin: 10px;
@@ -661,7 +491,7 @@
                     </div>
                     <div id="navigatedarea">
                         <!--these two dropdowns are dependent-->
-                        <div class="form-group tooltips" title="Please select the State">
+                        <div class="form-group tooltips m-1" title="Please select the State">
                             <select class="form-control" id="indstate" name="indstate">
                                 <option value="All">Select State</option>
                                 <optgroup label="States">
@@ -683,8 +513,8 @@
 
 
 
-                        <form action="" method="get" id="form_district">
-                            <div class="form-group tooltips" title="Please select the District">
+                        <form action="" method="get" id="form_district" class="mt-2">
+                            <div class="form-group tooltips  m-1 " title="Please select the District">
                                 <select class="form-control" id="district" name="district">
                                     <option value="">Select District</option>
                                 </select>
@@ -752,8 +582,15 @@
                     data-bs-placement="right" title="Antyodaya">
                     <div class=" d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-people-roof fa-fw mr-3"></span>
-                        <span class="menu-collapsed">Antyodaya <span
-                                class="badge badge-pill badge-primary ml-2">5</span></span>
+                        <span class="menu-collapsed">Antyodaya</span>
+                    </div>
+                </a>
+                <a onclick="showContent('querybuilder')" class="bg-dark list-group-item list-group-item-action"
+                    style="{% if feature.antodaya == False %}display:none{% endif %}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Query Builder">
+                    <div class=" d-flex w-100 justify-content-start align-items-center">
+                        <span class="fa fa-gears fa-fw mr-3"></span>
+                        <span class="menu-collapsed">Query builder</span>
                     </div>
                 </a>
 
@@ -801,6 +638,8 @@
             {%include "dashboard/components/antyodaya.html"%}
 
             {% endfor %}
+
+            {%include "dashboard/components/querybuilder.html"%}
             {%include "dashboard/components/staterelateddata.html"%}
 
             <div class="text-center">
@@ -2003,6 +1842,7 @@
                 putWMS1("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 putWMS1("Ahamadnagar_drainage_filess")
+
             else {
                 swal({
                     title: "Sorry For Inconvience",
@@ -2044,6 +1884,7 @@
                 removeWMS("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 removeWMS("Ahamadnagar_drainage_filess")
+
         }
     }
 
@@ -2074,6 +1915,22 @@
         } else {
 
             removeWMS(antodaya);
+
+        }
+    }
+    function showAntodaya2(obj) {
+        let district = document.getElementById('district').value;
+        // alert(district);
+        var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        let boundary = obj.value;
+        // var antodaya = "geonode:" + newstring + "_antodaya_merged"
+        if ($(obj).is(":checked")) {
+
+            putWMS1(boundary)
+
+        } else {
+
+            removeWMS(boundary);
 
         }
     }
@@ -2209,6 +2066,13 @@
             else if (boundary == '{nashik_taste}') {
                 putWMS1("Nashik_water_quality_Taste")
             }
+            else if (boundary == '{nashik_taste}') {
+                putWMS1("Nashik_water_quality_Taste")
+            }
+            else if (boundary == '{chandrapur_river}') {
+                putWMS1("Chandrapur_river__osm_22june2023")
+            }
+
 
             //postgis
 
@@ -2323,6 +2187,9 @@
             }
             else if (boundary == '{nashik_taste}') {
                 removeWMS("Nashik_water_quality_Taste")
+            }
+            else if (boundary == '{chandrapur_river}') {
+                removeWMS("Chandrapur_river__osm_22june2023")
             }
             else
                 removeWMS("geonode:maha_demography_with_mumbai");
