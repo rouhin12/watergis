@@ -54,6 +54,7 @@ class Features(models.Model):
     geographical_hierarchy= models.BooleanField()
     antodaya = models.BooleanField()
     contours=models.BooleanField()
+    rainfall=models.BooleanField()
     state_name = models.CharField(max_length=100)
     district_name = models.CharField(max_length=100)
 
@@ -72,8 +73,12 @@ class Layers(models.Model):
         ('man_made_other_features', 'man_made_other_features'),
         ('population', 'population'),
         ('antyodaya', 'antyodaya'),
+        ('rainfall', 'rainfall'),
+        ('layers', 'layers'),
+        
         
     ]
+    
     SUB_TITLE=[
         ('drainage','drainage'),
         ('rivers','rivers'),
@@ -85,15 +90,34 @@ class Layers(models.Model):
         ('antodaya','antodaya'),
         ('basins','basins'),
         ('contours','contours'),
+        ('rainfall','rainfall'),
+        ('layers','layers'),
 
     ]
+    FUNCTION_CHOICES = (
+    ('putWMS1', 'putWMS1'),
+    ('putWMS2', 'putWMS2'),
+    ('putWMS', 'putWMS'),
+    )
+
+    METHOD_CHOICES = (
+    ('getBoundary(this)', 'getBoundary(this)'),
+    ('showAntodaya2(this)', 'showAntodaya2(this)'),
+    ('showAntodaya(this)', 'showAntodaya(this)'),
+    ('showContours(this)', 'showContours(this)'),
+    ('showDrainage(this)', 'showDrainage(this)'),
+    )
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100,null=True, default=None)
     title_id = models.CharField(max_length=100,choices=TITLE_CHOICES)
     sub_title = models.CharField(max_length=100,choices=SUB_TITLE)
     display_checkbox_name = models.CharField(max_length=100)
     value=models.CharField(max_length=100)
-    method=models.CharField(max_length=100)
+    method=models.CharField(max_length=100,choices=METHOD_CHOICES)
+    latlong=models.CharField(max_length=100)
+    function = models.CharField(max_length=100, choices=FUNCTION_CHOICES)
+    zoomlevel=models.CharField(max_length=100)
+    cql=models.CharField(max_length=100)
     features = models.ForeignKey(Features, on_delete=models.CASCADE) 
     
     def __str__(self):
@@ -138,6 +162,5 @@ class links(models.Model):
     url = models.CharField(max_length=100)
     def __str__(self):
         return self.title
-    class Meta:
-       managed = False
-       db_table = 'links'
+
+  
