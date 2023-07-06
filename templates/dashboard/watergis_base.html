@@ -190,8 +190,8 @@
       <ul class="navbar-nav ml-auto">
         <a class='btn btn-secondary' href="/" style="background-color: rgba(233, 89, 89, 0.508);">Home</a>
         <!-- <a class = 'btn btn-secondary' href="{% static 'images/Layer_creation_Beat_map_for_Solid_Waste_Management_2DEc2022_1.pdf'%}" style="background-color: rgba(233, 89, 89, 0.508);">Tutorial on 'Draw Map'</a> -->
-        <a href="{% url 'waterquality' %}" class="btn btn-primary text-white">
-          Water Quality
+        <a href="{% url 'water_related_forms' %}" class="btn btn-primary text-white">
+          Water Related Forms
         </a>
         <a href="{% url 'resources' %}" class="btn btn-primary text-white">
           Resources
@@ -200,7 +200,14 @@
           Amrutvahini 2
         </a>
       </ul>
-
+      <ul class="language-selector">
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <li>
+                <a href="{% url 'set_language' %}" data-language="{{ language.code }}">{{ language.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
 
     </div>
 
