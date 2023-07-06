@@ -152,7 +152,4 @@ class links(models.Model):
     def __str__(self):
         return self.title
     
-# class functionData(models.Model):
-#     methodname=models.CharField(max_length=100, blank=True, null=True)
-#     value=models.CharField(max_length=100, blank=True, null=True)
-#     usingfunction=models.CharField(max_length=100, blank=True, null=True)
+
