@@ -19,10 +19,18 @@ urlpatterns = [
     path('dashboard/watergis2', views.watergis_new2, name = 'watergis2'),
     path('dashboard/watergis_old', views.watergis, name = 'watergis_old'),
     path('dashboard/watergis/waterquality', views.water_quality_form, name = 'waterquality'),
+    path('dashboard/watergis/feature', views.feature, name = 'feature'),
+    path('dashboard/watergis/physical_feature', views.physical_feature, name = 'physical_feature'),
+    path('dashboard/watergis/water_usable', views.water_usable, name = 'water_usable'),
+    path('dashboard/watergis/human_form', views.human_form, name = 'human_form'),
+    path('dashboard/watergis/cultural', views.cultural, name = 'cultural'),
+    # path('dashboard/watergis/set_language', views.feature, name = 'set_language'),
+    path('set-language/',views.SetLanguageView, name='set_language'),
     path('dashboard/watergis/district', views.district_view, name = 'district_view'),
     path('dashboard/capt_wells', views.capt_wells, name = 'capt_wells'),
     path('dashboard/uploadwellpic', views.uploadwellpic, name='uploadwellpic'),
-    path('dashboard/resources', views.static_files_view, name='resources')
+    path('dashboard/resources', views.static_files_view, name='resources'),
+    path('dashboard/water_related_forms', views.water_related_forms, name='water_related_forms'),
     
 
 ]
