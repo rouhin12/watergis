@@ -10,6 +10,10 @@
 
 
 
+
+
+
+
     table,
     th,
     td {
@@ -87,180 +91,6 @@
         background: repeating-linear-gradient(to right, #ccc, #ccc 10%, #000 10%, #000 11%, #ccc 11%, #ccc 20%);
     }
 
-    #checkboxes9 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes9 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes8 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes8 label {
-        display: block;
-        text-align: left;
-        margin: 40px;
-    }
-
-    #checkboxes7 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes7 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes15 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes15 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes6 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes6 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes5 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes5 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes4 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes4 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes3 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes3 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    /* #checkboxes label:hover {
-  background-color: #1e90ff;
-} */
-
-    #checkboxes2 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes2 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes13 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes13 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes21 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes21 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes22 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes22 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes23 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes23 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes23 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes24 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
-
-    #checkboxes25 label {
-        display: block;
-        text-align: left;
-        margin: 10px;
-    }
-
-    #checkboxes25 {
-        display: none;
-        /* border: 1px #dadada solid; */
-    }
 
     .btn {
         margin: 10px;
@@ -301,6 +131,25 @@
         max-height: 150px;
         overflow-y: auto;
     }
+    .popup-element {
+    z-index: 1000;
+    }
+        /* Styling the scroll bar track */
+    .popup-content::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    }
+
+    /* Styling the scroll bar thumb */
+    .popup-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+    }
+
+    /* Styling the scroll bar thumb when hovering */
+    .popup-content::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    }
+
 
     /* css to customize Leaflet default styles  */
 
@@ -371,15 +220,48 @@
         opacity: 0.7;
     }
 
-    #myModal .modal-dialog {
-        max-width: 800px;
-        /* Set the desired max-width */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+
+
     }
 
     #myModal .modal-content {
         height: 500px;
         /* Set the desired height */
         overflow: auto;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
     }
 
     .con {
@@ -562,6 +444,24 @@
 
         z-index: 8;
     }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 768px) {
+        #sidebar-container {
+            margin-top: 10px;
+            /* Adjust the margin-top value as needed */
+        }
+
+        .navContent {
+            top: 0px;
+            width: 250px;
+            height: 50vh;
+        }
+    }
+
+    /* #myModal .modal-dialog {
+        max-width: 800px;
+        
+    } */
 </style>
 
 
@@ -573,7 +473,8 @@
         <!-- Sidebar -->
         <div id="sidebar-container" class="sidebar-expanded ">
             <a data-target="#top" data-toggle="sidebar-colapse"
-                class="text-white bg-dark list-group-item list-group-item-action d-flex align-items-center">
+                class="text-white bg-dark list-group-item list-group-item-action d-flex align-items-center"
+                data-bs-toggle="tooltip" data-bs-placement="right" title="Collapse">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span id="collapse-icon" class="fa fa-angles-right mr-3"></span>
                     <span id="collapse-text" class="menu-collapsed ">Collapse</span>
@@ -592,7 +493,8 @@
 
 
                 <a data-target="#submenu0" data-toggle="collapse" aria-expanded="false"
-                    class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                    class="bg-dark list-group-item list-group-item-action flex-column align-items-start"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Select District">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-building fa-fw mr-3"></span>
                         <span class="menu-collapsed">Select District </span>
@@ -608,7 +510,7 @@
                     </div>
                     <div id="navigatedarea">
                         <!--these two dropdowns are dependent-->
-                        <div class="form-group tooltips" title="Please select the State">
+                        <div class="form-group tooltips m-1" title="Please select the State">
                             <select class="form-control" id="indstate" name="indstate">
                                 <option value="All">Select State</option>
                                 <optgroup label="States">
@@ -630,8 +532,8 @@
 
 
 
-                        <form action="" method="get" id="form_district">
-                            <div class="form-group tooltips" title="Please select the District">
+                        <form action="" method="get" id="form_district" class="mt-2">
+                            <div class="form-group tooltips  m-1 " title="Please select the District">
                                 <select class="form-control" id="district" name="district">
                                     <option value="">Select District</option>
                                 </select>
@@ -654,7 +556,8 @@
 
 
                 <a onclick="showContent('Manmadewaterfeatures')" class="bg-dark list-group-item list-group-item-action"
-                    style="{% if feature.man_made_water_related_features == False %}display:none{% endif %}">
+                    style="{% if feature.man_made_water_related_features == False %}display:none{% endif %}"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Man-made water related features">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-water fa-fw mr-3"></span>
                         <span class="menu-collapsed" style="flex-grow: 1;
@@ -666,7 +569,8 @@
                 </a>
 
                 <a onclick="showContent('Manmadeotherfeatures')" class="bg-dark list-group-item list-group-item-action"
-                    style="{% if feature.man_made_other_features == False %}display:none{% endif %}">
+                    style="{% if feature.man_made_other_features == False %}display:none{% endif %}"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Man-made other features">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-bridge-water fa-fw mr-3"></span>
                         <span class="menu-collapsed" style="flex-grow: 1;
@@ -685,41 +589,30 @@
                 </li>
                 <!-- /END Separator -->
                 <a onclick="showContent('Population')" class="bg-dark list-group-item list-group-item-action"
-                    style="{% if feature.population == False %}display:none{% endif %}">
+                    style="{% if feature.population == False %}display:none{% endif %}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Population">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-person-shelter fa-fw mr-3"></span>
-                        <span class="menu-collapsed">Population</span>
+                        <span class="menu-collapsed">Census Data</span>
                     </div>
                 </a>
                 <a onclick="showContent('Antyodaya')" class="bg-dark list-group-item list-group-item-action"
-                    style="{% if feature.antodaya == False %}display:none{% endif %}">
-                    <div class="d-flex w-100 justify-content-start align-items-center">
+                    style="{% if feature.antodaya == False %}display:none{% endif %}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Antyodaya">
+                    <div class=" d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-people-roof fa-fw mr-3"></span>
-                        <span class="menu-collapsed">Antyodaya <span
-                                class="badge badge-pill badge-primary ml-2">5</span></span>
+                        <span class="menu-collapsed">Antyodaya</span>
                     </div>
                 </a>
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <!-- Modal content -->
-                            <div class="modal-header">
-                                <h4 class="modal-title">More Details</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body" id="modal_info">
-                                <!-- Add your model details here -->
-                                <!-- Content longer than the height will have a vertical scrollbar -->
-
-                                <!-- Example of long content -->
-                                <h1 class="text-center">Loading <i class="fa fa-spinner fa-spin"></i></h1>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
+                <a onclick="showContent('querybuilder')" class="bg-dark list-group-item list-group-item-action"
+                    style="{% if feature.antodaya == False %}display:none{% endif %}" data-bs-toggle="tooltip"
+                    data-bs-placement="right" title="Query Builder">
+                    <div class=" d-flex w-100 justify-content-start align-items-center">
+                        <span class="fa fa-gears fa-fw mr-3"></span>
+                        <span class="menu-collapsed">Query builder</span>
                     </div>
-                </div>
+                </a>
+
                 {% empty %}
 
 
@@ -733,7 +626,8 @@
                     <small>Maharashtra State Data</small>
                 </li>
                 <!-- /END Separator -->
-                <a onclick="showContent('Staterelateddata')" class="bg-dark list-group-item list-group-item-action">
+                <a onclick="showContent('Staterelateddata')" class="bg-dark list-group-item list-group-item-action"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="State Related Data">
                     <div class="d-flex w-100 justify-content-start align-items-center">
                         <span class="fa fa-earth-asia fa-fw mr-3"></span>
                         <span class="menu-collapsed">State Related
@@ -749,7 +643,7 @@
 
         <!-- content -->
 
-        <div class="navContent">
+        <div class="navContent" id="navpopup">
             <span id="closeNavContent">
                 <i class="fa fa-close"></i>
             </span>
@@ -763,14 +657,16 @@
             {%include "dashboard/components/antyodaya.html"%}
 
             {% endfor %}
+
+            {%include "dashboard/components/querybuilder.html"%}
             {%include "dashboard/components/staterelateddata.html"%}
 
             <div class="text-center">
                 <div class="btn-group" role="group" aria-label="Attribute Buttons">
-                    <button title="Show Attribute table" class="btn btn-info select" id="displayfulltable">
+                    <button title="Show Attribute table" class="btn btn-info " id="displayfulltable">
                         <i class="fa fa-list-alt" aria-hidden="true"></i>
                     </button>
-                    <button title="Show Attribute table" class="btn btn-info select" id="displaytable">
+                    <button title="Show Attribute table" class="btn btn-info " id="displaytable">
                         <i class="fa fa-table" aria-hidden="true"></i>
                     </button>
                     <button title="Download Attribute table" class="btn btn-success" id="downloadtable">
@@ -784,6 +680,27 @@
         </div>
 
 
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal content -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">More Details</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body" id="modal_info">
+                        <!-- Add your model details here -->
+                        <!-- Content longer than the height will have a vertical scrollbar -->
+
+                        <!-- Example of long content -->
+                        <h1 class="text-center">Loading <i class="fa fa-spinner fa-spin"></i></h1>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Map Container -->
         <div id="mapdiv"></div>
 
@@ -818,6 +735,7 @@
     // Collapse click
     $('[data-toggle=sidebar-colapse]').click(function () {
         SidebarCollapse();
+
     });
 
     $(function () {
@@ -843,9 +761,19 @@
             // sidebar close 
             var element = document.getElementById('sidebar-container');
             element.style.height = "calc(100vh - 200px)";
-            element.style.marginTop = "60px";
+            if (window.matchMedia("(min-device-width: 320px) and (max-device-width: 768px)").matches) {
+                element.style.height = "calc(100vh - 450px)";
+                element.style.marginTop = "0px";
+            }
+            else {
+                element.style.height = "calc(100vh - 200px)";
+                element.style.marginTop = "60px";
+            }
+            // element.style.marginTop = "60px";
             element.style.transition = "height 0.5s, margin-top 0.5s";
             sidebarVar = false;
+
+
 
         } else {
             SeparatorTitle.addClass('d-flex');
@@ -854,6 +782,7 @@
             element.style.marginTop = "0px";
             element.style.transition = "height 0.5s, margin-top 0.5s";
             sidebarVar = true;
+
 
         }
 
@@ -867,10 +796,13 @@
         // }
         // console.log(sidebarVar)
         if (sidebarVar) {
-            $('.open').css('left', '14.6rem');
+
+            var navpopup = document.getElementById('navpopup');
+            navpopup.style.left = "14.6rem";
         }
         else {
-            $('.open').css('left', '4rem');
+            var navpopup = document.getElementById('navpopup');
+            navpopup.style.left = "4rem";
         }
 
     }
@@ -885,7 +817,9 @@
     });
 
     function showContent(id) {
-
+        if (window.matchMedia("(min-device-width: 320px) and (max-device-width: 768px)").matches & sidebarVar) {
+            SidebarCollapse();
+        }
 
 
         if (!open) {
@@ -1661,231 +1595,6 @@
 
 
 
-    var expanded = false;
-
-    function showCheckboxes() {
-        var checkboxes = document.getElementById("checkboxes");
-        if (!expanded) {
-            checkboxes.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes2() {
-        var checkboxes2 = document.getElementById("checkboxes2");
-        if (!expanded) {
-            checkboxes2.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes2.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes3() {
-        var checkboxes3 = document.getElementById("checkboxes3");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes11() {
-        var checkboxes3 = document.getElementById("checkboxes11");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes12() {
-        var checkboxes3 = document.getElementById("checkboxes12");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes13() {
-        var checkboxes3 = document.getElementById("checkboxes13");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes14() {
-        var checkboxes3 = document.getElementById("checkboxes14");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes15() {
-        var checkboxes3 = document.getElementById("checkboxes15");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes16() {
-        var checkboxes3 = document.getElementById("checkboxes16");
-        if (!expanded) {
-            checkboxes3.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes3.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes4() {
-        var checkboxes4 = document.getElementById("checkboxes4");
-        if (!expanded) {
-            checkboxes4.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes4.style.display = "none";
-            expanded = false;
-        }
-    }
-
-
-    function showCheckboxes5() {
-        var checkboxes5 = document.getElementById("checkboxes5");
-        if (!expanded) {
-            checkboxes5.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes5.style.display = "none";
-            expanded = false;
-        }
-    }
-
-
-    function showCheckboxes6() {
-        var checkboxes6 = document.getElementById("checkboxes6");
-        if (!expanded) {
-            checkboxes6.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes6.style.display = "none";
-            expanded = false;
-        }
-    }
-
-
-    function showCheckboxes7() {
-        var checkboxes7 = document.getElementById("checkboxes7");
-        if (!expanded) {
-            checkboxes7.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes7.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes8() {
-        var checkboxes8 = document.getElementById("checkboxes8");
-        if (!expanded) {
-            checkboxes8.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes8.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes9() {
-        var checkboxes9 = document.getElementById("checkboxes9");
-        if (!expanded) {
-            checkboxes9.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes9.style.display = "none";
-            expanded = false;
-        }
-    }
-
-    function showCheckboxes10() {
-        var checkboxes10 = document.getElementById("checkboxes10");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes21() {
-        var checkboxes10 = document.getElementById("checkboxes21");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes22() {
-        var checkboxes10 = document.getElementById("checkboxes22");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes23() {
-        var checkboxes10 = document.getElementById("checkboxes23");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes24() {
-        var checkboxes10 = document.getElementById("checkboxes24");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
-    function showCheckboxes25() {
-        var checkboxes10 = document.getElementById("checkboxes25");
-        if (!expanded) {
-            checkboxes10.style.display = "block";
-            expanded = true;
-        } else {
-            checkboxes10.style.display = "none";
-            expanded = false;
-        }
-    }
 
     function showDrainage(obj) {
         let district = document.getElementById('district').value;
@@ -1927,6 +1636,13 @@
                 putWMS1("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 putWMS1("Ahamadnagar_drainage_filess")
+            {% for layer in alllayers %}
+            {% if layer.method == "showDrainage(this)" %}
+            else if (district == '{{layer.value}}') {
+                putWMS1("{{layer.name}}")
+            }
+            {% endif %}
+            {% endfor %}
             else {
                 swal({
                     title: "Sorry For Inconvience",
@@ -1968,6 +1684,14 @@
                 removeWMS("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 removeWMS("Ahamadnagar_drainage_filess")
+            {% for layer in alllayers %}
+            {% if layer.method == "showDrainage(this)" %}
+            else if (district == '{{layer.value}}') {
+                removeWMS("{{layer.name}}")
+            }
+            {% endif %}
+            {% endfor %}
+
         }
     }
 
@@ -2001,6 +1725,22 @@
 
         }
     }
+    function showAntodaya2(obj) {
+        let district = document.getElementById('district').value;
+        // alert(district);
+        var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        let boundary = obj.value;
+        // var antodaya = "geonode:" + newstring + "_antodaya_merged"
+        if ($(obj).is(":checked")) {
+
+            putWMS1(boundary)
+
+        } else {
+
+            removeWMS(boundary);
+
+        }
+    }
     function getBoundary(obj) {
         let boundary = obj.value;
         if ($(obj).is(":checked")) {
@@ -2017,126 +1757,145 @@
                 putwards("Mumbai Suburban", 'geonode:corporatorwardboundary_mumbai_13may');
             else if (boundary == "{mumadmsubwards}")
                 putwards("Mumbai Suburban", 'geonode:mumbai_ward_boundary');
-            else if (boundary == "{mah_river}") {
-                // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-                putWMS1("maharashtra_rivers_from_osm2");
-            }
-            else if (boundary == "{mini_ws}") {
-                // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-                putWMS1("mini_15_district0");
-            }
-            else if (boundary == "{pawana_basin}") {// Rivers Basin 
-                putWMS1("Pawana_Basin_Layer0");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{drainage}") {//Drainage Basin 
-                putWMS1("Ahamadnagar_drainage_files");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{indrayani_basin}") {// Rivers Basin 
-                putWMS1("Indrayani_Basin");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{wainganaga_basin}") {
-                putWMS1("wainganga_riverline_7april23");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{wainganaga_river}") {
-                putWMS1("wainganga_river");
+            // else if (boundary == "{mah_river}") {
+            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
+            //     putWMS1("maharashtra_rivers_from_osm2");
+            // }
+            // else if (boundary == "{mini_ws}") {
+            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
+            //     putWMS1("mini_15_district0");
+            // }
+            // else if (boundary == "{pawana_basin}") {// Rivers Basin 
+            //     putWMS1("Pawana_Basin_Layer0");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{drainage}") {//Drainage Basin 
+            //     putWMS1("Ahamadnagar_drainage_files");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{indrayani_basin}") {// Rivers Basin 
+            //     putWMS1("Indrayani_Basin");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{wainganaga_basin}") {
+            //     putWMS1("wainganga_riverline_7april23");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{wainganaga_river}") {
+            //     putWMS1("wainganga_river");
 
-            }
-            else if (boundary == "{chulband_nadi}") {
-                putWMS1("maharashtra_rivers_from_osm");
+            // }
+            // else if (boundary == "{chulband_nadi}") {
+            //     putWMS1("maharashtra_rivers_from_osm");
 
-            }
-            else if (boundary == "{ulhas_villages}") {
-                putWMS1("ulhas_villages");
+            // }
+            // else if (boundary == "{ulhas_villages}") {
+            //     putWMS1("ulhas_villages");
 
-            }
-            else if (boundary == "{bhandara_village}") {// Rivers Basin 
-                putWMS1("Bhandara_Shapefile_village");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{poisar}") {
-                putWMS1("poisar_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{dahisar}") {
-                putWMS1("Dahisar_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{oshiwara}") {
-                putWMS1("Oshiwara_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{pawana}") {
-                putWMS1("River_line_layers");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{indrayani}") {
-                putWMS1("Indrayani_river_line_layer");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{mithi}") {
-                putWMS1("Mithi_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{pawana_village}") {// Rivers Basin 
-                putWMS1("pawana_villages_poly_layers");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{indrayani_village}") {// Rivers Basin 
-                putWMS1("Indrayani_poly_village");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{agrani_village}")
-                putWMS1("Agrani_villages");
+            // }
+            // else if (boundary == "{bhandara_village}") {// Rivers Basin 
+            //     putWMS1("Bhandara_Shapefile_village");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{poisar}") {
+            //     putWMS1("poisar_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{dahisar}") {
+            //     putWMS1("Dahisar_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{oshiwara}") {
+            //     putWMS1("Oshiwara_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{pawana}") {
+            //     putWMS1("River_line_layers");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{indrayani}") {
+            //     putWMS1("Indrayani_river_line_layer");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{mithi}") {
+            //     putWMS1("Mithi_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{pawana_village}") {// Rivers Basin 
+            //     putWMS1("pawana_villages_poly_layers");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{indrayani_village}") {// Rivers Basin 
+            //     putWMS1("Indrayani_poly_village");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{agrani_village}")
+            //     putWMS1("Agrani_villages");
 
-            else if (boundary == "{ashele}") {
-                putWMS1("Ashele_GW")
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{ashele_priority}") {
-                putWMS1("Ashele_priority")
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{ashele_line}") {
-                putWMS1("Ashele_line")
-                // putWMS1("Ashele_priority")
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == '{nashik_turbidity}') {
-                putWMS1("Nashik_water_quality_turbidity")
-            }
+            // else if (boundary == "{ashele}") {
+            //     putWMS1("Ashele_GW")
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{ashele_priority}") {
+            //     putWMS1("Ashele_priority")
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{ashele_line}") {
+            //     putWMS1("Ashele_line")
+            //     // putWMS1("Ashele_priority")
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == '{nashik_turbidity}') {
+            //     putWMS1("Nashik_water_quality_turbidity")
+            // }
 
-            else if (boundary == '{nashik_alkalinity}') {
-                putWMS1("Nashik_water_quality_alkanility0")
-            }
-            else if (boundary == '{nashik_ph}') {
-                putWMS1("Nashik_water_quality_ph")
-            }
-            else if (boundary == '{nashik_nitrates}') {
-                putWMS1("Nashik_water_quality_Nitrates")
-            }
-            else if (boundary == '{nashik_flourides}') {
-                putWMS1("Nashik_water_quality_Flourides")
-            }
-            else if (boundary == '{nashik_chloride}') {
-                putWMS1("Nashik_water_quality_Chloride")
-            }
-            else if (boundary == '{nashik_sulphate}') {
-                putWMS1("Nashik_water_quality_Sulphate")
-            }
-            else if (boundary == '{nashik_odour}') {
-                putWMS1("Nashik_water_quality_Odour")
-            }
-            else if (boundary == '{nashik_taste}') {
-                putWMS1("Nashik_water_quality_Taste")
-            }
+            // else if (boundary == '{nashik_alkalinity}') {
+            //     putWMS1("Nashik_water_quality_alkanility0")
+            // }
+            // else if (boundary == '{nashik_ph}') {
+            //     putWMS1("Nashik_water_quality_ph")
+            // }
+            // else if (boundary == '{nashik_nitrates}') {
+            //     putWMS1("Nashik_water_quality_Nitrates")
+            // }
+            // else if (boundary == '{nashik_flourides}') {
+            //     putWMS1("Nashik_water_quality_Flourides")
+            // }
+            // else if (boundary == '{nashik_chloride}') {
+            //     putWMS1("Nashik_water_quality_Chloride")
+            // }
+            // else if (boundary == '{nashik_sulphate}') {
+            //     putWMS1("Nashik_water_quality_Sulphate")
+            // }
+            // else if (boundary == '{nashik_odour}') {
+            //     putWMS1("Nashik_water_quality_Odour")
+            // }
+            // else if (boundary == '{nashik_taste}') {
+            //     putWMS1("Nashik_water_quality_Taste")
+            // }
+            // else if (boundary == '{nashik_taste}') {
+            //     putWMS1("Nashik_water_quality_Taste")
+            // }
+            // else if (boundary == '{chandrapur_river}') {
+            //     putWMS1("Chandrapur_river__osm_22june2023")
+            // }
 
-            //postgis
-
-
+            //  fetching from admin panel 
+            {% for layer in alllayers %}
+            {% if layer.method == "getBoundary(this)" %}
+                {% if layer.function == "putWMS2" %}
+                    else if (boundary == '{{layer.value}}') {
+                        putWMS2("{{layer.name}}")
+                    }   
+                {% else %}
+                    else if (boundary == '{{layer.value}}') {
+                        putWMS1("{{layer.name}}")
+                    }
+                {% endif %}
+            
+            {% endif %}
+            {% endfor %}
+           
             else if (boundary == "{ws}") {
                 // putWMS("rtp:pune_toilets");
                 putWMS1("rtp:pune_toilets");
@@ -2158,98 +1917,110 @@
                 removewards();
             else if (boundary == "{mumadm}")
                 removewards();
-            else if (boundary == "{pawana_basin}")
-                removeWMS("Pawana_Basin_Layer0");
-            else if (boundary == "{indrayani_basin}")
-                removeWMS("Indrayani_Basin");
-            else if (boundary == "{poisar}")
-                removeWMS("poisar_River_Nov22");
-            else if (boundary == "{pawana}")
-                removeWMS("River_line_layers");
-            else if (boundary == "{indrayani}")
-                removeWMS("Indrayani_river_line_layer");
-            else if (boundary == "{dahisar}") {
-                removeWMS("Dahisar_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{agrani_village}")
-                removeWMS("Agrani_villages");
-            else if (boundary == "{wainganaga_basin}") {
-                removeWMS("wainganga_riverline_7april23");
+            // else if (boundary == "{pawana_basin}")
+            //     removeWMS("Pawana_Basin_Layer0");
+            // else if (boundary == "{indrayani_basin}")
+            //     removeWMS("Indrayani_Basin");
+            // else if (boundary == "{poisar}")
+            //     removeWMS("poisar_River_Nov22");
+            // else if (boundary == "{pawana}")
+            //     removeWMS("River_line_layers");
+            // else if (boundary == "{indrayani}")
+            //     removeWMS("Indrayani_river_line_layer");
+            // else if (boundary == "{dahisar}") {
+            //     removeWMS("Dahisar_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{agrani_village}")
+            //     removeWMS("Agrani_villages");
+            // else if (boundary == "{wainganaga_basin}") {
+            //     removeWMS("wainganga_riverline_7april23");
 
-            }
-            else if (boundary == "{drainage}") {//Drainage Basin 
-                removeWMS("Ahamadnagar_drainage_files");
+            // }
+            // else if (boundary == "{drainage}") {//Drainage Basin 
+            //     removeWMS("Ahamadnagar_drainage_files");
 
-            }
-            else if (boundary == "{ulhas_villages}") {
-                removeWMS("ulhas_villages");
+            // }
+            // else if (boundary == "{ulhas_villages}") {
+            //     removeWMS("ulhas_villages");
 
-            }
-            else if (boundary == "{chulband_nadi}") {
-                removeWMS("maharashtra_rivers_from_osm");
+            // }
+            // else if (boundary == "{chulband_nadi}") {
+            //     removeWMS("maharashtra_rivers_from_osm");
 
-            }
-            else if (boundary == "{wainganaga_river}") {
-                removeWMS("wainganga_river");
+            // }
+            // else if (boundary == "{wainganaga_river}") {
+            //     removeWMS("wainganga_river");
 
+            // }
+            // else if (boundary == "{bhandara_village}")
+            //     removeWMS("Bhandara_Shapefile_village");
+            // else if (boundary == "{mithi}")
+            //     removeWMS("Mithi_River_Nov22");
+            // else if (boundary == "{oshiwara}") {
+            //     removeWMS("Oshiwara_River_Nov22");
+            //     console.log("Boundary is " + boundary)
+            // }
+            // else if (boundary == "{pawana_village}")
+            //     removeWMS("pawana_villages_poly_layers");
+            // else if (boundary == "{indrayani_village}")
+            //     removeWMS("Indrayani_poly_village");
+            // else if (boundary == "{mini_ws}")
+            //     removeWMS("mini_15_district0")
+            // else if (boundary == "{mah_river}") {
+            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
+            //     removeWMS("maharashtra_rivers_from_osm2");
+            // }
+            // else if (boundary == '{ashele}') {
+            //     removeWMS("Ashele_GW")
+            // }
+            // else if (boundary == '{ashele_priority}') {
+            //     removeWMS("Ashele_priority")
+            // }
+            // else if (boundary == '{ashele_line}') {
+            //     removeWMS("Ashele_line")
+            // }
+            // else if (boundary == '{nashik_turbidity}') {
+            //     removeWMS("Nashik_water_quality_turbidity")
+            // }
+            // else if (boundary == '{nashik_alkalinity}') {
+            //     removeWMS("Nashik_water_quality_alkanility0")
+            // }
+            // else if (boundary == '{nashik_ph}') {
+            //     removeWMS("Nashik_water_quality_ph")
+            // }
+            // else if (boundary == '{nashik_nitrates}') {
+            //     removeWMS("Nashik_water_quality_Nitrates")
+            // }
+            // else if (boundary == '{nashik_flourides}') {
+            //     removeWMS("Nashik_water_quality_Flourides")
+            // }
+            // else if (boundary == '{nashik_chloride}') {
+            //     removeWMS("Nashik_water_quality_Chloride")
+            // }
+            // else if (boundary == '{nashik_sulphate}') {
+            //     removeWMS("Nashik_water_quality_Sulphate")
+            // }
+            // else if (boundary == '{nashik_odour}') {
+            //     removeWMS("Nashik_water_quality_Odour")
+            // }
+            // else if (boundary == '{nashik_taste}') {
+            //     removeWMS("Nashik_water_quality_Taste")
+            // }
+            // else if (boundary == '{chandrapur_river}') {
+            //     removeWMS("Chandrapur_river__osm_22june2023")
+            // }
+            //  fetching from admin panel 
+            {% for layer in alllayers %}
+            {% if layer.method == "getBoundary(this)" %}
+            else if (boundary == '{{layer.value}}') {
+                removeWMS("{{layer.name}}")
             }
-            else if (boundary == "{bhandara_village}")
-                removeWMS("Bhandara_Shapefile_village");
-            else if (boundary == "{mithi}")
-                removeWMS("Mithi_River_Nov22");
-            else if (boundary == "{oshiwara}") {
-                removeWMS("Oshiwara_River_Nov22");
-                console.log("Boundary is " + boundary)
-            }
-            else if (boundary == "{pawana_village}")
-                removeWMS("pawana_villages_poly_layers");
-            else if (boundary == "{indrayani_village}")
-                removeWMS("Indrayani_poly_village");
-            else if (boundary == "{mini_ws}")
-                removeWMS("mini_15_district0")
-            else if (boundary == "{mah_river}") {
-                // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-                removeWMS("maharashtra_rivers_from_osm2");
-            }
-            else if (boundary == '{ashele}') {
-                removeWMS("Ashele_GW")
-            }
-            else if (boundary == '{ashele_priority}') {
-                removeWMS("Ashele_priority")
-            }
-            else if (boundary == '{ashele_line}') {
-                removeWMS("Ashele_line")
-            }
-            else if (boundary == '{nashik_turbidity}') {
-                removeWMS("Nashik_water_quality_turbidity")
-            }
-            else if (boundary == '{nashik_alkalinity}') {
-                removeWMS("Nashik_water_quality_alkanility0")
-            }
-            else if (boundary == '{nashik_ph}') {
-                removeWMS("Nashik_water_quality_ph")
-            }
-            else if (boundary == '{nashik_nitrates}') {
-                removeWMS("Nashik_water_quality_Nitrates")
-            }
-            else if (boundary == '{nashik_flourides}') {
-                removeWMS("Nashik_water_quality_Flourides")
-            }
-            else if (boundary == '{nashik_chloride}') {
-                removeWMS("Nashik_water_quality_Chloride")
-            }
-            else if (boundary == '{nashik_sulphate}') {
-                removeWMS("Nashik_water_quality_Sulphate")
-            }
-            else if (boundary == '{nashik_odour}') {
-                removeWMS("Nashik_water_quality_Odour")
-            }
-            else if (boundary == '{nashik_taste}') {
-                removeWMS("Nashik_water_quality_Taste")
-            }
+            {% endif %}
+            {% endfor %}
+            // end admin panel code
             else
-                removeWMS("geonode:maha_demography_with_mumbai");
+            removeWMS("geonode:maha_demography_with_mumbai");
 
 
         }
@@ -3387,6 +3158,41 @@
 
     }
 
+    function setViewByDistrict(layerName, state, district) {
+        // if (area) {
+        //     mymap.removeLayer(area);
+        // }
+        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+
+        let options = {
+            service: 'WFS',
+            version: '1.0.0',
+            request: 'GetFeature',
+            outputFormat: 'application/json',
+            typeName: layerName,
+            cql_filter: `state='${state}' AND district='${district}'`,
+            propertyName: 'the_geom'
+        };
+        let parameters = L.Util.extend(options);
+        layer_url = rootUrl + L.Util.getParamString(parameters)
+
+        fetch(layer_url).then(
+            function (response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' +
+                        response.status);
+                    return;
+                }
+                response.json().then(function (geojsonData) {
+                    area = L.geoJson(geojsonData.features)
+                    lat = area.getBounds()._northEast.lat
+                    lng = area.getBounds()._northEast.lng
+                    mymap.setView([lat - .5, lng - 0.9], 9)
+                });
+            }).catch(function (err) {
+                console.log('Fetch Error :-S', err);
+            });
+    }
 
     function putWMSLayerdist() {
         var dist = document.getElementById('district').value;
@@ -3413,7 +3219,7 @@
         //clear_layer();
         //clearpoint_layer();
         wms_layer.addTo(mymap);
-        //mymap.setView([stLayerLatLong[1],stLayerLatLong[2]],8);
+        setViewByDistrict('geonode:india_pincodes_12june', state, dist);
         distLayerList.push(wms_layer);
         // addWMSLegend(layer);
 
@@ -4148,6 +3954,177 @@
 
     }
     // function to display all popups 
+    function Identify_i(e) {
+
+        //console.log("Identify");
+        // set parameters needed for GetFeatureInfo WMS request
+        var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
+        var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
+        var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
+        var WIDTH = mymap.getSize().x;
+        var HEIGHT = mymap.getSize().y;
+
+        var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
+        var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+
+        // compose the URL for the request
+        console.log(e);
+
+        var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
+        // console.log(URL);
+        //send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
+        tableurl = URL;
+        console.log("url tribe", URL)
+        $.ajax({
+            url: URL,
+            dataType: "json",
+            type: "GET",
+            success: function (data) {
+                if (data.features.length !== 0) { // at least one feature returned in response
+                    var feature = data.features[0]; // first feature from response
+                    console.log(feature);
+                    // Set up popup for clicked feature and open it
+                    var popup = new L.Popup({
+                        maxWidth: 300
+                    });
+                    var showpopup = false
+                    if (feature.properties.category === "at") {
+                        //console.log("I reached at");
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    } else if (feature.properties.category === "m") {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    } else if (feature.properties.category === "mm") {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+
+                    } else if (feature.properties.category === "t") {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+
+                    } else if (feature.properties.f_ill) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
+                            "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
+                            "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
+                            "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
+                            "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
+                            "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
+
+                    } else if (feature.properties.ass_car) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
+                            "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
+                            "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
+                            "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
+                            "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
+
+                    } else if (feature.properties.town_name) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                            "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
+                            "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
+                            "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
+                            "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
+                            "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
+
+                    } else if (feature.properties.village_na) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
+                            "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
+                            "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
+                            "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
+                            "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
+                            "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
+
+                    }
+                    else if (feature.properties.area_irr) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
+                            "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
+                            "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
+                            "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
+                            "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
+                            "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
+                            "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
+
+                    }
+                    else if (feature.properties.SEGMENT_ID) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
+                            "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
+                            "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
+                            "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
+                            "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
+                            "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
+                            "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
+                            "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
+
+                    }
+                    else if (feature.properties.ELEV) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
+                            "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
+                            "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
+                            "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
+
+                    }
+                    else if (feature.properties.TypeofSour) {
+                        showpopup = true
+                        insti_content = "<table class = 'popupclass' ><tr><td><b>Nashik Wells </b></td><td>" + feature.properties.fid + "</td></tr>" +
+                            "<tr><td><b>taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
+                            "<tr><td><b>village</b></td><td>" + feature.properties.village + "</td></tr>" +
+                            "<tr><td>TypeofSource</td><td><b>" + feature.properties.TypeofSour + "<b></td></tr>" +
+                            "<tr><td>color</td><td><b>" + feature.properties.color + "<b></td></tr>" +
+                            "<tr><td>odur</td><td><b>" + feature.properties.odur + "<b></td></tr>" +
+                            "<tr><td>Taste</td><td><b>" + feature.properties.Test + "<b></td></tr>" +
+                            "<tr><td>Ph</td><td><b>" + feature.properties.Ph + "<b></td></tr>" +
+                            "<tr><td>Alkalinity</td><td><b>" + feature.properties.Alkalinity + "<b></td></tr>" +
+                            "<tr><td>Chloride</td><td><b>" + feature.properties.Chloride + "<b></td></tr>" +
+                            "<tr><td>Fluoride</td><td><b>" + feature.properties.Fluoride + "<b></td></tr>" +
+                            "<tr><td>Nitrate</td><td><b>" + feature.properties.Nitrate + "<b></td></tr>" +
+                            "<tr><td>Sulphate</td><td><b>" + feature.properties.Sulphate + "<b></td></tr>" +
+                            "<tr><td>Iron</td><td><b>" + feature.properties.Iron + "<b></td></tr>" +
+                            "<tr><td>Ca</td><td><b>" + feature.properties.Ca + "<b></td></tr>" +
+                            "<tr><td>Remark for drinking</td><td><b>" + feature.properties.Remark + "<b></td></tr>" +
+                            "<tr><td>Turbidity</td><td><b>" + feature.properties.Turbidityr + "<b></td></tr>";
+
+                    }
+
+
+                    if (showpopup) {
+                        popup.setContent(insti_content);
+                        popup.setLatLng(e.latlng);
+                        mymap.openPopup(popup);
+                    }
+
+
+                }
+            }
+        });
+    }
     function Identify(e) {
 
         //console.log("Identify");
@@ -4181,107 +4158,149 @@
                     var popup = new L.Popup({
                         maxWidth: 300
                     });
-                    if (feature.properties.category === "at") {
-                        //console.log("I reached at");
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    } else if (feature.properties.category === "m") {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    } else if (feature.properties.category === "mm") {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    var showpopup = false
+                    var properties = feature.properties;
 
-                    } else if (feature.properties.category === "t") {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    var popupContent = "<div class='popup-content'><table class='popupclass'>";
+                        for (var key in properties) {
+                            showpopup = true;
+                            popupContent += "<tr><td><b>" + key + ":</b></td><td>" + properties[key] + "</td></tr>";
+                        }
+                        popupContent += "</table></div>";
+                    // if (feature.properties.category === "at") {
+                    //     //console.log("I reached at");
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    // } else if (feature.properties.category === "m") {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
+                    // } else if (feature.properties.category === "mm") {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
 
-                    } else if (feature.properties.f_ill) {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
-                            "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
-                            "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
-                            "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
-                            "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
+                    // } else if (feature.properties.category === "t") {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
+                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
+                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
 
-                    } else if (feature.properties.ass_car) {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
-                            "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
-                            "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
-                            "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
-                            "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
+                    // } else if (feature.properties.f_ill) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
+                    //         "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
+                    //         "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
+                    //         "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
+                    //         "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
+                    //         "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
 
-                    } else if (feature.properties.town_name) {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
-                            "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
-                            "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
-                            "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
-                            "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
+                    // } else if (feature.properties.ass_car) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
+                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
+                    //         "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
+                    //         "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
+                    //         "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
+                    //         "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
 
-                    } else if (feature.properties.village_na) {
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-                            "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
-                            "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
-                            "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
-                            "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
-                            "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
+                    // } else if (feature.properties.town_name) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    //         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
+                    //         "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
+                    //         "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
+                    //         "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
+                    //         "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
 
+                    // } else if (feature.properties.village_na) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
+                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
+                    //         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
+                    //         "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
+                    //         "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
+                    //         "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
+                    //         "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
+
+                    // }
+                    // else if (feature.properties.area_irr) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
+                    //         "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
+                    //         "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
+                    //         "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
+                    //         "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
+                    //         "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
+                    //         "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
+
+                    // }
+                    // else if (feature.properties.SEGMENT_ID) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
+                    //         "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
+                    //         "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
+                    //         "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
+                    //         "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
+                    //         "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
+                    //         "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
+                    //         "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
+
+                    // }
+                    // else if (feature.properties.ELEV) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
+                    //         "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
+                    //         "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
+                    //         "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
+
+                    // }
+                    // else if (feature.properties.TypeofSour) {
+                    //     showpopup = true
+                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Nashik Wells </b></td><td>" + feature.properties.fid + "</td></tr>" +
+                    //         "<tr><td><b>taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
+                    //         "<tr><td><b>village</b></td><td>" + feature.properties.village + "</td></tr>" +
+                    //         "<tr><td>TypeofSource</td><td><b>" + feature.properties.TypeofSour + "<b></td></tr>" +
+                    //         "<tr><td>color</td><td><b>" + feature.properties.color + "<b></td></tr>" +
+                    //         "<tr><td>odur</td><td><b>" + feature.properties.odur + "<b></td></tr>" +
+                    //         "<tr><td>Taste</td><td><b>" + feature.properties.Test + "<b></td></tr>" +
+                    //         "<tr><td>Ph</td><td><b>" + feature.properties.Ph + "<b></td></tr>" +
+                    //         "<tr><td>Alkalinity</td><td><b>" + feature.properties.Alkalinity + "<b></td></tr>" +
+                    //         "<tr><td>Chloride</td><td><b>" + feature.properties.Chloride + "<b></td></tr>" +
+                    //         "<tr><td>Fluoride</td><td><b>" + feature.properties.Fluoride + "<b></td></tr>" +
+                    //         "<tr><td>Nitrate</td><td><b>" + feature.properties.Nitrate + "<b></td></tr>" +
+                    //         "<tr><td>Sulphate</td><td><b>" + feature.properties.Sulphate + "<b></td></tr>" +
+                    //         "<tr><td>Iron</td><td><b>" + feature.properties.Iron + "<b></td></tr>" +
+                    //         "<tr><td>Ca</td><td><b>" + feature.properties.Ca + "<b></td></tr>" +
+                    //         "<tr><td>Remark for drinking</td><td><b>" + feature.properties.Remark + "<b></td></tr>" +
+                    //         "<tr><td>Turbidity</td><td><b>" + feature.properties.Turbidityr + "<b></td></tr>";
+
+                    // }
+
+
+                    if (showpopup) {
+                        
+                        popup.setContent(popupContent);
+                        popup.setLatLng(e.latlng);
+                        mymap.openPopup(popup);
                     }
-                    else if (feature.properties.area_irr) {
-
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
-                            "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
-                            "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
-                            "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
-                            "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
-                            "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
-                            "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
-
-                    }
-                    else if (feature.properties.SEGMENT_ID) {
-
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
-                            "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
-                            "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
-                            "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
-                            "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
-                            "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
-                            "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
-                            "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
-
-                    }
-                    else if (feature.properties.ELEV) {
-
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                            "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
-                            "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
-                            "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
-
-                    }
 
 
-
-                    popup.setContent(insti_content);
-                    popup.setLatLng(e.latlng);
-                    mymap.openPopup(popup);
                 }
             }
         });
@@ -4949,118 +4968,126 @@
         console.log(wms_layer1);
         if (layer == 'Pawana_Basin_Layer0')
             mymap.flyTo([18.637, 73.605], 11);
-        else if (layer == 'Indrayani_Basin')
-            mymap.flyTo([18.688, 73.598], 11);
-        else if (layer == 'wainganga_riverline_7april23')
-            mymap.flyTo([21.077, 79.599], 11);
-        else if (layer == 'poisar_River_Nov22')
-            mymap.flyTo([19.210712, 72.835955], 14);
-        else if (layer == 'Dahisar_River_Nov22')
-            mymap.flyTo([19.255310, 72.854402], 14);
-        else if (layer == 'Ahamadnagar_drainage_files')
-            mymap.flyTo([19.423, 74.548], 10);
-        else if (layer == 'Oshiwara_River_Nov22')
-            mymap.flyTo([19.161106, 72.858474], 13);
-        else if (layer == 'River_line_layers')
-            mymap.flyTo([18.663, 73.59], 12);
-        else if (layer == 'Indrayani_river_line_layer')
-            mymap.flyTo([18.741, 73.587], 11);
-        else if (layer == 'Mithi_River_Nov22')
-            mymap.flyTo([19.09546, 72.87995], 14);
-        else if (layer == 'ulhas_villages')
-            mymap.flyTo([19.244, 73.12], 11);
-        else if (layer == 'maharashtra_rivers_from_osm')
-            mymap.flyTo([19.6322, 76.032], 7);
-        else if (layer == 'mini_15_district0')
-            mymap.flyTo([19.6322, 76.032], 7);
-        else if (layer == 'pawana_villages_poly_layers')
-            mymap.flyTo([18.633, 73.604], 12);
-        else if (layer == 'Indrayani_poly_village')
-            mymap.flyTo([18.688, 73.598], 11);
-        else if (layer == 'Agrani_villages')
-            mymap.flyTo([17.054, 74.765], 11);
-        else if (layer == 'Ashele_GW') {
-            mymap.flyTo([19.2107, 73.1523], 15);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Bhandara_tumsar_mothagaon_gsda_priority') {
-            mymap.flyTo([21.509, 79.6621], 14);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Bhandara_tumsar_bhondki_gsda_priority') {
-            mymap.flyTo([21.4666, 79.7138], 14);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Bhandara_tumsar_mothagaon_gsda_lineament') {
-            mymap.flyTo([21.51, 79.662], 14);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Bhandara_tumsar_binakhi_gsda_lineament') {
-            mymap.flyTo([21.489, 79.8818], 14);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Ashele_priority') {
-            mymap.flyTo([19.2107, 73.1523], 15);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Ashele_line') {
-            mymap.flyTo([19.2107, 73.1523], 15);
-            addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_turbidity') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_alkanility0') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_ph') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Nitrates') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Flourides') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Chloride') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Sulphate') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Odour') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Nashik_water_quality_Taste') {
-            mymap.flyTo([19.2107, 73.1523], 8);
-            // addWMSLegend1(layer);
-        }
-        else if (layer == 'Bhandara_Shapefile_village') {
-            mymap.flyTo([21.1085634965, 79.786], 8);
-            // addWMSLegend1(layer);
-        }
+        // else if (layer == 'Indrayani_Basin')
+        //     mymap.flyTo([18.688, 73.598], 11);
+        // else if (layer == 'wainganga_riverline_7april23')
+        //     mymap.flyTo([21.077, 79.599], 11);
+        // else if (layer == 'poisar_River_Nov22')
+        //     mymap.flyTo([19.210712, 72.835955], 14);
+        // else if (layer == 'Dahisar_River_Nov22')
+        //     mymap.flyTo([19.255310, 72.854402], 14);
+        // else if (layer == 'Ahamadnagar_drainage_files')
+        //     mymap.flyTo([19.423, 74.548], 10);
+        // else if (layer == 'Oshiwara_River_Nov22')
+        //     mymap.flyTo([19.161106, 72.858474], 13);
+        // else if (layer == 'River_line_layers')
+        //     mymap.flyTo([18.663, 73.59], 12);
+        // else if (layer == 'Indrayani_river_line_layer')
+        //     mymap.flyTo([18.741, 73.587], 11);
+        // else if (layer == 'Mithi_River_Nov22')
+        //     mymap.flyTo([19.09546, 72.87995], 14);
+        // else if (layer == 'ulhas_villages')
+        //     mymap.flyTo([19.244, 73.12], 11);
+        // else if (layer == 'maharashtra_rivers_from_osm')
+        //     mymap.flyTo([19.6322, 76.032], 7);
+        // else if (layer == 'mini_15_district0')
+        //     mymap.flyTo([19.6322, 76.032], 7);
+        // else if (layer == 'pawana_villages_poly_layers')
+        //     mymap.flyTo([18.633, 73.604], 12);
+        // else if (layer == 'Indrayani_poly_village')
+        //     mymap.flyTo([18.688, 73.598], 11);
+        // else if (layer == 'Agrani_villages')
+        //     mymap.flyTo([17.054, 74.765], 11);
+        // else if (layer == 'Ashele_GW') {
+        //     mymap.flyTo([19.2107, 73.1523], 15);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Bhandara_tumsar_mothagaon_gsda_priority') {
+        //     mymap.flyTo([21.509, 79.6621], 14);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Bhandara_tumsar_bhondki_gsda_priority') {
+        //     mymap.flyTo([21.4666, 79.7138], 14);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Bhandara_tumsar_mothagaon_gsda_lineament') {
+        //     mymap.flyTo([21.51, 79.662], 14);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Bhandara_tumsar_binakhi_gsda_lineament') {
+        //     mymap.flyTo([21.489, 79.8818], 14);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Ashele_priority') {
+        //     mymap.flyTo([19.2107, 73.1523], 15);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Ashele_line') {
+        //     mymap.flyTo([19.2107, 73.1523], 15);
+        //     addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_turbidity') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_alkanility0') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_ph') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Nitrates') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Flourides') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Chloride') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Sulphate') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Odour') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Nashik_water_quality_Taste') {
+        //     mymap.flyTo([19.2107, 73.1523], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        // else if (layer == 'Bhandara_Shapefile_village') {
+        //     mymap.flyTo([21.1085634965, 79.786], 8);
+        //     // addWMSLegend1(layer);
+        // }
+        {% for layer in alllayers %}
+        
+        else if (layer == '{{layer.name}}') {
+            mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
+    }
+
+    {% endfor %}
 
 
-        if (wms_legend) {
-            mymap.removeControl(wms_legend);
-        }
-        if (wms_legend1) {
-            mymap.removeControl(wms_legend1);
-        }
-        console.log(wms_legend);
-        addWMSLegend(layer);
-        addWMSLegend1(layer);
-        // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
-        TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
-        tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
+
+    if (wms_legend) {
+        mymap.removeControl(wms_legend);
+    }
+    if (wms_legend1) {
+        mymap.removeControl(wms_legend1);
+    }
+    console.log(wms_legend);
+    addWMSLegend(layer);
+    addWMSLegend1(layer);
+    // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+    TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
+    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
         // console.log(TRIBLAYER);
 
         // Function to fetch data from WFS
@@ -5068,6 +5095,71 @@
 
     }
 
+
+    function putWMS2(layer,cql) {
+        console.log("layer" + layer);
+        var wms_layer1;
+        var selectedLayerBounds;
+        if (cql != "") {
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: 'true',
+                zoom: '14',
+
+                cql_filter: cql,
+            });
+
+        }
+        else {
+
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: 'true',
+                zoom: '14',
+                // propertyName: 'field_13,latitude,longitude', 
+            });
+
+        }
+
+
+
+        wms_layer1.addTo(mymap);
+        newLayerList.push(wms_layer1);
+
+        console.log(wms_layer1);
+        if (layer == 'Pawana_Basin_Layer0')
+            mymap.flyTo([18.637, 73.605], 11);
+        
+        {% for layer in alllayers %}
+        
+        else if (layer == '{{layer.name}}') {
+            mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
+        }
+
+        {% endfor %}
+
+
+
+    if (wms_legend) {
+        mymap.removeControl(wms_legend);
+    }
+    if (wms_legend1) {
+        mymap.removeControl(wms_legend1);
+    }
+    console.log(wms_legend);
+    addWMSLegend(layer);
+    addWMSLegend1(layer);
+    // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+    TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
+    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
+        // console.log(TRIBLAYER);
+
+        // Function to fetch data from WFS
+
+
+    }
 
 
     $('#view_water').on('change', function () {

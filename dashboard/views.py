@@ -57,8 +57,9 @@ def watergis_new2(request):
 
     # Query the Layers model to get the layers related to the district
     layers = Layers.objects.filter(features__district_name=user_district)
+    Alllayers = Layers.objects.all()
 
-    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
+    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers,'alllayers':Alllayers}
     return render(request,'dashboard/watergis2.html',context)
 
 def watergis(request):
