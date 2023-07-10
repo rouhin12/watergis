@@ -484,6 +484,11 @@
                     </div>
                 </form>
 
+                
+                <label>Set Opacity</label>
+                <span id="image-opacity">0.5</span>
+                <input type="range" id="sldOpacity" min="0" max="1" step="0.1" value="0.5" />
+                <input type = "text" id = "opval" value = 1 >
                 &nbsp;&nbsp;
 
 
@@ -1392,11 +1397,12 @@
         </div>
         &nbsp;&nbsp;&nbsp;&nbsp;
 
-        <div class="tooltips" title="Please select the District">
+        <div class="tooltips" title="Please Select the District">
             <select class='form-control' id="district">
                 <option value=""> Select District</option>
             </select>
-        </div>
+        </div> 
+        
 
         <div class="tooltips" style="display:none;" title="Please select the Maharashtra's Blocks" id="block">
             &nbsp;&nbsp;
@@ -4097,29 +4103,47 @@
 
                 }
 
-
+                $('#sldOpacity').on('change', function(){
+                        
+                        $('#image-opacity').html(this.value);
+                        document.getElementById('opval').value  = this.value;
+                        var opac = document.getElementById('opval').value
+                        // alert("called",opac)
+                        // alert($('#image-opacity').html(this.value))
+                        // alert(this.value)
+                        // const opacity_val =this.value;
+                    });
                 function putWMSLayerdist() {
                     var dist = document.getElementById('district').value;
                     var state = document.getElementById('indstate').value;
-                    var layers = 'geonode:india_pincodes_12june';
+                    var layers = 'maharashtra_districts';
                     //console.log(indstate);
                     //var stLayerLatLong= listState[indstate];
+                    
                     if (dist == 'Mumbai City' || dist == 'Mumbai Suburban')
                         mymap.setView([19.0760, 72.8777], 11);
-                    if (state == "Chhattisgarh") {
-                        layers = 'geonode:all_india_districts_11june2020';
-                    }
+                                        
                     clear_distlayer();
                     clear_tallayer();
-                    var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                    var sld = 'opaque_blue_polyons';
+                    
+                    // alert(opacity_val.value)
+                    // var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                    var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                         layers: layers,
                         format: 'image/png',
                         transparent: 'true',
                         // version: '1.3.0',
                         cql_filter: `district='${dist}' AND state='${state}'`,
-                        style: ""
+                        // style: "",
+                        styles: sld,
+                        transparent:document.getElementById('opval').value,
+                        // opacity:document.getElementById('opval').value,
+                        
                     });
-                    //console.log(wms_layer);
+
+                    
+                    console.log(wms_layer);
                     //clear_layer();
                     //clearpoint_layer();
                     wms_layer.addTo(mymap);
@@ -4129,6 +4153,15 @@
 
 
                 }
+                // var baseMaps = {
+	            // "CartoDB_DarkMatterNoLabels": lyrOSM2
+	            // };
+                // function updateOpacity(value) {
+		        //     wms_layer.setParams({opacity:value});
+		        // };
+
+                // var control = L.control.layers(baseMaps,
+	            // {'Opacity_layer <br><input id="range" type="range" min="0" max="1" step="0.1" value="1" class="slider" onchange="updateOpacity(this.value)">':wms_layer},{collapsed: false}).addTo(map);
 
                 function putWMSLayertaluka() {
                     // clear_tallayer();
@@ -4958,12 +4991,15 @@
                                 else if (feature.properties.area_irr) {
 
                                     insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
-                                        "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
-                                        "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
-                                        "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
                                         "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
+                                        "<tr><td><b>Census 2011 Village Code</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
+                                        "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
                                         "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
-                                        "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
+                                        "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr>"+
+                                            "<tr><td>Houselholds Engaged in Farm Activities</td><td><b>" + feature.properties.total_farm_h + "<b></td></tr>" +
+                                        "<tr><td>Availability of Rain Harvest System</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
+                                        
+                                        "</table>";
 
                                 }
                                 else if (feature.properties.SEGMENT_ID) {
