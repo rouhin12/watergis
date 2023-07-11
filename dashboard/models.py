@@ -55,6 +55,7 @@ class Features(models.Model):
     antodaya = models.BooleanField()
     contours=models.BooleanField()
     rainfall=models.BooleanField()
+    gw_prospects=models.BooleanField()
     state_name = models.CharField(max_length=100)
     district_name = models.CharField(max_length=100)
 
@@ -62,7 +63,7 @@ class Features(models.Model):
         return f"{self.state_name}, {self.district_name}"
     class Meta:
        managed = True
-       db_table = 'features'
+       db_table = 'dashboard_features'
 
 
 
