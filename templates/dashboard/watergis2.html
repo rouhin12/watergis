@@ -3331,6 +3331,7 @@
         wms_legend = L.wmsLegend(lagendGraphic);
     }
     function addWMSLegend1(layer) {
+        // alert("In grpahics")
         lagendGraphic1 = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + layer + "&LEGEND_OPTIONS=forceLabels:on";
         wms_legend1 = L.wmsLegend(lagendGraphic1);
     }
@@ -5084,6 +5085,7 @@
     }
     console.log(wms_legend);
     addWMSLegend(layer);
+    // alert(layer)
     addWMSLegend1(layer);
     // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
