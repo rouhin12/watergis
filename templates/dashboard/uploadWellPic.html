@@ -1,5 +1,5 @@
 {% extends 'dashboard/capt_wells.html'%}
-{% load static%}
+{% load static%}{% load i18n %}
 {% block content %}
 
 <head>
@@ -24,7 +24,7 @@
   <div>
     <form id='form' class="container section" enctype="multipart/form-data" method="post">
       {% csrf_token %}
-      <label for="img" id="selectimg" style="font-size:14px; padding-right:20px;">Browse image from your device:</label>
+      <label for="img" id="selectimg" style="font-size:14px; padding-right:20px;">{% trans "Browse image from your device:" %}</label>
       <input type="file" accept="image/*" name="picture" id="file" onchange="loadFile(event)" required>
       <p><img id="output" width="300" /></p>
 
@@ -36,84 +36,84 @@
         };
       </script>
 
-      <div class="input-field">
-        <input placeholder="Enter your name" id="name" type="text" name="name" required>
-        <label for="title">Name</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the name of the well(if any)" id="wellnm" type="text" name="well_nm">
-        <label for="title">Name of the well</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the radius of the well" id="radius" type="number" name="radius">
-        <label for="title">Radius(in metres)</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the depth of the well" id="depth" type="number" name="depth">
-        <label for="title">Depth(in metres)</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the water level of the well" id="level" type="number" name="level">
-        <label style="height: auto;" for="title">Water level(in metres)</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter village name" id="Village" type="text" name="village" required>
-        <label for="title">Village</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the district" id="district" type="text" name="district" required>
-        <label for="title">District</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the state" id="state" type="text" name="state" required>
-        <label for="title">State</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the pincode" id="pincode" type="text" name="pincode" required>
-        <label for="title">Pincode</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Allow location access to capture your location" id="lat" type="text" name="lat"
-          readonly="readonly" required>
-        <label for="title">Latitude</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Allow location access to capture your location" id="lng" type="text" name="lng"
-          readonly="readonly" required>
-        <label for="title">Longitude</label>
-      </div>
-      <div class="input-field">
-        <input placeholder="Enter the date" id="date" type="date" name="date" required>
-        <label for="title">Date</label>
-      </div>
+<div class="input-field">
+  <input placeholder="Enter your name" id="name" type="text" name="name" required>
+  <label for="title">{% trans "Name" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the name of the well(if any)" id="wellnm" type="text" name="well_nm">
+  <label for="title">{% trans "Name of the well" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the radius of the well" id="radius" type="number" name="radius">
+  <label for="title">{% trans "Radius(in metres)" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the depth of the well" id="depth" type="number" name="depth">
+  <label for="title">{% trans "Depth(in metres)" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the water level of the well" id="level" type="number" name="level">
+  <label for="title">{% trans "Water level(in metres)" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter village name" id="Village" type="text" name="village" required>
+  <label for="title">{% trans "Village" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the district" id="district" type="text" name="district" required>
+  <label for="title">{% trans "District" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the state" id="state" type="text" name="state" required>
+  <label for="title">{% trans "State" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the pincode" id="pincode" type="text" name="pincode" required>
+  <label for="title">{% trans "Pincode" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Allow location access to capture your location" id="lat" type="text" name="lat"
+    readonly="readonly" required>
+  <label for="title">{% trans "Latitude" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Allow location access to capture your location" id="lng" type="text" name="lng"
+    readonly="readonly" required>
+  <label for="title">{% trans "Longitude" %}</label>
+</div>
+<div class="input-field">
+  <input placeholder="Enter the date" id="date" type="date" name="date" required>
+  <label for="title">{% trans "Date" %}</label>
+</div>
 
-      <div class="input-field">
-        <label style="font-size: 15px;">Quality of water:</label><br>
-        <select id="water_quality" name="water_quality" style="display:block" required>
-          <option value="">--Select--</option>
-          <option value="drinking">Drinking</option>
-          <option value="agriculture">Agriculture</option>
-        </select>
-      </div>
+<div class="input-field">
+  <label style="font-size: 15px;">{%trans "Quality of water:" %}</label><br>
+  <select id="water_quality" name="water_quality" style="display:block" required>
+    <option value="">{% trans "--Select--" %}</option>
+    <option value="drinking">{% trans "Drinking" %}</option>
+    <option value="agriculture">{% trans "Agriculture" %}</option>
+  </select>
+</div>
 
-      <div class="input-field">
-        <label style="font-size: 15px;">Types of Wells:</label><br>
-        <select id="wells_type" name="wells_type" style="display:block" required>
-          <option value="">--Select--</option>
-          <option value="Bore Well">Bore Well</option>
-          <option value="Community Well">Community Well</option>
-          <option value="Dug Well">Dug Well</option>
-          <option value="Hand Pump">Hand Pump</option>
-          <option value="Open Well">Open Well</option>
-          <option value="Private Well">Private Well</option>
-          <option value="Public Well">Public Well</option>
-          <option value="Tube Well">Tube Well</option>
-          <option value="Others">Others</option>
-        </select>
-      </div>
+<div class="input-field">
+  <label style="font-size: 15px;">{% trans "Types of Wells:" %}</label><br>
+  <select id="wells_type" name="wells_type" style="display:block" required>
+    <option value="">{% trans "--Select--" %}</option>
+    <option value="Bore Well">{% trans "Bore Well" %}</option>
+    <option value="Community Well">{% trans "Community Well" %}</option>
+    <option value="Dug Well">{% trans "Dug Well" %}</option>
+    <option value="Hand Pump">{% trans "Hand Pump" %}</option>
+    <option value="Open Well">{% trans "Open Well" %}</option>
+    <option value="Private Well">{% trans "Private Well" %}</option>
+    <option value="Public Well">{% trans "Public Well" %}</option>
+    <option value="Tube Well">{% trans "Tube Well" %}</option>
+    <option value="Others">{% trans "Others" %}</option>
+  </select>
+</div>
       <div class="input-section center">
         <a id="location-btn" class="waves-effect waves-light btn-small"
-          style=" background-color: #4CAF50; visibility: hidden;">Get Location</a>
+          style=" background-color: #4CAF50; visibility: hidden;">{% trans "Get Location" %}</a>
 
         <div class="preloader-wrapper small active" id="location-loader">
           <div class="spinner-layer spinner-green-only">
@@ -133,7 +133,7 @@
 
 
       <div class="input-field center">
-        <button class="btn-small" type="submit" name="action" style=" background-color: #4CAF50;">Submit</button>
+        <button class="btn-small" type="submit" name="action" style=" background-color: #4CAF50;">{% trans "Submit" %}</button>
       </div>
 
     </form>

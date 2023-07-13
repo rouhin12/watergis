@@ -3,6 +3,7 @@ from PIL import Image
 from io import BytesIO
 import sys
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.utils.translation import gettext as _
 
 class UploadWellPictureModel(models.Model):
     picture = models.ImageField( upload_to='WellPics/', blank=True, null=True, default='WellPics/noImage.jpg')
@@ -153,7 +154,6 @@ class links(models.Model):
     def __str__(self):
         return self.title
 
-<<<<<<< HEAD
 class featuresForm(models.Model):
     district = models.CharField(max_length=100)
     taluka = models.CharField(max_length=100)
@@ -254,6 +254,3 @@ class human_form_model(models.Model):
     def __str__(self):
         return self.district_name
     
-=======
-  
->>>>>>> 85cce8d699b55beae491fed052a6ed26033f1313

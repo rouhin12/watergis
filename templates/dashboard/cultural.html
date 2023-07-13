@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static %}{% load i18n %}
 <html lang="en">
 
 <head>
@@ -15,83 +15,83 @@
 
 <body>
     <a href="/dashboard/watergis" class="btn btn-primary py-2 px-4 hover:bg-blue-700">
-        Back to HomePage
+      {% trans "Back to HomePage" %}
       </a>
     </div>
 
   <div class="container ">
-    <h2 class=" mt-3 text-center">Man-Made Features</h2>
-    <h4 class="text-center mb-5"><u> Cultural Hotspots Form </u></h4>
+    <h2 class=" mt-3 text-center">{% trans "Man-Made Features" %}</h2>
+    <h4 class="text-center mb-5"><u> {% trans "Cultural Hotspots Form" %} </u></h4>
     <form class="offset-md-3" id="form" action="{% url 'cultural' %}" name="form" method="post">
       {% csrf_token %}
       
       <div class="form-group col-md-9">
-        <label for="district">District Name:</label>
+        <label for="district">{% trans "District Name:" %}</label>
         <input type="text" class="form-control" name = "district" id="district" placeholder="Enter district name">
       </div>
       <div class="form-group col-md-9">
-        <label for="taluka">Taluka Name:</label>
+        <label for="taluka">{% trans "Taluka Name:" %}</label>
         <input type="text" class="form-control" name="taluka" id="taluka" placeholder="Enter taluka name">
       </div>
       <div class="form-group col-md-9">
-        <label for="village">Village Name:</label>
+        <label for="village">{% trans "Village Name:" %}</label>
         <input type="text" class="form-control" name="village" id="village" placeholder="Enter village name">
       </div>
       <div class="form-group col-md-9">
-        <label for="stretchNo">Stretch No.:</label>
+        <label for="stretchNo">{% trans "Stretch No.:" %}</label>
         <input type="text" class="form-control" name="stretchNo" id="stretchNo" placeholder="Enter stretch number">
       </div>
       <div class="form-group col-md-9">
-        <label for="stretchStart">Stretch Start:</label>
+        <label for="stretchStart">{% trans "Stretch Start:" %}</label>
         <input type="date" class="form-control" name="stretchStart" id="stretchStart">
       </div>
       <div class="form-group col-md-9">
-        <label for="stretchEnd">Stretch End:</label>
+        <label for="stretchEnd">{% trans "Stretch End:" %}</label>
         <input type="date" class="form-control" name="stretchEnd" id="stretchEnd">
       </div>
       <div class="form-group col-md-9">
-        <label for="owner">Owner Name:</label>
+        <label for="owner">{% trans "Owner Name:" %}</label>
         <input type="text" class="form-control" name="owner" id="owner" placeholder="Enter owner">
       </div>
       <div class="form-group col-md-9">
-        <label for="projectIncharge">Project Incharge:</label>
+        <label for="projectIncharge">{% trans "Project Incharge:" %}</label>
         <input type="text" class="form-control" name="projectIncharge" id="projectIncharge" placeholder="Enter project incharge">
       </div>
       <div class="form-group col-md-9">
-        <label for="revisionNo">Revision No.:</label>
+        <label for="revisionNo">{% trans "Revision No.:" %}</label>
         <input type="text" class="form-control" name="revisionNo" id="revisionNo" placeholder="Enter revision number">
       </div>
       <div class="form-group col-md-9">
-        <label for="contactNo">Contact No.:</label>
+        <label for="contactNo">{% trans "Contact No.:" %}</label>
         <input type="tel" class="form-control" name="contactNo" id="contactNo" placeholder="Enter contact number">
       </div>
 
       <div class="form-group col-md-9">
-        <label for="feature">Feature:</label>
+        <label for="feature">{% trans "Feature:" %}</label>
         <select class="form-control" name="feature" id="feature">
-          <option value="">---Search---</option>
-          <option value="samadhi">Samadhi</option>
-          <option value="ghat">Ghat</option>
-          <option value="sacred-tree">Sacred Tree</option>
-          <option value="statue">Statue</option>
-          <option value="worship-place">Worship place</option>
+          <option value="">{% trans "---Search---" %}</option>
+          <option value="samadhi">{% trans "Samadhi" %}</option>
+          <option value="ghat">{% trans "Ghat" %}</option>
+          <option value="sacred-tree">{% trans "Sacred Tree" %}</option>
+          <option value="statue">{% trans "Statue" %}</option>
+          <option value="worship-place">{% trans "Worship place" %}</option>
           </select>
       </div>
 
       <div class="form-group col-md-9">
-        <label for="latitude">Latitude:</label>
+        <label for="latitude">{% trans "Latitude:" %}</label>
         <input type="text" placeholder="Allow location access to capture your location" class="form-control" id="latitude" name="latitude" readonly>
       </div>
         <div class="form-group col-md-9">
-          <label for="longitude">Longitude:</label>
+          <label for="longitude">{% trans "Longitude:" %}</label>
           <input type="text" placeholder="Allow location access to capture your location" class="form-control" id="longitude" name="longitude" readonly>
         </div>   
       <div class="form-group col-md-9">
-        <label for="date">Date:</label>
+        <label for="date">{% trans "Date:" %}</label>
         <input type="date" class="form-control" name="date" id="date">
       </div>
       <div class="form-group col-md-12" >        
-        <label for="description">Description:</label>
+        <label for="description">{% trans "Description:" %}</label>
         <textarea id="description" name="description" class="form-control" rows="4" cols="4"></textarea>
       </div>
 

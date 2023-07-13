@@ -1,0 +1,2242 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-07-13 09:56+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: .\dashboard\views.py:307
+msgid "Hello, world!"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\_termui_impl.py:518
+#, python-brace-format
+msgid "{editor}: Editing failed"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\_termui_impl.py:522
+#, python-brace-format
+msgid "{editor}: Editing failed: {e}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1120
+msgid "Aborted!"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1309
+#: .\env\Lib\site-packages\click\decorators.py:568
+msgid "Show this message and exit."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1340
+#: .\env\Lib\site-packages\click\core.py:1370
+#, python-brace-format
+msgid "(Deprecated) {text}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1387
+msgid "Options"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1413
+#, python-brace-format
+msgid "Got unexpected extra argument ({args})"
+msgid_plural "Got unexpected extra arguments ({args})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\core.py:1429
+msgid "DeprecationWarning: The command {name!r} is deprecated."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1636
+msgid "Commands"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1668
+msgid "Missing command."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:1746
+msgid "No such command {name!r}."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:2310
+msgid "Value must be an iterable."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:2331
+#, python-brace-format
+msgid "Takes {nargs} values but 1 was given."
+msgid_plural "Takes {nargs} values but {len} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\core.py:2778
+#, python-brace-format
+msgid "env var: {var}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:2808
+msgid "(dynamic)"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:2821
+#, python-brace-format
+msgid "default: {default}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\core.py:2834
+msgid "required"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\decorators.py:474
+#, python-format
+msgid "%(prog)s, version %(version)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\decorators.py:537
+msgid "Show the version and exit."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:44
+#: .\env\Lib\site-packages\click\exceptions.py:80
+#, python-brace-format
+msgid "Error: {message}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:72
+#, python-brace-format
+msgid "Try '{command} {option}' for help."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:121
+#, python-brace-format
+msgid "Invalid value: {message}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:123
+#, python-brace-format
+msgid "Invalid value for {param_hint}: {message}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:179
+msgid "Missing argument"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:181
+msgid "Missing option"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:183
+msgid "Missing parameter"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:185
+#, python-brace-format
+msgid "Missing {param_type}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:192
+#, python-brace-format
+msgid "Missing parameter: {param_name}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:212
+#, python-brace-format
+msgid "No such option: {name}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:224
+#, python-brace-format
+msgid "Did you mean {possibility}?"
+msgid_plural "(Possible options: {possibilities})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:262
+msgid "unknown error"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\exceptions.py:269
+msgid "Could not open file {filename!r}: {message}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\parser.py:231
+msgid "Argument {name!r} takes {nargs} values."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\parser.py:413
+msgid "Option {name!r} does not take a value."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\parser.py:474
+msgid "Option {name!r} requires an argument."
+msgid_plural "Option {name!r} requires {nargs} arguments."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\shell_completion.py:318
+msgid "Shell completion is not supported for Bash versions older than 4.4."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\shell_completion.py:324
+msgid "Couldn't detect Bash version, shell completion is not supported."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:158
+msgid "Repeat for confirmation"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:174
+msgid "Error: The value you entered was invalid."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:176
+#, python-brace-format
+msgid "Error: {e.message}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:187
+msgid "Error: The two entered values do not match."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:243
+msgid "Error: invalid input"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\termui.py:773
+msgid "Press any key to continue..."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:266
+#, python-brace-format
+msgid ""
+"Choose from:\n"
+"\t{choices}"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:298
+msgid "{value!r} is not {choice}."
+msgid_plural "{value!r} is not one of {choices}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\types.py:392
+msgid "{value!r} does not match the format {format}."
+msgid_plural "{value!r} does not match the formats {formats}."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\click\types.py:414
+msgid "{value!r} is not a valid {number_type}."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:470
+#, python-brace-format
+msgid "{value} is not in the range {range}."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:611
+msgid "{value!r} is not a valid boolean."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:635
+msgid "{value!r} is not a valid UUID."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:822
+msgid "file"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:824
+msgid "directory"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:826
+msgid "path"
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:877
+msgid "{name} {filename!r} does not exist."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:886
+msgid "{name} {filename!r} is a file."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:894
+#, python-brace-format
+msgid "{name} '{filename}' is a directory."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:903
+msgid "{name} {filename!r} is not readable."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:912
+msgid "{name} {filename!r} is not writable."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:921
+msgid "{name} {filename!r} is not executable."
+msgstr ""
+
+#: .\env\Lib\site-packages\click\types.py:988
+#, python-brace-format
+msgid "{len_type} values are required, but {len_value} was given."
+msgid_plural "{len_type} values are required, but {len_value} were given."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\contrib\messages\apps.py:15
+msgid "Messages"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\sitemaps\apps.py:8
+msgid "Site Maps"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\staticfiles\apps.py:9
+msgid "Static Files"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\contrib\syndication\apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#. Translators: String used to replace omitted page numbers in elided page
+#. range generated by paginators, e.g. [1, 2, '…', 5, 6, 7, '…', 9, 10].
+#: .\env\Lib\site-packages\django\core\paginator.py:30
+msgid "…"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:50
+msgid "That page number is not an integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:52
+msgid "That page number is less than 1"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\paginator.py:57
+msgid "That page contains no results"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:22
+msgid "Enter a valid value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:104
+#: .\env\Lib\site-packages\django\forms\fields.py:751
+msgid "Enter a valid URL."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:164
+msgid "Enter a valid integer."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:175
+msgid "Enter a valid email address."
+msgstr ""
+
+#. Translators: "letters" means latin letters: a-z and A-Z.
+#: .\env\Lib\site-packages\django\core\validators.py:256
+msgid ""
+"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:264
+msgid ""
+"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:276
+#: .\env\Lib\site-packages\django\core\validators.py:284
+#: .\env\Lib\site-packages\django\core\validators.py:313
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:293
+#: .\env\Lib\site-packages\django\core\validators.py:314
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:305
+#: .\env\Lib\site-packages\django\core\validators.py:312
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:348
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:354
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:389
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:398
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:407
+#, python-format
+msgid "Ensure this value is a multiple of step size %(limit_value)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:417
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:435
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:458
+#: .\env\Lib\site-packages\django\forms\fields.py:347
+#: .\env\Lib\site-packages\django\forms\fields.py:386
+msgid "Enter a number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:460
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:465
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:470
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:539
+#, python-format
+msgid ""
+"File extension “%(extension)s” is not allowed. Allowed extensions are: "
+"%(allowed_extensions)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\core\validators.py:600
+msgid "Null characters are not allowed."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\base.py:1401
+#: .\env\Lib\site-packages\django\forms\models.py:899
+msgid "and"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\base.py:1403
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\constraints.py:17
+#, python-format
+msgid "Constraint “%(name)s” is violated."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:129
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:130
+msgid "This field cannot be null."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:131
+msgid "This field cannot be blank."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:132
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or
+#. 'month'. Eg: "Title must be unique for pub_date year"
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:136
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:174
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1065
+#, python-format
+msgid "“%(value)s” value must be either True or False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1066
+#, python-format
+msgid "“%(value)s” value must be either True, False, or None."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1068
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1118
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1222
+msgid "Comma-separated integers"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1323
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1327
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1462
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1331
+msgid "Date (without time)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1458
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1466
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1471
+msgid "Date (with time)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1595
+#, python-format
+msgid "“%(value)s” value must be a decimal number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1597
+msgid "Decimal number"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1754
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1758
+msgid "Duration"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1810
+msgid "Email address"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1835
+msgid "File path"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1913
+#, python-format
+msgid "“%(value)s” value must be a float."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1915
+msgid "Floating point number"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1955
+#, python-format
+msgid "“%(value)s” value must be an integer."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:1957
+msgid "Integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2049
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2066
+msgid "Small integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2074
+msgid "IPv4 address"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2105
+msgid "IP address"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2198
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2199
+#, python-format
+msgid "“%(value)s” value must be either None, True or False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2201
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2252
+msgid "Positive big integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2267
+msgid "Positive integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2282
+msgid "Positive small integer"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2298
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2334
+msgid "Text"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2409
+#, python-format
+msgid ""
+"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2413
+#, python-format
+msgid ""
+"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2417
+msgid "Time"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2525
+msgid "URL"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2549
+msgid "Raw binary data"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2614
+#, python-format
+msgid "“%(value)s” is not a valid UUID."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\__init__.py:2616
+msgid "Universally unique identifier"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\files.py:231
+msgid "File"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\files.py:391
+msgid "Image"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\json.py:18
+msgid "A JSON object"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\json.py:20
+msgid "Value must be valid JSON."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:918
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:920
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1227
+msgid "One-to-one relationship"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1284
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1286
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\db\models\fields\related.py:1334
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: .\env\Lib\site-packages\django\forms\boundfield.py:176
+msgid ":?.!"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:91
+msgid "This field is required."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:298
+msgid "Enter a whole number."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:467
+#: .\env\Lib\site-packages\django\forms\fields.py:1240
+msgid "Enter a valid date."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:490
+#: .\env\Lib\site-packages\django\forms\fields.py:1241
+msgid "Enter a valid time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:517
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:551
+msgid "Enter a valid duration."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:552
+#, python-brace-format
+msgid "The number of days must be between {min_days} and {max_days}."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:618
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:619
+msgid "No file was submitted."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:620
+msgid "The submitted file is empty."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:622
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:627
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:693
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:856
+#: .\env\Lib\site-packages\django\forms\fields.py:948
+#: .\env\Lib\site-packages\django\forms\models.py:1572
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:950
+#: .\env\Lib\site-packages\django\forms\fields.py:1069
+#: .\env\Lib\site-packages\django\forms\models.py:1570
+msgid "Enter a list of values."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:1070
+msgid "Enter a complete value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:1309
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\fields.py:1339
+msgid "Enter a valid JSON."
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: .\env\Lib\site-packages\django\forms\forms.py:98
+msgid ":"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\forms.py:248
+#: .\env\Lib\site-packages\django\forms\forms.py:332
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:63
+#, python-format
+msgid ""
+"ManagementForm data is missing or has been tampered with. Missing fields: "
+"%(field_names)s. You may need to file a bug report if the issue persists."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:67
+#, python-format
+msgid "Please submit at most %(num)d form."
+msgid_plural "Please submit at most %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:72
+#, python-format
+msgid "Please submit at least %(num)d form."
+msgid_plural "Please submit at least %(num)d forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:483
+#: .\env\Lib\site-packages\django\forms\formsets.py:490
+msgid "Order"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\formsets.py:496
+msgid "Delete"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:892
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:897
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:904
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:913
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1344
+msgid "The inline value did not match the parent instance."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1435
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\models.py:1574
+#, python-format
+msgid "“%(pk)s” is not a valid value."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\utils.py:226
+#, python-format
+msgid ""
+"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:439
+msgid "Clear"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:440
+msgid "Currently"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:441
+msgid "Change"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:769
+msgid "Unknown"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:770
+#: .\env\Lib\site-packages\telepath\tests.py:243
+msgid "Yes"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\forms\widgets.py:771
+msgid "No"
+msgstr ""
+
+#. Translators: Please do not add spaces around commas.
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:853
+msgid "yes,no,maybe"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:883
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:900
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:902
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:904
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:906
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:908
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\template\defaultfilters.py:910
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:77
+msgid "p.m."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:78
+msgid "a.m."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:83
+msgid "PM"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:84
+msgid "AM"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:155
+msgid "midnight"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dateformat.py:157
+msgid "noon"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:7
+msgid "Monday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:8
+msgid "Tuesday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:9
+msgid "Wednesday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:10
+msgid "Thursday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:11
+msgid "Friday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:12
+msgid "Saturday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:13
+msgid "Sunday"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:16
+msgid "Mon"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:17
+msgid "Tue"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:18
+msgid "Wed"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:19
+msgid "Thu"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:20
+msgid "Fri"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:21
+msgid "Sat"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:22
+msgid "Sun"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:25
+msgid "January"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:26
+msgid "February"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:27
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:28
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:29
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:30
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:31
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:32
+msgid "August"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:33
+msgid "September"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:34
+msgid "October"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:35
+msgid "November"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:36
+msgid "December"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:39
+msgid "jan"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:40
+msgid "feb"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:41
+msgid "mar"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:42
+msgid "apr"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:43
+msgid "may"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:44
+msgid "jun"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:45
+msgid "jul"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:46
+msgid "aug"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:47
+msgid "sep"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:48
+msgid "oct"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:49
+msgid "nov"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:50
+msgid "dec"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:53
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:54
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:55
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:56
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:57
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:58
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:59
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:60
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:61
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:62
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:63
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:64
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:67
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:68
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:69
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:70
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:71
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:72
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:73
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:74
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:75
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:76
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:77
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\dates.py:78
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\ipv6.py:8
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\text.py:76
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s…"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\text.py:252
+msgid "or"
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: .\env\Lib\site-packages\django\utils\text.py:271
+#: .\env\Lib\site-packages\django\utils\timesince.py:94
+msgid ", "
+msgstr ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:9
+#, python-format
+msgid "%(num)d year"
+msgid_plural "%(num)d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:10
+#, python-format
+msgid "%(num)d month"
+msgid_plural "%(num)d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:11
+#, python-format
+msgid "%(num)d week"
+msgid_plural "%(num)d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:12
+#, python-format
+msgid "%(num)d day"
+msgid_plural "%(num)d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:13
+#, python-format
+msgid "%(num)d hour"
+msgid_plural "%(num)d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\utils\timesince.py:14
+#, python-format
+msgid "%(num)d minute"
+msgid_plural "%(num)d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:111
+msgid "Forbidden"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:112
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:116
+msgid ""
+"You are seeing this message because this HTTPS site requires a “Referer "
+"header” to be sent by your web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:122
+msgid ""
+"If you have configured your browser to disable “Referer” headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for “same-"
+"origin” requests."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:127
+msgid ""
+"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
+"including the “Referrer-Policy: no-referrer” header, please remove them. The "
+"CSRF protection requires the “Referer” header to do strict referer checking. "
+"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
+"\" …> for links to third-party sites."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:136
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:142
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for “same-origin” requests."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\csrf.py:148
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:44
+msgid "No year specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:64
+#: .\env\Lib\site-packages\django\views\generic\dates.py:115
+#: .\env\Lib\site-packages\django\views\generic\dates.py:214
+msgid "Date out of range"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:94
+msgid "No month specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:147
+msgid "No day specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:194
+msgid "No week specified"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:349
+#: .\env\Lib\site-packages\django\views\generic\dates.py:380
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:652
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\dates.py:692
+#, python-format
+msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\detail.py:56
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:70
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:77
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\generic\list.py:169
+#, python-format
+msgid "Empty list and “%(class_name)s.allow_empty” is False."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:38
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:40
+#, python-format
+msgid "“%(path)s” does not exist"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\static.py:79
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:7
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:221
+msgid "The install worked successfully! Congratulations!"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:207
+#, python-format
+msgid ""
+"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
+"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:222
+#, python-format
+msgid ""
+"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
+"\">DEBUG=True</a> is in your settings file and you have not configured any "
+"URLs."
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:230
+msgid "Django Documentation"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:231
+msgid "Topics, references, &amp; how-to’s"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:239
+msgid "Tutorial: A Polling App"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:240
+msgid "Get started with Django"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:248
+msgid "Django Community"
+msgstr ""
+
+#: .\env\Lib\site-packages\django\views\templates\default_urlconf.html:249
+msgid "Connect, get help, or contribute"
+msgstr ""
+
+#: .\env\Lib\site-packages\modeltranslation\widgets.py:24
+msgid "None"
+msgstr ""
+
+#: .\templates\HomePage.html:68
+msgid ""
+"CommunityGIS is a platform for community for a spatial data infrastructure. "
+"This consists of\n"
+"                                            frontend described below and "
+"backend which is geonode <a href=\"https://geonode.org\">(visit)</a>."
+"Primary\n"
+"                                            objective of communitygis is to "
+"provide educational platform for learners to learn about spatial\n"
+"                                            information and learn how these "
+"modern tools can be used to solve real life problems. As a\n"
+"                                            platform it is for people who "
+"range from those who can contribute data (mobile based point data\n"
+"                                            collection to digitization of "
+"published maps) to those who can analyse the data to infer useful\n"
+"                                            social knowledge. It is a "
+"digital way to collect, aggregate , access , analyse data and finally\n"
+"                                            provide decision support to the "
+"community manipulate reality. \n"
+"                                            "
+msgstr ""
+
+#: .\templates\HomePage.html:77
+msgid ""
+" Since all source code is\n"
+"                                            published hereby (for "
+"frontend) , under GPL, any one can reproduce the technology , without\n"
+"                                            any permission from makerGHAT. "
+"The data sources are Census of India and GISE Lab of CSE\n"
+"                                            deptt , IIT Bombay. This website "
+"has been created by volunteers and coordinated\n"
+"                                            by www.makerghat.org<a href="
+"\"https://makerghat.org\">(visit)</a> This is inspired by ideas as in 'p2p "
+"governance' of Bowens<a href=\"https://blog.p2pfoundation.net/about\">(know "
+"more)</a>\n"
+"                                            and Third Pillar <a href="
+"\"https://www.penguinrandomhouse.com/books/566369/the-third-pillar-by-"
+"raghuram-\n"
+"                                            rajan/9780525558316/\">(click "
+"here)</a> of Dr Raghuram Rajan.</b> "
+msgstr ""
+
+#: .\templates\HomePage.html:96
+msgid ""
+" All data are collected by volunteers and makerGHAT only provides the "
+"technology platform . Errors or omissions in data are not responsibility of "
+"makerGHAT. No claims are made for accuracy of the maps data. Users may use "
+"the same at THEIR OWN RISK."
+msgstr ""
+"सर्व डेटा स्वयंसेवकांद्वारे संकलित केला जातो आणि मेकरघाट फक्त प्रदान करतोटेक्नॉलॉजी "
+"प्लॅटफॉर्म. डेटामधील चुका किंवा वगळण्याची जबाबदारी नाही makerGHAT. नकाशे डेटाच्या "
+"अचूकतेसाठी कोणतेही दावे केले जात नाहीत. वापरकर्ते वापरू शकतात त्यांच्या स्वतःच्या जोखमीवर "
+"तेच."
+
+#: .\templates\HomePage.html:121
+msgid ""
+" Jitendra Shah, GISE lab, CSE department, IITB <br>\n"
+"\n"
+"                                             Mobile : 9892288943 , email : "
+"jituviju@gmail.com\n"
+"                                             "
+msgstr ""
+"जितेंद्र शाह, जीआईएसई लैब, सीएसई विभाग, आईआईटीबीमोबाइल: 9892288943, ईमेल:"
+"jituviju@gmail.com"
+
+#: .\templates\dashboard\about.html:7
+msgid "About Amrutvahini"
+msgstr "अमृतवाहिनी बद्दल"
+
+#: .\templates\dashboard\about.html:8
+msgid "Website is under construction. For suggestions, please contact:"
+msgstr "वेबसाइटचे बांधकाम सुरू आहे. सूचनांसाठी, कृपया संपर्क साधा:"
+
+#: .\templates\dashboard\about.html:10
+msgid "Prof. Jitendra Shah -"
+msgstr "प्रा.जितेंद्र शहा -"
+
+#: .\templates\dashboard\about.html:10
+msgid "info@communitygis.net"
+msgstr "info@communitygis.net"
+
+#: .\templates\dashboard\about.html:11
+msgid "Monika Shah -"
+msgstr "मोनिका शाह -"
+
+#: .\templates\dashboard\about.html:11
+msgid "samanvay.mumbai@gmail.com"
+msgstr "samanvay.mumbai@gmail.com"
+
+#: .\templates\dashboard\about.html:13
+msgid "Design Incharge: Ms. Sweta Jhunjhunwala from Jalbiradari"
+msgstr "डिझाईन प्रभारी: जलबिरादरी येथील कु. स्वेता झुनझुनवाला"
+
+#: .\templates\dashboard\about.html:14
+msgid "Contact:"
+msgstr "संपर्क क्रमांक:"
+
+#: .\templates\dashboard\about.html:14
+msgid "sweta@tulsipatra.org"
+msgstr "sweta@tulsipatra.org"
+
+#: .\templates\dashboard\about.html:24
+msgid "© 2023 Amrutvahini. All rights reserved."
+msgstr "© २०२३ अमृतवाहिनी. सर्व हक्क राखीव."
+
+#: .\templates\dashboard\base_fgis_nav.html:4
+msgid "Ahmadnagar Facility GIS"
+msgstr "अहमदनगर सुविधा GIS"
+
+#: .\templates\dashboard\base_fgis_nav.html:23
+msgid "Maps"
+msgstr "नकाशे"
+
+#: .\templates\dashboard\base_fgis_nav.html:29
+#: .\templates\dashboard\tutorial.html:19
+#: .\templates\dashboard\watergis_base.html:197
+#: .\templates\dashboard\watergis_base2.html:257
+msgid "Resources"
+msgstr "संसाधने"
+
+#: .\templates\dashboard\capt_wells.html:26
+msgid "Add Well's Information"
+msgstr "विहिरीची माहिती जोडा"
+
+#: .\templates\dashboard\capt_wells.html:41
+msgid "add"
+msgstr "जोडा"
+
+#: .\templates\dashboard\capt_wells.html:54
+msgid "click image from your camera"
+msgstr "तुमच्या कॅमेर्‍यामधून इमेजवर क्लिक करा"
+
+#: .\templates\dashboard\capt_wells.html:61
+msgid "Upload images"
+msgstr "प्रतिमा अपलोड करा"
+
+#: .\templates\dashboard\capt_wells.html:68
+msgid "Add Wells Information"
+msgstr "विहिरी माहिती जोडा"
+
+#: .\templates\dashboard\capt_wells.html:73
+msgid "Capture"
+msgstr "कॅप्चर करा"
+
+#: .\templates\dashboard\capt_wells.html:77
+msgid "Allow Camera access to app"
+msgstr "कॅमेऱ्याला अॅपमध्ये प्रवेश करण्याची अनुमती द्या"
+
+#: .\templates\dashboard\capt_wells.html:81
+#: .\templates\dashboard\uploadWellPic.html:41
+msgid "Name"
+msgstr "नाव"
+
+#: .\templates\dashboard\capt_wells.html:85
+#: .\templates\dashboard\uploadWellPic.html:45
+msgid "Name of the well"
+msgstr "विहिरीचे नाव"
+
+#: .\templates\dashboard\capt_wells.html:89
+#: .\templates\dashboard\uploadWellPic.html:49
+msgid "Radius(in metres)"
+msgstr "त्रिज्या (मीटरमध्ये)"
+
+#: .\templates\dashboard\capt_wells.html:93
+#: .\templates\dashboard\uploadWellPic.html:53
+msgid "Depth(in metres)"
+msgstr "खोली (मीटरमध्ये)"
+
+#: .\templates\dashboard\capt_wells.html:97
+#: .\templates\dashboard\uploadWellPic.html:57
+msgid "Water level(in metres)"
+msgstr "पाण्याची पातळी (मीटरमध्ये)"
+
+#: .\templates\dashboard\capt_wells.html:101
+#: .\templates\dashboard\uploadWellPic.html:61
+msgid "Village"
+msgstr "गाव"
+
+#: .\templates\dashboard\capt_wells.html:105
+#: .\templates\dashboard\uploadWellPic.html:65
+#: .\templates\dashboard\water_quality_form.html:142
+msgid "District"
+msgstr "जिल्हा"
+
+#: .\templates\dashboard\capt_wells.html:109
+#: .\templates\dashboard\uploadWellPic.html:69
+#: .\templates\dashboard\water_quality_form.html:137
+msgid "State"
+msgstr "राज्य"
+
+#: .\templates\dashboard\capt_wells.html:113
+#: .\templates\dashboard\uploadWellPic.html:73
+msgid "Pincode"
+msgstr "पिन कोड"
+
+#: .\templates\dashboard\capt_wells.html:118
+#: .\templates\dashboard\uploadWellPic.html:78
+msgid "Latitude"
+msgstr "अक्षांश"
+
+#: .\templates\dashboard\capt_wells.html:123
+#: .\templates\dashboard\uploadWellPic.html:83
+msgid "Longitude"
+msgstr "रेखांश"
+
+#: .\templates\dashboard\capt_wells.html:127
+#: .\templates\dashboard\uploadWellPic.html:87
+#: .\templates\dashboard\water_quality_form.html:247
+msgid "Date"
+msgstr "तारीख"
+
+#: .\templates\dashboard\capt_wells.html:131
+#: .\templates\dashboard\uploadWellPic.html:91
+msgid "Quality of water:"
+msgstr "पाण्याची गुणवत्ता:"
+
+#: .\templates\dashboard\capt_wells.html:133
+#: .\templates\dashboard\capt_wells.html:142
+#: .\templates\dashboard\uploadWellPic.html:93
+#: .\templates\dashboard\uploadWellPic.html:102
+msgid "--Select--"
+msgstr "--निवडा--"
+
+#: .\templates\dashboard\capt_wells.html:134
+#: .\templates\dashboard\uploadWellPic.html:94
+msgid "Drinking"
+msgstr "मद्यपान"
+
+#: .\templates\dashboard\capt_wells.html:135
+#: .\templates\dashboard\uploadWellPic.html:95
+msgid "Agriculture"
+msgstr "शेती"
+
+#: .\templates\dashboard\capt_wells.html:140
+#: .\templates\dashboard\uploadWellPic.html:100
+msgid "Types of Wells:"
+msgstr "विहिरींचे प्रकार:"
+
+#: .\templates\dashboard\capt_wells.html:143
+#: .\templates\dashboard\uploadWellPic.html:103
+msgid "Bore Well"
+msgstr "बोअरवेल"
+
+#: .\templates\dashboard\capt_wells.html:144
+#: .\templates\dashboard\uploadWellPic.html:104
+msgid "Community Well"
+msgstr "समुदाय विहीर"
+
+#: .\templates\dashboard\capt_wells.html:145
+#: .\templates\dashboard\uploadWellPic.html:105
+msgid "Dug Well"
+msgstr "विहीर खोदली"
+
+#: .\templates\dashboard\capt_wells.html:146
+#: .\templates\dashboard\uploadWellPic.html:106
+msgid "Hand Pump"
+msgstr "हातपंप"
+
+#: .\templates\dashboard\capt_wells.html:147
+#: .\templates\dashboard\uploadWellPic.html:107
+msgid "Open Well"
+msgstr "वेल्स कॅप्चर करा"
+
+#: .\templates\dashboard\capt_wells.html:148
+#: .\templates\dashboard\uploadWellPic.html:108
+msgid "Private Well"
+msgstr "वेल्स कॅप्चर करा"
+
+#: .\templates\dashboard\capt_wells.html:149
+#: .\templates\dashboard\uploadWellPic.html:109
+msgid "Public Well"
+msgstr "सार्वजनिक विहीर"
+
+#: .\templates\dashboard\capt_wells.html:150
+#: .\templates\dashboard\uploadWellPic.html:110
+msgid "Tube Well"
+msgstr "कूपनलिका"
+
+#: .\templates\dashboard\capt_wells.html:151
+#: .\templates\dashboard\uploadWellPic.html:111
+msgid "Others"
+msgstr "इतर"
+
+#: .\templates\dashboard\capt_wells.html:157
+#: .\templates\dashboard\uploadWellPic.html:116
+msgid "Get Location"
+msgstr "स्थान मिळवा"
+
+#: .\templates\dashboard\capt_wells.html:178
+#: .\templates\dashboard\uploadWellPic.html:136
+msgid "Submit"
+msgstr "प्रस्तुत करणे"
+
+#: .\templates\dashboard\cultural.html:18 .\templates\dashboard\feature.html:18
+#: .\templates\dashboard\human_form.html:18
+#: .\templates\dashboard\physical_feature.html:18
+#: .\templates\dashboard\water_quality_form.html:107
+#: .\templates\dashboard\water_usable.html:18
+msgid "Back to HomePage"
+msgstr "मुख्यपृष्ठावर परत"
+
+#: .\templates\dashboard\cultural.html:23
+#: .\templates\dashboard\human_form.html:23
+#: .\templates\dashboard\water_related_forms.html:34
+#: .\templates\dashboard\water_usable.html:23
+msgid "Man-Made Features"
+msgstr "मानवनिर्मित वैशिष्ट्ये"
+
+#: .\templates\dashboard\cultural.html:24
+#: .\templates\dashboard\water_related_forms.html:38
+msgid "Cultural Hotspots Form"
+msgstr "सांस्कृतिक हॉटस्पॉट्स फॉर्म"
+
+#: .\templates\dashboard\cultural.html:29 .\templates\dashboard\feature.html:29
+#: .\templates\dashboard\human_form.html:29
+#: .\templates\dashboard\physical_feature.html:29
+#: .\templates\dashboard\water_usable.html:29
+msgid "District Name:"
+msgstr "जिल्ह्याचे नाव:"
+
+#: .\templates\dashboard\cultural.html:33 .\templates\dashboard\feature.html:33
+#: .\templates\dashboard\human_form.html:33
+#: .\templates\dashboard\physical_feature.html:33
+#: .\templates\dashboard\water_usable.html:33
+msgid "Taluka Name:"
+msgstr "तालुक्याचे नाव:"
+
+#: .\templates\dashboard\cultural.html:37 .\templates\dashboard\feature.html:37
+#: .\templates\dashboard\human_form.html:37
+#: .\templates\dashboard\physical_feature.html:37
+#: .\templates\dashboard\water_usable.html:37
+msgid "Village Name:"
+msgstr "गावाचे नाव:"
+
+#: .\templates\dashboard\cultural.html:41 .\templates\dashboard\feature.html:41
+#: .\templates\dashboard\human_form.html:41
+#: .\templates\dashboard\physical_feature.html:41
+#: .\templates\dashboard\water_usable.html:41
+msgid "Stretch No.:"
+msgstr "स्ट्रेच क्रमांक:"
+
+#: .\templates\dashboard\cultural.html:45 .\templates\dashboard\feature.html:45
+#: .\templates\dashboard\human_form.html:45
+#: .\templates\dashboard\physical_feature.html:45
+#: .\templates\dashboard\water_usable.html:45
+msgid "Stretch Start:"
+msgstr "स्ट्रेच स्टार्ट:"
+
+#: .\templates\dashboard\cultural.html:49 .\templates\dashboard\feature.html:49
+#: .\templates\dashboard\human_form.html:49
+#: .\templates\dashboard\physical_feature.html:49
+#: .\templates\dashboard\water_usable.html:49
+msgid "Stretch End:"
+msgstr "स्ट्रेच एंड:"
+
+#: .\templates\dashboard\cultural.html:53 .\templates\dashboard\feature.html:53
+#: .\templates\dashboard\human_form.html:53
+#: .\templates\dashboard\physical_feature.html:53
+#: .\templates\dashboard\water_usable.html:53
+msgid "Owner Name:"
+msgstr "मालकाचे नाव:"
+
+#: .\templates\dashboard\cultural.html:57 .\templates\dashboard\feature.html:57
+#: .\templates\dashboard\human_form.html:57
+#: .\templates\dashboard\physical_feature.html:57
+#: .\templates\dashboard\water_usable.html:57
+msgid "Project Incharge:"
+msgstr "प्रकल्प प्रभारी:"
+
+#: .\templates\dashboard\cultural.html:61 .\templates\dashboard\feature.html:61
+#: .\templates\dashboard\human_form.html:61
+#: .\templates\dashboard\physical_feature.html:61
+#: .\templates\dashboard\water_usable.html:61
+msgid "Revision No.:"
+msgstr "पुनरावृत्ती क्रमांक:"
+
+#: .\templates\dashboard\cultural.html:65 .\templates\dashboard\feature.html:65
+#: .\templates\dashboard\human_form.html:65
+#: .\templates\dashboard\physical_feature.html:65
+#: .\templates\dashboard\water_usable.html:65
+msgid "Contact No.:"
+msgstr "संपर्क क्रमांक:"
+
+#: .\templates\dashboard\cultural.html:70 .\templates\dashboard\feature.html:70
+#: .\templates\dashboard\human_form.html:70
+#: .\templates\dashboard\physical_feature.html:69
+#: .\templates\dashboard\water_usable.html:70
+msgid "Feature:"
+msgstr "वैशिष्ट्य:"
+
+#: .\templates\dashboard\cultural.html:72 .\templates\dashboard\feature.html:72
+#: .\templates\dashboard\human_form.html:72
+#: .\templates\dashboard\physical_feature.html:71
+#: .\templates\dashboard\water_usable.html:72
+msgid "---Search---"
+msgstr "--निवडा--"
+
+#: .\templates\dashboard\cultural.html:73
+msgid "Samadhi"
+msgstr "समाधी"
+
+#: .\templates\dashboard\cultural.html:74
+msgid "Ghat"
+msgstr "घाट"
+
+#: .\templates\dashboard\cultural.html:75
+msgid "Sacred Tree"
+msgstr "पवित्र वृक्ष"
+
+#: .\templates\dashboard\cultural.html:76
+msgid "Statue"
+msgstr "पुतळा"
+
+#: .\templates\dashboard\cultural.html:77
+msgid "Worship place"
+msgstr "पूजास्थान"
+
+#: .\templates\dashboard\cultural.html:82 .\templates\dashboard\feature.html:82
+#: .\templates\dashboard\human_form.html:83
+#: .\templates\dashboard\physical_feature.html:81
+#: .\templates\dashboard\water_usable.html:83
+msgid "Latitude:"
+msgstr "अक्षांश"
+
+#: .\templates\dashboard\cultural.html:86 .\templates\dashboard\feature.html:86
+#: .\templates\dashboard\human_form.html:87
+#: .\templates\dashboard\physical_feature.html:85
+#: .\templates\dashboard\water_usable.html:87
+msgid "Longitude:"
+msgstr "रेखांश"
+
+#: .\templates\dashboard\cultural.html:90 .\templates\dashboard\feature.html:90
+#: .\templates\dashboard\human_form.html:91
+#: .\templates\dashboard\physical_feature.html:89
+#: .\templates\dashboard\water_usable.html:91
+msgid "Date:"
+msgstr "तारीख"
+
+#: .\templates\dashboard\cultural.html:94 .\templates\dashboard\feature.html:94
+#: .\templates\dashboard\human_form.html:95
+#: .\templates\dashboard\physical_feature.html:93
+#: .\templates\dashboard\water_usable.html:95
+msgid "Description:"
+msgstr "वर्णन"
+
+#: .\templates\dashboard\feature.html:23
+#: .\templates\dashboard\physical_feature.html:23
+#: .\templates\dashboard\water_related_forms.html:27
+msgid "Natural Features"
+msgstr "नैसर्गिक वैशिष्ट्ये"
+
+#: .\templates\dashboard\feature.html:24
+#: .\templates\dashboard\water_related_forms.html:31
+msgid "Biological Features Form"
+msgstr "जैविक वैशिष्ट्ये फॉर्म"
+
+#: .\templates\dashboard\feature.html:73
+msgid "Important Trees"
+msgstr "महत्वाची झाडे"
+
+#: .\templates\dashboard\feature.html:74
+msgid "Bird Nesting Form"
+msgstr "पक्षी घरटे फॉर्म"
+
+#: .\templates\dashboard\feature.html:75
+msgid "Fish Breeding Sites"
+msgstr "मासे प्रजनन साइट"
+
+#: .\templates\dashboard\feature.html:76
+msgid "Aquatic Vegetation"
+msgstr "जलचर वनस्पती"
+
+#: .\templates\dashboard\feature.html:77
+msgid "Specific Sightings"
+msgstr "विशिष्ट दृष्टी"
+
+#: .\templates\dashboard\human_form.html:24
+#: .\templates\dashboard\water_related_forms.html:37
+msgid "Human Intervention Form"
+msgstr "मानवी हस्तक्षेप फॉर्म"
+
+#: .\templates\dashboard\human_form.html:73
+msgid "Canals"
+msgstr "कालवे"
+
+#: .\templates\dashboard\human_form.html:74
+msgid "Walls"
+msgstr "भिंती"
+
+#: .\templates\dashboard\human_form.html:75
+msgid "Pitching"
+msgstr "पिचिंग"
+
+#: .\templates\dashboard\human_form.html:76
+msgid "Debris-dumps"
+msgstr "भंगार-कचरा"
+
+#: .\templates\dashboard\human_form.html:77
+msgid "Solid Waste Dumps"
+msgstr "घनकचरा डंप"
+
+#: .\templates\dashboard\human_form.html:78
+msgid "Construction"
+msgstr "बांधकाम"
+
+#: .\templates\dashboard\human_form.html:79
+msgid "Sewage Chambers"
+msgstr "सीवेज चेंबर्स"
+
+#: .\templates\dashboard\physical_feature.html:24
+#: .\templates\dashboard\water_related_forms.html:30
+msgid "Physical Features Form"
+msgstr "भौतिक वैशिष्ट्ये फॉर्म"
+
+#: .\templates\dashboard\physical_feature.html:72
+msgid "Islands"
+msgstr "बेटे"
+
+#: .\templates\dashboard\physical_feature.html:73
+msgid "Meanders"
+msgstr "मींडर्स"
+
+#: .\templates\dashboard\physical_feature.html:74
+msgid "Puddles"
+msgstr "डबके"
+
+#: .\templates\dashboard\physical_feature.html:75
+msgid "Rocks"
+msgstr "खडक"
+
+#: .\templates\dashboard\physical_feature.html:76
+msgid "Springs"
+msgstr "झरे"
+
+#: .\templates\dashboard\physical_feature.html:77
+msgid "Waterfall"
+msgstr "धबधबा"
+
+#: .\templates\dashboard\tutorial.html:21
+msgid "Documents"
+msgstr "कागदपत्रे"
+
+#: .\templates\dashboard\tutorial.html:30
+msgid "Images"
+msgstr "प्रतिमा"
+
+#: .\templates\dashboard\tutorial.html:41
+msgid "Links"
+msgstr "दुवे"
+
+#: .\templates\dashboard\uploadWellPic.html:27
+msgid "Browse image from your device:"
+msgstr "तुमच्या डिव्हाइसवरून प्रतिमा ब्राउझ करा:"
+
+#: .\templates\dashboard\water_quality_form.html:130
+#: .\templates\dashboard\water_related_forms.html:20
+#: .\templates\dashboard\water_related_forms.html:23
+msgid "Water Quality Form"
+msgstr "पाणी गुणवत्ता फॉर्म"
+
+#: .\templates\dashboard\water_quality_form.html:132
+msgid "Name of Source"
+msgstr "स्त्रोताचे नाव"
+
+#: .\templates\dashboard\water_quality_form.html:147
+msgid "Taluka"
+msgstr "तालुक्याचे नाव:"
+
+#: .\templates\dashboard\water_quality_form.html:152
+msgid "Village Name"
+msgstr "गावाचे नाव:"
+
+#: .\templates\dashboard\water_quality_form.html:157
+msgid "Gram Panchayat Name"
+msgstr "ग्रामपंचायतीचे नाव"
+
+#: .\templates\dashboard\water_quality_form.html:162
+msgid "Quality of Water"
+msgstr "पाण्याची गुणवत्ता:"
+
+#: .\templates\dashboard\water_quality_form.html:166
+msgid "Chemical Inspection Types"
+msgstr "रासायनिक तपासणीचे प्रकार"
+
+#: .\templates\dashboard\water_quality_form.html:168
+#: .\templates\dashboard\water_quality_form.html:171
+msgid "Color"
+msgstr "रंग"
+
+#: .\templates\dashboard\water_quality_form.html:172
+msgid "Colorless"
+msgstr "रंगहीन"
+
+#: .\templates\dashboard\water_quality_form.html:176
+#: .\templates\dashboard\water_quality_form.html:179
+msgid "Odour"
+msgstr "गंध"
+
+#: .\templates\dashboard\water_quality_form.html:180
+msgid "Odourless"
+msgstr "गंधहीन"
+
+#: .\templates\dashboard\water_quality_form.html:184
+#: .\templates\dashboard\water_quality_form.html:187
+msgid "Taste"
+msgstr "चव"
+
+#: .\templates\dashboard\water_quality_form.html:188
+msgid "Tasteless"
+msgstr "चविष्ट"
+
+#: .\templates\dashboard\water_quality_form.html:192
+msgid "pH Content (0-14)"
+msgstr "pH सामग्री (0-14)"
+
+#: .\templates\dashboard\water_quality_form.html:197
+msgid "Turbidity Content (in NTU 1-3)"
+msgstr "टर्बिडिटी सामग्री (NTU 1-3 मध्ये)"
+
+#: .\templates\dashboard\water_quality_form.html:202
+msgid "Total Hardness Content ((mg/ L) 200 to 600)"
+msgstr "एकूण कडकपणा सामग्री ((mg/L) 200 ते 600)"
+
+#: .\templates\dashboard\water_quality_form.html:207
+msgid "Chlorides Content ((mg/L) 250 TO 1000)"
+msgstr "क्लोराईड सामग्री ((मिग्रॅ/एल) 250 ते 1000)"
+
+#: .\templates\dashboard\water_quality_form.html:212
+msgid "Total Alkalinity Content ((mg/ L) 200 TO 600)"
+msgstr "एकूण क्षारता सामग्री ((mg/L) 200 ते 600)"
+
+#: .\templates\dashboard\water_quality_form.html:217
+msgid "Nitrate Content ((mg/ L) 45 TO 45)"
+msgstr "नायट्रेट सामग्री ((mg/L) 45 ते 45)"
+
+#: .\templates\dashboard\water_quality_form.html:222
+msgid "Fluoride Content ((mg/ L) 1.0 TO 1.5)"
+msgstr "फ्लोराईड सामग्री ((mg/L) 1.0 ते 1.5)"
+
+#: .\templates\dashboard\water_quality_form.html:227
+msgid "Iron Content ((mg/ L) 0.3 TO 1.0)"
+msgstr "लोह सामग्री ((mg/L) 0.3 ते 1.0)"
+
+#: .\templates\dashboard\water_quality_form.html:232
+msgid "Residual Chlorine Content (in units)"
+msgstr "अवशिष्ट क्लोरीन सामग्री (युनिट्समध्ये)"
+
+#: .\templates\dashboard\water_quality_form.html:237
+msgid "Calcium Content ((mg/ L))"
+msgstr "कॅल्शियम सामग्री ((mg/L))"
+
+#: .\templates\dashboard\water_quality_form.html:242
+msgid "Magnesium Content ((mg/ L))"
+msgstr "मॅग्नेशियम सामग्री ((mg/L))"
+
+#: .\templates\dashboard\water_related_forms.html:19
+#: .\templates\dashboard\watergis_base.html:194
+#: .\templates\dashboard\watergis_base2.html:251
+msgid "Water Related Forms"
+msgstr "पाणी संबंधित फॉर्म"
+
+#: .\templates\dashboard\water_related_forms.html:39
+#: .\templates\dashboard\water_usable.html:24
+msgid "Water Usable Features Form"
+msgstr "पाणी वापरण्यायोग्य वैशिष्ट्ये फॉर्म"
+
+#: .\templates\dashboard\water_related_forms.html:46
+msgid " © 2023 Amrutvahini. All rights reserved. "
+msgstr "© २०२३ अमृतवाहिनी. सर्व हक्क राखीव."
+
+#: .\templates\dashboard\water_usable.html:73
+msgid "Lift Irrigation"
+msgstr "उपसा सिंचन"
+
+#: .\templates\dashboard\water_usable.html:74
+msgid "Drinking Water"
+msgstr "पिण्याचे पाणी"
+
+#: .\templates\dashboard\water_usable.html:75
+msgid "Fishing"
+msgstr "मासेमारी"
+
+#: .\templates\dashboard\water_usable.html:76
+msgid "Washing Clothes"
+msgstr "कपडे धुणे"
+
+#: .\templates\dashboard\water_usable.html:77
+msgid "Rickshaw Bathing"
+msgstr "रिक्षा आंघोळ"
+
+#: .\templates\dashboard\water_usable.html:78
+msgid "Cattle Bathing"
+msgstr "गुरांची आंघोळ"
+
+#: .\templates\dashboard\watergis_base.html:174
+msgid "Census Data Source : Census 2011"
+msgstr "जनगणना डेटा स्रोत: जनगणना 2011"
+
+#: .\templates\dashboard\watergis_base.html:191
+#: .\templates\dashboard\watergis_base2.html:245
+msgid "Home"
+msgstr "मुख्यपृष्ठ"
+
+#: .\templates\dashboard\watergis_base.html:200
+msgid "Amrutvahini 2"
+msgstr "अमृतवाहिनी २"
+
+#: .\templates\dashboard\watergis_base.html:221
+msgid ""
+" Wesite is under construction . For suggesstions please contact\n"
+"    Prof Jitendra Shah (Info@communitygis.net), or Monika Shah (samanvay."
+"mumbai@gmail.com). Design Incharge : Ms. Sweta\n"
+"    Jhunjhunwala from Jalbiradari(sweta@tulsipatra.org) "
+msgstr ""
+"साइटचे बांधकाम सुरू आहे. सूचनांसाठी कृपया संपर्क करा\n"
+"प्रा. जितेंद्र शाह (Info@communitygis.net), किंवा मोनिका शाह (समन्वय.mumbai@gmail."
+"com). डिझाईन इन्चार्ज: कु. स्वेता\n"
+"जलबिरादरी कडून झुनझुनवाला (sweta@tulsipatra.org)"
+
+#: .\templates\dashboard\watergis_base2.html:234
+msgid "Census Data Source: Census 2011"
+msgstr "जनगणना डेटा स्रोत: जनगणना 2011"
+
+#: .\templates\dashboard\watergis_base2.html:248
+msgid "About"
+msgstr "बद्दल"
+
+#: .\templates\dashboard\watergis_base2.html:254
+msgid "Capture Wells"
+msgstr "वेल्स कॅप्चर करा"

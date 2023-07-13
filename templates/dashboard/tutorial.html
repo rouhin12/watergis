@@ -1,5 +1,5 @@
 {% extends 'dashboard/watergis_base2.html' %}
-{% load static%} {% block content %}
+{% load static%} {% block content %}{% load i18n %}
 
 <style>
     /* ... Your existing styles ... */
@@ -16,9 +16,9 @@
 
 <div class="container mt-5 scrollable-container">
     <!-- Content goes here -->
-    <h1>Resources</h1>
+    <h1>{% trans "Resources" %}</h1>
     <hr>
-    <h6>Documents</h6>
+    <h6>{% trans "Documents" %}</h6>
     <ul class="list-group">
 
         {% for doc in documents %}
@@ -27,7 +27,7 @@
         </li>
         {% endfor %}
     </ul><br>
-    <h6>Images</h6>
+    <h6>{% trans "Images" %}</h6>
     <div class="row mt-5">
 
         {% for image in images %}
@@ -38,7 +38,7 @@
         </div>
         {% endfor %}
     </div>
-    <h6>Links </h6><br>
+    <h6>{% trans "Links" %}</h6><br>
     <ul class="list-group">
 
         {% for link in links %}

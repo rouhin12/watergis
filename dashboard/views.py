@@ -4,6 +4,7 @@ from .models import Features
 from .models import Layers
 from .models import water_quality_model
 from .models import links
+from django.http import HttpResponse
 # from .models import 
 from django.contrib import messages
 import re,base64,time
@@ -17,9 +18,8 @@ from django.http import JsonResponse
 from wagtail.documents.models import Document
 from wagtail.images.models import Image
 from django.conf import settings
-from django.utils import translation
-from django.utils.translation import LANGUAGE_SESSION_KEY
-from django.views import View
+from django.http import HttpResponseRedirect
+from django.utils.translation import gettext as _
 
 import os
 
@@ -294,16 +294,15 @@ def water_usable(request):
         form = water_usable_form()
     return render(request,'dashboard/water_usable.html',{})
 
-class SetLanguageView(View):
-    def get(self, request):
-        lang_code = request.GET.get('language')
+def set_language(request):
+    lang = request.GET.get('l', 'en')
+    request.session[settings.LANGUAGE_SESSION_KEY] = lang
+    # return to previous view
+    response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    # set cookies as well
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response
 
-        if lang_code and translation.check_for_language(lang_code):
-            request.session[LANGUAGE_SESSION_KEY] = lang_code
-            translation.activate(lang_code)
-            response = redirect(request.META.get('HTTP_REFERER'))
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang_code)
-
-            return response
-
-        return redirect('/')
+def index(request):
+    output = _('Hello, world!')
+    return HttpResponse(output)
