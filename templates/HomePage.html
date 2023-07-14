@@ -1,4 +1,4 @@
-{% block body %}
+{% block body %}{% load i18n %}
 {% load static%}
 <!DOCTYPE HTML>
 <!--
@@ -65,7 +65,7 @@
                                     </div>
                                     <div class="col col2">
                                         <h3>About</h3>
-                                        <p>CommunityGIS is a platform for community for a spatial data infrastructure. This consists of
+                                        <p>{% blocktrans %}CommunityGIS is a platform for community for a spatial data infrastructure. This consists of
                                             frontend described below and backend which is geonode <a href="https://geonode.org">(visit)</a>.Primary
                                             objective of communitygis is to provide educational platform for learners to learn about spatial
                                             information and learn how these modern tools can be used to solve real life problems. As a
@@ -73,14 +73,14 @@
                                             collection to digitization of published maps) to those who can analyse the data to infer useful
                                             social knowledge. It is a digital way to collect, aggregate , access , analyse data and finally
                                             provide decision support to the community manipulate reality. 
-                                        </p>    
-                                                                            <p> Since all source code is
+                                            {% endblocktrans %}</p>    
+                                                                            <p> {% blocktrans %} Since all source code is
                                             published hereby (for frontend) , under GPL, any one can reproduce the technology , without
                                             any permission from makerGHAT. The data sources are Census of India and GISE Lab of CSE
                                             deptt , IIT Bombay. This website has been created by volunteers and coordinated
                                             by www.makerghat.org<a href="https://makerghat.org">(visit)</a> This is inspired by ideas as in 'p2p governance' of Bowens<a href="https://blog.p2pfoundation.net/about">(know more)</a>
                                             and Third Pillar <a href="https://www.penguinrandomhouse.com/books/566369/the-third-pillar-by-raghuram-
-                                            rajan/9780525558316/">(click here)</a> of Dr Raghuram Rajan.</b> </p>
+                                            rajan/9780525558316/">(click here)</a> of Dr Raghuram Rajan.</b> {% endblocktrans %}</p>
                                         <!-- <a href="#" class="button">Learn More</a> -->
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                             <div class="flex flex-2">
                                 <div class="col col2">
                                     <h3>Caveat</h3>
-                                    <p>All data are collected by volunteers and makerGHAT only provides the technology platform . Errors or omissions in data are not responsibility of makerGHAT. No claims are made for accuracy of the maps data. Users may use the same at THEIR OWN RISK.</p>
+                                    <p>{% blocktrans %} All data are collected by volunteers and makerGHAT only provides the technology platform . Errors or omissions in data are not responsibility of makerGHAT. No claims are made for accuracy of the maps data. Users may use the same at THEIR OWN RISK.{% endblocktrans %}</p>
                                     <!-- <a href="#" class="button">Learn More</a> -->
                                 </div>
                                 <div class="col col1 first">
@@ -118,10 +118,10 @@
                                         <!-- <div class="image round fit">
                                             <img src="images/pic03.jpg" alt="" />
                                         </div> -->
-                                        <p>Jitendra Shah, GISE lab, CSE department, IITB <br>
+                                        <p>{% blocktrans %} Jitendra Shah, GISE lab, CSE department, IITB <br>
 
                                              Mobile : 9892288943 , email : jituviju@gmail.com
-                                            </p>
+                                             {% endblocktrans %}</p>
                                         <!-- <a href="#" class="button">Learn More</a> -->
                                     </div>
                                     <!-- <div class="col align-center">

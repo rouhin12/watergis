@@ -12,17 +12,19 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from django.utils.translation import gettext_lazy as _
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # GDAL PATH
-# GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
+GDAL_LIBRARY_PATH = r'C:\OSGeo4W\bin\gdal306.dll'
 
-# # GEOS PATH
-# GEOS_LIBRARY_PATH = r'C:\OSGeo4W\bin\geos_c.dll'
+# GEOS PATH
+GEOS_LIBRARY_PATH = r'C:\OSGeo4W\bin\geos_c.dll'
 
-# PROJ_LIBRARY_PATH = r'C:\OSGeo4W64\share\proj'
+PROJ_LIBRARY_PATH = r'C:\OSGeo4W64\share\proj'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -47,8 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # "translation_manager",
     'crispy_forms',
-
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -60,7 +62,6 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail',
-
     'taggit',
     'modelcluster',
 ]
@@ -68,12 +69,13 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'wagtail.contrib.redirects.middleware.RedirectMiddleware',    
 ]
 
 ROOT_URLCONF = 'community.urls'
@@ -89,6 +91,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
             ],
         },
     },
@@ -150,6 +153,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS =[
+    os.path.join(BASE_DIR,'locale'),
+]
+
+LANGUAGES =[
+    ('en', 'English'),
+    ('hi','Hindi'),
+    ('mr', 'Marathi')
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

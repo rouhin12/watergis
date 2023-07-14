@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!doctype html>
 <html lang="en">
 
@@ -230,7 +231,7 @@
 
     <div class="project-title text-white">
       चला जाणूया नदीला
-      <div style="font-size: x-small;">Census Data Source: Census 2011</div>
+      <div style="font-size: x-small;">{% trans "Census Data Source: Census 2011"%}</div>
     </div>
 
     <button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -241,25 +242,47 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="/">Home</a>
+          <a class="nav-link text-white" href="/">{% trans "Home"%}</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="{% url 'about' %}">About</a>
+          <a class="nav-link text-white" href="{% url 'about' %}">{% trans "About" %}</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="{% url 'waterquality' %}">Water Quality</a>
+          <a class="nav-link text-white" href="{% url 'water_related_forms' %}">{% trans "Water Related Forms" %}</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="{% url 'capt_wells' %}">Capture Wells</a>
+          <a class="nav-link text-white" href="{% url 'capt_wells' %}">{% trans "Capture Wells" %}</a>
         </li>
         <li class="nav-item" data-toggle="collapse" data-target="#navbarCollapse.show">
-          <a class="nav-link text-white" href="{% url 'resources' %}">Resources</a>
+          <a class="nav-link text-white" href="{% url 'resources' %}">{% trans "Resources" %}</a>
         </li>
+
       </ul>
+      <form id="languageForm" action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}" />            
+        <select name="language" style="width: auto;" id="languageSelect">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for language in languages %} 
+              <option value="{{ language.code }}"
+                {% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+              </option>    {% endfor %}
+        </select>  <input type = "submit" value ="Go" style="display: none;">
+    </form>
     </div>
   </nav>
 
-
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var languageSelect = document.getElementById('languageSelect');
+      languageSelect.addEventListener('change', function() {
+        document.getElementById('languageForm').submit(); // Automatically submit the form when selection changes
+      });
+    });
+  </script>
 
 
 

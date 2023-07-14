@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}{% load i18n %}
 <!doctype html>
 <html lang="en">
 
@@ -171,7 +171,7 @@
     <a class="navbar-brand" href="#"> <img src="{% static 'images/amrutvahinilogo.png' %}" alt="community-gis"
         class="logo-img"> </a>
 
-    <div class="project-title">चला जाणूया नदीला<div style="font-size: x-small;">Census Data Source : Census 2011</div>
+    <div class="project-title">चला जाणूया नदीला<div style="font-size: x-small;">{% trans "Census Data Source : Census 2011" %}</div>
     </div>
 
 
@@ -188,26 +188,39 @@
       </ul>
 
       <ul class="navbar-nav ml-auto">
-        <a class='btn btn-secondary' href="/" style="background-color: rgba(233, 89, 89, 0.508);">Home</a>
+        <a class='btn btn-secondary' href="/" style="background-color: rgba(233, 89, 89, 0.508);">{%trans "Home" %}</a>
         <!-- <a class = 'btn btn-secondary' href="{% static 'images/Layer_creation_Beat_map_for_Solid_Waste_Management_2DEc2022_1.pdf'%}" style="background-color: rgba(233, 89, 89, 0.508);">Tutorial on 'Draw Map'</a> -->
-        <a href="{% url 'waterquality' %}" class="btn btn-primary text-white">
-          Water Quality
+        <a href="{% url 'water_related_forms' %}" class="btn btn-primary text-white">
+          {% trans "Water Related Forms" %}
         </a>
         <a href="{% url 'resources' %}" class="btn btn-primary text-white">
-          Resources
+          {% trans "Resources" %}
         </a>
         <a href="{% url 'watergis2' %}" class="btn btn-primary text-white">
-          Amrutvahini 2
+          {% trans "Amrutvahini 2" %}
         </a>
       </ul>
-
+      <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}" />            
+        <select name="language" style="width: auto;" id="">
+          {% get_current_language as LANGUAGE_CODE %}
+          {% get_available_languages as LANGUAGES %}
+          {% get_language_info_list for LANGUAGES as languages %}
+          {% for language in languages %} 
+              <option value="{{ language.code }}"
+                {% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                    {{ language.name_local }} ({{ language.code }})
+              </option>    {% endfor %}
+        </select>  <input type = "submit" value ="Go">
+    </form>
 
     </div>
 
   </nav>
-  <div class="project-title" style="font-size: small;">Wesite is under construction . For suggesstions please contact
+  <div class="project-title" style="font-size: small;">{% blocktrans %} Wesite is under construction . For suggesstions please contact
     Prof Jitendra Shah (Info@communitygis.net), or Monika Shah (samanvay.mumbai@gmail.com). Design Incharge : Ms. Sweta
-    Jhunjhunwala from Jalbiradari(sweta@tulsipatra.org)</div>
+    Jhunjhunwala from Jalbiradari(sweta@tulsipatra.org) {% endblocktrans %}</div>
 
 
   <div class="full-height">

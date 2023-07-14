@@ -2,8 +2,9 @@ from django.shortcuts import render,redirect
 from .models import UploadWellPictureModel
 from .models import Features
 from .models import Layers
-from .models import water_quality_model 
+from .models import water_quality_model
 from .models import links
+from django.http import HttpResponse
 # from .models import 
 from django.contrib import messages
 import re,base64,time
@@ -11,10 +12,14 @@ from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 from django.contrib.gis.geos import Point
 from .forms import UploadWellPictureForm
-from .forms import quality_form
+from .forms import quality_form, features_form, physical_features_form
+from .forms import human_form_form, cultural_form, water_usable_form
 from django.http import JsonResponse
 from wagtail.documents.models import Document
 from wagtail.images.models import Image
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.utils.translation import gettext as _
 
 import os
 
@@ -26,6 +31,9 @@ def Dash(request):
 
 def map(request):
     return render(request, "dashboard/map.html") 
+
+def feature(request):
+    return render(request, "dashboard/feature.html") 
 
 def watergis_new(request):
     user_district = request.GET.get('district')
@@ -207,3 +215,94 @@ def static_files_view(request):
         
     }
     return render(request, 'dashboard/tutorial.html', context)
+
+def water_related_forms(request):
+    documents=Document.objects.all()
+
+    context = {
+        'documents':documents,        
+    }
+    return render(request, 'dashboard/water_related_forms.html', context)
+
+def feature(request):
+    if request.method == 'POST':
+        form = features_form(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Registration successful." )
+            print("data is saved.")
+            return redirect('water_related_forms')
+    else:
+        form = features_form()
+    return render(request,'dashboard/feature.html',{})
+
+def physical_feature(request):
+    if request.method == 'POST':
+        form = physical_features_form(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Registration successful." )
+            print("data is saved.")
+            return redirect('water_related_forms')
+    else:
+        form = physical_features_form()
+    return render(request,'dashboard/physical_feature.html',{})
+
+def human_form(request):
+    if request.method == 'POST':
+        form = human_form_form(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Registration successful." )
+            print("data is saved.")
+            return redirect('water_related_forms')
+    else:
+        form = human_form_form()
+    return render(request,'dashboard/human_form.html',{})
+
+def cultural(request):
+    if request.method == 'POST':
+        form = cultural_form(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Registration successful." )
+            print("data is saved.")
+            return redirect('water_related_forms')
+    else:
+        form = cultural_form()
+    return render(request,'dashboard/cultural.html',{})
+
+def water_usable(request):
+    if request.method == 'POST':
+        form = water_usable_form(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save()
+            instance.user = request.user
+            instance.save()
+            messages.success(request, "Registration successful." )
+            print("data is saved.")
+            return redirect('water_related_forms')
+    else:
+        form = water_usable_form()
+    return render(request,'dashboard/water_usable.html',{})
+
+def set_language(request):
+    lang = request.GET.get('l', 'en')
+    request.session[settings.LANGUAGE_SESSION_KEY] = lang
+    # return to previous view
+    response = HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    # set cookies as well
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response
+
+def index(request):
+    output = _('Hello, world!')
+    return HttpResponse(output)

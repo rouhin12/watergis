@@ -3,6 +3,7 @@ from PIL import Image
 from io import BytesIO
 import sys
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.utils.translation import gettext as _
 
 class UploadWellPictureModel(models.Model):
     picture = models.ImageField( upload_to='WellPics/', blank=True, null=True, default='WellPics/noImage.jpg')
@@ -124,10 +125,6 @@ class Layers(models.Model):
     def __str__(self):
         return f"{self.sub_title}, {self.display_checkbox_name}"
     
-    class Meta:
-       managed = True
-       db_table = 'layers'
-    
 class water_quality_model(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100)
@@ -139,11 +136,11 @@ class water_quality_model(models.Model):
     color=models.CharField(max_length=100, null=True)
     odour=models.CharField(max_length=100, null=True)
     taste=models.CharField(max_length=100, null=True)
-    ph = models.IntegerField(blank=True, null=True)
-    turbid = models.IntegerField(blank=True, null=True)
-    hard = models.IntegerField(blank=True, null=True)
-    chloride = models.IntegerField(blank=True, null=True)
-    alkaline = models.IntegerField(blank=True, null=True)
+    ph = models.IntegerField(max_length=5,blank=True, null=True)
+    turbid = models.IntegerField(max_length=5,blank=True, null=True)
+    hard = models.IntegerField(max_length=15,blank=True, null=True)
+    chloride = models.IntegerField(max_length=15,blank=True, null=True)
+    alkaline = models.IntegerField(max_length=15,blank=True, null=True)
     nitrate = models.FloatField(max_length=15,blank=True, null=True)
     fluoride = models.FloatField(max_length=15,blank=True, null=True)
     iron = models.FloatField(max_length=15,blank=True, null=True)
@@ -154,14 +151,109 @@ class water_quality_model(models.Model):
 
     def __str__(self):
         return self.name
-    class Meta:
-       managed = False
-       db_table = 'water_quality_model'
-    
 class links(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=100)
     def __str__(self):
         return self.title
 
-  
+class featuresForm(models.Model):
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    stretchNo = models.CharField(max_length=100)
+    stretchStart = models.DateField(blank=True, null=True)
+    stretchEnd = models.DateField(blank=True, null=True)
+    owner = models.CharField(max_length=100)
+    projectIncharge = models.CharField(max_length=100)
+    revisionNo = models.CharField(max_length=100)
+    contactNo = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=15, blank=True, null=True)
+    longitude = models.CharField(max_length=15, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    feature = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.district_name
+    
+class physical_features_model(models.Model):
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    stretchNo = models.CharField(max_length=100)
+    stretchStart = models.DateField(blank=True, null=True)
+    stretchEnd = models.DateField(blank=True, null=True)
+    owner = models.CharField(max_length=100)
+    projectIncharge = models.CharField(max_length=100)
+    revisionNo = models.CharField(max_length=100)
+    contactNo = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=15, blank=True, null=True)
+    longitude = models.CharField(max_length=15, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    feature = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.district_name
+    
+class water_usable_model(models.Model):
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    stretchNo = models.CharField(max_length=100)
+    stretchStart = models.DateField(blank=True, null=True)
+    stretchEnd = models.DateField(blank=True, null=True)
+    owner = models.CharField(max_length=100)
+    projectIncharge = models.CharField(max_length=100)
+    revisionNo = models.CharField(max_length=100)
+    contactNo = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=15, blank=True, null=True)
+    longitude = models.CharField(max_length=15, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    feature = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.district_name
+
+class cultural_model(models.Model):
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    stretchNo = models.CharField(max_length=100)
+    stretchStart = models.DateField(blank=True, null=True)
+    stretchEnd = models.DateField(blank=True, null=True)
+    owner = models.CharField(max_length=100)
+    projectIncharge = models.CharField(max_length=100)
+    revisionNo = models.CharField(max_length=100)
+    contactNo = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=15, blank=True, null=True)
+    longitude = models.CharField(max_length=15, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    feature = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.district_name
+
+class human_form_model(models.Model):
+    district = models.CharField(max_length=100)
+    taluka = models.CharField(max_length=100)
+    village = models.CharField(max_length=100)
+    stretchNo = models.CharField(max_length=100)
+    stretchStart = models.DateField(blank=True, null=True)
+    stretchEnd = models.DateField(blank=True, null=True)
+    owner = models.CharField(max_length=100)
+    projectIncharge = models.CharField(max_length=100)
+    revisionNo = models.CharField(max_length=100)
+    contactNo = models.CharField(max_length=100)
+    latitude = models.CharField(max_length=15, blank=True, null=True)
+    longitude = models.CharField(max_length=15, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    feature = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return self.district_name
+    

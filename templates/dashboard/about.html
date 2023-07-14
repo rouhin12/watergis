@@ -1,17 +1,17 @@
 {% extends 'dashboard/watergis_base2.html' %}
-{% load static%} {% block content %}
+{% load i18n %}{% load static%} {% block content %}
 
 <section class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <h1>About Amrutvahini</h1>
-            <p>Website is under construction. For suggestions, please contact:</p>
+            <h1>{% trans "About Amrutvahini" %}</h1>
+            <p>{% blocktrans %}Website is under construction. For suggestions, please contact:{% endblocktrans %}</p>
             <ul>
-                <li>Prof. Jitendra Shah - <a href="mailto:info@communitygis.net">info@communitygis.net</a></li>
-                <li>Monika Shah - <a href="mailto:samanvay.mumbai@gmail.com">samanvay.mumbai@gmail.com</a></li>
+                <li>{% trans "Prof. Jitendra Shah -" %} <a href="mailto:info@communitygis.net">{% trans "info@communitygis.net" %}</a></li>
+                <li>{% trans "Monika Shah -" %}" <a href="mailto:samanvay.mumbai@gmail.com">{% trans "samanvay.mumbai@gmail.com" %}</a></li>
             </ul>
-            <p>Design Incharge: Ms. Sweta Jhunjhunwala from Jalbiradari</p>
-            <p>Contact: <a href="mailto:sweta@tulsipatra.org">sweta@tulsipatra.org</a></p>
+            <p>{% blocktrans %}Design Incharge: Ms. Sweta Jhunjhunwala from Jalbiradari{% endblocktrans %}</p>
+            <p>{% trans "Contact:" %}<a href="mailto:sweta@tulsipatra.org">{% trans "sweta@tulsipatra.org" %}</a></p>
         </div>
         <div class="col-md-6">
             <img src="{% static 'images/logo.jpeg' %}" alt="About Image" class="img-fluid">
@@ -21,7 +21,7 @@
 
 <!-- Footer -->
 <footer class="bg-dark text-light text-center py-3 fixed-bottom">
-    <p>© 2023 Amrutvahini. All rights reserved.</p>
+    <p>{% blocktrans %}© 2023 Amrutvahini. All rights reserved.{% endblocktrans %}</p>
 </footer>
 
 {% endblock %}
