@@ -1757,128 +1757,12 @@
                 putwards("Mumbai Suburban", 'geonode:corporatorwardboundary_mumbai_13may');
             else if (boundary == "{mumadmsubwards}")
                 putwards("Mumbai Suburban", 'geonode:mumbai_ward_boundary');
-            // else if (boundary == "{mah_river}") {
-            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-            //     putWMS1("maharashtra_rivers_from_osm2");
-            // }
-            // else if (boundary == "{mini_ws}") {
-            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-            //     putWMS1("mini_15_district0");
-            // }
-            // else if (boundary == "{pawana_basin}") {// Rivers Basin 
-            //     putWMS1("Pawana_Basin_Layer0");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{drainage}") {//Drainage Basin 
-            //     putWMS1("Ahamadnagar_drainage_files");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{indrayani_basin}") {// Rivers Basin 
-            //     putWMS1("Indrayani_Basin");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{wainganaga_basin}") {
-            //     putWMS1("wainganga_riverline_7april23");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{wainganaga_river}") {
-            //     putWMS1("wainganga_river");
-
-            // }
-            // else if (boundary == "{chulband_nadi}") {
-            //     putWMS1("maharashtra_rivers_from_osm");
-
-            // }
-            // else if (boundary == "{ulhas_villages}") {
-            //     putWMS1("ulhas_villages");
-
-            // }
-            // else if (boundary == "{bhandara_village}") {// Rivers Basin 
-            //     putWMS1("Bhandara_Shapefile_village");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{poisar}") {
-            //     putWMS1("poisar_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{dahisar}") {
-            //     putWMS1("Dahisar_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{oshiwara}") {
-            //     putWMS1("Oshiwara_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{pawana}") {
-            //     putWMS1("River_line_layers");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{indrayani}") {
-            //     putWMS1("Indrayani_river_line_layer");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{mithi}") {
-            //     putWMS1("Mithi_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{pawana_village}") {// Rivers Basin 
-            //     putWMS1("pawana_villages_poly_layers");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{indrayani_village}") {// Rivers Basin 
-            //     putWMS1("Indrayani_poly_village");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{agrani_village}")
-            //     putWMS1("Agrani_villages");
-
-            // else if (boundary == "{ashele}") {
-            //     putWMS1("Ashele_GW")
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{ashele_priority}") {
-            //     putWMS1("Ashele_priority")
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{ashele_line}") {
-            //     putWMS1("Ashele_line")
-            //     // putWMS1("Ashele_priority")
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == '{nashik_turbidity}') {
-            //     putWMS1("Nashik_water_quality_turbidity")
-            // }
-
-            // else if (boundary == '{nashik_alkalinity}') {
-            //     putWMS1("Nashik_water_quality_alkanility0")
-            // }
-            // else if (boundary == '{nashik_ph}') {
-            //     putWMS1("Nashik_water_quality_ph")
-            // }
-            // else if (boundary == '{nashik_nitrates}') {
-            //     putWMS1("Nashik_water_quality_Nitrates")
-            // }
-            // else if (boundary == '{nashik_flourides}') {
-            //     putWMS1("Nashik_water_quality_Flourides")
-            // }
-            // else if (boundary == '{nashik_chloride}') {
-            //     putWMS1("Nashik_water_quality_Chloride")
-            // }
-            // else if (boundary == '{nashik_sulphate}') {
-            //     putWMS1("Nashik_water_quality_Sulphate")
-            // }
-            // else if (boundary == '{nashik_odour}') {
-            //     putWMS1("Nashik_water_quality_Odour")
-            // }
-            // else if (boundary == '{nashik_taste}') {
-            //     putWMS1("Nashik_water_quality_Taste")
-            // }
-            // else if (boundary == '{nashik_taste}') {
-            //     putWMS1("Nashik_water_quality_Taste")
-            // }
-            // else if (boundary == '{chandrapur_river}') {
-            //     putWMS1("Chandrapur_river__osm_22june2023")
-            // }
+            else if (boundary == "{mah_river}") {
+                // alert("in correct place")
+                // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
+                putWMS1("maharashtra_rivers_from_osm2");
+            }
+            
 
             //  fetching from admin panel 
             {% for layer in alllayers %}
@@ -4956,7 +4840,7 @@
                 layers: layer,
                 format: 'image/png',
                 transparent: 'true',
-                zoom: '14',
+                zoom: '16',
                 // propertyName: 'field_13,latitude,longitude', 
             });
 
@@ -4965,6 +4849,7 @@
 
 
         wms_layer1.addTo(mymap);
+        
         newLayerList.push(wms_layer1);
 
         console.log(wms_layer1);
@@ -5100,6 +4985,7 @@
 
 
     function putWMS2(layer,cql) {
+        // alert(layer)
         console.log("layer" + layer);
         var wms_layer1;
         var selectedLayerBounds;
