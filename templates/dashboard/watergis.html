@@ -2038,7 +2038,7 @@
                     else {
                         swal({
                             title: "Please Select Layers To Display",
-                            text: "select checkbox for ex antodaya",
+                            text: "select checkbox for example antodaya",
                             timer: 2000
                         });
                     }
@@ -2113,7 +2113,7 @@
               <tbody>
             {% if i.picture %}
               <tr>
-                <tr><img src=../media{{ i.picture.url }} alt="No image uploaded" style="height:100px; width:170px; border:2px solid #555;"/>
+                <tr><img src=../{{ i.picture.url }} alt="No image uploaded" style="height:100px; width:170px; border:2px solid #555;"/>
               </tr>
               {% endif %}
 
@@ -4118,7 +4118,7 @@
                         // alert("called",opac)
                         // alert($('#image-opacity').html(this.value))
                         // alert(this.value)
-                        // const opacity_val =this.value;
+                        const opacity_val =this.value;
                     });
                 function putWMSLayerdist() {
                     var dist = document.getElementById('district').value;
