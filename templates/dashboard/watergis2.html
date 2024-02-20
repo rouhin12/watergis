@@ -1743,6 +1743,7 @@
     }
     function getBoundary(obj) {
         let boundary = obj.value;
+        // alert(boundary)
         if ($(obj).is(":checked")) {
 
             if (boundary == "{state}")
@@ -1761,6 +1762,35 @@
                 // alert("in correct place")
                 // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
                 putWMS1("maharashtra_rivers_from_osm2");
+            }
+            else if (boundary == "{nashik_turbidity}") {
+                // alert("in correct place")
+                // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
+                putWMS1("Nashik_water_quality_turbidity");
+            }
+            else if (boundary == '{nashik_alkalinity}') {
+                putWMS1("Nashik_water_quality_alkanility0")
+            }
+            else if (boundary == '{nashik_ph}') {
+                putWMS1("Nashik_water_quality_ph")
+            }
+            else if (boundary == '{nashik_nitrates}') {
+                putWMS1("Nashik_water_quality_Nitrates")
+            }
+            else if (boundary == '{nashik_flourides}') {
+                putWMS1("Nashik_water_quality_Flourides")
+            }
+            else if (boundary == '{nashik_chloride}') {
+                putWMS1("Nashik_water_quality_Chloride")
+            }
+            else if (boundary == '{nashik_sulphate}') {
+                putWMS1("Nashik_water_quality_Sulphate")
+            }
+            else if (boundary == '{nashik_odour}') {
+                putWMS1("Nashik_water_quality_Odour")
+            }
+            else if (boundary == '{nashik_taste}') {
+                putWMS1("Nashik_water_quality_Taste")
             }
             
 
@@ -1864,33 +1894,33 @@
             // else if (boundary == '{ashele_line}') {
             //     removeWMS("Ashele_line")
             // }
-            // else if (boundary == '{nashik_turbidity}') {
-            //     removeWMS("Nashik_water_quality_turbidity")
-            // }
-            // else if (boundary == '{nashik_alkalinity}') {
-            //     removeWMS("Nashik_water_quality_alkanility0")
-            // }
-            // else if (boundary == '{nashik_ph}') {
-            //     removeWMS("Nashik_water_quality_ph")
-            // }
-            // else if (boundary == '{nashik_nitrates}') {
-            //     removeWMS("Nashik_water_quality_Nitrates")
-            // }
-            // else if (boundary == '{nashik_flourides}') {
-            //     removeWMS("Nashik_water_quality_Flourides")
-            // }
-            // else if (boundary == '{nashik_chloride}') {
-            //     removeWMS("Nashik_water_quality_Chloride")
-            // }
-            // else if (boundary == '{nashik_sulphate}') {
-            //     removeWMS("Nashik_water_quality_Sulphate")
-            // }
-            // else if (boundary == '{nashik_odour}') {
-            //     removeWMS("Nashik_water_quality_Odour")
-            // }
-            // else if (boundary == '{nashik_taste}') {
-            //     removeWMS("Nashik_water_quality_Taste")
-            // }
+            else if (boundary == '{nashik_turbidity}') {
+                removeWMS("Nashik_water_quality_turbidity")
+            }
+            else if (boundary == '{nashik_alkalinity}') {
+                removeWMS("Nashik_water_quality_alkanility0")
+            }
+            else if (boundary == '{nashik_ph}') {
+                removeWMS("Nashik_water_quality_ph")
+            }
+            else if (boundary == '{nashik_nitrates}') {
+                removeWMS("Nashik_water_quality_Nitrates")
+            }
+            else if (boundary == '{nashik_flourides}') {
+                removeWMS("Nashik_water_quality_Flourides")
+            }
+            else if (boundary == '{nashik_chloride}') {
+                removeWMS("Nashik_water_quality_Chloride")
+            }
+            else if (boundary == '{nashik_sulphate}') {
+                removeWMS("Nashik_water_quality_Sulphate")
+            }
+            else if (boundary == '{nashik_odour}') {
+                removeWMS("Nashik_water_quality_Odour")
+            }
+            else if (boundary == '{nashik_taste}') {
+                removeWMS("Nashik_water_quality_Taste")
+            }
             // else if (boundary == '{chandrapur_river}') {
             //     removeWMS("Chandrapur_river__osm_22june2023")
             // }
@@ -4913,10 +4943,10 @@
         //     mymap.flyTo([19.2107, 73.1523], 15);
         //     addWMSLegend1(layer);
         // }
-        // else if (layer == 'Nashik_water_quality_turbidity') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
+        else if (layer == 'Nashik_water_quality_turbidity') {
+            mymap.flyTo([19.2107, 73.1523], 8);
+            // addWMSLegend1(layer);
+        }
         // else if (layer == 'Nashik_water_quality_alkanility0') {
         //     mymap.flyTo([19.2107, 73.1523], 8);
         //     // addWMSLegend1(layer);
