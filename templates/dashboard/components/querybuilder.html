@@ -16,6 +16,7 @@
                 aria-selected="false">Nearest Query</a>
         </li>
     </ul>
+
     <div class="tab-content mt-4" id="queryTabContent">
         <div class="tab-pane fade show active" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
             <div class="mb-3">
@@ -28,73 +29,55 @@
             </div>
             <div class="mb-3">
                 <label>Select Column</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" 
-                id="qry_columns"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="qry_columns"></select>
             </div>
             <div class="mb-3">
-                <label>Select Operator</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" 
-                id="qry_operator"></select>
+                <label>Select operator</label>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="qry_operator"></select>
             </div>
             <div class="mb-3">
                 <label>Select Value</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="qry_values"></select>
             </div>
-            <div class="mb-3">
-                <input type="checkbox" id="enableColumn2"> <!-- Add this checkbox -->
-                <label for="enableColumn2">Enable Column 2</label> <!-- Add label for checkbox -->
-            </div>
-            
-            <div id="column2Options" style="display: none;"> <!-- Wrap Column 2 options in a container with display none -->
-                <div class="mb-3">
-                    <label>Select Logical Operator</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_logical_operator">
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label>Select Column 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns_2"></select>
-                </div>
-                <div class="mb-3">
-                    <label>Select Operator 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator_2"></select>
-                </div>
-                <div class="mb-3">
-                    <label>Select Value 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values_2"></select>
-                </div>
-            </div>
-            
-            {% comment %} <input type="checkbox" id="addAnotherLayerCheckbox">
-                <label for="addAnotherLayerCheckbox">Add Another Layer</label> {% endcomment %}
+
+
 
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label"><strong>SQL Where Clause:</strong></label>
                 <textarea class="form-control form-control-sm" id="rawquery" rows="2"></textarea>
                 <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span>
-                     Clear Text</button>
+                    Clear Text</button>
             </div>
+
             <div class="mb-3 text-center">
                 <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i
-                    class="icofont-check-circled"></i> Apply</button>
-            <!-- <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearQueryResult()"><i
-                    class="icofont-eraser"></i> Clear</button> -->
-            <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i
-                    class="icofont-eraser"></i> Clear Graphic</button>
+                        class="icofont-check-circled"></i> Apply</button>
+                <!-- <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearQueryResult()"><i
+                        class="icofont-eraser"></i> Clear</button> -->
+                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i
+                        class="icofont-eraser"></i> Clear Graphic</button>
             </div>
+            <!-- End Query Attribute Query Builder -->
         </div>
+
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                Coming soon!
+                Comming soon!
             </div>
+            <!-- Rest of the spatial query content -->
+            <!-- ... -->
         </div>
+
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
             <div class="mb-3">
-                Coming soon!
+                Comming soon!
                 <button class="btn btn-dark" id="selectLocation">Select Location</button>
             </div>
+            <!-- Rest of the nearest query content -->
+            <!-- ... -->
         </div>
     </div>
 </div>
