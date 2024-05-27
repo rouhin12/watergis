@@ -860,15 +860,31 @@
     });
     mymap.messagebox.options.timeout = 5000;
     mymap.messagebox.setPosition("bottomright");
-    lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik');
+    lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik',{
+        opacity:0.7
+    });
     lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
-    lyrImagery = L.tileLayer.provider('Esri.WorldImagery');
+    lyrImagery = L.tileLayer.provider('Esri.WorldImagery',{
+        opacity:0.7
+    });
     let tiles = new L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
         maxZoom: 20,
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     });
+    var baseLayers = {
+        "OSM": lyrOSM,
+        "Satellite": lyrImagery
+    };
 
-    mymap.addLayer(tiles);
+    var overlays = {
+        //"States": indiaState
+    };
+
+    var layercontrol = L.control.layers(baseLayers, overlays).addTo(mymap);
+
+
+// mymap.setView([19.000, 74.999],7);
+    mymap.addLayer(lyrImagery);
     var miniMap = new L.Control.MiniMap(lyrOSM2, { toggleDisplay: true }).addTo(mymap);
     //  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
 
@@ -899,32 +915,15 @@
         $(this).toggleClass('highlight')
     })
 
+    // objBasemaps = {
+    //     "Open Street Maps": lyrOSM,
+    //     "Imagery": lyrImagery
+    // };
 
+    // objOverlays = {
+    // };
 
-    // $("#closebutton").click(function () {
-    //     ctlSidebar.toggle();
-    // });
-
-
-
-    objBasemaps = {
-        "Open Street Maps": lyrOSM,
-        "Imagery": lyrImagery
-    };
-
-    objOverlays = {
-    };
-
-    // var ctlLayers = L.control.layers(objBasemaps, objOverlays).addTo(mymap);
-    // var ctlSidebar = L.control.sidebar('side-bar').addTo(mymap);
-    // // var ctlPan = L.control.pan().addTo(mymap);
-
-    // var ctlEasybutton = L.easyButton('fa fa fa-bars', function () {
-    //     ctlSidebar.toggle();
-    // }).addTo(mymap);
-    // ctlSidebar.show();
-
-    // var ctlZoomslider = L.control.zoomslider({ position: 'topright' }).addTo(mymap);
+    
     L.control.zoom({ position: 'topright' }).addTo(mymap);
     ctlAttribute = L.control.attribution({ position: 'bottomleft' }).addTo(mymap);
 
@@ -970,14 +969,12 @@
             opacity: 0.7,
         }
         );
+        
         indiaState.addTo(mymap);
+        layercontrol.addOverlay(indiaState, "States");
 
         $('#district').on('change', function () {
-            //$("#block").show();
-            // var state=document.getElementById("indstate");
-            // console.log(state);
-
-
+           
             $("#wells_district").show();
 
             if (this.value == 'Mumbai City') {
@@ -1191,6 +1188,15 @@
 
 
             // ctlSidebar.hide();
+            //atrribute mapping to view label and description instead od attribute name
+            var attributeMapping = {
+                "state_code": {
+                    "label": "State Code",
+                    "description": "Description 1"
+                },
+                
+                // Add mappings for other attributes
+            };  
 
 
             var div = document.getElementById("modal_info");
@@ -1225,6 +1231,7 @@
                             for (var i = 0; i < col.length; i++) {
                                 var th = document.createElement("th");
                                 th.innerHTML = col[i];
+                                th.innerHTML = attributeMapping[attribute]?.label || attribute;  // Use label or fallback to attribute name
                                 tr.appendChild(th);
                             }
 
@@ -1517,41 +1524,12 @@
         $('#districtd3').val("");
         // });
 
-        // Based on state selection 
-        // d3.csv("{% static 'data/healthdash/st_dist_pin.csv' %}", function (data) {
-        //     $('#indstate').on("change", function (d) {
-        //         var val = d3.select(this).property("value");
-        //         console.log("ind", val)
-        //         $('#district').find('option').not(':first').remove();
-        //         var data_1 = filterCSV(data, 'statename', val);
-        //         var select = document.getElementById("district");
-        //         for (var i = 0; i < data_1.length; i++) {
-        //             var opt = data_1[i];
-        //             var el = document.createElement("option");
-        //             el.textContent = opt;
-        //             el.value = opt;
-        //             select.appendChild(el);
-        //         }
-        //         $('#districtd3').val("");
-        //     });
 
         $('#district').on("change", function (d) {
             var val1 = document.getElementById("indstate").value;
             //console.log(val1);
             var val2 = d3.select(this).property("value");
             $('#pincode').find('option').not(':first').remove();
-
-            // var data_2 = filterCSV4(data, 'statename', val1, 'Districtname', val2);
-            // var select = document.getElementById("pincode");
-            // for (var i = 0; i < data_2.length; i++) {
-            //     var opt = data_2[i];
-            //     var el = document.createElement("option");
-            //     el.textContent = opt;
-            //     el.value = opt;
-            //     select.appendChild(el);
-            // }
-            // $('#pincoded3').val("");
-
 
             $('#block_s').find('option').not(':first').remove();
             var data_3 = filterCSV3(data, 'Districtname', val2);
@@ -1593,10 +1571,7 @@
     });
 
 
-
-
-
-    function showDrainage(obj) {
+   function showDrainage(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
         let boundary = obj.value;
@@ -1741,9 +1716,10 @@
 
         }
     }
+    
     function getBoundary(obj) {
         let boundary = obj.value;
-        // alert(boundary)
+        //alert(boundary)
         if ($(obj).is(":checked")) {
 
             if (boundary == "{state}")
@@ -2461,9 +2437,6 @@
 
     }
 
-
-
-
     function querybufCHC(currentPos) {
         console.log("chckeandr", activatedHealthFacility);
         let keys = Object.keys(activatedHealthFacility);
@@ -3047,10 +3020,10 @@
 
 
     }
-
+//Function to add district boundary for the district selected from left panel
     function putWMSLayerst() {
         indstate = document.getElementById('indstate').value;
-        //console.log(indstate);
+        console.log(indstate);
         var stLayerLatLong = listState[indstate];
 
         var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
@@ -3065,6 +3038,7 @@
         clear_distlayer();
         clearpoint_layer();
         wms_layer.addTo(mymap);
+        
         mymap.setView([stLayerLatLong[1], stLayerLatLong[2] - 2], 7);
         LayerList.push(wms_layer);
         // addWMSLegend(layer);
@@ -3110,6 +3084,8 @@
 
     function putWMSLayerdist() {
         var dist = document.getElementById('district').value;
+        // alert("dist change called for "+dist)
+
         var state = document.getElementById('indstate').value;
         // var layers = 'geonode:india_pincodes_12june';all_india_districts_11june2020';
         var layers = 'geonode:all_india_districts_11june2020';
@@ -3131,9 +3107,10 @@
             style: ""
         });
         //console.log(wms_layer);
-        //clear_layer();
+        clear_layer();
         //clearpoint_layer();
         wms_layer.addTo(mymap);
+        layercontrol.addOverlay(wms_layer, "District");
         setViewByDistrict('geonode:india_pincodes_12june', state, dist);
         distLayerList.push(wms_layer);
         // addWMSLegend(layer);
@@ -3219,6 +3196,7 @@
 
     //this function is for state boundary
     function putWMS(layer) {
+        // alert(layer);
         var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
             layers: layer,
             format: 'image/png',
@@ -4437,7 +4415,7 @@
                             </div>`)
             }
             else if (facility === 'nashik_wells') {
-                layer.bindPopup(`<div class = 'text-center'>Well Data<br>
+                layer.bindPopup(`<div class = 'text-left'>Well Data<br>
                                 District: ${feature.properties.District}<br>
                                 Well_Type :${feature.properties.Well_Type}<br>
                                 
@@ -4599,9 +4577,8 @@
                                 </div>`)
             }
             else if (facility == 'bhandara_obs_wells') {
-                layer.bindPopup(`<div class = 'text-center'>Well Data<br>
+                layer.bindPopup(`<div class = 'text-left'><b>Well Data</b><br>
                                             District: ${feature.properties.DTENAME}<br>
-                                            Well_Depth :${feature.properties.WELL_DEPTH}<br>
                                             DTE CODE : ${feature.properties.DTECODE}<br>
                                             DTE NAME: ${feature.properties.DTENAME}<br>
                                             NAME: ${feature.properties.THENAME}<br>
