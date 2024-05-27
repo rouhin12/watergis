@@ -119,7 +119,7 @@ $("#qry_columns").on("change", function () {
             } else if (dataType === "xsd:string") {
                 addOption(operatorSelect, "", "Select Option");
                 addOption(operatorSelect, "=", "Equal to");
-                addOption(operatorSelect, "+LIKE+", "Like");
+                addOption(operatorSelect, "LIKE", "Like");
             }
         }
 
@@ -166,6 +166,67 @@ $("#qry_values").on("change", function () {
     }
 });
 $("#qry_operator").on("change", function () {
+    if ($("#qry_operator").val() != "--SELECT VALUE--") {
+        var currentQuery = document.getElementById("rawquery").value;
+        document.getElementById("rawquery").value = currentQuery + " " + $("#qry_operator").val() + " ";
+    }
+});
+
+$("#qry_columns_2").on("change", function () {
+    if ($("#qry_columns_2").val() != "--SELECT COLUMN 2--") {
+        var selectedColumn = $("#qry_columns_2").val();
+        var operatorSelect = document.getElementById("qry_operator_2");
+        operatorSelect.innerHTML = ""; // Clear previous options
+
+        if (selectedColumn) {
+            var dataType = getDataType(selectedColumn); // Get the data type based on the selected column
+
+            if (dataType === "xsd:int" || dataType === "xsd:double" || dataType === "xsd:number") {
+                addOption(operatorSelect, "", "Select Option");
+                addOption(operatorSelect, ">", "Greater than");
+                addOption(operatorSelect, "<", "Less than");
+                addOption(operatorSelect, ">=", "Greater than or equal to");
+                addOption(operatorSelect, "<=", "Less than or equal to");
+                addOption(operatorSelect, "=", "Equal to");
+            } else if (dataType === "xsd:string") {
+                addOption(operatorSelect, "", "Select Option");
+                addOption(operatorSelect, "=", "Equal to");
+                addOption(operatorSelect, "LIKE", "Like");
+            }
+        }
+
+        document.getElementById("qry_values_2").innerHTML = "";
+        // document.getElementById("rawquery").value = $("#qry_columns_2").val();
+        fetch(
+            "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" +
+            $("#qry_layers").val() +
+            "&PROPERTYNAME=" +
+            $("#qry_columns_2").val() +
+            "&outputFormat=application%2Fjson"
+        )
+            .then((response) => response.json())
+            .then((result) => {
+                var uniqval = [];
+                var features = result.features;
+                for (var i = 0; i < features.length; i++) {
+                    if (
+                        !uniqval.includes(features[i].properties[$("#qry_columns_2").val()]))
+                        uniqval.push(features[i].properties[$("#qry_columns_2").val()]);
+                }
+                var option = document.createElement("option");
+                option.innerText = "--SELECT VALUE 2--";
+                option.selected = true;
+                document.getElementById("qry_values_2").appendChild(option);
+                for (var i = 0; i < uniqval.length; i++) {
+                    var option = document.createElement("option");
+                    option.innerText = uniqval[i];
+                    option.value = uniqval[i];
+                    document.getElementById("qry_values_2").appendChild(option);
+                }
+                
+            })
+            .catch((error) => console.log("error", error));
+
     if ($("#qry_layers").val() != "--SELECT VALUE--") {
         document.getElementById("rawquery").value += isNaN($("#qry_operator").val())
             ? "" + $("#qry_operator").val() + ""
@@ -184,6 +245,58 @@ function showQueryResult() {
 
 
     }
+
+    // Construct the second part of the query
+    if (column2 && operator2 && value2) {
+        if (operator2.toLowerCase() === "like") {
+            queryPart2 = column2 + " LIKE '%" + value2 + "%'";
+        } else {
+            queryPart2 = column2 + " " + operator2 + " " + (isNaN(value2) ? "'" + value2 + "'" : value2);
+        }
+    }
+
+     var rawQuery = "";
+
+    if (queryPart1 && queryPart2) {
+        rawQuery = "(" + queryPart1 + ") " + logicalOperator + " (" + queryPart2 + ")";
+    } else if (queryPart1) {
+        rawQuery = queryPart1;
+    } else if (queryPart2) {
+        rawQuery = queryPart2;
+    }
+
+    console.log("Constructed Query:", rawQuery);
+
+    console.log("Column 1:", column1);
+    console.log("Operator 1:", operator1);
+    console.log("Value 1:", value1);
+    console.log("Query Part 1:", queryPart1);
+    console.log("Logical Operator:", logicalOperator);
+    console.log("Column 2:", column2);
+    console.log("Operator 2:", operator2);
+    console.log("Value 2:", value2);
+    console.log("Query Part 2:", queryPart2);
+    console.log("Combined Query:", rawQuery);
+
+    $("#rawquery").val(rawQuery);
+
+    if (!rawQuery) {
+        swal({
+            position: "center",
+            icon: "error",
+            title: "No query parts to combine!",
+            showConfirmButton: false,
+            timer: 2000,
+        });
+        return;
+    }
+
+    var url =
+        "https://geonode.communitygis.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
+        $("#qry_layers").val() +
+        "&CQL_FILTER=" + encodeURIComponent(rawQuery) + "&outputFormat=application%2Fjson";
+        console.log("Constructed URL: " + url); 
+
     var url =
         "https://geonode.communitygis.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
         $("#qry_layers").val() +
