@@ -90,7 +90,7 @@ $("#clearText").on("click", function () {
     clearAllOptions();
     // $("#addAnotherLayerCheckbox").prop("checked", false);
 });
-das
+
 // $("#addAnotherLayerCheckbox").on("change", function () {
 //     if ($(this).is(":checked")) {
 //         // Clear options selected for the previous layer
@@ -158,7 +158,7 @@ $("#qry_columns").on("change", function () {
             } else if (dataType === "xsd:string") {
                 addOption(operatorSelect, "", "Select Option");
                 addOption(operatorSelect, "=", "Equal to");
-                addOption(operatorSelect, "+LIKE+", "Like");
+                addOption(operatorSelect, "LIKE", "Like");
             }
         }
 
@@ -230,7 +230,7 @@ $("#qry_columns_2").on("change", function () {
             } else if (dataType === "xsd:string") {
                 addOption(operatorSelect, "", "Select Option");
                 addOption(operatorSelect, "=", "Equal to");
-                addOption(operatorSelect, "+LIKE+", "Like");
+                addOption(operatorSelect, "LIKE", "Like");
             }
         }
 
@@ -319,13 +319,17 @@ function showQueryResult() {
         }
     }
 
-    // Combine the query parts with the logical operator
-    var rawQuery = queryPart1;
+     var rawQuery = "";
+
     if (queryPart1 && queryPart2) {
-        rawQuery += " " + logicalOperator + " " + queryPart2;
+        rawQuery = "(" + queryPart1 + ") " + logicalOperator + " (" + queryPart2 + ")";
+    } else if (queryPart1) {
+        rawQuery = queryPart1;
     } else if (queryPart2) {
         rawQuery = queryPart2;
     }
+
+    console.log("Constructed Query:", rawQuery);
 
     console.log("Column 1:", column1);
     console.log("Operator 1:", operator1);
@@ -355,6 +359,8 @@ function showQueryResult() {
         "https://geonode.communitygis.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=" +
         $("#qry_layers").val() +
         "&CQL_FILTER=" + encodeURIComponent(rawQuery) + "&outputFormat=application%2Fjson";
+        console.log("Constructed URL: " + url); 
+
 
     fetch(url)
         .then(res => res.json())
