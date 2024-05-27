@@ -90,7 +90,7 @@ $("#clearText").on("click", function () {
     clearAllOptions();
     // $("#addAnotherLayerCheckbox").prop("checked", false);
 });
-
+das
 // $("#addAnotherLayerCheckbox").on("change", function () {
 //     if ($(this).is(":checked")) {
 //         // Clear options selected for the previous layer
