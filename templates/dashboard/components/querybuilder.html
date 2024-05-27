@@ -1,3 +1,5 @@
+{% load static%} {% load i18n %}
+
 <div class="subContent" id="querybuilder">
     <h5 class="heading">Query builder</h5>
     <hr>
@@ -12,10 +14,11 @@
                 aria-selected="false">Spatial Query</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest"
+            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest" role="tab" aria-controls="nearest"
                 aria-selected="false">Nearest Query</a>
         </li>
     </ul>
+
 
     <div class="tab-content mt-4" id="queryTabContent">
         <div class="tab-pane fade show active" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
@@ -90,19 +93,57 @@
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                Comming soon!
+                Coming soon!
             </div>
             <!-- Rest of the spatial query content -->
             <!-- ... -->
         </div>
 
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
-            <div class="mb-3">
-                Comming soon!
-                <button class="btn btn-dark" id="selectLocation">Select Location</button>
-            </div>
-            <!-- Rest of the nearest query content -->
-            <!-- ... -->
-        </div>
+            <div id="navigatedarea">
+                <div id="checkboxes22">
+                    <div class="tooltips" title="Please select the Wells" id="wells_district0">
+                        <label><input type="checkbox" value="Wells" id="chwells" onchange="defineWell(this)"><span
+                                style="color:black;"><b> Show Wells</b></span></label>
+                        <label><em>Wells Last updated 20-04-2023</em></label><br>
+                        <div style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
+                            <label><input type="checkbox" value="{nashik_wells}"
+                                    onchange="GetSelectedWells(this)"><span><b> Nashik Wells
+                                    </b></span></label><br>
+                        </div>
+                        
+                        <div style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+                            <label><input type="checkbox" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
+                                    onchange="GetSelectedWells(this)"><span style="color:black;"><b> Bhandara Observation Wells</b></span></label>
+                        </div>
+        
+                    </div>
+                </div>
+        
+                <div class="d-flex justify-content-center m-1">
+                    <button type="button" class="btn btn-primary" id='setlocation'>Set Location</button>
+                </div>
+        
+                <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
+        
+                <!-- Proximity to Wells -->
+        {% comment %} <div class="form-check m-1">
+        <input type="checkbox" class="form-check-input" id="proximityCheckbox">
+        <label class="form-check-label" for="proximityCheckbox">Proximity to Wells</label>
+        </div> {% endcomment %}
+                <div id="slider">
+                    <label>Set Range</label><br>
+                    <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
+                    <div class="sliderticks">
+                        <p>1</p>
+                        <p>5</p>
+                        <p>10</p>
+                        <p>15</p>
+                        <p>20</p>
+                    </div>
+                    <button type="button" class="btn btn-primary" id='setbuffer'>Wells within <span id="demo"></span> Km</button>
+                </div>
+            </div> 
+        </div>        
     </div>
-</div>
+</div> 

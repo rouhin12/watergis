@@ -437,6 +437,14 @@
         font-size: 1.3rem;
     }
 
+    .distance-tooltip {
+        background-color: white;
+        color: black;
+        border: 1px solid #333;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+    }
 
 
     #mymodal {
@@ -1289,7 +1297,7 @@
 
 
 
-
+    var wellMarkers = [];
 
     function defineWell(checkbox) {
         let value = checkbox.value;
@@ -1409,9 +1417,10 @@
             }
             var markers = L.circleMarker(["{{ i.lat }}", "{{ i.lng }}"], { color: 'green', fillColor: '#f03', fillOpacity: 0.5, radius: 8 }).bindPopup(table, popupOptions);
             wellslayerGroup.addLayer(markers).addTo(mymap);
+            wellMarkers.push(markers);
             mymap.on('zoomend', function () {
                 // alert("zoomenf called")
-                var zoomLevel = map.getZoom();
+                var zoomLevel = mymap.getZoom();
                 var newRadius = zoomLevel * 2; // adjust the radius based on the zoom level
                 markers.setRadius(newRadius);
             })
@@ -1423,6 +1432,7 @@
             wellslayerGroup.eachLayer(function (marker) {
                 mymap.removeLayer(marker);
             });
+            wellMarkers = [];
         }
 
 
@@ -2176,6 +2186,9 @@
     $setlocation.on('click', function (e) {
         mymap.on('dblclick', function (e) {
             currentPos = [e.latlng.lat, e.latlng.lng];
+            let lat=e.latlng.lat;
+            let longitude=e.latlng.lng;
+            console.log("current location:", currentPos);
             if (oldMarker) {
                 mymap.removeLayer(oldMarker);
                 oldMarker = null;
@@ -2188,13 +2201,59 @@
 
             if (oldhfbb) {
                 mymap.removeLayer(oldhfbb);
-                // oldhfbb = [];
-                // healthFacilityInBB = null;
             }
             marker = new L.marker(currentPos).addTo(mymap);
             oldMarker = marker;
         });
     })
+
+    function findNearestWell() {
+        if (!currentPos || wellMarkers.length === 0) return;
+
+        var minDistance = Infinity;
+        var nearestWell = null;
+
+        wellMarkers.forEach(function (marker) {
+            var latLng = marker.getLatLng();
+            var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
+
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestWell = marker;
+            }
+        });
+
+        if (nearestWell) {if (nearestWell) {
+            var latLng = nearestWell.getLatLng();
+            L.polyline([currentPos, [latLng.lat, latLng.lng]], {
+                color: 'blue',
+                weight: 4,
+                opacity: 0.5
+            }).addTo(mymap);
+        }
+            var latLng = nearestWell.getLatLng();
+            var polyline = L.polyline([currentPos, [latLng.lat, latLng.lng]], {
+                color: 'blue',
+                weight: 4,
+                opacity: 0.5
+            }).addTo(mymap);
+
+            // Convert distance to a readable format 
+            var readableDistance = (minDistance / 1000).toFixed(2) + ' km';
+            
+            // Add a tooltip to the polyline with the distance
+            polyline.bindTooltip(readableDistance, {
+                permanent: true,
+                className: 'distance-tooltip',
+                offset: L.point(0, -10)
+            }).openTooltip();
+        }
+    }
+    // FIND NEAREST BUTTON
+    $findNearest.on('click', function (e) {
+        findNearestWell();
+    });
+    
     // SET BUFFER
     var slider = document.getElementById("myRange");
     var output = document.getElementById("demo");
@@ -2700,10 +2759,10 @@
 
 
 
-    // FIND NEAREST BUTTON
+    {% comment %} // FIND NEAREST BUTTON
     $findNearest.on('click', function (e) {
         queryFeatures(currentPos, 1);
-    });
+    }); {% endcomment %}
 
 
     // IF LOCATION FETCH BY BROWSER SUCCESS
@@ -4031,6 +4090,7 @@
 
         var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
         var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+
 
         // compose the URL for the request
         console.log(e);

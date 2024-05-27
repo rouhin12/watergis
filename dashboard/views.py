@@ -20,7 +20,7 @@ from wagtail.images.models import Image
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
-
+from geopy.distance import geodesic
 import os
 
 def HomePage(request):
@@ -47,6 +47,10 @@ def watergis_new(request):
 
     context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers}
     return render(request,'dashboard/watergis.html',context)
+
+def nearestquery(request):
+    return render(request,'dashboard/components/nearestquery.html')
+
 
 def watergis_new2(request):
     user_district = request.GET.get('district')
@@ -306,3 +310,23 @@ def set_language(request):
 def index(request):
     output = _('Hello, world!')
     return HttpResponse(output)
+
+# def nearest_well(request):
+#     latitude = request.GET.get('latitude')
+#     longitude = request.GET.get('longitude')
+#     user_location = latitude, longitude
+#     well_distances = {}
+#     for wells in UploadWellPictureModel.objects.all()[:100]:
+#         wells_location = wells.latitude, wells.longitude
+#         distance= geodesic(user_location, wells_location).km
+#         well_distances[distance] = wells_location
+        
+#     min_distance = min(well_distances)
+#     well_coords = well_distances[min_distance]
+#     # print(well_coords,min_distance)
+#     # context = {'coordinates' : well_coords,'distance': min_distance}
+#     # return render(request,'dashboard/watergis2.html',context)
+#     return JsonResponse({
+#         'coordinates' : well_coords,
+#         'distance': min_distance
+#     })
