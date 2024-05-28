@@ -1,4 +1,4 @@
-/ variables 
+// variables 
 var colresults;
 var currentQuery = ""; 
 function getDataType(columnName) {
