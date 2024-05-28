@@ -4019,6 +4019,55 @@
             }
         });
     }
+
+    function loadCSV(url, callback) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            if (!data) {
+                console.error("Empty CSV data");
+                return;
+            }
+
+            const lines = data.split('\n');
+            const result = [];
+            const headers = lines[0].split(',');
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentline = lines[i].split(',');
+
+                // Skip empty lines
+                if (currentline.length === 1 && currentline[0].trim() === '') {
+                    continue;
+                }
+
+                const obj = {};
+
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j].trim()] = currentline[j] ? currentline[j].trim() : ''; // Check if the value is defined
+                }
+                result.push(obj);
+            }
+            callback(result);
+        })
+        .catch(error => {
+            console.error("Error loading CSV:", error);
+        });
+}
+
+
+    let keyMapping = {};
+    function initializeKeyMapping() {
+        const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_dd.csv' %}"; // Replace with the correct path to your CSV file
+        loadCSV(antodaya_dd_csvUrl, function(data) {
+            data.forEach(item => {
+                keyMapping[item.key] = item.label;
+            });
+            // Initialize the map and add the identify event listener after the key mapping is ready
+            initializeMap();
+        });
+    }
+
     function Identify(e) {
 
         //console.log("Identify");
