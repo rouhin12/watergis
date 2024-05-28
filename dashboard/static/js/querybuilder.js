@@ -58,9 +58,7 @@ function addGeoJSONLayer(geoJSONData) {
 function clearGraphic() {
     // Check if the GeoJSON layer exists
     if (layer) {
-        // Remove the GeoJSON layer from the map
         mymap.removeLayer(layer);
-
         // Set the reference to null
         layer = null;
     }
