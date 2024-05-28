@@ -42,12 +42,32 @@
                 <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values"></select>
             </div>
             <div class="mb-3">
-                <input type="checkbox" id="enableColumn2"> 
-                <label for="enableColumn2">Enable Column 2</label> 
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="qry_values"></select>
+                <input type="checkbox" id="enableColumn2"> <!-- Add this checkbox -->
+                <label for="enableColumn2">Enable Column 2</label> <!-- Add label for checkbox -->
             </div>
-
+            <div id="column2Options" style="display: none;"> <!-- Wrap Column 2 options in a container with display none -->
+                <div class="mb-3">
+                    <label>Select Logical Operator</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_logical_operator">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label>Select Column 2</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns_2"></select>
+                </div>
+                <div class="mb-3">
+                    <label>Select Operator 2</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator_2"></select>
+                </div>
+                <div class="mb-3">
+                    <label>Select Value 2</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values_2"></select>
+                </div>
+            </div>
+            {% comment %} <input type="checkbox" id="addAnotherLayerCheckbox">
+            <label for="addAnotherLayerCheckbox">Add Another Layer</label> {% endcomment %}
 
 
             <div class="mb-3">
