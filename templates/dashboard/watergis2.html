@@ -4056,84 +4056,87 @@
 }
 
 
-    let keyMapping = {};
-    function initializeKeyMapping() {
-        const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_dd.csv' %}"; // Replace with the correct path to your CSV file
-        
-        loadCSV(antodaya_dd_csvUrl, function(data) {
-            data.forEach(item => {
-                keyMapping[item.key] = item.label;
-                
-            });
-            // Initialize the map and add the identify event listener after the key mapping is ready
-            initializeMap();
+let keyMapping = {};
+
+function initializeKeyMapping() {
+    const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_dd.csv' %}"; // Replace with the correct path to your CSV file
+    
+    loadCSV(antodaya_dd_csvUrl, function(data) {
+        data.forEach(item => {
+            keyMapping[item.key] = item.label || item.key;
         });
-    }
-    function initializeMap() {
-            // Create a map centered at specified coordinates
-                        // Add event listener for map clicks to trigger Identify function
-            mymap.addEventListener('click', Identify);
-        }
-    function Identify(e) {
+        // Initialize the map and add the identify event listener after the key mapping is ready
+        initializeMap();
+    });
+}
 
-        //console.log("Identify");
-        // set parameters needed for GetFeatureInfo WMS request
-        var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
-        var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
-        var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
-        var WIDTH = mymap.getSize().x;
-        var HEIGHT = mymap.getSize().y;
+function initializeMap() {
+    // Create a map centered at specified coordinates
+    // (Assuming 'mymap' is already defined and properly initialized elsewhere)
+    mymap.addEventListener('click', Identify);
+}
 
-        var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
-        var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+function Identify(e) {
+    // Set parameters needed for GetFeatureInfo WMS request
+    var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
+    var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
+    var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
+    var WIDTH = mymap.getSize().x;
+    var HEIGHT = mymap.getSize().y;
 
-        // compose the URL for the request
-        console.log(e);
+    var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
+    var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
 
-        var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
-        // console.log(URL);
-        //send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
-        tableurl = URL;
-        console.log("url tribe", URL)
-        $.ajax({
-            url: URL,
-            dataType: "json",
-            type: "GET",
-            success: function (data) {
-                if (data.features.length !== 0) { // at least one feature returned in response
-                    var feature = data.features[0]; // first feature from response
-                    console.log(feature);
-                    // Set up popup for clicked feature and open it
-                    var popup = new L.Popup({
-                        maxWidth: 300
-                    });
-                    var showpopup = false
-                    var properties = feature.properties;
+    // Compose the URL for the request
+    var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
 
-                    var popupContent = "<div class='popup-content'><table class='popupclass'>";
-                        for (var key in properties) {
-                            showpopup = true;
-                            var displayKey = keyMapping[key] || key; // Use descriptive name or fallback to the key
-                            popupContent += "<tr><td><b>" + displayKey + ":</b></td><td>" + properties[key] + "</td></tr>";
-                        }
-                        popupContent += "</table></div>";
-                    if (showpopup) {
-                        
-                        popup.setContent(popupContent);
-                        popup.setLatLng(e.latlng);
-                        mymap.openPopup(popup);
+    // Send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
+    $.ajax({
+        url: URL,
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            if (data.features.length !== 0) { // At least one feature returned in response
+                var feature = data.features[0]; // First feature from response
+
+                // Set up popup for clicked feature and open it
+                var popup = new L.Popup({
+                    maxWidth: 300
+                });
+
+                var properties = feature.properties;
+                var showpopup = false;
+                var popupContent = "<div class='popup-content'><table class='popupclass'>";
+
+                // List of keys to exclude
+                var keysToExclude = ['fid', 'field_198', 'field_197'];
+
+                for (var key in properties) {
+                    if (keysToExclude.indexOf(key) === -1) {
+                        showpopup = true;
+                        var displayKey = keyMapping[key] || key; // Use descriptive name or fallback to the key
+                        // Format the display key by replacing underscores with spaces and capitalizing the words
+                        displayKey = displayKey.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+                        popupContent += "<tr><td><b>" + displayKey + ":</b></td><td>" + properties[key] + "</td></tr>";
                     }
                 }
-            },
-            error:function(xhr, status, error){
-                console.log("Error :",error)
-            }
-        });
-        
-    }
-    initializeKeyMapping();
-   mymap.addEventListener('click', Identify);
 
+                popupContent += "</table></div>";
+
+                if (showpopup) {
+                    popup.setContent(popupContent);
+                    popup.setLatLng(e.latlng);
+                    mymap.openPopup(popup);
+                }
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("Error:", error);
+        }
+    });
+}
+
+initializeKeyMapping();
 
     function putArogya(facility) {
         // let rootUrl = 'https://geonode3.communitygis.net/geoserver/geonode/ows';
