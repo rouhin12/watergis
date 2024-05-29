@@ -4059,15 +4059,21 @@
     let keyMapping = {};
     function initializeKeyMapping() {
         const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_dd.csv' %}"; // Replace with the correct path to your CSV file
+        
         loadCSV(antodaya_dd_csvUrl, function(data) {
             data.forEach(item => {
                 keyMapping[item.key] = item.label;
+                
             });
             // Initialize the map and add the identify event listener after the key mapping is ready
             initializeMap();
         });
     }
-
+    function initializeMap() {
+            // Create a map centered at specified coordinates
+                        // Add event listener for map clicks to trigger Identify function
+            mymap.addEventListener('click', Identify);
+        }
     function Identify(e) {
 
         //console.log("Identify");
@@ -4107,149 +4113,26 @@
                     var popupContent = "<div class='popup-content'><table class='popupclass'>";
                         for (var key in properties) {
                             showpopup = true;
-                            popupContent += "<tr><td><b>" + key + ":</b></td><td>" + properties[key] + "</td></tr>";
+                            var displayKey = keyMapping[key] || key; // Use descriptive name or fallback to the key
+                            popupContent += "<tr><td><b>" + displayKey + ":</b></td><td>" + properties[key] + "</td></tr>";
                         }
                         popupContent += "</table></div>";
-                    // if (feature.properties.category === "at") {
-                    //     //console.log("I reached at");
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    // } else if (feature.properties.category === "m") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    // } else if (feature.properties.category === "mm") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    // } else if (feature.properties.category === "t") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    // } else if (feature.properties.f_ill) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
-                    //         "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
-                    //         "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
-                    //         "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
-                    //         "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
-
-                    // } else if (feature.properties.ass_car) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
-                    //         "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
-                    //         "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
-                    //         "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
-                    //         "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
-
-                    // } else if (feature.properties.town_name) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
-                    //         "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
-                    //         "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
-                    //         "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
-                    //         "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
-
-                    // } else if (feature.properties.village_na) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-                    //         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
-                    //         "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
-                    //         "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
-                    //         "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
-                    //         "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.area_irr) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
-                    //         "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
-                    //         "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
-                    //         "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
-                    //         "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
-                    //         "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
-                    //         "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.SEGMENT_ID) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
-                    //         "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
-                    //         "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
-                    //         "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
-                    //         "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
-                    //         "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
-                    //         "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
-                    //         "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.ELEV) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
-                    //         "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
-
-                    // }
-                    // else if (feature.properties.TypeofSour) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Nashik Wells </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-                    //         "<tr><td><b>village</b></td><td>" + feature.properties.village + "</td></tr>" +
-                    //         "<tr><td>TypeofSource</td><td><b>" + feature.properties.TypeofSour + "<b></td></tr>" +
-                    //         "<tr><td>color</td><td><b>" + feature.properties.color + "<b></td></tr>" +
-                    //         "<tr><td>odur</td><td><b>" + feature.properties.odur + "<b></td></tr>" +
-                    //         "<tr><td>Taste</td><td><b>" + feature.properties.Test + "<b></td></tr>" +
-                    //         "<tr><td>Ph</td><td><b>" + feature.properties.Ph + "<b></td></tr>" +
-                    //         "<tr><td>Alkalinity</td><td><b>" + feature.properties.Alkalinity + "<b></td></tr>" +
-                    //         "<tr><td>Chloride</td><td><b>" + feature.properties.Chloride + "<b></td></tr>" +
-                    //         "<tr><td>Fluoride</td><td><b>" + feature.properties.Fluoride + "<b></td></tr>" +
-                    //         "<tr><td>Nitrate</td><td><b>" + feature.properties.Nitrate + "<b></td></tr>" +
-                    //         "<tr><td>Sulphate</td><td><b>" + feature.properties.Sulphate + "<b></td></tr>" +
-                    //         "<tr><td>Iron</td><td><b>" + feature.properties.Iron + "<b></td></tr>" +
-                    //         "<tr><td>Ca</td><td><b>" + feature.properties.Ca + "<b></td></tr>" +
-                    //         "<tr><td>Remark for drinking</td><td><b>" + feature.properties.Remark + "<b></td></tr>" +
-                    //         "<tr><td>Turbidity</td><td><b>" + feature.properties.Turbidityr + "<b></td></tr>";
-
-                    // }
-
-
                     if (showpopup) {
                         
                         popup.setContent(popupContent);
                         popup.setLatLng(e.latlng);
                         mymap.openPopup(popup);
                     }
-
-
                 }
+            },
+            error:function(xhr, status, error){
+                console.log("Error :",error)
             }
         });
+        
     }
-
-    mymap.addEventListener('click', Identify);
+    initializeKeyMapping();
+   mymap.addEventListener('click', Identify);
 
 
     function putArogya(facility) {
@@ -4973,42 +4856,7 @@
             mymap.flyTo([19.2107, 73.1523], 8);
             // addWMSLegend1(layer);
         }
-        // else if (layer == 'Nashik_water_quality_alkanility0') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_ph') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Nitrates') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Flourides') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Chloride') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Sulphate') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Odour') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Taste') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_Shapefile_village') {
-        //     mymap.flyTo([21.1085634965, 79.786], 8);
-        //     // addWMSLegend1(layer);
-        // }
+        
         {% for layer in alllayers %}
         
         else if (layer == '{{layer.name}}') {
