@@ -7,13 +7,6 @@
             max-width: 200px;
         }
     }
-
-
-
-
-
-
-
     table,
     th,
     td {
@@ -1569,8 +1562,70 @@
 
 
     });
+    // New function for Drainage 
+    function showDrainagenew(obj) {
+        let district = document.getElementById('district').value;
+        // alert(district);
+        var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        // alert(newstring);
+        let boundary = obj.value;
+        let found = false;
 
+        //
+        if ($(obj).is(":checked")) {
+        // Make an AJAX call to fetch the layer name from the server
+        $.ajax({
+            url: '/get_layer/',  // URL for the view that returns the layer
+            method: 'GET',
+            data: { district: district },
+            success: function(response) {
+                let drainageLayer = response.layer;
 
+                if (putWMS1(drainageLayer)) {
+                    // Layer found and displayed
+                } else {
+                    // Show error message if layer is not found
+                    swal({
+                        title: "Sorry For Inconvenience",
+                        text: "Drainage Data not found For " + district,
+                        timer: 1500
+                    });
+                }
+            },
+            error: function() {
+                swal({
+                    title: "Error",
+                    text: "Could not fetch drainage layer.",
+                    timer: 1500
+                });
+            }
+         });
+        } else {
+        // Remove the layer
+        console.log("in else part of draiange for  ",district)
+        $.ajax({
+            url: '/get_layer/',  // URL for the view that returns the layer
+            method: 'GET',
+            data: { district: district },
+            success: function(response) {
+                let drainageLayer = response.layer;
+                
+                removeWMS(drainageLayer);
+            },
+            error: function() {
+                swal({
+                    title: "Error",
+                    text: "Could not remove drainage layer.",
+                    timer: 1500
+                });
+            }
+         });
+        
+        
+    }
+}   
+
+    // New function for Drainage ends here
    function showDrainage(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
@@ -1611,13 +1666,9 @@
                 putWMS1("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 putWMS1("Ahamadnagar_drainage_filess")
-            {% for layer in alllayers %}
-            {% if layer.method == "showDrainage(this)" %}
-            else if (district == '{{layer.value}}') {
-                putWMS1("{{layer.name}}")
-            }
-            {% endif %}
-            {% endfor %}
+            else if (district == "Akola")
+                putWMS1("Akola_drainage_merged");
+            
             else {
                 swal({
                     title: "Sorry For Inconvience",
@@ -1625,6 +1676,14 @@
                     timer: 1500
                 });
             }
+            {% for layer in alllayers %}
+                {% if layer.method == "showDrainage(this)" %}
+                    // alert(district)
+                    // alert(layer.name)
+                    putWMS1("{{layer.name}}")
+                
+                {% endif %}
+            {% endfor %}
 
         } else {
             if (district == "Nanded")
@@ -1659,6 +1718,9 @@
                 removeWMS("Washim_Drainage_files")
             else if (district == "Ahmadnagar")
                 removeWMS("Ahamadnagar_drainage_filess")
+            else if (district == "Akola")
+                removeWMS("Akola_drainage_merged");
+
             {% for layer in alllayers %}
             {% if layer.method == "showDrainage(this)" %}
             else if (district == '{{layer.value}}') {
@@ -1688,6 +1750,7 @@
         let district = document.getElementById('district').value;
         // alert(district);
         var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        //alert(newstring);
         let boundary = obj.value;
         var antodaya = "geonode:" + newstring + "_antodaya_merged"
         if ($(obj).is(":checked")) {
@@ -1719,7 +1782,8 @@
     
     function getBoundary(obj) {
         let boundary = obj.value;
-        //alert(boundary)
+        // alert(boundary);
+        // alert(obj.value)
         if ($(obj).is(":checked")) {
 
             if (boundary == "{state}")
@@ -1903,6 +1967,7 @@
             //  fetching from admin panel 
             {% for layer in alllayers %}
             {% if layer.method == "getBoundary(this)" %}
+
             else if (boundary == '{{layer.value}}') {
                 removeWMS("{{layer.name}}")
             }
@@ -1970,62 +2035,62 @@
     }
 
 
-    function getBoundaryru(obj) {
-        let boundary = obj.value;
-        console.log("boundary is " + boundary)
-        if ($(obj).is(":checked")) {
-            if (boundary == "{mahatown}")
-                putWMSru("geonode:TownCensus_maharashtra_1_00");
-            else if (boundary == "{maharural}")
-                putWMSru("geonode:maha_village_polygon_29mar");
-            else if (boundary == "{taluka}")
-                putWMSru("geonode:maha_taluka_13march2021");
-            else if (boundary == "{town}")
-                putWMSru("geonode:TownCensus_maharashtra_1_00");
-            else if (boundary == "{maharural}")
-                putWMSru("geonode:maha_village_polygon_29mar");
-            else if (boundary == "{pincode}")
-                putWMSru("geonode:india_pincodes_12june");
+    // function getBoundaryru(obj) {
+    //     let boundary = obj.value;
+    //     console.log("boundary is " + boundary)
+    //     if ($(obj).is(":checked")) {
+    //         if (boundary == "{mahatown}")
+    //             putWMSru("geonode:TownCensus_maharashtra_1_00");
+    //         else if (boundary == "{maharural}")
+    //             putWMSru("geonode:maha_village_polygon_29mar");
+    //         else if (boundary == "{taluka}")
+    //             putWMSru("geonode:maha_taluka_13march2021");
+    //         else if (boundary == "{town}")
+    //             putWMSru("geonode:TownCensus_maharashtra_1_00");
+    //         else if (boundary == "{maharural}")
+    //             putWMSru("geonode:maha_village_polygon_29mar");
+    //         else if (boundary == "{pincode}")
+    //             putWMSru("geonode:india_pincodes_12june");
 
-            else if (boundary == "{demog}")
-                putWMSru("geonode:maha_demography_with_mumbai");
-            else if (boundary == "{house}")
-                putWMSru("geonode:household");
-            else if (boundary == "{vill}")
-                putWMSru("geonode:maha_village_amenities");
-            else {
-                swal({
-                    title: "Sorry For Inconvience",
-                    text: "Data not found ",
-                    timer: 1500
-                });
-            }
+    //         else if (boundary == "{demog}")
+    //             putWMSru("geonode:maha_demography_with_mumbai");
+    //         else if (boundary == "{house}")
+    //             putWMSru("geonode:household");
+    //         else if (boundary == "{vill}")
+    //             putWMSru("geonode:maha_village_amenities");
+    //         else {
+    //             swal({
+    //                 title: "Sorry For Inconvience",
+    //                 text: "Data not found ",
+    //                 timer: 1500
+    //             });
+    //         }
 
-        } else {
-            if (boundary == "{mahatown}")
-                removeWMS("geonode:TownCensus_maharashtra_1_00");
-            else if (boundary == "{maharural}")
-                removeWMS("geonode:maha_village_polygon_29mar");
-            else if (boundary == "{taluka}")
-                removeWMS("geonode:maha_taluka_13march2021");
-            else if (boundary == "{town}")
-                removeWMS("geonode:TownCensus_maharashtra_1_00");
-            else if (boundary == "{maharural}")
-                removeWMS("geonode:maha_village_polygon_29mar");
-            else if (boundary == "{pincode}")
-                removeWMS("geonode:india_pincodes_12june");
+    //     } else {
+    //         if (boundary == "{mahatown}")
+    //             removeWMS("geonode:TownCensus_maharashtra_1_00");
+    //         else if (boundary == "{maharural}")
+    //             removeWMS("geonode:maha_village_polygon_29mar");
+    //         else if (boundary == "{taluka}")
+    //             removeWMS("geonode:maha_taluka_13march2021");
+    //         else if (boundary == "{town}")
+    //             removeWMS("geonode:TownCensus_maharashtra_1_00");
+    //         else if (boundary == "{maharural}")
+    //             removeWMS("geonode:maha_village_polygon_29mar");
+    //         else if (boundary == "{pincode}")
+    //             removeWMS("geonode:india_pincodes_12june");
 
-            else if (boundary == "{demog}")
-                removeWMS("geonode:maha_demography_with_mumbai");
-            else if (boundary == "{house}")
-                removeWMS("geonode:household");
-            else if (boundary == "{vill}")
-                removeWMS("geonode:maha_village_amenities");
+    //         else if (boundary == "{demog}")
+    //             removeWMS("geonode:maha_demography_with_mumbai");
+    //         else if (boundary == "{house}")
+    //             removeWMS("geonode:household");
+    //         else if (boundary == "{vill}")
+    //             removeWMS("geonode:maha_village_amenities");
 
-        };
+    //     };
 
 
-    }
+    // }
 
     function GetSelectedfac(obj) {
         let fac = obj.value;
@@ -3050,6 +3115,7 @@
         // if (area) {
         //     mymap.removeLayer(area);
         // }
+        console.log("district slected from dd is "+district+"and layer is "+layerName)
         let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
 
         let options = {
@@ -3063,7 +3129,7 @@
         };
         let parameters = L.Util.extend(options);
         layer_url = rootUrl + L.Util.getParamString(parameters)
-
+        console.log("layer url is "+layer_url);
         fetch(layer_url).then(
             function (response) {
                 if (response.status !== 200) {
@@ -3435,6 +3501,7 @@
 
     function putWMSru(layer) {
         var selectedDistrict = document.getElementById("district").value;
+        // alert(selectedDistrict)
         if (selectedDistrict == "") {
             alert("Please select above state and district");
         }
@@ -3635,6 +3702,7 @@
     }
 
     function removeWMS(unchecked_layer) {
+        // console.log("unchecked layer is "+unchecked_layer);
         if (wms_legend) {
             mymap.removeControl(wms_legend);
         }
@@ -4624,8 +4692,6 @@
             });
 
         }
-
-
 
         wms_layer1.addTo(mymap);
         
