@@ -1298,7 +1298,6 @@
 
 
     var wellMarkers = [];
-
     function defineWell(checkbox) {
         let value = checkbox.value;
         var state = document.getElementById('indstate').value;
@@ -1409,7 +1408,7 @@
             </tbody>
           </table>
           </br>`
-
+        
             var popupOptions =
             {
                 'maxWidth': '500',
@@ -2148,10 +2147,8 @@
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********FIND NEAREST FACILITY FEATURE
-    let healthFacility,
-        $locate = $('#locate'),
-        $body = $('body'),
+    // ***********FIND NEAREST WELL
+    let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
         $setbuffer = $('#setbuffer')
@@ -2159,11 +2156,38 @@
     let currentPos = null;
     let marker = null;
     let oldMarker = null;
-    let facilityLayer = new L.featureGroup();
     let oldLayer = null;
+    let previousPolyline = null;
+    let previousTooltip = null;
+    let rangeCircle = null;
+    let previousrangeCircle=null;
+    let highlightedMarkers = [];
+    let setLocationActive = false;
 
-    // YOUR LOCATION BUTTON
-    $locate.on('click', function (e) {
+    // SET LOCATION BUTTON
+    $setlocation.on('click', function (e) {
+        setLocationActive = !setLocationActive;
+    if (setLocationActive) {
+        $setlocation.text('Clear Location');
+        mymap.on('dblclick', onMapClick);
+    } else {
+        $setlocation.text('Set Location');
+        clearLocation();
+        mymap.off('dblclick', onMapClick);
+    }
+    })
+
+        function onMapClick(e) {
+            currentPos = [e.latlng.lat, e.latlng.lng];
+            console.log("current location:", currentPos);
+
+            clearLocation();
+            
+            marker = new L.marker(currentPos).addTo(mymap);
+            oldMarker = marker;
+        }
+
+    function clearLocation() {
         if (oldMarker) {
             mymap.removeLayer(oldMarker);
             oldMarker = null;
@@ -2171,41 +2195,20 @@
         if (oldLayer) {
             mymap.removeLayer(oldLayer);
             oldLayer = null;
-            facilityLayer = new L.featureGroup();
         }
-        // $status.html('finding your location');
-        if (!navigator.geolocation) {
-            alert("<p>Sorry, your browser does not support Geolocation</p>");
-            return;
+        if (previousPolyline) {
+            mymap.removeLayer(previousPolyline);
+            previousPolyline = null;
         }
-        $body.removeClass('loaded');
-        navigator.geolocation.getCurrentPosition(success, error);
-    });
-
-    // SET LOCATION BUTTON
-    $setlocation.on('click', function (e) {
-        mymap.on('dblclick', function (e) {
-            currentPos = [e.latlng.lat, e.latlng.lng];
-            let lat=e.latlng.lat;
-            let longitude=e.latlng.lng;
-            console.log("current location:", currentPos);
-            if (oldMarker) {
-                mymap.removeLayer(oldMarker);
-                oldMarker = null;
-            }
-            if (oldLayer) {
-                mymap.removeLayer(oldLayer);
-                oldLayer = null;
-                facilityLayer = new L.featureGroup();
-            }
-
-            if (oldhfbb) {
-                mymap.removeLayer(oldhfbb);
-            }
-            marker = new L.marker(currentPos).addTo(mymap);
-            oldMarker = marker;
-        });
-    })
+        if (previousTooltip) {
+            mymap.removeLayer(previousTooltip);
+            previousTooltip = null;
+        }
+        if (rangeCircle) {
+            mymap.removeLayer(rangeCircle);
+            rangeCircle = null;
+        }
+    }
 
     function findNearestWell() {
         if (!currentPos || wellMarkers.length === 0) return;
@@ -2223,15 +2226,9 @@
             }
         });
 
-        if (nearestWell) {if (nearestWell) {
+        if (nearestWell) {
             var latLng = nearestWell.getLatLng();
-            L.polyline([currentPos, [latLng.lat, latLng.lng]], {
-                color: 'blue',
-                weight: 4,
-                opacity: 0.5
-            }).addTo(mymap);
-        }
-            var latLng = nearestWell.getLatLng();
+            
             var polyline = L.polyline([currentPos, [latLng.lat, latLng.lng]], {
                 color: 'blue',
                 weight: 4,
@@ -2247,6 +2244,8 @@
                 className: 'distance-tooltip',
                 offset: L.point(0, -10)
             }).openTooltip();
+        previousPolyline = polyline;
+        previousTooltip = polyline.getTooltip();
         }
     }
     // FIND NEAREST BUTTON
@@ -2255,15 +2254,35 @@
     });
     
     // SET BUFFER
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    // output.innerHTML = slider.value;
+    let slider = document.getElementById("myRange");
+    let output = document.getElementById("demo");
+    output.innerHTML = slider.value;
 
-    // slider.oninput = function () {
-    //     output.innerHTML = this.value;
+    slider.oninput = function() {
+    output.innerHTML = this.value;
+    $setbuffer.text(`Wells within ${this.value} Km`);
+    }
+    $setbuffer.on('click', function (e) {
+    if (!currentPos) return;
+    let range = parseInt(slider.value) * 1000; // Convert to meters
 
-    //     //<!-- mymap.removeLayer(circle); -->
-    // }
+    // Clear previous range circle
+    if (rangeCircle) {
+        mymap.removeLayer(rangeCircle);
+    }
+
+    // Draw the range circle
+    rangeCircle = L.circle(currentPos, {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.2,
+        radius: range
+    }).addTo(mymap);
+    previousrangeCircle = rangeCircle;
+});
+
+
+
     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
