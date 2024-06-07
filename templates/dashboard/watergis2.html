@@ -2035,62 +2035,62 @@
     }
 
 
-    // function getBoundaryru(obj) {
-    //     let boundary = obj.value;
-    //     console.log("boundary is " + boundary)
-    //     if ($(obj).is(":checked")) {
-    //         if (boundary == "{mahatown}")
-    //             putWMSru("geonode:TownCensus_maharashtra_1_00");
-    //         else if (boundary == "{maharural}")
-    //             putWMSru("geonode:maha_village_polygon_29mar");
-    //         else if (boundary == "{taluka}")
-    //             putWMSru("geonode:maha_taluka_13march2021");
-    //         else if (boundary == "{town}")
-    //             putWMSru("geonode:TownCensus_maharashtra_1_00");
-    //         else if (boundary == "{maharural}")
-    //             putWMSru("geonode:maha_village_polygon_29mar");
-    //         else if (boundary == "{pincode}")
-    //             putWMSru("geonode:india_pincodes_12june");
+    function getBoundaryru(obj) {
+        let boundary = obj.value;
+        console.log("boundary is " + boundary)
+        if ($(obj).is(":checked")) {
+            if (boundary == "{mahatown}")
+                putWMSru("geonode:TownCensus_maharashtra_1_00");
+            else if (boundary == "{maharural}")
+                putWMSru("geonode:maha_village_polygon_29mar");
+            else if (boundary == "{taluka}")
+                putWMSru("geonode:maha_taluka_13march2021");
+            else if (boundary == "{town}")
+                putWMSru("geonode:TownCensus_maharashtra_1_00");
+            else if (boundary == "{maharural}")
+                putWMSru("geonode:maha_village_polygon_29mar");
+            else if (boundary == "{pincode}")
+                putWMSru("geonode:india_pincodes_12june");
 
-    //         else if (boundary == "{demog}")
-    //             putWMSru("geonode:maha_demography_with_mumbai");
-    //         else if (boundary == "{house}")
-    //             putWMSru("geonode:household");
-    //         else if (boundary == "{vill}")
-    //             putWMSru("geonode:maha_village_amenities");
-    //         else {
-    //             swal({
-    //                 title: "Sorry For Inconvience",
-    //                 text: "Data not found ",
-    //                 timer: 1500
-    //             });
-    //         }
+            else if (boundary == "{demog}")
+                putWMSru("geonode:maha_demography_with_mumbai");
+            else if (boundary == "{house}")
+                putWMSru("geonode:household");
+            else if (boundary == "{vill}")
+                putWMSru("geonode:maha_village_amenities");
+            else {
+                swal({
+                    title: "Sorry For Inconvience",
+                    text: "Data not found ",
+                    timer: 1500
+                });
+            }
 
-    //     } else {
-    //         if (boundary == "{mahatown}")
-    //             removeWMS("geonode:TownCensus_maharashtra_1_00");
-    //         else if (boundary == "{maharural}")
-    //             removeWMS("geonode:maha_village_polygon_29mar");
-    //         else if (boundary == "{taluka}")
-    //             removeWMS("geonode:maha_taluka_13march2021");
-    //         else if (boundary == "{town}")
-    //             removeWMS("geonode:TownCensus_maharashtra_1_00");
-    //         else if (boundary == "{maharural}")
-    //             removeWMS("geonode:maha_village_polygon_29mar");
-    //         else if (boundary == "{pincode}")
-    //             removeWMS("geonode:india_pincodes_12june");
+        } else {
+            if (boundary == "{mahatown}")
+                removeWMS("geonode:TownCensus_maharashtra_1_00");
+            else if (boundary == "{maharural}")
+                removeWMS("geonode:maha_village_polygon_29mar");
+            else if (boundary == "{taluka}")
+                removeWMS("geonode:maha_taluka_13march2021");
+            else if (boundary == "{town}")
+                removeWMS("geonode:TownCensus_maharashtra_1_00");
+            else if (boundary == "{maharural}")
+                removeWMS("geonode:maha_village_polygon_29mar");
+            else if (boundary == "{pincode}")
+                removeWMS("geonode:india_pincodes_12june");
 
-    //         else if (boundary == "{demog}")
-    //             removeWMS("geonode:maha_demography_with_mumbai");
-    //         else if (boundary == "{house}")
-    //             removeWMS("geonode:household");
-    //         else if (boundary == "{vill}")
-    //             removeWMS("geonode:maha_village_amenities");
+            else if (boundary == "{demog}")
+                removeWMS("geonode:maha_demography_with_mumbai");
+            else if (boundary == "{house}")
+                removeWMS("geonode:household");
+            else if (boundary == "{vill}")
+                removeWMS("geonode:maha_village_amenities");
 
-    //     };
+        };
 
 
-    // }
+    }
 
     function GetSelectedfac(obj) {
         let fac = obj.value;
