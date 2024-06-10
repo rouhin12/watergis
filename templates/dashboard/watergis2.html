@@ -1736,6 +1736,7 @@
         let district = document.getElementById('district').value;
         // alert(district);
         let boundary = obj.value;
+        // alert(boundary);
         if ($(obj).is(":checked")) {
 
             putWMS1(boundary);
@@ -1935,14 +1936,14 @@ function addnashikWMSLegend(obj) {
         layers: Layer,
         format: 'image/png',
         transparent: true,  // Should be a boolean value
-        opacity: 1.0,       // Opacity should be a number between 0 and 1
+        // opacity: 1.0,       // Opacity should be a number between 0 and 1
         tiled: true,
         styles: Style,      // 'Styles' should be lowercase
     });
 
     wms_boundary_layer.addTo(mymap);
     newLayerList.push(wms_boundary_layer);//pushing into newlayerlist array :To be used when layer is unchecked
-    addnashikWMSLegend(Layer, Style);//making legends 
+    addnashikWMSLegend(Style);//making legends 
     
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_boundary_layer.options.layers + "&QUERY_LAYERS=" + wms_boundary_layer.options.layers;
     tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_boundary_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
@@ -1950,8 +1951,8 @@ function addnashikWMSLegend(obj) {
 
 // function putStyleLegend(Layer, Style) {
 //     var legendGraphicUrl = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + Layer + "&STYLE=" + Style + "&LEGEND_OPTIONS=forceLabels:on";
-//     var wms_legend = L.wmsLegend(legendGraphicUrl);
-//     wms_legend.addTo(mymap);
+//     var wms_legend1 = L.wmsLegend(legendGraphicUrl);
+//     wms_legend1.addTo(mymap);
 // }
 
     function getBoundaryst(obj) {
@@ -4617,25 +4618,50 @@ function addnashikWMSLegend(obj) {
     };
     //Water Gis function
 
-    // function getBoundary(obj) {
-    //     let boundary = obj.value;
-    //     if ($(obj).is(":checked")) {
-    //         if (boundary == "{mini_ws}"){
-    //             // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-    //             putWMS("mini_watershed_15distt_15nov22");            //postgis
-    //         }
+    
 
-    //         else if (boundary == "{ws}"){
-    //             // putWMS("rtp:pune_toilets");
-    //             putWMS("rtp:pune_toilets");
-    //         }
+    function getLatLong(districtName) {
+            if (listDistrict[districtName]) {
+                return [listDistrict[districtName][1], listDistrict[districtName][2]];
+            } else {
+                console.log("District not found: " + districtName);
+                return null;
+            }
+        }
+
+    // function updateLegend(d,c) {
+    //         const legendDiv = document.getElementById('legend');
+    //         legendDiv.innerHTML = `Selected Layer: ${d}`+" "`${c}`;
     //     }
-    // }
 
     function putWMS1(layer) {
-        console.log("layer" + layer);
+        let calleefunc = "legend";
+        try {
+             throw new Error();
+            } catch (e) {
+                // Parse the stack trace to find the calling function
+                const stackLines = e.stack.split('\n');
+                // The calling function is usually on the third line
+                const callingFunctionLine = stackLines[2];
+                // Extract the function name
+                const callingFunctionName = callingFunctionLine.match(/at\s+(.*)\s+\(/)[1];
+                console.log("Called by: " + callingFunctionName);
+                
+                if(callingFunctionLine ==showContours)
+                    calleefunc = "Contours";
+                else if((callingFunctionLine == showAntodaya) || (callingFunctionLine == showAntodaya2))
+                    calleefunc = "Antyodata";
+                else 
+                    calleefunc ="LEGEND";
+            }
+        console.log("layer " + layer);
         var wms_layer1;
         var selectedLayerBounds;
+        const url = new URL(window.location.href);
+        // Extract the 'district_name' parameter
+        const districtName = url.searchParams.get('district');
+        console.log("district name is "+districtName)
+        
         if (layer == "maharashtra_rivers_from_osm") {
             wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                 layers: layer,
@@ -4673,7 +4699,7 @@ function addnashikWMSLegend(obj) {
         
         newLayerList.push(wms_layer1);
 
-        console.log(wms_layer1);
+        console.log("wms layer 1 is ",wms_layer1);
         if (layer == 'Pawana_Basin_Layer0')
             mymap.flyTo([18.637, 73.605], 11);
         else if (layer == 'Nashik_water_quality_turbidity') {
@@ -4684,10 +4710,18 @@ function addnashikWMSLegend(obj) {
         {% for layer in alllayers %}
         
             else if (layer == '{{layer.name}}') {
-                mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
+                if(layer.latlong)
+                    mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
+                else{
+                    let latlong = getLatLong(districtName);
+                    mymap.flyTo(latlong, 10);
+                    console.log("lat long of "+districtName +" is "+latlong)
                 }
+            }
 
         {% endfor %}
+    
+    // updateLegend(districtName,calleefunc)        
 
     if (wms_legend) {
         mymap.removeControl(wms_legend);
