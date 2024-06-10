@@ -1,5 +1,10 @@
 {% load static%} {% load i18n %}
-
+<style>
+    #showWellsDiv,
+    #obs_wells_district0 {
+        display: none;
+    }
+</style>
 <div class="subContent" id="querybuilder">
     <h5 class="heading">Query builder</h5>
     <hr>
@@ -102,23 +107,28 @@
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
             <div id="navigatedarea">
                 <div id="checkboxes22">
-                    <div class="tooltips" title="Please select the Wells" id="wells_district0">
-                        <label><input type="checkbox" value="Wells" id="chwells" onchange="defineWell(this)"><span
-                                style="color:black;"><b> Show Wells</b></span></label>
+                    <div class="tooltips" title="Please select the Wells" id="showWellsDiv">
+                        <label>
+                            <input type="checkbox" value="Wells" id="chwells" onchange="defineWell(this)">
+                            <span style="color:black;"><b> Show Wells</b></span>
+                        </label>
                         <label><em>Wells Last updated 20-04-2023</em></label><br>
-                        <div style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
-                            <label><input type="checkbox" value="{nashik_wells}"
-                                    onchange="GetSelectedWells(this)"><span><b> Nashik Wells
-                                    </b></span></label><br>
-                        </div>
-                        
-                        <div style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
-                            <label><input type="checkbox" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
-                                    onchange="GetSelectedWells(this)"><span style="color:black;"><b> Bhandara Observation Wells</b></span></label>
-                        </div>
-        
+                    </div>
+                    <div class="tooltips" title="Please select the Observation Wells" id="obs_wells_district0">
+                        <label>
+                            <input type="checkbox" value="{bhandara_obs_wells}" id="bhandara_obs_wells" onchange="GetSelectedWells(this)">
+                            <span style="color:black;"><b> Observation Wells</b></span>
+                        </label>
                     </div>
                 </div>
+
+            <div class="tooltips" title="Toggle both types of wells">
+                <label>
+                    <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
+                    <span style="color:black;"><b> Wells</b></span>
+                </label>
+            </div>
+                
         
                 <div class="d-flex justify-content-center m-1">
                     <button type="button" class="btn btn-primary" id="setlocation">Set Location</button>
@@ -126,11 +136,6 @@
         
                 <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
         
-                <!-- Proximity to Wells -->
-        {% comment %} <div class="form-check m-1">
-        <input type="checkbox" class="form-check-input" id="proximityCheckbox">
-        <label class="form-check-label" for="proximityCheckbox">Proximity to Wells</label>
-        </div> {% endcomment %}
                 <div id="slider">
                     <label>Set Range</label><br>
                     <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">

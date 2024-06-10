@@ -1295,7 +1295,28 @@
         }
     })
 
+    function clearWells() {
+        // Remove well markers
+        wellMarkers.forEach(marker => mymap.removeLayer(marker));
+        wellMarkers = [];
+    
+        // Remove observation well markers
+        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
+        observationWellMarkers = [];
+    }
 
+    function toggleWells(checkbox) {
+        if (checkbox.checked) {
+            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
+            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
+            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
+        } else {
+            document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
+            clearWells(); // Call the clearWells function to remove both types of wells
+        }
+    }
 
     var wellMarkers = [];
     function defineWell(checkbox) {
@@ -1428,7 +1449,7 @@
         }
         else {
 
-            wellslayerGroup.eachLayer(function (marker) {
+            wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
             wellMarkers = [];
@@ -2147,7 +2168,7 @@
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********FIND NEAREST WELL
+    // ***********NEAREST QUERY
     let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
@@ -2160,8 +2181,6 @@
     let previousPolyline = null;
     let previousTooltip = null;
     let rangeCircle = null;
-    let previousrangeCircle=null;
-    let highlightedMarkers = [];
     let setLocationActive = false;
 
     // SET LOCATION BUTTON
@@ -2210,24 +2229,29 @@
         }
     }
 
+    let combinedMarkers = [];
+
     function findNearestWell() {
-        if (!currentPos || wellMarkers.length === 0) return;
+        if (!currentPos || (wellMarkers.length === 0 && observationWellMarkers.length === 0)) return;
+
 
         var minDistance = Infinity;
         var nearestWell = null;
 
-        wellMarkers.forEach(function (marker) {
+        combinedMarkers = wellMarkers.concat(observationWellMarkers);
+
+        combinedMarkers.forEach(function (marker) {
             var latLng = marker.getLatLng();
             var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
-
+    
             if (distance < minDistance) {
                 minDistance = distance;
-                nearestWell = marker;
+                nearestMarker = marker;
             }
         });
 
-        if (nearestWell) {
-            var latLng = nearestWell.getLatLng();
+        if (nearestMarker) {
+            var latLng = nearestMarker.getLatLng();
             
             var polyline = L.polyline([currentPos, [latLng.lat, latLng.lng]], {
                 color: 'blue',
@@ -2274,14 +2298,36 @@
     // Draw the range circle
     rangeCircle = L.circle(currentPos, {
         color: 'red',
-        fillColor: '#f03',
+        fillColor: 'red',
         fillOpacity: 0.2,
-        radius: range
+        radius: range,
+        interactive: false
     }).addTo(mymap);
-    previousrangeCircle = rangeCircle;
+
+
+    // Count markers within range circle
+    combinedMarkers = wellMarkers.concat(observationWellMarkers);
+    let markersWithinRange = 0;
+    combinedMarkers.forEach(function (marker) {
+        let latLng = marker.getLatLng();
+        let distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
+        if (distance <= range) {
+            markersWithinRange++;
+        }
+    });
+
+    // Display total number of wells within range circle
+    let rangeInfo = L.control();
+    rangeInfo.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+    rangeInfo.update = function () {
+        this._div.innerHTML = `<h4>Total number of wells within ${slider.value} Km:</h4>${markersWithinRange}`;
+    };
+    rangeInfo.addTo(mymap);
 });
-
-
 
     //////// BUFFER
     var circle = new L.circle();
@@ -2290,7 +2336,7 @@
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    $setbuffer.on('click', function (e) {
+    {% comment %} $setbuffer.on('click', function (e) {
         console.log("Hi m a new buffer");
         if (oldhfbb) {
             console.log("remove buffer");
@@ -2334,7 +2380,7 @@
         //querybuf(currentPos);
 
 
-    });
+    }); {% endcomment %}
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -4590,7 +4636,7 @@
     }
 
 
-
+    var observationWellMarkers = [];
     function putWFSFacility(facility, district) {
         putdist(district)
 
@@ -4701,6 +4747,9 @@
                         },
                         onEachFeature: onEachFeatureForPoint,
                     }).addTo(mymap);
+                    healthFacility.eachLayer(function (layer) {
+                        observationWellMarkers.push(layer);
+                    });
                     var hel = healthFacility1
                     //legend.addTo(mymap);
 
