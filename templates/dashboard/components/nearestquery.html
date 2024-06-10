@@ -1,0 +1,252 @@
+{% extends 'dashboard/watergis_base2.html' %}
+{% load static%} {% load i18n %}{% block content %}
+<!-- Map Container -->
+<div id="mapdiv"></div>
+
+<div class="subContent" id="nearestquery">
+    <h5 class="heading">Nearest Query</h5>
+    <hr>
+    
+</div>
+
+<script src="watergis/dashboard/static/leaflet-src.js"></script>
+
+    <script>
+
+    var mymap;
+    var source = L.wms.source(
+        "https://geoserver2.communitygis.net/geoserver/wms",
+        {
+            "format": "image/png",
+            "transparent": "true"
+        }
+    );
+    // zoom: 5, zoomControl: false,
+    mymap = L.map('mapdiv', {
+        center: [19.0760, 84.8777],
+        zoom: 5, zoomControl: false,
+        attributionControl: false,
+        messagebox: true,
+        contextmenu: true,
+        measureControl: false
+    });
+    mymap.messagebox.options.timeout = 5000;
+    mymap.messagebox.setPosition("bottomright");
+    lyrOSM = L.tileLayer.provider('OpenStreetMap.Mapnik',{
+        opacity:0.7
+    });
+    lyrOSM2 = L.tileLayer.provider('OpenStreetMap.Mapnik');
+    lyrImagery = L.tileLayer.provider('Esri.WorldImagery',{
+        opacity:0.7
+    });
+    let tiles = new L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    });
+    var baseLayers = {
+        "OSM": lyrOSM,
+        "Satellite": lyrImagery
+    };
+
+    var overlays = {
+        //"States": indiaState
+    };
+
+    var layercontrol = L.control.layers(baseLayers, overlays).addTo(mymap);
+
+
+// mymap.setView([19.000, 74.999],7);
+    mymap.addLayer(lyrImagery);
+    var miniMap = new L.Control.MiniMap(lyrOSM2, { toggleDisplay: true }).addTo(mymap);
+    //  var miniMap = new L.Control.MiniMap(lyrOSM).addTo(mymap);
+
+    function round(value, precision) {
+        var multiplier = Math.pow(10, precision || 0);
+        return Math.round(value * multiplier) / multiplier;
+    }
+
+
+    function copyToClipboard(text) {
+        var dummy = document.createElement("textarea");
+        // dummy.style.display = 'none'
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+    }
+
+    mymap.on('contextmenu', function (e) {
+        copyToClipboard(e.latlng.lat + "," + e.latlng.lng);
+        mymap.messagebox.show("<h6>Latitude:<b>" + round(e.latlng.lat, 4) + "</b> Longitude:<b>" + round(e.latlng.lng, 4) + "</b> copied to clipboard</h6>");
+    });
+
+
+
+    $('.select').click(function () {
+        $(this).toggleClass('highlight')
+    })
+
+    // objBasemaps = {
+    //     "Open Street Maps": lyrOSM,
+    //     "Imagery": lyrImagery
+    // };
+
+    // objOverlays = {
+    // };
+
+    
+    L.control.zoom({ position: 'topright' }).addTo(mymap);
+    ctlAttribute = L.control.attribution({ position: 'bottomleft' }).addTo(mymap);
+
+    function GetSelectedWells(obj) {
+    
+        let fac = obj.value;
+        var district = document.getElementById('district').value;
+        if ($(obj).is(":checked")) {
+            if (fac == "{nashik_wells}") {
+                mymap.setView([19.2107, 73.1523], 8);
+                putWFSFacility("nashik_wells", "Nashik");
+            }
+            else if (fac == "{bhandara_obs_wells}") {
+                //mymap.setView([21.096, 79.803], 8);
+                putWFSFacility("bhandara_obs_wells", "Bhandara");
+            }
+        } else {
+            mymap.removeLayer(circle);
+            oldhfbb.forEach(layer => mymap.removeLayer(layer));
+            if (fac === "{nashik_wells}")
+                removeWFSfac("nashik_wells");
+            else if (fac === "{bhandara_obs_wells}")
+                removeWFSfac("bhandara_obs_wells");
+
+        };
+    }
+
+    function clear_layer() {
+        LayerList.forEach(layer => mymap.removeLayer(layer));
+    }
+
+    function clear_distlayer() {
+        distLayerList.forEach(layer => mymap.removeLayer(layer));
+    }
+
+    function clear_tallayer() {
+        talLayerList.forEach(layer => mymap.removeLayer(layer));
+    }
+
+    function clear_pinlayer() {
+        pinLayerList.forEach(layer => mymap.removeLayer(layer));
+    }
+
+
+    function clearpoint_layer() {
+        //console.log(pointLayerList);
+        pointLayerList.forEach(layer => mymap.removeLayer(layer));
+    }
+
+    // Function to query the nearest wells
+    function queryFeatures(currentPos, numResults) {
+        var distances = [];
+        wellsFacility.eachLayer(function (l) {
+            var distance = L.latLng(currentPos).distanceTo(l.getLatLng()) / 1000;
+            distances.push(distance);
+        });
+        distances.sort(function (a, b) {
+            return a - b;
+        });
+
+        wellsFacility.eachLayer(function (l) {
+            var distance = L.latLng(currentPos).distanceTo(l.getLatLng()) / 1000;
+            if (distance < distances[numResults]) {
+                l.bindTooltip(distance.toLocaleString() + ' km from current location.');
+                L.polyline([currentPos, l.getLatLng()], {
+                    color: 'blue',
+                    weight: 4,
+                    opacity: .5,
+                }).addTo(facilityLayer);
+            }
+        });
+        oldLayer = facilityLayer;
+        mymap.flyToBounds(facilityLayer.getBounds(), {
+            duration: 3,
+            easeLinearity: .1
+        });
+        mymap.on('zoomend', function () {
+            mymap.addLayer(facilityLayer);
+        });
+    }
+
+    function initializeNearestQuerynew() {
+        let wellsFacility,
+            $findNearest = $('#find-nearest'),
+            $setlocation = $('#setlocation'),
+            $setbuffer = $('#setbuffer'),
+            currentPos = null,
+            marker = null,
+            oldMarker = null,
+            facilityLayer = new L.featureGroup(),
+            oldLayer = null;
+    
+        var icon = L.icon({
+            iconUrl: 'marker-icon.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            tooltipAnchor: [16, -28],
+            shadowUrl: 'marker-shadow.png',
+            shadowSize: [41, 41]
+        });
+    
+        $('#nearest-tab').on('shown.bs.tab', function (e) {
+            $('#nearest').load("{% url 'nearestquery' %} #nearestquery > *", function () {
+                // Call the initialization function after loading
+                // Attach event listener to the dynamically loaded button
+                $(document).on('click', '#setlocation', function (e) {
+                    alert("hi");
+                    mymap.on('dblclick', function (e) {
+                        currentPos = [e.latlng.lat, e.latlng.lng];
+                        if (oldMarker) {
+                            mymap.removeLayer(oldMarker);
+                            oldMarker = null;
+                        }
+                        if (oldLayer) {
+                            mymap.removeLayer(oldLayer);
+                            oldLayer = null;
+                            facilityLayer = new L.featureGroup();
+                        }
+    
+                        if (oldhfbb) {
+                            mymap.removeLayer(oldhfbb);
+                        }
+                        // Create a new marker and assign it to the marker variable
+                        marker = L.marker(currentPos, { icon: icon }).addTo(mymap);
+                        oldMarker = marker;
+                    });
+                });
+            });
+        });
+    
+        // SET BUFFER
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value;
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+        };
+    
+        // Find Nearest Well button click event
+        $findNearest.on('click', function (e) {
+            if (currentPos) {
+                queryFeatures(currentPos, 1);
+            } else {
+                alert("Please set a location first by double-clicking on the map.");
+            }
+        });
+    }
+    initializeNearestQuerynew(); 
+
+</script>
+ 
+                    
+   {% endblock %}

@@ -430,6 +430,14 @@
         font-size: 1.3rem;
     }
 
+    .distance-tooltip {
+        background-color: white;
+        color: black;
+        border: 1px solid #333;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+    }
 
 
     #mymodal {
@@ -1280,10 +1288,30 @@
         }
     })
 
+    function clearWells() {
+        // Remove well markers
+        wellMarkers.forEach(marker => mymap.removeLayer(marker));
+        wellMarkers = [];
+    
+        // Remove observation well markers
+        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
+        observationWellMarkers = [];
+    }
 
+    function toggleWells(checkbox) {
+        if (checkbox.checked) {
+            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
+            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
+            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
+        } else {
+            document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
+            clearWells(); // Call the clearWells function to remove both types of wells
+        }
+    }
 
-
-
+    var wellMarkers = [];
     function defineWell(checkbox) {
         let value = checkbox.value;
         var state = document.getElementById('indstate').value;
@@ -1394,7 +1422,7 @@
             </tbody>
           </table>
           </br>`
-
+        
             var popupOptions =
             {
                 'maxWidth': '500',
@@ -1402,9 +1430,10 @@
             }
             var markers = L.circleMarker(["{{ i.lat }}", "{{ i.lng }}"], { color: 'green', fillColor: '#f03', fillOpacity: 0.5, radius: 8 }).bindPopup(table, popupOptions);
             wellslayerGroup.addLayer(markers).addTo(mymap);
+            wellMarkers.push(markers);
             mymap.on('zoomend', function () {
                 // alert("zoomenf called")
-                var zoomLevel = map.getZoom();
+                var zoomLevel = mymap.getZoom();
                 var newRadius = zoomLevel * 2; // adjust the radius based on the zoom level
                 markers.setRadius(newRadius);
             })
@@ -1413,9 +1442,10 @@
         }
         else {
 
-            wellslayerGroup.eachLayer(function (marker) {
+            wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
+            wellMarkers = [];
         }
 
 
@@ -2177,10 +2207,8 @@ function addnashikWMSLegend(obj) {
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********FIND NEAREST FACILITY FEATURE
-    let healthFacility,
-        $locate = $('#locate'),
-        $body = $('body'),
+    // ***********NEAREST QUERY
+    let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
         $setbuffer = $('#setbuffer')
@@ -2188,11 +2216,36 @@ function addnashikWMSLegend(obj) {
     let currentPos = null;
     let marker = null;
     let oldMarker = null;
-    let facilityLayer = new L.featureGroup();
     let oldLayer = null;
+    let previousPolyline = null;
+    let previousTooltip = null;
+    let rangeCircle = null;
+    let setLocationActive = false;
 
-    // YOUR LOCATION BUTTON
-    $locate.on('click', function (e) {
+    // SET LOCATION BUTTON
+    $setlocation.on('click', function (e) {
+        setLocationActive = !setLocationActive;
+    if (setLocationActive) {
+        $setlocation.text('Clear Location');
+        mymap.on('dblclick', onMapClick);
+    } else {
+        $setlocation.text('Set Location');
+        clearLocation();
+        mymap.off('dblclick', onMapClick);
+    }
+    })
+
+        function onMapClick(e) {
+            currentPos = [e.latlng.lat, e.latlng.lng];
+            console.log("current location:", currentPos);
+
+            clearLocation();
+            
+            marker = new L.marker(currentPos).addTo(mymap);
+            oldMarker = marker;
+        }
+
+    function clearLocation() {
         if (oldMarker) {
             mymap.removeLayer(oldMarker);
             oldMarker = null;
@@ -2200,50 +2253,121 @@ function addnashikWMSLegend(obj) {
         if (oldLayer) {
             mymap.removeLayer(oldLayer);
             oldLayer = null;
-            facilityLayer = new L.featureGroup();
         }
-        // $status.html('finding your location');
-        if (!navigator.geolocation) {
-            alert("<p>Sorry, your browser does not support Geolocation</p>");
-            return;
+        if (previousPolyline) {
+            mymap.removeLayer(previousPolyline);
+            previousPolyline = null;
         }
-        $body.removeClass('loaded');
-        navigator.geolocation.getCurrentPosition(success, error);
+        if (previousTooltip) {
+            mymap.removeLayer(previousTooltip);
+            previousTooltip = null;
+        }
+        if (rangeCircle) {
+            mymap.removeLayer(rangeCircle);
+            rangeCircle = null;
+        }
+    }
+
+    let combinedMarkers = [];
+
+    function findNearestWell() {
+        if (!currentPos || (wellMarkers.length === 0 && observationWellMarkers.length === 0)) return;
+
+
+        var minDistance = Infinity;
+        var nearestWell = null;
+
+        combinedMarkers = wellMarkers.concat(observationWellMarkers);
+
+        combinedMarkers.forEach(function (marker) {
+            var latLng = marker.getLatLng();
+            var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
+    
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestMarker = marker;
+            }
+        });
+
+        if (nearestMarker) {
+            var latLng = nearestMarker.getLatLng();
+            
+            var polyline = L.polyline([currentPos, [latLng.lat, latLng.lng]], {
+                color: 'blue',
+                weight: 4,
+                opacity: 0.5
+            }).addTo(mymap);
+
+            // Convert distance to a readable format 
+            var readableDistance = (minDistance / 1000).toFixed(2) + ' km';
+            
+            // Add a tooltip to the polyline with the distance
+            polyline.bindTooltip(readableDistance, {
+                permanent: true,
+                className: 'distance-tooltip',
+                offset: L.point(0, -10)
+            }).openTooltip();
+        previousPolyline = polyline;
+        previousTooltip = polyline.getTooltip();
+        }
+    }
+    // FIND NEAREST BUTTON
+    $findNearest.on('click', function (e) {
+        findNearestWell();
+    });
+    
+    // SET BUFFER
+    let slider = document.getElementById("myRange");
+    let output = document.getElementById("demo");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+    output.innerHTML = this.value;
+    $setbuffer.text(`Wells within ${this.value} Km`);
+    }
+    $setbuffer.on('click', function (e) {
+    if (!currentPos) return;
+    let range = parseInt(slider.value) * 1000; // Convert to meters
+
+    // Clear previous range circle
+    if (rangeCircle) {
+        mymap.removeLayer(rangeCircle);
+    }
+
+    // Draw the range circle
+    rangeCircle = L.circle(currentPos, {
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 0.2,
+        radius: range,
+        interactive: false
+    }).addTo(mymap);
+
+
+    // Count markers within range circle
+    combinedMarkers = wellMarkers.concat(observationWellMarkers);
+    let markersWithinRange = 0;
+    combinedMarkers.forEach(function (marker) {
+        let latLng = marker.getLatLng();
+        let distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
+        if (distance <= range) {
+            markersWithinRange++;
+        }
     });
 
-    // SET LOCATION BUTTON
-    $setlocation.on('click', function (e) {
-        mymap.on('dblclick', function (e) {
-            currentPos = [e.latlng.lat, e.latlng.lng];
-            if (oldMarker) {
-                mymap.removeLayer(oldMarker);
-                oldMarker = null;
-            }
-            if (oldLayer) {
-                mymap.removeLayer(oldLayer);
-                oldLayer = null;
-                facilityLayer = new L.featureGroup();
-            }
+    // Display total number of wells within range circle
+    let rangeInfo = L.control();
+    rangeInfo.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+    rangeInfo.update = function () {
+        this._div.innerHTML = `<h4>Total number of wells within ${slider.value} Km:</h4>${markersWithinRange}`;
+    };
+    rangeInfo.addTo(mymap);
+});
 
-            if (oldhfbb) {
-                mymap.removeLayer(oldhfbb);
-                // oldhfbb = [];
-                // healthFacilityInBB = null;
-            }
-            marker = new L.marker(currentPos).addTo(mymap);
-            oldMarker = marker;
-        });
-    })
-    // SET BUFFER
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    // output.innerHTML = slider.value;
-
-    // slider.oninput = function () {
-    //     output.innerHTML = this.value;
-
-    //     //<!-- mymap.removeLayer(circle); -->
-    // }
     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
@@ -2251,7 +2375,7 @@ function addnashikWMSLegend(obj) {
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    $setbuffer.on('click', function (e) {
+    {% comment %} $setbuffer.on('click', function (e) {
         console.log("Hi m a new buffer");
         if (oldhfbb) {
             console.log("remove buffer");
@@ -2295,7 +2419,7 @@ function addnashikWMSLegend(obj) {
         //querybuf(currentPos);
 
 
-    });
+    }); {% endcomment %}
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -2739,10 +2863,10 @@ function addnashikWMSLegend(obj) {
 
 
 
-    // FIND NEAREST BUTTON
+    {% comment %} // FIND NEAREST BUTTON
     $findNearest.on('click', function (e) {
         queryFeatures(currentPos, 1);
-    });
+    }); {% endcomment %}
 
 
     // IF LOCATION FETCH BY BROWSER SUCCESS
@@ -3962,6 +4086,7 @@ function addnashikWMSLegend(obj) {
         var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
         var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
 
+
         // compose the URL for the request
         console.log(e);
 
@@ -4328,7 +4453,7 @@ function addnashikWMSLegend(obj) {
     }
 
 
-
+    var observationWellMarkers = [];
     function putWFSFacility(facility, district) {
         putdist(district)
 
@@ -4439,6 +4564,9 @@ function addnashikWMSLegend(obj) {
                         },
                         onEachFeature: onEachFeatureForPoint,
                     }).addTo(mymap);
+                    healthFacility.eachLayer(function (layer) {
+                        observationWellMarkers.push(layer);
+                    });
                     var hel = healthFacility1
                     //legend.addTo(mymap);
 
