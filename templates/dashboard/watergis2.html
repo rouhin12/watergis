@@ -430,6 +430,14 @@
         font-size: 1.3rem;
     }
 
+    .distance-tooltip {
+        background-color: white;
+        color: black;
+        border: 1px solid #333;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-size: 12px;
+    }
 
 
     #mymodal {
@@ -453,7 +461,7 @@
 
     /* #myModal .modal-dialog {
         max-width: 800px;
-        
+       
     } */
 </style>
 
@@ -709,7 +717,7 @@
 
 <!-- script start -->
 <script>
-    // sidebar script 
+    // sidebar script
     // $('#sidebar-container').hover(
     //     function () {
     //         SidebarCollapse();
@@ -751,7 +759,7 @@
         var SeparatorTitle = $('.sidebar-separator-title');
         if (SeparatorTitle.hasClass('d-flex')) {
             SeparatorTitle.removeClass('d-flex');
-            // sidebar close 
+            // sidebar close
             var element = document.getElementById('sidebar-container');
             element.style.height = "calc(100vh - 200px)";
             if (window.matchMedia("(min-device-width: 320px) and (max-device-width: 768px)").matches) {
@@ -781,7 +789,7 @@
 
         // Collapse/Expand icon
         $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-        // code to manage sidebar marginleft on collapse 
+        // code to manage sidebar marginleft on collapse
         // if ($('#sidebar-container').hasClass('sidebar-collapsed')) {
         //     $('.open').css('left', '4rem');
         // } else {
@@ -833,7 +841,7 @@
 
     }
 
-    // end sidebar script 
+    // end sidebar script
     var mymap;
     var source = L.wms.source(
         "https://geoserver2.communitygis.net/geoserver/wms",
@@ -916,7 +924,7 @@
     // objOverlays = {
     // };
 
-    
+   
     L.control.zoom({ position: 'topright' }).addTo(mymap);
     ctlAttribute = L.control.attribution({ position: 'bottomleft' }).addTo(mymap);
 
@@ -924,7 +932,7 @@
 
     $(document).ready(function () {
 
-        // code that selects states automatically 
+        // code that selects states automatically
 
 
         // Trigger the change event manually
@@ -962,7 +970,7 @@
             opacity: 0.7,
         }
         );
-        
+       
         indiaState.addTo(mymap);
         layercontrol.addOverlay(indiaState, "States");
 
@@ -1042,7 +1050,7 @@
     var tableurl2;
     var tableurl;
 
-    /// Script to download form data 
+    /// Script to download form data
     function create_property_json(feature) {
         var json_props = [];
         feature.forEach(feat => {
@@ -1187,7 +1195,7 @@
                     "label": "State Code",
                     "description": "Description 1"
                 },
-                
+               
                 // Add mappings for other attributes
             };  
 
@@ -1280,7 +1288,6 @@
         }
     })
 
-
     function clearWells() {
         // Remove well markers
         wellMarkers.forEach(marker => mymap.removeLayer(marker));
@@ -1304,7 +1311,7 @@
         }
     }
 
-
+    var wellMarkers = [];
     function defineWell(checkbox) {
         let value = checkbox.value;
         var state = document.getElementById('indstate').value;
@@ -1362,60 +1369,60 @@
               <th>{{ i.name }}</th>
           </tr>
           {% endif %}
-    
+   
               {% if i.well_nm %}
               <tr>
                   <th>Well's name</th>
                   <th>{{ i.well_nm }}</th>
               </tr>
               {% endif %}
-    
+   
               {% if i.radius %}
               <tr>
                 <td>Radius</td>
                 <td>{{ i.radius }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.depth %}
               <tr>
                 <td>Depth</td>
                 <td>{{ i.depth }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.level %}
               <tr>
                 <td>Level</td>
                 <td>{{ i.level }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.village %}
               <tr>
                 <td>Village</td>
                 <td>{{ i.village }}</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.district %}
               <tr>
                 <td>District</td>
                 <td>{{ i.district }}</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.state %}
               <tr>
                 <td>State</td>
                 <td>{{ i.state }}</td>
               </tr>
               {% endif %}
-    
+   
             </tbody>
           </table>
           </br>`
-
+       
             var popupOptions =
             {
                 'maxWidth': '500',
@@ -1423,9 +1430,10 @@
             }
             var markers = L.circleMarker(["{{ i.lat }}", "{{ i.lng }}"], { color: 'green', fillColor: '#f03', fillOpacity: 0.5, radius: 8 }).bindPopup(table, popupOptions);
             wellslayerGroup.addLayer(markers).addTo(mymap);
+            wellMarkers.push(markers);
             mymap.on('zoomend', function () {
                 // alert("zoomenf called")
-                var zoomLevel = map.getZoom();
+                var zoomLevel = mymap.getZoom();
                 var newRadius = zoomLevel * 2; // adjust the radius based on the zoom level
                 markers.setRadius(newRadius);
             })
@@ -1434,9 +1442,10 @@
         }
         else {
 
-            wellslayerGroup.eachLayer(function (marker) {
+            wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
+            wellMarkers = [];
         }
 
 
@@ -1583,7 +1592,7 @@
 
 
     });
-    // New function for Drainage 
+    // New function for Drainage
     function showDrainagenew(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
@@ -1604,15 +1613,14 @@
 
                 if (putWMS1(drainageLayer)) {
                     // Layer found and displayed
-                } 
-                // else {
-                //     // Show error message if layer is not found
-                //     swal({
-                //         title: "Sorry For Inconvenience",
-                //         text: "Drainage Data not found For " + district,
-                //         timer: 1500
-                //     });
-                // }
+                } else {
+                    // Show error message if layer is not found
+                    swal({
+                        title: "Sorry For Inconvenience",
+                        text: "Drainage Data not found For " + district,
+                        timer: 1500
+                    });
+                }
             },
             error: function() {
                 swal({
@@ -1631,7 +1639,7 @@
             data: { district: district },
             success: function(response) {
                 let drainageLayer = response.layer;
-                
+               
                 removeWMS(drainageLayer);
             },
             error: function() {
@@ -1642,10 +1650,10 @@
                 });
             }
          });
-        
-        
+       
+       
     }
-}   
+}  
 
     // New function for Drainage ends here
    function showDrainage(obj) {
@@ -1690,7 +1698,7 @@
                 putWMS1("Ahamadnagar_drainage_filess")
             else if (district == "Akola")
                 putWMS1("Akola_drainage_merged");
-            
+           
             else {
                 swal({
                     title: "Sorry For Inconvience",
@@ -1703,7 +1711,7 @@
                     // alert(district)
                     // alert(layer.name)
                     putWMS1("{{layer.name}}")
-                
+               
                 {% endif %}
             {% endfor %}
 
@@ -1802,7 +1810,7 @@
 
         }
     }
-    
+   
     function getBoundary(obj) {
         let boundary = obj.value;
         // alert(boundary);
@@ -1857,19 +1865,19 @@
             }
              
 
-            //  fetching from admin panel 
+            //  fetching from admin panel
             {% for layer in alllayers %}
             {% if layer.method == "getBoundary(this)" %}
                 {% if layer.function == "putWMS2" %}
                     else if (boundary == '{{layer.value}}') {
                         putWMS2("{{layer.name}}")
-                    }   
+                    }  
                 {% else %}
                     else if (boundary == '{{layer.value}}') {
                         putWMS1("{{layer.name}}")
                     }
                 {% endif %}
-            
+           
             {% endif %}
             {% endfor %}
            
@@ -1895,9 +1903,9 @@
                 removewards();
             else if (boundary == "{mumadm}")
                 removewards();
-            
+           
             else if (boundary == '{nashik_turbidity}') {
-                
+               
                 removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_alkalinity}') {
@@ -1927,7 +1935,7 @@
             // else if (boundary == '{chandrapur_river}') {
             //     removeWMS("Chandrapur_river__osm_22june2023")
             // }
-            //  fetching from admin panel 
+            //  fetching from admin panel
             {% for layer in alllayers %}
             {% if layer.method == "getBoundary(this)" %}
 
@@ -1965,8 +1973,8 @@ function addnashikWMSLegend(obj) {
 
     wms_boundary_layer.addTo(mymap);
     newLayerList.push(wms_boundary_layer);//pushing into newlayerlist array :To be used when layer is unchecked
-    addnashikWMSLegend(Style);//making legends 
-    
+    addnashikWMSLegend(Style);//making legends
+   
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_boundary_layer.options.layers + "&QUERY_LAYERS=" + wms_boundary_layer.options.layers;
     tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_boundary_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 }
@@ -1993,7 +2001,7 @@ function addnashikWMSLegend(obj) {
                     // if (district){
                     //     console.log(district);
                     //     putWMS("geonode:osm_highways");
-                    // } 
+                    // }
                     // else
                     putWMS("geonode:osm_highways");
                 }
@@ -2199,24 +2207,7 @@ function addnashikWMSLegend(obj) {
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********FIND NEAREST FACILITY FEATURE
-    function clearWells() {
-        // Remove well markers
-        wellMarkers.forEach(marker => mymap.removeLayer(marker));
-        wellMarkers = [];
-   
-        // Remove observation well markers
-        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
-        observationWellMarkers = [];
-    }
-
-    function toggleWells(checkbox) {
-        if (checkbox.checked) {
-            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
-            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
-            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
-            GetSelectedWells(document.getElementById('bhandar…
-// *****NEAREST QUERY
+    // ***********NEAREST QUERY
     let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
@@ -2332,7 +2323,7 @@ function addnashikWMSLegend(obj) {
 
     slider.oninput = function() {
     output.innerHTML = this.value;
-    $setbuffer.text(Wells within ${this.value} Km);
+    $setbuffer.text(`Wells within ${this.value} Km`);
     }
     $setbuffer.on('click', function (e) {
     if (!currentPos) return;
@@ -2372,77 +2363,11 @@ function addnashikWMSLegend(obj) {
         return this._div;
     };
     rangeInfo.update = function () {
-        this._div.innerHTML = <h4>Total number of wells within ${slider.value} Km:</h4>${markersWithinRange};
+        this._div.innerHTML = `<h4>Total number of wells within ${slider.value} Km:</h4>${markersWithinRange}`;
     };
     rangeInfo.addTo(mymap);
 });
 
-    let healthFacility,
-        $locate = $('#locate'),
-        $body = $('body'),
-        $findNearest = $('#find-nearest'),
-        $setlocation = $('#setlocation'),
-        $setbuffer = $('#setbuffer')
-
-    let currentPos = null;
-    let marker = null;
-    let oldMarker = null;
-    let facilityLayer = new L.featureGroup();
-    let oldLayer = null;
-
-    // YOUR LOCATION BUTTON
-    $locate.on('click', function (e) {
-        if (oldMarker) {
-            mymap.removeLayer(oldMarker);
-            oldMarker = null;
-        }
-        if (oldLayer) {
-            mymap.removeLayer(oldLayer);
-            oldLayer = null;
-            facilityLayer = new L.featureGroup();
-        }
-        // $status.html('finding your location');
-        if (!navigator.geolocation) {
-            alert("<p>Sorry, your browser does not support Geolocation</p>");
-            return;
-        }
-        $body.removeClass('loaded');
-        navigator.geolocation.getCurrentPosition(success, error);
-    });
-
-    // SET LOCATION BUTTON
-    $setlocation.on('click', function (e) {
-        mymap.on('dblclick', function (e) {
-            currentPos = [e.latlng.lat, e.latlng.lng];
-            if (oldMarker) {
-                mymap.removeLayer(oldMarker);
-                oldMarker = null;
-            }
-            if (oldLayer) {
-                mymap.removeLayer(oldLayer);
-                oldLayer = null;
-                facilityLayer = new L.featureGroup();
-            }
-
-            if (oldhfbb) {
-                mymap.removeLayer(oldhfbb);
-                // oldhfbb = [];
-                // healthFacilityInBB = null;
-            }
-            marker = new L.marker(currentPos).addTo(mymap);
-            oldMarker = marker;
-        });
-    })
-    // SET BUFFER
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    // output.innerHTML = slider.value;
-
-    // slider.oninput = function () {
-    //     output.innerHTML = this.value;
-
-    //     //<!-- mymap.removeLayer(circle); -->
-    // }
     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
@@ -2450,7 +2375,7 @@ function addnashikWMSLegend(obj) {
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    $setbuffer.on('click', function (e) {
+    {% comment %} $setbuffer.on('click', function (e) {
         console.log("Hi m a new buffer");
         if (oldhfbb) {
             console.log("remove buffer");
@@ -2494,7 +2419,7 @@ function addnashikWMSLegend(obj) {
         //querybuf(currentPos);
 
 
-    });
+    }); {% endcomment %}
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -2594,7 +2519,7 @@ function addnashikWMSLegend(obj) {
             const updateDate = "Dedicated COVID Facilities-Arogya";
             layer.bindPopup(`<table class = 'popupclass'>
                                            <tr><td>Facility Name:</td><td> ${feature.properties.faclty_nam}</td></tr>
-    
+   
                                            <tr><td>Category:</td><td> ${feature.properties.category}</td></tr>
                                             <tr><td>Facility Type:</td><td> ${feature.properties.type}</td></tr>
                                           <tr><td>Total Isolation beds(excluding ICU beds)</td><td> ${feature.properties.iso_minus_}</td></tr>
@@ -2938,10 +2863,10 @@ function addnashikWMSLegend(obj) {
 
 
 
-    // FIND NEAREST BUTTON
+    {% comment %} // FIND NEAREST BUTTON
     $findNearest.on('click', function (e) {
         queryFeatures(currentPos, 1);
-    });
+    }); {% endcomment %}
 
 
     // IF LOCATION FETCH BY BROWSER SUCCESS
@@ -3276,7 +3201,7 @@ function addnashikWMSLegend(obj) {
         clear_distlayer();
         clearpoint_layer();
         wms_layer.addTo(mymap);
-        
+       
         mymap.setView([stLayerLatLong[1], stLayerLatLong[2] - 2], 7);
         LayerList.push(wms_layer);
         // addWMSLegend(layer);
@@ -3611,7 +3536,7 @@ function addnashikWMSLegend(obj) {
     }
 
     // let area = null;
-    
+
     function GetSelectedWells(obj) {
 
         let fac = obj.value;
@@ -3881,7 +3806,7 @@ function addnashikWMSLegend(obj) {
             mymap.removeControl(wms_legend);
         }
         if (wms_legend1) {
-            
+           
             mymap.removeControl(wms_legend1);
         }
         mymap.removeControl(wms_legend1);
@@ -3977,7 +3902,7 @@ function addnashikWMSLegend(obj) {
         if (wms_legend) {
             mymap.removeControl(wms_legend);
         }
-        //console.log(wms_legend); 
+        //console.log(wms_legend);
         addWMSLegend(facility);
         TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
         tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
@@ -4091,8 +4016,8 @@ function addnashikWMSLegend(obj) {
             });
 
     }
-    // function to display all popups 
-    
+    // function to display all popups
+   
 
     function loadCSV(url, callback) {
     fetch(url)
@@ -4133,11 +4058,11 @@ function addnashikWMSLegend(obj) {
     let keyMapping = {};
     function initializeKeyMapping() {
         const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_demography_dd.csv' %}"; // Replace with the correct path to your CSV file
-        
+       
         loadCSV(antodaya_dd_csvUrl, function(data) {
             data.forEach(item => {
                 keyMapping[item.key] = item.label;
-                
+               
             });
             // Initialize the map and add the identify event listener after the key mapping is ready
             initializeMap();
@@ -4160,6 +4085,7 @@ function addnashikWMSLegend(obj) {
 
         var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
         var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
+
 
         // compose the URL for the request
         console.log(e);
@@ -4200,9 +4126,9 @@ function addnashikWMSLegend(obj) {
                 }
 
                 popupContent += "</table></div>";
-                
+               
                 if (showpopup) {
-                        
+                       
                         popup.setContent(popupContent);
                         popup.setLatLng(e.latlng);
                         mymap.openPopup(popup);
@@ -4213,7 +4139,7 @@ function addnashikWMSLegend(obj) {
                 console.log("Error :",error)
             }
         });
-        
+       
     }
     initializeKeyMapping();
    // mymap.addEventListener('click', Identify);
@@ -4372,7 +4298,7 @@ function addnashikWMSLegend(obj) {
         // const url2 = 'https://geonode3.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
         const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
         const url2 = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
-        // const url3 = 'https://geoserver2.communitygis.net/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson'; 
+        // const url3 = 'https://geoserver2.communitygis.net/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
         // const url4 = 'http://geoserver2.communitygis.net:8080/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
         const url3 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3ANashik_district_well&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'
 
@@ -4434,7 +4360,7 @@ function addnashikWMSLegend(obj) {
                 layer.bindPopup(`<div class = 'text-left'>Well Data<br>
                                 District: ${feature.properties.District}<br>
                                 Well_Type :${feature.properties.Well_Type}<br>
-                                
+                               
                                 </div>`)
             }
 
@@ -4505,8 +4431,8 @@ function addnashikWMSLegend(obj) {
             style: ""
         });
         console.log(districtLayer)
-        // clear_layer(); 
-        // clear_distlayer();   
+        // clear_layer();
+        // clear_distlayer();  
         // clear_tallayer();
 
 
@@ -4527,7 +4453,7 @@ function addnashikWMSLegend(obj) {
     }
 
 
-
+    var observationWellMarkers = [];
     function putWFSFacility(facility, district) {
         putdist(district)
 
@@ -4589,7 +4515,7 @@ function addnashikWMSLegend(obj) {
                 layer.bindPopup(`<div class = 'text-center'>Well Data<br>
                                 District: ${feature.properties.District}<br>
                                 Well_Type :${feature.properties.Well_Type}<br>
-                                
+                               
                                 </div>`)
             }
             else if (facility == 'bhandara_obs_wells') {
@@ -4600,11 +4526,11 @@ function addnashikWMSLegend(obj) {
                                             NAME: ${feature.properties.THENAME}<br>
                                             GPE NAME: ${feature.properties.GPENAME}<br>
                                             VILLAGE NAME: ${feature.properties.VLENAME}<br>
-                                                
+                                               
                                             HABI_NAME: ${feature.properties.HABI_NAME}<br>
-                                                
+                                               
                                             OW_LOCATIO: ${feature.properties.OW_LOCATIO}<br>
-                                                
+                                               
                                             PARAPET_HT: ${feature.properties.PARAPET_HT}<br>
                                             WELL_DEPTH: ${feature.properties.WELL_DEPTH}<br>
                                             WELL_LININ: ${feature.properties.WELL_LININ}<br>
@@ -4638,6 +4564,9 @@ function addnashikWMSLegend(obj) {
                         },
                         onEachFeature: onEachFeatureForPoint,
                     }).addTo(mymap);
+                    healthFacility.eachLayer(function (layer) {
+                        observationWellMarkers.push(layer);
+                    });
                     var hel = healthFacility1
                     //legend.addTo(mymap);
 
@@ -4712,7 +4641,7 @@ function addnashikWMSLegend(obj) {
 
     //                 }
     //                 else if (feature.properties.town_name) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Urban Areas</b></td><td>" + 
+    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Urban Areas</b></td><td>" +
     //                         "<tr><td><b>State</b></td><td>" + feature.properties.state_name + "</td></tr>" +
     //                         "<tr><td><b>District</b></td><td>" + feature.properties.district_n + "</td></tr>" +
     //                         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>"+
@@ -4817,7 +4746,7 @@ function addnashikWMSLegend(obj) {
     };
     //Water Gis function
 
-    
+   
 
     function getLatLong(districtName) {
             if (listDistrict[districtName]) {
@@ -4845,12 +4774,12 @@ function addnashikWMSLegend(obj) {
                 // Extract the function name
                 const callingFunctionName = callingFunctionLine.match(/at\s+(.*)\s+\(/)[1];
                 console.log("Called by: " + callingFunctionName);
-                
+               
                 if(callingFunctionLine ==showContours)
                     calleefunc = "Contours";
                 else if((callingFunctionLine == showAntodaya) || (callingFunctionLine == showAntodaya2))
                     calleefunc = "Antyodata";
-                else 
+                else
                     calleefunc ="LEGEND";
             }
         console.log("layer " + layer);
@@ -4860,7 +4789,7 @@ function addnashikWMSLegend(obj) {
         // Extract the 'district_name' parameter
         const districtName = url.searchParams.get('district');
         console.log("district name is "+districtName)
-        
+       
         if (layer == "maharashtra_rivers_from_osm") {
             wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                 layers: layer,
@@ -4889,13 +4818,13 @@ function addnashikWMSLegend(obj) {
                 format: 'image/png',
                 transparent: 'true',
                 zoom: '16',
-                // propertyName: 'field_13,latitude,longitude', 
+                // propertyName: 'field_13,latitude,longitude',
             });
 
         }
 
         wms_layer1.addTo(mymap);
-        
+       
         newLayerList.push(wms_layer1);
 
         console.log("wms layer 1 is ",wms_layer1);
@@ -4905,9 +4834,9 @@ function addnashikWMSLegend(obj) {
             mymap.flyTo([19.2107, 73.1523], 8);
             // addWMSLegend1(layer);
         }
-        
+       
         {% for layer in alllayers %}
-        
+       
             else if (layer == '{{layer.name}}') {
                 if(layer.latlong)
                     mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
@@ -4919,7 +4848,7 @@ function addnashikWMSLegend(obj) {
             }
 
         {% endfor %}
-    
+   
     // updateLegend(districtName,calleefunc)        
 
     if (wms_legend) {
@@ -4962,7 +4891,7 @@ function addnashikWMSLegend(obj) {
                 format: 'image/png',
                 transparent: 'true',
                 zoom: '14',
-                // propertyName: 'field_13,latitude,longitude', 
+                // propertyName: 'field_13,latitude,longitude',
             });
 
         }
@@ -4975,9 +4904,9 @@ function addnashikWMSLegend(obj) {
         console.log(wms_layer1);
         if (layer == 'Pawana_Basin_Layer0')
             mymap.flyTo([18.637, 73.605], 11);
-        
+       
         {% for layer in alllayers %}
-        
+       
         else if (layer == '{{layer.name}}') {
             mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
         }
