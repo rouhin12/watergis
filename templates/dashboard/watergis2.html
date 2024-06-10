@@ -1859,6 +1859,7 @@
                 putWMS("geonode:maha_demography_with_mumbai");
 
         } else {
+            // alert(boundary)
             if (boundary == "{state}")
                 removeWMS("geonode:states_in_india");
             else if (boundary == "{district}")
@@ -1871,78 +1872,16 @@
                 removewards();
             else if (boundary == "{mumadm}")
                 removewards();
-            // else if (boundary == "{pawana_basin}")
-            //     removeWMS("Pawana_Basin_Layer0");
-            // else if (boundary == "{indrayani_basin}")
-            //     removeWMS("Indrayani_Basin");
-            // else if (boundary == "{poisar}")
-            //     removeWMS("poisar_River_Nov22");
-            // else if (boundary == "{pawana}")
-            //     removeWMS("River_line_layers");
-            // else if (boundary == "{indrayani}")
-            //     removeWMS("Indrayani_river_line_layer");
-            // else if (boundary == "{dahisar}") {
-            //     removeWMS("Dahisar_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{agrani_village}")
-            //     removeWMS("Agrani_villages");
-            // else if (boundary == "{wainganaga_basin}") {
-            //     removeWMS("wainganga_riverline_7april23");
-
-            // }
-            // else if (boundary == "{drainage}") {//Drainage Basin 
-            //     removeWMS("Ahamadnagar_drainage_files");
-
-            // }
-            // else if (boundary == "{ulhas_villages}") {
-            //     removeWMS("ulhas_villages");
-
-            // }
-            // else if (boundary == "{chulband_nadi}") {
-            //     removeWMS("maharashtra_rivers_from_osm");
-
-            // }
-            // else if (boundary == "{wainganaga_river}") {
-            //     removeWMS("wainganga_river");
-
-            // }
-            // else if (boundary == "{bhandara_village}")
-            //     removeWMS("Bhandara_Shapefile_village");
-            // else if (boundary == "{mithi}")
-            //     removeWMS("Mithi_River_Nov22");
-            // else if (boundary == "{oshiwara}") {
-            //     removeWMS("Oshiwara_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{pawana_village}")
-            //     removeWMS("pawana_villages_poly_layers");
-            // else if (boundary == "{indrayani_village}")
-            //     removeWMS("Indrayani_poly_village");
-            // else if (boundary == "{mini_ws}")
-            //     removeWMS("mini_15_district0")
-            // else if (boundary == "{mah_river}") {
-            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-            //     removeWMS("maharashtra_rivers_from_osm2");
-            // }
-            // else if (boundary == '{ashele}') {
-            //     removeWMS("Ashele_GW")
-            // }
-            // else if (boundary == '{ashele_priority}') {
-            //     removeWMS("Ashele_priority")
-            // }
-            // else if (boundary == '{ashele_line}') {
-            //     removeWMS("Ashele_line")
-            // }
+            
             else if (boundary == '{nashik_turbidity}') {
-            alert("hi")
+                
                 removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_alkalinity}') {
                 removeWMS('geonode:Nashik_water_quality_9jan23')
             }
             else if (boundary == '{nashik_ph}') {
-                removeWMS("geonode:Nashik_water_quality_9jan23")
+                removeWMS('geonode:Nashik_water_quality_9jan23')
             }
             else if (boundary == '{nashik_nitrates}') {
                 removeWMS("geonode:Nashik_water_quality_9jan23")
@@ -2002,14 +1941,18 @@ function addnashikWMSLegend(obj) {
     });
 
     wms_boundary_layer.addTo(mymap);
-    putStyleLegend(Layer, Style);
+    newLayerList.push(wms_boundary_layer);//pushing into newlayerlist array :To be used when layer is unchecked
+    addnashikWMSLegend(Layer, Style);//making legends 
+    
+    TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_boundary_layer.options.layers + "&QUERY_LAYERS=" + wms_boundary_layer.options.layers;
+    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_boundary_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 }
 
-function putStyleLegend(Layer, Style) {
-    var legendGraphicUrl = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + Layer + "&STYLE=" + Style + "&LEGEND_OPTIONS=forceLabels:on";
-    var wms_legend = L.wmsLegend(legendGraphicUrl);
-    wms_legend.addTo(mymap);
-}
+// function putStyleLegend(Layer, Style) {
+//     var legendGraphicUrl = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + Layer + "&STYLE=" + Style + "&LEGEND_OPTIONS=forceLabels:on";
+//     var wms_legend = L.wmsLegend(legendGraphicUrl);
+//     wms_legend.addTo(mymap);
+// }
 
     function getBoundaryst(obj) {
         let boundary = obj.value;
@@ -3732,14 +3675,16 @@ function putStyleLegend(Layer, Style) {
     }
 
     function removeWMS(unchecked_layer) {
-        // console.log("unchecked layer is "+unchecked_layer);
+        console.log("unchecked layer is ",unchecked_layer);
+        alert(unchecked_layer)
         if (wms_legend) {
             mymap.removeControl(wms_legend);
         }
         if (wms_legend1) {
+            
             mymap.removeControl(wms_legend1);
         }
-
+        mymap.removeControl(wms_legend1);
         if (unchecked_layer == "maharashtra_rivers_from_osm2") {
 
             newLayerList.forEach((layer, index) => {
@@ -3753,6 +3698,7 @@ function putStyleLegend(Layer, Style) {
 
             newLayerList.forEach((layer, index) => {
                 if (layer.options.layers === unchecked_layer) {
+                   
                     mymap.removeLayer(layer);
                     newLayerList.splice(index, 1);
                 }
