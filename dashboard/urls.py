@@ -31,6 +31,7 @@ urlpatterns = [
     path('dashboard/resources', views.static_files_view, name='resources'),
     path('dashboard/water_related_forms', views.water_related_forms, name='water_related_forms'),
     path('nearestquery',views.nearestquery,name='nearestquery'),
+    path('get_layer/', views.get_layer, name='get_layer'),
 ]
     
 

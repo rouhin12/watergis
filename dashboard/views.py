@@ -310,3 +310,19 @@ def set_language(request):
 def index(request):
     output = _('Hello, world!')
     return HttpResponse(output)
+
+def get_layer(request):
+    district = request.GET.get('district')
+    print("district in get_layer function is ",district)
+    if(district == 'Ahmadnagar'):
+        district = 'Ahamadnagar'
+    print("district is now ",district)
+    layer = Layers.objects.filter(name__icontains=district, sub_title='drainage').first()
+    if layer:
+        print("layer name is  "+layer.name)
+        print("layer value is  "+layer.value)
+        layer_name = layer.value
+        print(layer_name +" is layer name")
+    else:
+        layer_name = None
+    return JsonResponse({'layer': layer_name})
