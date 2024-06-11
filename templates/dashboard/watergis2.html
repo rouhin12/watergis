@@ -1613,14 +1613,15 @@
 
                 if (putWMS1(drainageLayer)) {
                     // Layer found and displayed
-                } else {
-                    // Show error message if layer is not found
-                    swal({
-                        title: "Sorry For Inconvenience",
-                        text: "Drainage Data not found For " + district,
-                        timer: 1500
-                    });
-                }
+                } 
+                // else {
+                //     // Show error message if layer is not found
+                //     swal({
+                //         title: "Sorry For Inconvenience",
+                //         text: "Drainage Data not found For " + district,
+                //         timer: 1500
+                //     });
+                // }//
             },
             error: function() {
                 swal({
