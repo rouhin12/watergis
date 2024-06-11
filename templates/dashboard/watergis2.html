@@ -1614,14 +1614,7 @@
                 if (putWMS1(drainageLayer)) {
                     // Layer found and displayed
                 } 
-                // else {
-                //     // Show error message if layer is not found
-                //     swal({
-                //         title: "Sorry For Inconvenience",
-                //         text: "Drainage Data not found For " + district,
-                //         timer: 1500
-                //     });
-                // }//
+                
             },
             error: function() {
                 swal({
@@ -4764,25 +4757,25 @@ function addnashikWMSLegend(obj) {
     //     }
 
     function putWMS1(layer) {
-        let calleefunc = "legend";
-        try {
-             throw new Error();
-            } catch (e) {
-                // Parse the stack trace to find the calling function
-                const stackLines = e.stack.split('\n');
-                // The calling function is usually on the third line
-                const callingFunctionLine = stackLines[2];
-                // Extract the function name
-                const callingFunctionName = callingFunctionLine.match(/at\s+(.*)\s+\(/)[1];
-                console.log("Called by: " + callingFunctionName);
+        // let calleefunc = "legend";
+        // try {
+        //      throw new Error();
+        //     } catch (e) {
+        //         // Parse the stack trace to find the calling function
+        //         const stackLines = e.stack.split('\n');
+        //         // The calling function is usually on the third line
+        //         const callingFunctionLine = stackLines[2];
+        //         // Extract the function name
+        //         const callingFunctionName = callingFunctionLine.match(/at\s+(.*)\s+\(/)[1];
+        //         console.log("Called by: " + callingFunctionName);
                
-                if(callingFunctionLine ==showContours)
-                    calleefunc = "Contours";
-                else if((callingFunctionLine == showAntodaya) || (callingFunctionLine == showAntodaya2))
-                    calleefunc = "Antyodata";
-                else
-                    calleefunc ="LEGEND";
-            }
+        //         if(callingFunctionLine ==showContours)
+        //             calleefunc = "Contours";
+        //         else if((callingFunctionLine == showAntodaya) || (callingFunctionLine == showAntodaya2))
+        //             calleefunc = "Antyodata";
+        //         else
+        //             calleefunc ="LEGEND";
+        //     }
         console.log("layer " + layer);
         var wms_layer1;
         var selectedLayerBounds;
