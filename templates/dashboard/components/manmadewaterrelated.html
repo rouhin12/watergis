@@ -14,11 +14,17 @@
     </div>
     <div class="custom-control custom-switch m-2"
         style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+        <input type="checkbox" class="custom-control-input" value="{chwells1}" id="chwells1"
+            onchange="defineWell(this)">
+        <label class="custom-control-label" for="chwells1">Bhandara Wells(Captured by Students)</label>
+    </div>
+    <div class="custom-control custom-switch m-2"
+        style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
         <input type="checkbox" class="custom-control-input" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
             onchange="GetSelectedWells(this)">
         <label class="custom-control-label" for="bhandara_obs_wells">Observation Wells</label>
     </div>
-
+    
     <div class="card" style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
         <div class="card-header" id="headingsix">
             <h2 class="mb-0">
