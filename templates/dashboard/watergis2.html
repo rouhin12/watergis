@@ -260,7 +260,19 @@
     .con {
         position: relative;
     }
-
+    #legendContainer {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            z-index: 1000; /* Ensure it's above the map */
+        }
+        #legendContainer img {
+            display: block;
+            margin-bottom: 5px;
+        }
     #mapdiv {
 
         position: relative;
@@ -704,7 +716,9 @@
         </div>
         <!-- Map Container -->
         <div id="mapdiv"></div>
-
+        <div id="legendContainer">
+            <!-- Legend images will be dynamically added here -->
+        </div>
 
     </div><!-- body-row END -->
 </div>
@@ -1313,6 +1327,7 @@
 
     var wellMarkers = [];
     function defineWell(checkbox) {
+       
         let value = checkbox.value;
         var state = document.getElementById('indstate').value;
         var dist_fetch = document.getElementById('district').value;
@@ -1322,9 +1337,6 @@
         var wellslayerGroup;
         var markers;
         if ($(checkbox).is(':checked')) {
-
-
-
             {% for i in wells %}
 
             wellIcon = L.icon({
@@ -1650,112 +1662,7 @@
 }  
 
     // New function for Drainage ends here
-   function showDrainage(obj) {
-        let district = document.getElementById('district').value;
-        // alert(district);
-        let boundary = obj.value;
-        if ($(obj).is(":checked")) {
-
-
-            if (district == "Nanded")
-                putWMS1("geonode:Nanded_drainage_line");
-
-            else if (district == "Mumbai Suburban")
-                putWMS1("Mumbai_subarban_drainage_line");
-            else if (district == "Jalna")
-                putWMS1("Jalna_drainage_line")
-            else if (district == "Hingoli")
-                putWMS1("Hingoli_drainage_line")
-            else if (district == "Gondia")
-                putWMS1("Gondia_drainage_line")
-            else if (district == "Solapur")
-                putWMS1("Solapur_drainage_line")
-            else if (district == "Raigad")
-                putWMS1("Raigad_drainage_line")
-            else if (district == "Sindhudurg")
-                putWMS1("Sindhudurg_drainage_line")
-            else if (district == "Pune")
-                putWMS1("Pune_drainage_line")
-            else if (district == "Palghar")
-                putWMS1("Palghar_drainage_line")
-            else if (district == "Chandrapur")
-                putWMS1("Chandrapur_Drainage_line")
-            else if (district == "Dhule")
-                putWMS1("Dhule_Drainage_line")
-            else if (district == "Beed")
-                putWMS1("Beed_Drainage_line")
-            else if (district == "Amravati")
-                putWMS1("Amravati_Drainage_line")
-            else if (district == "Washim")
-                putWMS1("Washim_Drainage_files")
-            else if (district == "Ahmadnagar")
-                putWMS1("Ahamadnagar_drainage_filess")
-            else if (district == "Akola")
-                putWMS1("Akola_drainage_merged");
-           
-            else {
-                swal({
-                    title: "Sorry For Inconvience",
-                    text: "Drainage Data not found For " + district,
-                    timer: 1500
-                });
-            }
-            {% for layer in alllayers %}
-                {% if layer.method == "showDrainage(this)" %}
-                    // alert(district)
-                    // alert(layer.name)
-                    putWMS1("{{layer.name}}")
-               
-                {% endif %}
-            {% endfor %}
-
-        } else {
-            if (district == "Nanded")
-                removeWMS("geonode:Nanded_drainage_line");
-            else if (district == "Mumbai Suburban")
-                removeWMS("Mumbai_subarban_drainage_line");
-            else if (district == "Jalna")
-                removeWMS("Jalna_drainage_line");
-            else if (district == "Hingoli")
-                removeWMS("Hingoli_drainage_line");
-            else if (district == "Gondia")
-                removeWMS("Gondia_drainage_line")
-            else if (district == "Solapur")
-                removeWMS("Solapur_drainage_line")
-            else if (district == "Raigad")
-                removeWMS("Raigad_drainage_line")
-            else if (district == "Sindhudurg")
-                removeWMS("Sindhudurg_drainage_line")
-            else if (district == "Pune")
-                removeWMS("Pune_drainage_line")
-            else if (district == "Palghar")
-                removeWMS("Palghar_drainage_line")
-            else if (district == "Chandrapur")
-                removeWMS("Chandrapur_Drainage_line")
-            else if (district == "Dhule")
-                removeWMS("Dhule_Drainage_line")
-            else if (district == "Beed")
-                removeWMS("Beed_Drainage_line")
-            else if (district == "Amravati")
-                removeWMS("Amravati_Drainage_line")
-            else if (district == "Washim")
-                removeWMS("Washim_Drainage_files")
-            else if (district == "Ahmadnagar")
-                removeWMS("Ahamadnagar_drainage_filess")
-            else if (district == "Akola")
-                removeWMS("Akola_drainage_merged");
-
-            {% for layer in alllayers %}
-            {% if layer.method == "showDrainage(this)" %}
-            else if (district == '{{layer.value}}') {
-                removeWMS("{{layer.name}}")
-            }
-            {% endif %}
-            {% endfor %}
-
-        }
-    }
-
+  
     function showContours(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
@@ -3038,6 +2945,7 @@ function addnashikWMSLegend(obj) {
     var wmshealthLayerList = [];
     var wms_legend;
     var wms_legend1;
+    var wms_legendRiver;
     let insti_content;
     var searchControl;
 
@@ -3386,6 +3294,31 @@ function addnashikWMSLegend(obj) {
         lagendGraphic1 = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + layer + "&LEGEND_OPTIONS=forceLabels:on";
         wms_legend1 = L.wmsLegend(lagendGraphic1);
     }
+    function addWMSLegengForRiver(layer,cql) {
+        //alert("In grpahics"+layer+" "+cql)
+        var encodedCQL = encodeURIComponent(cql);
+
+            // Construct WMS layer with CQL filter
+            var legendUrl = 'https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic'
+                    + '&VERSION=1.0.0'
+                    + '&FORMAT=image/png'
+                    + '&WIDTH=20'
+                    + '&HEIGHT=20'
+                    + '&LAYER=' + layer
+                    + '&LEGEND_OPTIONS=forceLabels:on'
+                    + '&CQL_FILTER=' + encodeURIComponent(cql);
+
+    // Create new legend control and add to map
+    // wms_legend1 = L.wmsLegend(legendUrl);
+    // wms_legend1.addTo(mymap);
+    var legendImg = document.createElement('img');
+    legendImg.src = legendUrl;
+
+    // Append legend image to a div or directly to the map UI
+    document.getElementById('legendContainer').appendChild(legendImg);
+    }
+    
+    
 
     function getColor(d) {
         return d < 500 ? '#008080' :
@@ -4513,6 +4446,7 @@ function addnashikWMSLegend(obj) {
                                 </div>`)
             }
             else if (facility == 'bhandara_obs_wells') {
+                
                 layer.bindPopup(`<div class = 'text-left'><b>Well Data</b><br>
                                             District: ${feature.properties.DTENAME}<br>
                                             DTE CODE : ${feature.properties.DTECODE}<br>
@@ -4577,138 +4511,7 @@ function addnashikWMSLegend(obj) {
         //})
     };
 
-    // function Identify(e) {
-
-    //     // set parameters needed for GetFeatureInfo WMS request
-    //     var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
-    //     var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
-    //     var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
-    //     var WIDTH = mymap.getSize().x;
-    //     var HEIGHT = mymap.getSize().y;
-
-    //     var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
-    //     var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
-
-    //     // compose the URL for the request
-
-    //     var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
-    //     //console.log(e);
-    //     console.log("URL",URL);
-    //     $.ajax({
-    //         url: URL,
-    //         dataType: "json",
-    //         type: "GET",
-    //         success: function(data) {
-    //             if (data.features.length !== 0) { // at least one feature returned in response
-    //                 var feature = data.features[0]; // first feature from response
-    //                 //console.log(feature);
-    //                 // Set up popup for clicked feature and open it
-    //                 var popup = new L.Popup({
-    //                     maxWidth: 300
-    //                 });
-    //                 //console.log(feature.properties.facltytyp);
-    //                 if (feature.properties.type === "aided ashramschool") {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>" +
-
-
-    //                         "</table>";
-    //                 } else if (feature.properties.area_name) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-    //                         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-    //                         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-    //                         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-    //                 } else if (feature.properties.name_of_sc) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.name_of_sc + "</td></tr>";
-
-    //                 } else if (feature.properties.village__1) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.distname + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.block_name + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>";
-
-    //                 }
-    //                 else if (feature.properties.town_name) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Urban Areas</b></td><td>" +
-    //                         "<tr><td><b>State</b></td><td>" + feature.properties.state_name + "</td></tr>" +
-    //                         "<tr><td><b>District</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-    //                         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>"+
-    //                         "<tr><td><b>Total Houses</b></td><td>" + feature.properties.tot_hh + "</td></tr>" +
-    //                         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_pop + "</td></tr>" +
-    //                         "<tr><td><b>Total Male Population</b></td><td>" + feature.properties.tot_mpop + "</td></tr>" +
-    //                         "<tr><td><b>Total Female Population</b></td><td>" + feature.properties.tot_f_pop + "</td></tr>" +
-    //                         "<tr><td><b>Total SC Population</b></td><td>" + feature.properties.tot_sc_pop + "</td></tr>" +
-    //                         "<tr><td><b>Pucca Road</b></td><td>" + feature.properties.pucca_road + "</td></tr>" +
-    //                         "<tr><td><b>Kutcha Road</b></td><td>" + feature.properties.kutcha_roa + "</td></tr>" ;                                                      
-
-
-    //                 }
-    //                 else if (feature.properties.institutec) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Institute Name</b></td><td>" + feature.properties.instituten + "</td></tr>" +
-    //                         "<tr><td><b>Institute Address</b></td><td>" + feature.properties.institutea + "</td></tr>" +
-    //                         "<tr><td><b>District Name</b></td><td>" + feature.properties.districtna + "</td></tr>" +
-    //                         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.talukaname + "</td></tr></table>";
-    //                 }
-    //                 else if (feature.properties.Turbidity){
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Location Source</b></td><td>" + feature.properties.SourceLoca + "</td></tr>" +
-    //                         "<tr><td><b>Taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Gram Panchayat</b></td><td>" + feature.properties.GP + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>"+
-    //                         "<tr><td><b>Alkalinity</b></td><td>" + feature.properties.Alkalinity + "</td></tr>"+
-    //                         "<tr><td><b>Ph</b></td><td>" + feature.
-    //                         properties.Ph + "</td></tr>"+
-    //                         "<tr><td><b>Chloride</b></td><td>" + feature.properties.Chloride + "</td></tr>"+
-    //                         "<tr><td><b>Fluoride</b></td><td>" + feature.properties.Fluoride + "</td></tr>"+
-    //                         "<tr><td><b>Nitrate</b></td><td>" + feature.properties.Nitrate + "</td></tr>"+
-    //                         "<tr><td><b>Sulphate</b></td><td>" + feature.properties.Sulphate + "</td></tr>"+
-    //                         "<tr><td><b>Turbidity</b></td><td>" + feature.properties.Turbidity + "</td></tr></table>";
-    //                 }
-    //                 else if(feature.properties.school_cod){
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>" +
-
-    //                         "<tr><td><b>District Name</b></td><td>" + feature.properties.distname + "</td></tr>" +
-    //                         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.block_name + "</td></tr>"+
-    //                         "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-    //                         "</table>";
-    //                 }
-    //                  else {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Facility Name</b></td><td>" + feature.properties.facltyname + "</td></tr>" +
-    //                         "<tr><td><b>Facility Type</b></td><td>" + feature.properties.facltytyp + "</td></tr>" +
-    //                         "<tr><td><b>Amenities</b></td><td>" + feature.properties.amenities + "</td></tr>" +
-    //                         "<tr><td><b>Address</b></td><td>" + feature.properties.address_te1 + "</td></tr>" +
-    //                         "<tr><td><b>District</b></td><td>" + feature.properties.district_g + "</td></tr>" +
-    //                         "<tr><td><b>State</b></td><td>" + feature.properties.state_gen + "</td></tr>" +
-    //                         "<tr><td><b>Pin Code</b></td><td>" + feature.properties.pincode_ge + "</td></tr>" +
-    //                         "<tr><td><b>Total Bed Count</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Pin Code Accuracy (within area)</b></td><td>" + "Yes" + "</td></tr>" +
-    //                         "<tr><td><b>Management</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Food Arrangement</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Email ID</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Website</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Phone number</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Last updated</b></td><td>" + "2nd June,2020" + "</td></tr>" +
-    //                         `<tr><button type="button" class="btn btn-outline-dark" style="color:white;"><a style="color:white;text-decoration:none" href="https://ee.humanitarianresponse.info/x/#BLiUveaW">Click here for Correction/Feedbacks</a></button></tr>` +
-    //                         "</table>";
-    //                 }
-
-
-    //                 popup.setContent(insti_content);
-    //                 popup.setLatLng(e.latlng);
-    //                 mymap.openPopup(popup);
-    //             }
-    //         }
-    //     });
-    // }
-
-    // mymap.addEventListener('click', Identify);
-
-
+    
     $('.select').click(function () {
         $(this).toggleClass('highlight')
     })
@@ -4751,31 +4554,41 @@ function addnashikWMSLegend(obj) {
             }
         }
 
-    // function updateLegend(d,c) {
-    //         const legendDiv = document.getElementById('legend');
-    //         legendDiv.innerHTML = `Selected Layer: ${d}`+" "`${c}`;
-    //     }
+    var riverLayers= {};
+    function showRiver(rivername){
 
+        console.log("river ",rivername);
+        var wms_layer1;
+        var selectedLayerBounds;
+        var riverLayer = 'maha_rivers_withDistrict17june24'
+        wms_river = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: 'geonode:maha_rivers_withDistrict17june24',
+                format: 'image/png',
+
+                transparent: 'true',
+                zoom: '14',
+                CQL_FILTER: "name='" + rivername + "'",
+
+            });
+            wms_river.addTo(mymap);       
+            newLayerList.push(wms_river);
+            console.log("wms_river is "+wms_river)
+            riverLayers[rivername] = wms_river;
+
+            // if (wms_legend1) {
+            //      mymap.removeControl(wms_legend1);
+            //  }
+            
+            //  addWMSLegengForRiver(riverLayer, "name='" + rivername + "'");
+            
+            // TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_river.options.layers + "&QUERY_LAYERS=" + wms_river.options.layers;
+            // tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_river.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
+       
+
+    }
+        
     function putWMS1(layer) {
-        // let calleefunc = "legend";
-        // try {
-        //      throw new Error();
-        //     } catch (e) {
-        //         // Parse the stack trace to find the calling function
-        //         const stackLines = e.stack.split('\n');
-        //         // The calling function is usually on the third line
-        //         const callingFunctionLine = stackLines[2];
-        //         // Extract the function name
-        //         const callingFunctionName = callingFunctionLine.match(/at\s+(.*)\s+\(/)[1];
-        //         console.log("Called by: " + callingFunctionName);
-               
-        //         if(callingFunctionLine ==showContours)
-        //             calleefunc = "Contours";
-        //         else if((callingFunctionLine == showAntodaya) || (callingFunctionLine == showAntodaya2))
-        //             calleefunc = "Antyodata";
-        //         else
-        //             calleefunc ="LEGEND";
-        //     }
+
         console.log("layer " + layer);
         var wms_layer1;
         var selectedLayerBounds;
@@ -4793,6 +4606,7 @@ function addnashikWMSLegend(obj) {
 
                 cql_filter: "name='Chulband'",
             });
+        
 
         }
         else if (layer == "maharashtra_rivers_from_osm2") {
@@ -4802,8 +4616,20 @@ function addnashikWMSLegend(obj) {
 
                 transparent: 'true',
                 zoom: '14',
+                cql_filter: "district='${district}'",
 
             });
+        }
+        else if (layer == "maha_rivers_withDistrict17june24") {
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: 'true',
+                zoom: '14',
+
+                cql_filter: "name='Gora'",
+            });
+
         }
         else {
 
@@ -4843,7 +4669,7 @@ function addnashikWMSLegend(obj) {
 
         {% endfor %}
    
-    // updateLegend(districtName,calleefunc)        
+
 
     if (wms_legend) {
         mymap.removeControl(wms_legend);
@@ -4855,7 +4681,7 @@ function addnashikWMSLegend(obj) {
     addWMSLegend(layer);
     // alert(layer)
     addWMSLegend1(layer);
-    // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+    
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
     tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
        

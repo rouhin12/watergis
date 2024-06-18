@@ -21,7 +21,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
-import os
+import os, requests
 
 def HomePage(request):
     return render(request, "HomePage.html")
@@ -63,7 +63,11 @@ def watergis_new2(request):
     layers = Layers.objects.filter(features__district_name=user_district)
     Alllayers = Layers.objects.all()
 
-    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers,'alllayers':Alllayers}
+    # Fetch river names for the selected district
+    river_names = get_river_names_for_district(user_district)
+
+    context = {'wells': wells,'wellcount':wellcount,'features': features, 'layers': layers,'alllayers':Alllayers,'river_names': river_names,
+        'district_name': user_district}
     return render(request,'dashboard/watergis2.html',context)
 
 def watergis(request):
@@ -326,3 +330,37 @@ def get_layer(request):
     else:
         layer_name = None
     return JsonResponse({'layer': layer_name})
+
+
+def get_river_names_for_district(district_name):
+    # district_name = request.GET.get('district')
+    # print("district in get_river_names "+district_name)
+    # Replace with your GeoNode's URL and appropriate parameters
+    url = f'https://geonode.communitygis.in/geoserver//wfs'
+    params = {
+        'service': 'WFS',
+        'version': '1.0.0',
+        'request': 'GetFeature',
+        'typeName': 'geonode:maha_rivers_withDistrict17june24',
+        'outputFormat': 'application/json',
+        'cql_filter': f"district='{district_name}'"
+    }
+    response = requests.get(url, params=params)
+    data = response.json()
+    # Extract river names
+    river_names = sorted({feature['properties']['name'] for feature in data['features'] if 'name' in feature['properties'] and feature['properties']['name']})
+
+    return river_names
+
+def district_rivers_view(request, district_name):
+    district_name = request.GET.get('district')
+
+    print(district_name)
+    if not district_name:
+        return render(request, 'error_template.html', {'error_message': 'No district specified'})
+    river_names = get_river_names_for_district(district_name)
+    context = {
+        'river_names': river_names,
+        'district_name': district_name
+    }
+    return render(request, 'naturalfeatures.html', context)

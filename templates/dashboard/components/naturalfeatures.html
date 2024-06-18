@@ -12,13 +12,13 @@
                 <h2 class="mb-0">
                     <button class="btn btn-block text-left" type="button" data-toggle="collapse"
                         data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Rivers And Basins
+                        Rivers and Basins
 
                     </button>
                 </h2>
             </div>
 
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">Basins
                 <div class="card-body">
 
                     {% for layer in layers %}
@@ -41,7 +41,7 @@
                     </div>
                     {% endfor %}
 
-                    {% for layer in layers %}
+                    <!-- {% for layer in layers %}
                     {% if layer.sub_title == "rivers" %}
 
                     <div class="custom-control custom-switch  m-2  ">
@@ -51,7 +51,18 @@
                             for="rivers_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
                     </div>
                     {% endif %}
-                    {% endfor %}
+                    {% endfor %} -->
+                </div> 
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">Rivers
+                    <div class="card-body">
+                        {% for river_name in river_names %} 
+                            <div class="custom-control custom-switch m-2">
+                                <input type="checkbox" class="custom-control-input" value="{{ river_name }}"
+                                       id="river_{{ forloop.counter0 }}" onchange="toggleRiver(this,'{{ river_name }}')">
+                                <label class="custom-control-label" for="river_{{ forloop.counter0 }}">{{ river_name }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -165,3 +176,32 @@
 
 
 </div>
+<!-- Include Bootstrap JS for functionality -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+    var riverLayers = {}; // Object to store river layers
+
+    function toggleRiver(checkbox,riverName) {
+            // Add your toggle logic here
+            if (checkbox.checked) {
+                // Code to show the river layer on the map
+                console.log("Showing river: " + riverName);
+                showRiver(riverName)
+                // For example, if using Leaflet.js:
+                // var layer = L.geoJSON(riverGeoJsonData).addTo(map);
+                // layerGroup.addLayer(layer);
+            } else {
+                // Code to hide the river layer on the map
+                console.log("Hiding river: " + riverName);
+                if (riverLayers[riverName]) {
+                    mymap.removeLayer(riverLayers[riverName]);
+                    console.log("Removed river: " + riverName);
+                    delete riverLayers[riverName]; // Remove reference from object
+                }
+            }
+        
+        }
+
+</script>
