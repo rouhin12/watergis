@@ -19,11 +19,9 @@
                 aria-selected="false">Spatial Query</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest" role="tab" aria-controls="nearest"
-                aria-selected="false">Nearest Query</a>
+            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest" aria-selected="false">Nearest Query</a>
         </li>
     </ul>
-
 
     <div class="tab-content mt-4" id="queryTabContent">
         <div class="tab-pane fade show active" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
@@ -37,13 +35,11 @@
             </div>
             <div class="mb-3">
                 <label>Select Column</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="qry_columns"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns"></select>
             </div>
             <div class="mb-3">
                 <label>Select operator</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="qry_operator"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator"></select>
             </div>
             <div class="mb-3">
                 <label>Select Value</label>
@@ -74,36 +70,79 @@
                     <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values_2"></select>
                 </div>
             </div>
-            {% comment %} <input type="checkbox" id="addAnotherLayerCheckbox">
-            <label for="addAnotherLayerCheckbox">Add Another Layer</label> {% endcomment %}
-
 
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label"><strong>SQL Where Clause:</strong></label>
                 <textarea class="form-control form-control-sm" id="rawquery" rows="2"></textarea>
-                <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span>
-                    Clear Text</button>
+                <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span> Clear Text</button>
             </div>
 
             <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i
-                        class="icofont-check-circled"></i> Apply</button>
-                <!-- <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearQueryResult()"><i
-                        class="icofont-eraser"></i> Clear</button> -->
-                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i
-                        class="icofont-eraser"></i> Clear Graphic</button>
+                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i class="icofont-check-circled"></i> Apply</button>
+                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i class="icofont-eraser"></i> Clear Graphic</button>
             </div>
-            <!-- End Query Attribute Query Builder -->
         </div>
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                Coming soon!
+                <label for="spatial_layer">Select Layer</label>
+                <select class="form-control form-control-sm" id="spatial_layer">
+                    <option value="District_Level_Demographics_Rural">District_Level_Demographics_Rural</option>
+                </select>
             </div>
-            <!-- Rest of the spatial query content -->
-            <!-- ... -->
+            
+            <!-- New dropdown for State selection -->
+            <div class="mb-3">
+                <label for="indstate">Select State</label>
+                <select class="form-control" id="indstate" name="indstate">
+                    <option value="All">Select State</option>
+                    <optgroup label="States">
+                        <option value="Maharashtra">Maharashtra</option>
+                    </optgroup>
+                </select>
+            </div>
+        
+            <!-- Existing dropdown for District selection -->
+            <div class="mb-3">
+                <label for="district">Select District</label>
+                <select class="form-control" id="district" name="district">
+                    <option value="">Select District 1234</option>
+                </select>
+            </div>
+        
+            <!-- Existing input for Population Threshold -->
+            <div class="mb-3">
+                <label for="population_threshold">Population Threshold</label>
+                <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="0">
+            </div>
+        
+            <!-- Apply button -->
+            <div class="mb-3 text-center">
+                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeSpatialQuery()">
+                    <i class="icofont-check-circled"></i> Apply
+                </button>
+            </div>
         </div>
-
+        
+        <script>
+            function executeSpatialQuery() {
+                var diatname = document.getElementById('district').value;
+                console.log("Selected District:", diatname);
+        
+                // If you want to send the district name to the server via GET request
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/your-endpoint?district=' + encodeURIComponent(diatname), true);
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // Handle response from the server
+                        console.log("Response:", xhr.responseText);
+                    }
+                };
+                xhr.send();
+            }
+        </script>
+        
+        
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
             <div id="navigatedarea">
                 <div id="checkboxes22">
@@ -122,14 +161,13 @@
                     </div>
                 </div>
 
-            <div class="tooltips" title="Toggle both types of wells">
-                <label>
-                    <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
-                    <span style="color:black;"><b> Wells</b></span>
-                </label>
-            </div>
-                
-        
+                <div class="tooltips" title="Toggle both types of wells">
+                    <label>
+                        <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
+                        <span style="color:black;"><b> Wells</b></span>
+                    </label>
+                </div>
+
                 <div class="d-flex justify-content-center m-1">
                     <button type="button" class="btn btn-primary" id="setlocation">Set Location</button>
                 </div>
@@ -152,3 +190,42 @@
         </div>        
     </div>
 </div> 
+
+<script>
+    // Populate district options dynamically
+    const districts = ["District1", "District2", "District3"]; // Example districts, replace with actual data
+    const districtSelect = document.getElementById('district');
+    districts.forEach(district => {
+        let option = document.createElement('option');
+        option.value = district;
+        option.text = district;
+        districtSelect.add(option);
+    });
+
+    document.getElementById('enableColumn2').addEventListener('change', function() {
+        document.getElementById('column2Options').style.display = this.checked ? 'block' : 'none';
+    });
+
+    function executeSpatialQuery() {
+        const layer = document.getElementById('spatial_layer').value;
+        const district = document.getElementById('district').value;
+        const populationThreshold = document.getElementById('population_threshold').value;
+        
+        const whereClause = `SELECT village_code FROM ${layer} WHERE district = '${district}' AND population > ${populationThreshold}`;
+        
+        document.getElementById('rawquery').value = whereClause;
+        // Function to show query results if applicable
+        showQueryResult();
+    }
+
+    function showQueryResult() {
+        // Function to handle displaying query results
+        alert("Query executed: " + document.getElementById('rawquery').value);
+        // Implement actual result handling logic here
+    }
+
+    function clearGraphic() {
+        // Implement logic to clear graphic
+        alert("Graphic cleared!");
+    }
+</script>
