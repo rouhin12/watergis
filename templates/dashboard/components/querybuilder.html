@@ -1,4 +1,5 @@
-{% load static%} {% load i18n %}
+{% load static %}
+{% load i18n %}
 <style>
     #showWellsDiv,
     #obs_wells_district0 {
@@ -19,7 +20,8 @@
                 aria-selected="false">Spatial Query</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest" aria-selected="false">Nearest Query</a>
+            <a class="nav-link" id="nearest-tab" data-toggle="pill" href="#nearest" role="tab" aria-controls="nearest"
+                aria-selected="false">Nearest Query</a>
         </li>
     </ul>
 
@@ -78,45 +80,18 @@
             </div>
 
             <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i class="icofont-check-circled"></i> Apply</button>
-                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i class="icofont-eraser"></i> Clear Graphic</button>
+                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i
+                        class="icofont-check-circled"></i> Apply</button>
+                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i
+                        class="icofont-eraser"></i> Clear Graphic</button>
             </div>
         </div>
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                <label for="spatial_layer">Select Layer</label>
-                <select class="form-control form-control-sm" id="spatial_layer">
-                    <option value="District_Level_Demographics_Rural">District_Level_Demographics_Rural</option>
-                </select>
-            </div>
-            
-            <!-- New dropdown for State selection -->
-            <div class="mb-3">
-                <label for="indstate">Select State</label>
-                <select class="form-control" id="indstate" name="indstate">
-                    <option value="All">Select State</option>
-                    <optgroup label="States">
-                        <option value="Maharashtra">Maharashtra</option>
-                    </optgroup>
-                </select>
-            </div>
-        
-            <!-- Existing dropdown for District selection -->
-            <div class="mb-3">
-                <label for="district">Select District</label>
-                <select class="form-control" id="district" name="district">
-                    <option value="">Select District 1234</option>
-                </select>
-            </div>
-        
-            <!-- Existing input for Population Threshold -->
-            <div class="mb-3">
                 <label for="population_threshold">Population Threshold</label>
-                <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="0">
+                <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="50" max="5000">
             </div>
-        
-            <!-- Apply button -->
             <div class="mb-3 text-center">
                 <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeSpatialQuery()">
                     <i class="icofont-check-circled"></i> Apply
@@ -160,20 +135,16 @@
                         </label>
                     </div>
                 </div>
-
                 <div class="tooltips" title="Toggle both types of wells">
                     <label>
                         <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
                         <span style="color:black;"><b> Wells</b></span>
                     </label>
                 </div>
-
                 <div class="d-flex justify-content-center m-1">
                     <button type="button" class="btn btn-primary" id="setlocation">Set Location</button>
                 </div>
-        
                 <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
-        
                 <div id="slider">
                     <label>Set Range</label><br>
                     <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
@@ -188,44 +159,63 @@
                 </div>
             </div> 
         </div>        
-    </div>
-</div> 
+</div>
 
 <script>
-    // Populate district options dynamically
-    const districts = ["District1", "District2", "District3"]; // Example districts, replace with actual data
-    const districtSelect = document.getElementById('district');
-    districts.forEach(district => {
-        let option = document.createElement('option');
-        option.value = district;
-        option.text = district;
-        districtSelect.add(option);
-    });
+     function handleSpatialTabClick() {
+        // Check if the tab clicked is the spatial tab
+        var spatialTab = document.querySelector('#spatial-tab');
+        if (spatialTab) {
+            // Add event listener to the spatial tab link
+            spatialTab.addEventListener('click', function(event) {
+                // Call putWMS1 with your desired layer parameter
+                var layer = 'maha_demo_v21_26april24'; // Replace with your desired layer
+                putWMSspatial(layer);
+            });
+        }
+    }
 
-    document.getElementById('enableColumn2').addEventListener('change', function() {
-        document.getElementById('column2Options').style.display = this.checked ? 'block' : 'none';
-    });
+    // Call the function to set up the event listener
+    handleSpatialTabClick();
+    
+    function putWMSspatial(layer) {
+        console.log("layer 123454321 " + layer);
+        var wms_layer1;
+        const url = new URL(window.location.href);
+        // Extract the 'district_name' parameter
+        const districtName = url.searchParams.get('district');
+        console.log("district name is in query builder " + districtName);
+
+        if (layer === "maha_demo_v21_26april24") {
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: true,
+                zoom: 14,
+                CQL_FILTER: "dist_name='" + districtName + "' AND tot_p <= " + document.getElementById('population_threshold').value,
+                
+                // Specify any additional parameters if needed
+            });
+
+            wms_layer1.addTo(mymap);
+            newLayerList.push(wms_layer1);
+            // Fly to specific coordinates based on layer (if needed)
+            if (layer === 'maha_demo_v21_26april24') {
+                mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
+            }
+        } else {
+            // Remove existing WMS layer if it's not the desired layer
+            if (wms_layer1) {
+                mymap.removeLayer(wms_layer1);
+                newLayerList.splice(newLayerList.indexOf(wms_layer1), 1);
+            }
+
+            console.log("Layer " + layer + " is not supported in this function.");
+        }
+    }
 
     function executeSpatialQuery() {
-        const layer = document.getElementById('spatial_layer').value;
-        const district = document.getElementById('district').value;
-        const populationThreshold = document.getElementById('population_threshold').value;
-        
-        const whereClause = `SELECT village_code FROM ${layer} WHERE district = '${district}' AND population > ${populationThreshold}`;
-        
-        document.getElementById('rawquery').value = whereClause;
-        // Function to show query results if applicable
-        showQueryResult();
-    }
-
-    function showQueryResult() {
-        // Function to handle displaying query results
-        alert("Query executed: " + document.getElementById('rawquery').value);
-        // Implement actual result handling logic here
-    }
-
-    function clearGraphic() {
-        // Implement logic to clear graphic
-        alert("Graphic cleared!");
+        var layer = 'maha_demo_v21_26april24'; // Replace with your desired layer
+        putWMSspatial(layer);
     }
 </script>
