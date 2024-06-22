@@ -37,11 +37,13 @@
             </div>
             <div class="mb-3">
                 <label>Select Column</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="qry_columns"></select>
             </div>
             <div class="mb-3">
                 <label>Select operator</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator"></select>
+                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                    id="qry_operator"></select>
             </div>
             <div class="mb-3">
                 <label>Select Value</label>
@@ -76,7 +78,8 @@
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label"><strong>SQL Where Clause:</strong></label>
                 <textarea class="form-control form-control-sm" id="rawquery" rows="2"></textarea>
-                <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span> Clear Text</button>
+                <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span>
+                    Clear Text</button>
             </div>
 
             <div class="mb-3 text-center">
@@ -92,32 +95,17 @@
                 <label for="population_threshold">Population Threshold</label>
                 <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="50" max="5000">
             </div>
+            <div class="mb-3">
+                <label for="farm_threshold">Total Households Engaged In Farm Activities Threshold</label>
+                <input type="number" class="form-control form-control-sm" id="farm_threshold" value="500" min="50" max="5000">
+            </div>
             <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeSpatialQuery()">
-                    <i class="icofont-check-circled"></i> Apply
+                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeCombinedQuery()">
+                    <i class="icofont-check-circled"></i> Apply Query
                 </button>
             </div>
         </div>
-        
-        <script>
-            function executeSpatialQuery() {
-                var diatname = document.getElementById('district').value;
-                console.log("Selected District:", diatname);
-        
-                // If you want to send the district name to the server via GET request
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', '/your-endpoint?district=' + encodeURIComponent(diatname), true);
-                xhr.onreadystatechange = function() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        // Handle response from the server
-                        console.log("Response:", xhr.responseText);
-                    }
-                };
-                xhr.send();
-            }
-        </script>
-        
-        
+
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
             <div id="navigatedarea">
                 <div id="checkboxes22">
@@ -159,63 +147,113 @@
                 </div>
             </div> 
         </div>        
+    </div>
 </div>
 
 <script>
-     function handleSpatialTabClick() {
-        // Check if the tab clicked is the spatial tab
-        var spatialTab = document.querySelector('#spatial-tab');
-        if (spatialTab) {
-            // Add event listener to the spatial tab link
-            spatialTab.addEventListener('click', function(event) {
-                // Call putWMS1 with your desired layer parameter
-                var layer = 'maha_demo_v21_26april24'; // Replace with your desired layer
-                putWMSspatial(layer);
-            });
+var newLayerList = [];
+var cen2011Values = [];
+
+function handleSpatialTabClick() {
+    var spatialTab = document.querySelector('#spatial-tab');
+    if (spatialTab) {
+        spatialTab.addEventListener('click', function(event) {
+            var layer = 'maha_demo_v21_26april24';
+            putWMSspatial(layer);
+        });
+    }
+}
+
+handleSpatialTabClick();
+
+function clearMap() {
+    newLayerList.forEach(layer => {
+        mymap.removeLayer(layer);
+    });
+    newLayerList = [];
+}
+
+function putWMSspatial(layer, filter) {
+    clearMap();
+    console.log("layer: " + layer);
+    var wms_layer1;
+    const url = new URL(window.location.href);
+    const districtName = url.searchParams.get('district');
+    console.log("district name is in query builder: " + districtName);
+
+    // Convert districtName to lowercase for layer name
+    var districtLayerName = districtName.toLowerCase() + '_antyodaya_refactored';
+
+    wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+        layers: layer,
+        format: 'image/png',
+        transparent: true,
+        zoom: 14,
+        CQL_FILTER: (layer === 'maha_demo_v21_26april24' ? "dist_name='" + districtName + "' AND " : "") + filter,
+    });
+
+    wms_layer1.addTo(mymap);
+    newLayerList.push(wms_layer1);
+
+    mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
+}
+
+function executeCombinedQuery() {
+    var populationThreshold = document.getElementById('population_threshold').value;
+    var farmThreshold = document.getElementById('farm_threshold').value;
+
+    fetchCen2011Values(populationThreshold, function() {
+        var filter = '';
+        if (farmThreshold && cen2011Values.length > 0) {
+            var cen2011Filter = cen2011Values.join(',');
+            filter += `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
         }
-    }
 
-    // Call the function to set up the event listener
-    handleSpatialTabClick();
-    
-    function putWMSspatial(layer) {
-        console.log("layer 123454321 " + layer);
-        var wms_layer1;
-        const url = new URL(window.location.href);
-        // Extract the 'district_name' parameter
-        const districtName = url.searchParams.get('district');
-        console.log("district name is in query builder " + districtName);
+        if (filter) {
+            const url = new URL(window.location.href);
+            const districtName = url.searchParams.get('district');
+            // Convert districtName to lowercase for layer name
+            var districtLayerName = districtName.toLowerCase() + '_antyodaya_refactored';
 
-        if (layer === "maha_demo_v21_26april24") {
-            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
-                layers: layer,
-                format: 'image/png',
-                transparent: true,
-                zoom: 14,
-                CQL_FILTER: "dist_name='" + districtName + "' AND tot_p <= " + document.getElementById('population_threshold').value,
-                
-                // Specify any additional parameters if needed
-            });
-
-            wms_layer1.addTo(mymap);
-            newLayerList.push(wms_layer1);
-            // Fly to specific coordinates based on layer (if needed)
-            if (layer === 'maha_demo_v21_26april24') {
-                mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
-            }
-        } else {
-            // Remove existing WMS layer if it's not the desired layer
-            if (wms_layer1) {
-                mymap.removeLayer(wms_layer1);
-                newLayerList.splice(newLayerList.indexOf(wms_layer1), 1);
-            }
-
-            console.log("Layer " + layer + " is not supported in this function.");
+            putWMSspatial(districtLayerName, filter);
         }
-    }
+    });
+}
 
-    function executeSpatialQuery() {
-        var layer = 'maha_demo_v21_26april24'; // Replace with your desired layer
-        putWMSspatial(layer);
-    }
+function fetchCen2011Values(populationThreshold, callback) {
+    const url = 'https://geonode.communitygis.in/geoserver/wfs';
+    const params = new URLSearchParams({
+        service: 'WFS',
+        version: '1.0.0',
+        request: 'GetFeature',
+        typeName: 'maha_demo_v21_26april24',
+        outputFormat: 'application/json',
+        CQL_FILTER: `tot_p <= ${populationThreshold}`,
+        propertyName: 'cen_2011'
+    });
+
+    fetch(`${url}?${params.toString()}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            cen2011Values = [];
+            const features = data.features;
+            features.forEach(feature => {
+                let cen2011Int = parseInt(feature.properties.cen_2011);
+                if (!isNaN(cen2011Int)) {
+                    cen2011Values.push(cen2011Int);
+                }
+            });
+            console.log('cen_2011 values:', cen2011Values);
+            
+            callback();
+        })
+        .catch(error => {
+            console.error('Error fetching cen_2011 values:', error);
+        });
+}
 </script>
