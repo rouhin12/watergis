@@ -721,7 +721,7 @@
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 <script src="https://d3js.org/d3.v4.min.js"></script>
-
+<script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
 <!-- script start -->
 <script>
     // sidebar script 
@@ -1297,6 +1297,200 @@
 
 
 
+    function clearWells() {
+        // Remove well markers
+        wellMarkers.forEach(marker => mymap.removeLayer(marker));
+        wellMarkers = [];
+   
+        // Remove observation well markers
+        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
+        observationWellMarkers = [];
+    }
+
+    function toggleWells(checkbox) {
+        if (checkbox.checked) {
+            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
+            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
+            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
+            wellControls.style.display = 'block';
+        } else {
+            document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
+            clearWells(); // Call the clearWells function to remove both types of wells
+            wellControls.style.display = 'none'; 
+        }
+    }
+    
+
+   {% comment %} function toggleRiversAndBasins(checkbox) {
+        const checkboxes = document.querySelectorAll('#collapseOne .custom-control-input.rivers-and-basins');
+        checkboxes.forEach(cb => {
+            cb.checked = checkbox.checked;
+            cb.dispatchEvent(new Event('change'));  // Trigger the change event programmatically
+        });
+    }
+
+     function toggleVillagesLayer(checkbox) {
+        var villagesLayer = "geonode:maha_village_polygon_29mar"; 
+        if (checkbox.checked) {
+            putWMSru(villagesLayer);
+            //console.log("village");
+        } else {
+            // Remove villages layer from the map if unchecked
+            removeLayerFromMap(villagesLayer);
+        }
+    }   {% endcomment %}
+
+    function toggleCombinedLayer(checkbox) {
+        if (checkbox.checked) {
+            // Show combined layer (villages and rivers)
+            putWMSru('geonode:maha_village_polygon_29mar');  // Adjust layer name as needed for villages
+            putWMS1('maharashtra_rivers_from_osm');          // Adjust layer name as needed for rivers
+            //checkIfLayersTouch();
+        } else {
+            // Remove combined layer (villages and rivers)
+            removeLayerFromMap('geonode:maha_village_polygon_29mar');  // Adjust layer name as needed for villages
+            removeLayerFromMap('maharashtra_rivers_from_osm');          // Adjust layer name as needed for rivers
+        }
+    }
+    
+    // Function to remove layer from map
+    function removeLayerFromMap(layer) {
+        mymap.eachLayer(function(mapLayer) {
+            if (mapLayer.options.layers === layer) {
+                mymap.removeLayer(mapLayer);
+            }
+        });
+    }
+
+    {% comment %} function fetchVillagesWithinBuffer() {
+        const selectedDistrict = document.getElementById("district").value;
+    
+        if (!selectedDistrict) {
+            alert("Please select above state and district");
+            return;
+        }
+    
+        const riverLayer = 'maharashtra_rivers_from_osm'; // Your river layer name
+        const villageLayer = 'geonode:maha_village_polygon_29mar'; // Your village layer name
+    
+        const riversUrl = `https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=${riverLayer}&outputFormat=application/json&srsName=EPSG:4326`;
+        const villagesUrl = `https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=${villageLayer}&outputFormat=application/json&srsName=EPSG:4326&cql_filter=district_n='${selectedDistrict}'`;
+    
+        // Fetch river data
+        fetch(riversUrl)
+            .then(response => response.json())
+            .then(riverData => {
+                // Fetch village data
+                fetch(villagesUrl)
+                    .then(response => response.json())
+                    .then(villageData => {
+                        // Perform the buffer and intersection check
+                        const bufferedRivers = createBufferAroundRivers(riverData);
+                        const villagesWithinBuffer = findVillagesWithinBuffer(bufferedRivers, villageData);
+                        // Add the villages within the buffer to the map
+                        addGeoJsonToMap(villagesWithinBuffer);
+                    })
+                    .catch(error => console.error('Error fetching village data:', error));
+            })
+            .catch(error => console.error('Error fetching river data:', error));
+    }
+    
+    // Function to create a buffer around each river
+    function createBufferAroundRivers(riverData) {
+        const bufferedRivers = {
+            type: 'FeatureCollection',
+            features: []
+        };
+    
+        riverData.features.forEach((river, riverIndex) => {
+            if (!isValidGeometry(river.geometry)) {
+                console.error(`Invalid river geometry at index ${riverIndex}:`, river.geometry);
+                return;
+            }
+    
+            try {
+                // Create a buffer of 5 km around the river
+                const buffer = turf.buffer(river, 5, { units: 'kilometers' });
+                bufferedRivers.features.push(buffer);
+            } catch (error) {
+                console.error(`Error creating buffer for river ${riverIndex}:`, error);
+            }
+        });
+    
+        return bufferedRivers;
+    }
+    function isValidGeometry(geometry) {
+        if (!geometry || !geometry.type || !geometry.coordinates) return false;
+        return validateCoordinates(geometry.coordinates);
+    }
+    
+    // Recursive function to validate coordinates
+    function validateCoordinates(coordinates) {
+        if (!Array.isArray(coordinates)) return false;
+        if (typeof coordinates[0] === 'number') {
+            return coordinates.length >= 2 && coordinates.every(coord => typeof coord === 'number');
+        }
+        return coordinates.every(coord => validateCoordinates(coord));
+    }
+
+    function addGeoJsonToMap(geoJsonData) {
+        L.geoJSON(geoJsonData).addTo(mymap);
+    } {% endcomment %}
+
+
+
+
+    
+    
+    {% comment %} function checkIfLayersTouch(villagesGeoJSON, riversGeoJSON) {
+        var villages = villagesGeoJSON.features;
+        var rivers = riversGeoJSON.features;
+    
+        var result = false;
+    
+        villages.forEach(function(villageFeature) {
+            rivers.forEach(function(riverFeature) {
+                // Check if village polygon touches river feature
+                if (turf.booleanTouch(villageFeature, riverFeature)) {
+                    result = true; // Set result to true if they touch
+                }
+            });
+        });
+    
+        return result;
+    }
+    
+    // Fetch villages GeoJSON data
+    fetch('https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=maha_village_polygon_29mar&outputFormat=application/json')
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            var villagesGeoJSON = data;
+    
+            // Fetch rivers GeoJSON data
+            fetch('https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=maharashtra_rivers_from_osm&outputFormat=application/json')
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    var riversGeoJSON = data;
+    
+                    // Check if layers touch each other
+                    var doLayersTouch = checkIfLayersTouch(villagesGeoJSON, riversGeoJSON);
+                    console.log('Do layers touch each other?', doLayersTouch);
+                })
+                .catch(function(error) {
+                    console.error('Error fetching rivers data:', error);
+                });
+        })
+        .catch(function(error) {
+            console.error('Error fetching villages data:', error);
+        }); {% endcomment %}
+
+
     var wellMarkers = [];
 
     function defineWell(checkbox) {
@@ -1429,7 +1623,7 @@
         }
         else {
 
-            wellslayerGroup.eachLayer(function (marker) {
+            wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
             wellMarkers = [];
@@ -1727,6 +1921,7 @@
         }
     }
     
+
     function getBoundary(obj) {
         let boundary = obj.value;
         //alert(boundary)
@@ -2148,10 +2343,8 @@
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********FIND NEAREST FACILITY FEATURE
-    let healthFacility,
-        $locate = $('#locate'),
-        $body = $('body'),
+    // ***********NEAREST QUERY
+    let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
         $setbuffer = $('#setbuffer')
@@ -2159,11 +2352,36 @@
     let currentPos = null;
     let marker = null;
     let oldMarker = null;
-    let facilityLayer = new L.featureGroup();
     let oldLayer = null;
+    let previousPolyline = null;
+    let previousTooltip = null;
+    let rangeCircle = null;
+    let setLocationActive = false;
 
-    // YOUR LOCATION BUTTON
-    $locate.on('click', function (e) {
+    // SET LOCATION BUTTON
+    $setlocation.on('click', function (e) {
+        setLocationActive = !setLocationActive;
+    if (setLocationActive) {
+        $setlocation.text('Clear Location');
+        mymap.on('dblclick', onMapClick);
+    } else {
+        $setlocation.text('Set Location');
+        clearLocation();
+        mymap.off('dblclick', onMapClick);
+    }
+    })
+
+        function onMapClick(e) {
+            currentPos = [e.latlng.lat, e.latlng.lng];
+            console.log("current location:", currentPos);
+
+            clearLocation();
+           
+            marker = new L.marker(currentPos).addTo(mymap);
+            oldMarker = marker;
+        }
+
+    function clearLocation() {
         if (oldMarker) {
             mymap.removeLayer(oldMarker);
             oldMarker = null;
@@ -2171,99 +2389,123 @@
         if (oldLayer) {
             mymap.removeLayer(oldLayer);
             oldLayer = null;
-            facilityLayer = new L.featureGroup();
         }
-        // $status.html('finding your location');
-        if (!navigator.geolocation) {
-            alert("<p>Sorry, your browser does not support Geolocation</p>");
-            return;
+        if (previousPolyline) {
+            mymap.removeLayer(previousPolyline);
+            previousPolyline = null;
         }
-        $body.removeClass('loaded');
-        navigator.geolocation.getCurrentPosition(success, error);
-    });
+        if (previousTooltip) {
+            mymap.removeLayer(previousTooltip);
+            previousTooltip = null;
+        }
+        if (rangeCircle) {
+            mymap.removeLayer(rangeCircle);
+            rangeCircle = null;
+        }
+    }
 
-    // SET LOCATION BUTTON
-    $setlocation.on('click', function (e) {
-        mymap.on('dblclick', function (e) {
-            currentPos = [e.latlng.lat, e.latlng.lng];
-            let lat=e.latlng.lat;
-            let longitude=e.latlng.lng;
-            console.log("current location:", currentPos);
-            if (oldMarker) {
-                mymap.removeLayer(oldMarker);
-                oldMarker = null;
-            }
-            if (oldLayer) {
-                mymap.removeLayer(oldLayer);
-                oldLayer = null;
-                facilityLayer = new L.featureGroup();
-            }
-
-            if (oldhfbb) {
-                mymap.removeLayer(oldhfbb);
-            }
-            marker = new L.marker(currentPos).addTo(mymap);
-            oldMarker = marker;
-        });
-    })
+    let combinedMarkers = [];
 
     function findNearestWell() {
-        if (!currentPos || wellMarkers.length === 0) return;
+        if (!currentPos || (wellMarkers.length === 0 && observationWellMarkers.length === 0)) return;
+
 
         var minDistance = Infinity;
         var nearestWell = null;
 
-        wellMarkers.forEach(function (marker) {
+        combinedMarkers = wellMarkers.concat(observationWellMarkers);
+
+        combinedMarkers.forEach(function (marker) {
             var latLng = marker.getLatLng();
             var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
-
+   
             if (distance < minDistance) {
                 minDistance = distance;
-                nearestWell = marker;
+                nearestMarker = marker;
             }
         });
 
-        if (nearestWell) {if (nearestWell) {
-            var latLng = nearestWell.getLatLng();
-            L.polyline([currentPos, [latLng.lat, latLng.lng]], {
-                color: 'blue',
-                weight: 4,
-                opacity: 0.5
-            }).addTo(mymap);
-        }
-            var latLng = nearestWell.getLatLng();
+        if (nearestMarker) {
+            var latLng = nearestMarker.getLatLng();
+           
             var polyline = L.polyline([currentPos, [latLng.lat, latLng.lng]], {
                 color: 'blue',
                 weight: 4,
                 opacity: 0.5
             }).addTo(mymap);
 
-            // Convert distance to a readable format 
+            // Convert distance to a readable format
             var readableDistance = (minDistance / 1000).toFixed(2) + ' km';
-            
+           
             // Add a tooltip to the polyline with the distance
             polyline.bindTooltip(readableDistance, {
                 permanent: true,
                 className: 'distance-tooltip',
                 offset: L.point(0, -10)
             }).openTooltip();
+        previousPolyline = polyline;
+        previousTooltip = polyline.getTooltip();
         }
     }
     // FIND NEAREST BUTTON
     $findNearest.on('click', function (e) {
         findNearestWell();
     });
-    
+   
     // SET BUFFER
-    var slider = document.getElementById("myRange");
-    var output = document.getElementById("demo");
-    // output.innerHTML = slider.value;
+    let slider = document.getElementById("myRange");
+    let output = document.getElementById("demo");
+    output.innerHTML = slider.value;
 
-    // slider.oninput = function () {
-    //     output.innerHTML = this.value;
+    slider.oninput = function() {
+    output.innerHTML = this.value;
+    $setbuffer.text(`Wells within ${this.value} Km`);
+    }
 
-    //     //<!-- mymap.removeLayer(circle); -->
-    // }
+    $setbuffer.on('click', function (e) {
+    if (!currentPos) return;
+    let range = parseInt(slider.value) * 1000; // Convert to meters
+
+    // Clear previous range circle
+    if (rangeCircle) {
+        mymap.removeLayer(rangeCircle);
+    }
+
+    // Draw the range circle
+    rangeCircle = L.circle(currentPos, {
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 0.2,
+        radius: range,
+        interactive: false
+    }).addTo(mymap);
+
+
+    // Count markers within range circle
+    combinedMarkers = wellMarkers.concat(observationWellMarkers);
+    let markersWithinRange = 0;
+    combinedMarkers.forEach(function (marker) {
+        let latLng = marker.getLatLng();
+        let distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
+        if (distance <= range) {
+            markersWithinRange++;
+        }
+    });
+
+    // Display total number of wells within range circle
+    let rangeInfo = L.control();
+    rangeInfo.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info');
+        this.update();
+        return this._div;
+    };
+    rangeInfo.update = function () {
+        this._div.innerHTML = `<h4>Total number of wells within ${slider.value} Km:</h4>${markersWithinRange}`;
+    };
+    rangeInfo.addTo(mymap);
+});
+
+
     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
@@ -2271,7 +2513,7 @@
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    $setbuffer.on('click', function (e) {
+    {% comment %} $setbuffer.on('click', function (e) {
         console.log("Hi m a new buffer");
         if (oldhfbb) {
             console.log("remove buffer");
@@ -2315,7 +2557,7 @@
         //querybuf(currentPos);
 
 
-    });
+    }); {% endcomment %}
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -3431,19 +3673,29 @@
     }
 
     // let area = null;
-
     function GetSelectedWells(obj) {
-
         let fac = obj.value;
         var district = document.getElementById('district').value;
         if ($(obj).is(":checked")) {
+            // Show throbber
+            document.getElementById('throbber').style.display = 'block';
+
+            // Hide throbber after 5 seconds
+            setTimeout(function() {
+                document.getElementById('throbber').style.display = 'none';
+            }, 5000);
+
+            // Execute the necessary functionality
             if (fac == "{nashik_wells}") {
                 mymap.setView([19.2107, 73.1523], 8);
                 putWFSFacility("nashik_wells", "Nashik");
             }
             else if (fac == "{bhandara_obs_wells}") {
-                //mymap.setView([21.096, 79.803], 8);
-                putWFSFacility("bhandara_obs_wells", "Bhandara");
+                // Simulate a delay to mimic processing (you can remove this setTimeout if unnecessary)
+                setTimeout(function() {
+                    // mymap.setView([21.096, 79.803], 8);
+                    putWFSFacility("bhandara_obs_wells", "Bhandara");
+                }, 1000);
             }
         } else {
             mymap.removeLayer(circle);
@@ -3452,8 +3704,7 @@
                 removeWFSfac("nashik_wells");
             else if (fac === "{bhandara_obs_wells}")
                 removeWFSfac("bhandara_obs_wells");
-
-        };
+        }
     }
 
     function setView1(layerName, selectedBoundary) {
@@ -3490,7 +3741,6 @@
                 console.log('Fetch Error :-S', err);
             });
     }
-
 
     function putWMSru(layer) {
         var selectedDistrict = document.getElementById("district").value;
@@ -3619,7 +3869,6 @@
             //console.log(wms_layer);
         }
     }
-
 
     function displayPolygon(param) {
         // clear_layer();
@@ -4570,10 +4819,10 @@
 
     }
 
-
+    var observationWellMarkers = [];
 
     function putWFSFacility(facility, district) {
-        putdist(district)
+        putdist(district);
 
         var geojsonMarkerOptions = {
             radius: 6,
@@ -4611,30 +4860,21 @@
             fillOpacity: 0.8
         };
 
-
-
-        // const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
         const url = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3ANashik_district_well&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'
 
         if (facility == 'nashik_wells') {
             newurl = url;
-            // + `&cql_filter=chc_num>0 AND district_n='${district}'`;
         }
         if (facility == 'bhandara_obs_wells') {
-
             newurl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AJS2OBW0&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326';
-            // + `&cql_filter=chc_num>0 AND district_n='${district}'`;
         }
 
-        /// Popups for all
         function onEachFeatureForPoint(feature, layer) {
-            console.log("Hello")
             if (facility === 'nashik_wells') {
                 layer.bindPopup(`<div class = 'text-center'>Well Data<br>
                                 District: ${feature.properties.District}<br>
                                 Well_Type :${feature.properties.Well_Type}<br>
-                                
-                                </div>`)
+                                </div>`);
             }
             else if (facility == 'bhandara_obs_wells') {
                 layer.bindPopup(`<div class = 'text-left'><b>Well Data</b><br>
@@ -4644,31 +4884,28 @@
                                             NAME: ${feature.properties.THENAME}<br>
                                             GPE NAME: ${feature.properties.GPENAME}<br>
                                             VILLAGE NAME: ${feature.properties.VLENAME}<br>
-                                                
                                             HABI_NAME: ${feature.properties.HABI_NAME}<br>
-                                                
                                             OW_LOCATIO: ${feature.properties.OW_LOCATIO}<br>
-                                                
                                             PARAPET_HT: ${feature.properties.PARAPET_HT}<br>
                                             WELL_DEPTH: ${feature.properties.WELL_DEPTH}<br>
                                             WELL_LININ: ${feature.properties.WELL_LININ}<br>
                                             WELL_LININ: ${feature.properties.WELL_LININ}<br>
                                             WELL_DIAMETER: ${feature.properties.WELL_DIAME}<br>
                                             WATER_LEVEL: ${feature.properties.WATER_LEVE}<br>
-                                            </div>`)
+                                            </div>`);
             }
-
+            updateStressLevelsOnMap();
+            stress_legend.addTo(mymap);
         }
+
         fetch(newurl).then(
             function (response) {
                 if (response.status !== 200) {
-                    console.log('Looks like there was a problem. Status Code: ' +
-                        response.status);
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
                     return;
                 }
 
                 response.json().then(function (geojsonData) {
-                    // console.log(geojsonData.features);
                     healthFacility = L.geoJson(geojsonData.features, {
                         pointToLayer: function (feature, latlng) {
                             if (facility === 'nashik_wells')
@@ -4682,21 +4919,133 @@
                         },
                         onEachFeature: onEachFeatureForPoint,
                     }).addTo(mymap);
-                    var hel = healthFacility1
-                    //legend.addTo(mymap);
 
                     activatedHealthFacility[facility] = healthFacility;
-
-
-                    //legend.update();
                 });
-
-
             }).catch(function (err) {
                 console.log('Fetch Error :-S', err);
             });
-        //})
     };
+
+    async function fetchPopulationData() {
+         const cacheKey = 'populationData';
+    let populationMap;
+
+    // Check if data is already cached
+    const cachedData = localStorage.getItem(cacheKey);
+    if (cachedData) {
+        populationMap = new Map(JSON.parse(cachedData));
+    } else {
+        const demographicsUrl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=cen_2011,tot_p';
+        
+        try {
+            const response = await fetch(demographicsUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch population data from ${demographicsUrl}`);
+            }
+            const data = await response.json();
+            populationMap = new Map();
+
+            data.features.forEach(item => {
+                const vlecode = item.properties.cen_2011;
+                const population = parseFloat(item.properties.tot_p);
+                populationMap.set(vlecode, population);
+            });
+
+            // Cache the data for future use
+            localStorage.setItem(cacheKey, JSON.stringify([...populationMap]));
+        } catch (error) {
+            console.error('Error fetching population data:', error);
+        }
+    }
+
+    return populationMap;
+}
+
+    async function updateStressLevelsOnMap() {
+        const populationMap = await fetchPopulationData();
+        
+        function calculateVolumeAndStress(feature) {
+            let diameter = feature.properties.WELL_DIAME;
+            let depth = feature.properties.WELL_DEPTH;
+            let radius = diameter / 2;
+            let volume = Math.PI * Math.pow(radius, 2) * depth;
+            volume = volume.toFixed(2);
+
+            const population = populationMap.get(feature.properties.VLECODE);
+            const stressLevel = population ? (volume / population).toFixed(2) : 'N/A';
+            //console.log(volume,population,stressLevel);
+            //console.log("stress:",stressLevel);
+            return { volume, population, stressLevel };
+
+        }
+
+        function getColor(stressLevel) {
+            if (stressLevel === 'N/A') return 'blue';
+            if (stressLevel < 0.5) return '#00ff00'; // Green
+            if (stressLevel <= 1.0) return 'yellow'; // Yellow
+            if (stressLevel <= 1.5) return 'orange'; // Orange
+            if (stressLevel <= 2.0) return 'darkorange'; // Dark Orange
+            if (stressLevel <= 2.5) return 'orangered'; // Orange Red
+            if (stressLevel <= 3.0) return 'red'; // Red
+            if (stressLevel <= 3.5) return 'darkred'; // Dark Red
+            if (stressLevel <= 4.0) return 'purple'; // Purple for stress levels above 3.5
+            if (stressLevel <= 4.5) return '#8a2be2'; // BlueViolet for stress levels 4.0 - 4.5
+            if (stressLevel <= 5.0) return '#9370db';
+            return 'brown'; // Purple for stress levels above 3.5
+        }
+
+        mymap.eachLayer(function(layer) {
+            if (layer.feature) {
+                const { stressLevel } = calculateVolumeAndStress(layer.feature);
+                const markerOptions = {
+                    radius: 6,
+                    fillColor: getColor(stressLevel),
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                };
+
+                layer.setStyle(markerOptions);
+            }
+        });
+    }
+
+    const stress_legend = L.control({ position: 'bottomright' });
+
+    stress_legend.onAdd = function(mymap) {
+        const div = L.DomUtil.create('div', 'info stress_legend');
+        const labels = ['<strong>Stress Level</strong>'];
+        const colors = ['#0004ff', '#00ff00', '#ffff00', '#ffa500', '#ff8c00', '#ff4500', '#ff0000', '#8b0000', '#800080', '#8a2be2', '#9370db', 'brown'];
+
+        labels.push('<div class="label"><i style="background:' + colors[0] + '"></i> N/A</div>');
+        labels.push('<div class="label"><i style="background:' + colors[1] + '"></i> 0 - 0.5</div>');
+        labels.push('<div class="label"><i style="background:' + colors[2] + '"></i> 0.5 - 1.0</div>');
+        labels.push('<div class="label"><i style="background:' + colors[3] + '"></i> 1.0 - 1.5</div>');
+        labels.push('<div class="label"><i style="background:' + colors[4] + '"></i> 1.5 - 2.0</div>');
+        labels.push('<div class="label"><i style="background:' + colors[5] + '"></i> 2.0 - 2.5</div>');
+        labels.push('<div class="label"><i style="background:' + colors[6] + '"></i> 2.5 - 3.0</div>');
+        labels.push('<div class="label"><i style="background:' + colors[7] + '"></i> 3.0 - 3.5</div>');
+        labels.push('<div class="label"><i style="background:' + colors[8] + '"></i> 3.5 - 4.0</div>');
+        labels.push('<div class="label"><i style="background:' + colors[9] + '"></i> 4.0 - 4.5</div>');
+        labels.push('<div class="label"><i style="background:' + colors[10] + '"></i> 4.5 - 5.0</div>');
+        labels.push('<div class="label"><i style="background:' + colors[11] + '"></i> > 5.0</div>');
+
+        div.innerHTML = labels.join('<br>');
+        return div;
+    };
+
+
+    {% comment %} document.getElementById('toggle-stress-level').addEventListener('click', function() {
+        updateStressLevelsOnMap();
+        stress_legend.addTo(mymap);
+        putWFSFacility('bhandara_obs_wells', 'Bhandara');
+    }); {% endcomment %}
+
+
+    
+    
 
     // function Identify(e) {
 

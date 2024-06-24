@@ -1,5 +1,20 @@
 {% load static%} {% load i18n %}
-
+<style>
+    #showWellsDiv,
+    #obs_wells_district0 {
+        display: none;
+    }
+</style>
+<style>
+    #map { height: 600px; }
+    .info.stress_legend { background: white; padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; }
+    .info.stress_legend i { width: 18px; height: 18px; float: left; margin-right: 8px; opacity: 0.7; }
+    .info.stress_legend .label { margin-bottom: 4px; }
+    .info.stress_legend .green { background: #00ff00; }
+    .info.stress_legend .yellow { background: #ffff00; }
+    .info.stress_legend .red { background: #ff0000; }
+    .info.stress_legend .blue { background: #0004ff; }
+</style>
 <div class="subContent" id="querybuilder">
     <h5 class="heading">Query builder</h5>
     <hr>
@@ -93,7 +108,8 @@
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                Coming soon!
+                <button id="toggle-stress-level">Toggle Stress Level</button>
+<div id="map" style="height: 600px;"></div>
             </div>
             <!-- Rest of the spatial query content -->
             <!-- ... -->
@@ -102,35 +118,35 @@
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
             <div id="navigatedarea">
                 <div id="checkboxes22">
-                    <div class="tooltips" title="Please select the Wells" id="wells_district0">
-                        <label><input type="checkbox" value="Wells" id="chwells" onchange="defineWell(this)"><span
-                                style="color:black;"><b> Show Wells</b></span></label>
+                    <div class="tooltips" title="Please select the Wells" id="showWellsDiv">
+                        <label>
+                            <input type="checkbox" value="Wells" id="chwells" onchange="defineWell(this)">
+                            <span style="color:black;"><b> Show Wells</b></span>
+                        </label>
                         <label><em>Wells Last updated 20-04-2023</em></label><br>
-                        <div style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
-                            <label><input type="checkbox" value="{nashik_wells}"
-                                    onchange="GetSelectedWells(this)"><span><b> Nashik Wells
-                                    </b></span></label><br>
-                        </div>
-                        
-                        <div style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
-                            <label><input type="checkbox" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
-                                    onchange="GetSelectedWells(this)"><span style="color:black;"><b> Bhandara Observation Wells</b></span></label>
-                        </div>
-        
+                    </div>
+                    <div class="tooltips" title="Please select the Observation Wells" id="obs_wells_district0">
+                        <label>
+                            <input type="checkbox" value="{bhandara_obs_wells}" id="bhandara_obs_wells" onchange="GetSelectedWells(this)">
+                            <span style="color:black;"><b> Observation Wells</b></span>
+                        </label>
                     </div>
                 </div>
+
+            <div class="tooltips" title="Please select Wells">
+                <label>
+                    <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
+                    <span style="color:black;"><b> Wells</b></span>
+                </label>
+            </div>
         
+            <div id="wellControls" style="display:none;">
                 <div class="d-flex justify-content-center m-1">
                     <button type="button" class="btn btn-primary" id='setlocation'>Set Location</button>
                 </div>
         
                 <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
         
-                <!-- Proximity to Wells -->
-        {% comment %} <div class="form-check m-1">
-        <input type="checkbox" class="form-check-input" id="proximityCheckbox">
-        <label class="form-check-label" for="proximityCheckbox">Proximity to Wells</label>
-        </div> {% endcomment %}
                 <div id="slider">
                     <label>Set Range</label><br>
                     <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
@@ -143,6 +159,71 @@
                     </div>
                     <button type="button" class="btn btn-primary" id='setbuffer'>Wells within <span id="demo"></span> Km</button>
                 </div>
+            </div> 
+
+            {% comment %} <div class="tooltips" title="Please select Villages near river">
+                <label>
+                    <input type="checkbox" value="Villages near river" id="toggleVillagesNearRiverCheckbox" onchange="toggleVillagesNearRiver(this)">
+                    <span style="color:black;"><b> Villages near river</b></span>
+                </label>
+            </div> {% endcomment %}
+            
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="combinedLayerCheckbox" onchange="toggleCombinedLayer(this)">
+                <label class="custom-control-label" for="combinedLayerCheckbox">
+                    Show layer
+                </label>
+            </div>
+
+            {% comment %} <div class="tooltips" title="Please select villages" id="villages_in_district">
+                <label>
+                    <input type="checkbox" value="{maharural}" id="maharural1" onchange="toggleLayer(this, 'villages')">
+                    <span style="color:black;"><b>Villages</b></span>                    
+                </label>
+            </div>  {% endcomment %}
+            
+            {% comment %} <div class="card" style="{% if feature.rivers == False %}display:none{% endif %}">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="riversAndBasinsCheckbox" onchange="toggleLayer(this, 'riversAndBasins')">
+                    <label class="custom-control-label" for="riversAndBasinsCheckbox">
+                        Rivers And Basins
+                    </label>
+                </div>
+            
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+            
+                        {% for layer in layers %}
+                            {% if layer.sub_title == "basins" %}
+                                <div class="custom-control custom-switch m-2">
+                                    <input type="checkbox" class="custom-control-input rivers-and-basins" value="{{layer.value}}"
+                                        id="river_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                                    <label class="custom-control-label"
+                                        for="river_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                                </div>
+                            {% endif %}
+                        {% empty %}
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert" style="">
+                                No Data Found
+                                {{feature.district_name}}
+                            </div>
+                        {% endfor %}
+            
+                        {% for layer in layers %}
+                            {% if layer.sub_title == "rivers" %}
+                                <div class="custom-control custom-switch m-2">
+                                    <input type="checkbox" class="custom-control-input rivers-and-basins" value="{{layer.value}}"
+                                        id="rivers_{{ forloop.counter0 }}" onchange="{{layer.method}}">
+                                    <label class="custom-control-label"
+                                        for="rivers_{{ forloop.counter0 }}">{{layer.display_checkbox_name}}</label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div> {% endcomment %}
+            
+
             </div> 
         </div>        
     </div>
