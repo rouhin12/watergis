@@ -7,13 +7,6 @@
             max-width: 200px;
         }
     }
-
-
-
-
-
-
-
     table,
     th,
     td {
@@ -267,7 +260,19 @@
     .con {
         position: relative;
     }
-
+    #legendContainer {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background-color: white;
+            padding: 10px;
+            border: 1px solid #ccc;
+            z-index: 1000; /* Ensure it's above the map */
+        }
+        #legendContainer img {
+            display: block;
+            margin-bottom: 5px;
+        }
     #mapdiv {
 
         position: relative;
@@ -468,7 +473,7 @@
 
     /* #myModal .modal-dialog {
         max-width: 800px;
-        
+       
     } */
 </style>
 
@@ -711,7 +716,9 @@
         </div>
         <!-- Map Container -->
         <div id="mapdiv"></div>
-
+        <div id="legendContainer">
+            <!-- Legend images will be dynamically added here -->
+        </div>
 
     </div><!-- body-row END -->
 </div>
@@ -724,7 +731,7 @@
 <script src="https://unpkg.com/@turf/turf/turf.min.js"></script>
 <!-- script start -->
 <script>
-    // sidebar script 
+    // sidebar script
     // $('#sidebar-container').hover(
     //     function () {
     //         SidebarCollapse();
@@ -766,7 +773,7 @@
         var SeparatorTitle = $('.sidebar-separator-title');
         if (SeparatorTitle.hasClass('d-flex')) {
             SeparatorTitle.removeClass('d-flex');
-            // sidebar close 
+            // sidebar close
             var element = document.getElementById('sidebar-container');
             element.style.height = "calc(100vh - 200px)";
             if (window.matchMedia("(min-device-width: 320px) and (max-device-width: 768px)").matches) {
@@ -796,7 +803,7 @@
 
         // Collapse/Expand icon
         $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
-        // code to manage sidebar marginleft on collapse 
+        // code to manage sidebar marginleft on collapse
         // if ($('#sidebar-container').hasClass('sidebar-collapsed')) {
         //     $('.open').css('left', '4rem');
         // } else {
@@ -848,7 +855,7 @@
 
     }
 
-    // end sidebar script 
+    // end sidebar script
     var mymap;
     var source = L.wms.source(
         "https://geoserver2.communitygis.net/geoserver/wms",
@@ -931,7 +938,7 @@
     // objOverlays = {
     // };
 
-    
+   
     L.control.zoom({ position: 'topright' }).addTo(mymap);
     ctlAttribute = L.control.attribution({ position: 'bottomleft' }).addTo(mymap);
 
@@ -939,7 +946,7 @@
 
     $(document).ready(function () {
 
-        // code that selects states automatically 
+        // code that selects states automatically
 
 
         // Trigger the change event manually
@@ -977,7 +984,7 @@
             opacity: 0.7,
         }
         );
-        
+       
         indiaState.addTo(mymap);
         layercontrol.addOverlay(indiaState, "States");
 
@@ -1057,7 +1064,7 @@
     var tableurl2;
     var tableurl;
 
-    /// Script to download form data 
+    /// Script to download form data
     function create_property_json(feature) {
         var json_props = [];
         feature.forEach(feat => {
@@ -1202,7 +1209,7 @@
                     "label": "State Code",
                     "description": "Description 1"
                 },
-                
+               
                 // Add mappings for other attributes
             };  
 
@@ -1295,6 +1302,30 @@
         }
     })
 
+    function clearWells() {
+        // Remove well markers
+        wellMarkers.forEach(marker => mymap.removeLayer(marker));
+        wellMarkers = [];
+   
+        // Remove observation well markers
+        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
+        observationWellMarkers = [];
+    }
+
+    function toggleWells(checkbox) {
+        if (checkbox.checked) {
+            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
+            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
+            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
+        } else {
+            document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
+            document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
+            clearWells(); // Call the clearWells function to remove both types of wells
+        }
+    }
+
+    var wellMarkers = [];
 
 
     function clearWells() {
@@ -1494,6 +1525,7 @@
     var wellMarkers = [];
 
     function defineWell(checkbox) {
+       
         let value = checkbox.value;
         var state = document.getElementById('indstate').value;
         var dist_fetch = document.getElementById('district').value;
@@ -1503,9 +1535,6 @@
         var wellslayerGroup;
         var markers;
         if ($(checkbox).is(':checked')) {
-
-
-
             {% for i in wells %}
 
             wellIcon = L.icon({
@@ -1550,60 +1579,60 @@
               <th>{{ i.name }}</th>
           </tr>
           {% endif %}
-    
+   
               {% if i.well_nm %}
               <tr>
                   <th>Well's name</th>
                   <th>{{ i.well_nm }}</th>
               </tr>
               {% endif %}
-    
+   
               {% if i.radius %}
               <tr>
                 <td>Radius</td>
                 <td>{{ i.radius }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.depth %}
               <tr>
                 <td>Depth</td>
                 <td>{{ i.depth }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.level %}
               <tr>
                 <td>Level</td>
                 <td>{{ i.level }} mtr</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.village %}
               <tr>
                 <td>Village</td>
                 <td>{{ i.village }}</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.district %}
               <tr>
                 <td>District</td>
                 <td>{{ i.district }}</td>
               </tr>
               {% endif %}
-    
+   
               {% if i.state %}
               <tr>
                 <td>State</td>
                 <td>{{ i.state }}</td>
               </tr>
               {% endif %}
-    
+   
             </tbody>
           </table>
           </br>`
-
+       
             var popupOptions =
             {
                 'maxWidth': '500',
@@ -1623,6 +1652,7 @@
         }
         else {
 
+            wellMarkers.forEach(marker => {
             wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
@@ -1773,111 +1803,70 @@
 
 
     });
-
-
-   function showDrainage(obj) {
+    // New function for Drainage
+    function showDrainagenew(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
+        var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        // alert(newstring);
         let boundary = obj.value;
+        let found = false;
+
+        //
         if ($(obj).is(":checked")) {
+        // Make an AJAX call to fetch the layer name from the server
+        $.ajax({
+            url: '/get_layer/',  // URL for the view that returns the layer
+            method: 'GET',
+            data: { district: district },
+            success: function(response) {
+                let drainageLayer = response.layer;
 
-
-            if (district == "Nanded")
-                putWMS1("geonode:Nanded_drainage_line");
-
-            else if (district == "Mumbai Suburban")
-                putWMS1("Mumbai_subarban_drainage_line");
-            else if (district == "Jalna")
-                putWMS1("Jalna_drainage_line")
-            else if (district == "Hingoli")
-                putWMS1("Hingoli_drainage_line")
-            else if (district == "Gondia")
-                putWMS1("Gondia_drainage_line")
-            else if (district == "Solapur")
-                putWMS1("Solapur_drainage_line")
-            else if (district == "Raigad")
-                putWMS1("Raigad_drainage_line")
-            else if (district == "Sindhudurg")
-                putWMS1("Sindhudurg_drainage_line")
-            else if (district == "Pune")
-                putWMS1("Pune_drainage_line")
-            else if (district == "Palghar")
-                putWMS1("Palghar_drainage_line")
-            else if (district == "Chandrapur")
-                putWMS1("Chandrapur_Drainage_line")
-            else if (district == "Dhule")
-                putWMS1("Dhule_Drainage_line")
-            else if (district == "Beed")
-                putWMS1("Beed_Drainage_line")
-            else if (district == "Amravati")
-                putWMS1("Amravati_Drainage_line")
-            else if (district == "Washim")
-                putWMS1("Washim_Drainage_files")
-            else if (district == "Ahmadnagar")
-                putWMS1("Ahamadnagar_drainage_filess")
-            {% for layer in alllayers %}
-            {% if layer.method == "showDrainage(this)" %}
-            else if (district == '{{layer.value}}') {
-                putWMS1("{{layer.name}}")
-            }
-            {% endif %}
-            {% endfor %}
-            else {
+                if (putWMS1(drainageLayer)) {
+                    // Layer found and displayed
+                } 
+                
+            },
+            error: function() {
                 swal({
-                    title: "Sorry For Inconvience",
-                    text: "Drainage Data not found For " + district,
+                    title: "Error",
+                    text: "Could not fetch drainage layer.",
                     timer: 1500
                 });
             }
-
+         });
         } else {
-            if (district == "Nanded")
-                removeWMS("geonode:Nanded_drainage_line");
-            else if (district == "Mumbai Suburban")
-                removeWMS("Mumbai_subarban_drainage_line");
-            else if (district == "Jalna")
-                removeWMS("Jalna_drainage_line");
-            else if (district == "Hingoli")
-                removeWMS("Hingoli_drainage_line");
-            else if (district == "Gondia")
-                removeWMS("Gondia_drainage_line")
-            else if (district == "Solapur")
-                removeWMS("Solapur_drainage_line")
-            else if (district == "Raigad")
-                removeWMS("Raigad_drainage_line")
-            else if (district == "Sindhudurg")
-                removeWMS("Sindhudurg_drainage_line")
-            else if (district == "Pune")
-                removeWMS("Pune_drainage_line")
-            else if (district == "Palghar")
-                removeWMS("Palghar_drainage_line")
-            else if (district == "Chandrapur")
-                removeWMS("Chandrapur_Drainage_line")
-            else if (district == "Dhule")
-                removeWMS("Dhule_Drainage_line")
-            else if (district == "Beed")
-                removeWMS("Beed_Drainage_line")
-            else if (district == "Amravati")
-                removeWMS("Amravati_Drainage_line")
-            else if (district == "Washim")
-                removeWMS("Washim_Drainage_files")
-            else if (district == "Ahmadnagar")
-                removeWMS("Ahamadnagar_drainage_filess")
-            {% for layer in alllayers %}
-            {% if layer.method == "showDrainage(this)" %}
-            else if (district == '{{layer.value}}') {
-                removeWMS("{{layer.name}}")
+        // Remove the layer
+        console.log("in else part of draiange for  ",district)
+        $.ajax({
+            url: '/get_layer/',  // URL for the view that returns the layer
+            method: 'GET',
+            data: { district: district },
+            success: function(response) {
+                let drainageLayer = response.layer;
+               
+                removeWMS(drainageLayer);
+            },
+            error: function() {
+                swal({
+                    title: "Error",
+                    text: "Could not remove drainage layer.",
+                    timer: 1500
+                });
             }
-            {% endif %}
-            {% endfor %}
-
-        }
+         });
+       
+       
     }
+}  
 
+    // New function for Drainage ends here
+  
     function showContours(obj) {
         let district = document.getElementById('district').value;
         // alert(district);
         let boundary = obj.value;
+        // alert(boundary);
         if ($(obj).is(":checked")) {
 
             putWMS1(boundary);
@@ -1892,6 +1881,7 @@
         let district = document.getElementById('district').value;
         // alert(district);
         var newstring = district.charAt(0).toLowerCase() + district.slice(1)
+        //alert(newstring);
         let boundary = obj.value;
         var antodaya = "geonode:" + newstring + "_antodaya_merged"
         if ($(obj).is(":checked")) {
@@ -1920,11 +1910,13 @@
 
         }
     }
+   
     
 
     function getBoundary(obj) {
         let boundary = obj.value;
-        //alert(boundary)
+        // alert(boundary);
+        // alert(obj.value)
         if ($(obj).is(":checked")) {
 
             if (boundary == "{state}")
@@ -1945,49 +1937,49 @@
                 putWMS1("maharashtra_rivers_from_osm2");
             }
             else if (boundary == "{nashik_turbidity}") {
-                // alert("in correct place")
+                //alert("in correct place")
                 // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-                putWMS1("Nashik_water_quality_turbidity");
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","turbidity");
             }
             else if (boundary == '{nashik_alkalinity}') {
-                putWMS1("Nashik_water_quality_alkanility0")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","alkanility")
             }
             else if (boundary == '{nashik_ph}') {
-                putWMS1("Nashik_water_quality_ph")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","pH_1")
             }
             else if (boundary == '{nashik_nitrates}') {
-                putWMS1("Nashik_water_quality_Nitrates")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","Nitrates")
             }
             else if (boundary == '{nashik_flourides}') {
-                putWMS1("Nashik_water_quality_Flourides")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","Fluorides")
             }
             else if (boundary == '{nashik_chloride}') {
-                putWMS1("Nashik_water_quality_Chloride")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","chloride")
             }
             else if (boundary == '{nashik_sulphate}') {
-                putWMS1("Nashik_water_quality_Sulphate")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","sulphates")
             }
             else if (boundary == '{nashik_odour}') {
-                putWMS1("Nashik_water_quality_Odour")
+                putWMSlayerStyle("geonode:Nashik_water_quality_9jan23","Odour")
             }
             else if (boundary == '{nashik_taste}') {
-                putWMS1("Nashik_water_quality_Taste")
+                putWMSlayerStyle("Taste")
             }
-            
+             
 
-            //  fetching from admin panel 
+            //  fetching from admin panel
             {% for layer in alllayers %}
             {% if layer.method == "getBoundary(this)" %}
                 {% if layer.function == "putWMS2" %}
                     else if (boundary == '{{layer.value}}') {
                         putWMS2("{{layer.name}}")
-                    }   
+                    }  
                 {% else %}
                     else if (boundary == '{{layer.value}}') {
                         putWMS1("{{layer.name}}")
                     }
                 {% endif %}
-            
+           
             {% endif %}
             {% endfor %}
            
@@ -2000,6 +1992,7 @@
                 putWMS("geonode:maha_demography_with_mumbai");
 
         } else {
+            // alert(boundary)
             if (boundary == "{state}")
                 removeWMS("geonode:states_in_india");
             else if (boundary == "{district}")
@@ -2012,102 +2005,42 @@
                 removewards();
             else if (boundary == "{mumadm}")
                 removewards();
-            // else if (boundary == "{pawana_basin}")
-            //     removeWMS("Pawana_Basin_Layer0");
-            // else if (boundary == "{indrayani_basin}")
-            //     removeWMS("Indrayani_Basin");
-            // else if (boundary == "{poisar}")
-            //     removeWMS("poisar_River_Nov22");
-            // else if (boundary == "{pawana}")
-            //     removeWMS("River_line_layers");
-            // else if (boundary == "{indrayani}")
-            //     removeWMS("Indrayani_river_line_layer");
-            // else if (boundary == "{dahisar}") {
-            //     removeWMS("Dahisar_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{agrani_village}")
-            //     removeWMS("Agrani_villages");
-            // else if (boundary == "{wainganaga_basin}") {
-            //     removeWMS("wainganga_riverline_7april23");
-
-            // }
-            // else if (boundary == "{drainage}") {//Drainage Basin 
-            //     removeWMS("Ahamadnagar_drainage_files");
-
-            // }
-            // else if (boundary == "{ulhas_villages}") {
-            //     removeWMS("ulhas_villages");
-
-            // }
-            // else if (boundary == "{chulband_nadi}") {
-            //     removeWMS("maharashtra_rivers_from_osm");
-
-            // }
-            // else if (boundary == "{wainganaga_river}") {
-            //     removeWMS("wainganga_river");
-
-            // }
-            // else if (boundary == "{bhandara_village}")
-            //     removeWMS("Bhandara_Shapefile_village");
-            // else if (boundary == "{mithi}")
-            //     removeWMS("Mithi_River_Nov22");
-            // else if (boundary == "{oshiwara}") {
-            //     removeWMS("Oshiwara_River_Nov22");
-            //     console.log("Boundary is " + boundary)
-            // }
-            // else if (boundary == "{pawana_village}")
-            //     removeWMS("pawana_villages_poly_layers");
-            // else if (boundary == "{indrayani_village}")
-            //     removeWMS("Indrayani_poly_village");
-            // else if (boundary == "{mini_ws}")
-            //     removeWMS("mini_15_district0")
-            // else if (boundary == "{mah_river}") {
-            //     // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-            //     removeWMS("maharashtra_rivers_from_osm2");
-            // }
-            // else if (boundary == '{ashele}') {
-            //     removeWMS("Ashele_GW")
-            // }
-            // else if (boundary == '{ashele_priority}') {
-            //     removeWMS("Ashele_priority")
-            // }
-            // else if (boundary == '{ashele_line}') {
-            //     removeWMS("Ashele_line")
-            // }
+           
             else if (boundary == '{nashik_turbidity}') {
-                removeWMS("Nashik_water_quality_turbidity")
+               
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_alkalinity}') {
-                removeWMS("Nashik_water_quality_alkanility0")
+                removeWMS('geonode:Nashik_water_quality_9jan23')
             }
             else if (boundary == '{nashik_ph}') {
-                removeWMS("Nashik_water_quality_ph")
+                removeWMS('geonode:Nashik_water_quality_9jan23')
             }
             else if (boundary == '{nashik_nitrates}') {
-                removeWMS("Nashik_water_quality_Nitrates")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_flourides}') {
-                removeWMS("Nashik_water_quality_Flourides")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_chloride}') {
-                removeWMS("Nashik_water_quality_Chloride")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_sulphate}') {
-                removeWMS("Nashik_water_quality_Sulphate")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_odour}') {
-                removeWMS("Nashik_water_quality_Odour")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             else if (boundary == '{nashik_taste}') {
-                removeWMS("Nashik_water_quality_Taste")
+                removeWMS("geonode:Nashik_water_quality_9jan23")
             }
             // else if (boundary == '{chandrapur_river}') {
             //     removeWMS("Chandrapur_river__osm_22june2023")
             // }
-            //  fetching from admin panel 
+            //  fetching from admin panel
             {% for layer in alllayers %}
             {% if layer.method == "getBoundary(this)" %}
+
             else if (boundary == '{{layer.value}}') {
                 removeWMS("{{layer.name}}")
             }
@@ -2120,6 +2053,39 @@
 
         }
     }
+
+
+
+function addnashikWMSLegend(obj) {
+    // alert("In grpahics")
+    lagendGraphic1 = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=geonode:Nashik_water_quality_9jan23&STYLE="+ obj +"&LEGEND_OPTIONS=forceLabels:on";
+    wms_legend1 = L.wmsLegend(lagendGraphic1);
+    wms_legend1.addTo(mymap);
+}
+   
+    function putWMSlayerStyle(Layer, Style) {
+    var wms_boundary_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+        layers: Layer,
+        format: 'image/png',
+        transparent: true,  // Should be a boolean value
+        // opacity: 1.0,       // Opacity should be a number between 0 and 1
+        tiled: true,
+        styles: Style,      // 'Styles' should be lowercase
+    });
+
+    wms_boundary_layer.addTo(mymap);
+    newLayerList.push(wms_boundary_layer);//pushing into newlayerlist array :To be used when layer is unchecked
+    addnashikWMSLegend(Style);//making legends
+   
+    TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_boundary_layer.options.layers + "&QUERY_LAYERS=" + wms_boundary_layer.options.layers;
+    tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_boundary_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
+}
+
+// function putStyleLegend(Layer, Style) {
+//     var legendGraphicUrl = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + Layer + "&STYLE=" + Style + "&LEGEND_OPTIONS=forceLabels:on";
+//     var wms_legend1 = L.wmsLegend(legendGraphicUrl);
+//     wms_legend1.addTo(mymap);
+// }
 
     function getBoundaryst(obj) {
         let boundary = obj.value;
@@ -2137,7 +2103,7 @@
                     // if (district){
                     //     console.log(district);
                     //     putWMS("geonode:osm_highways");
-                    // } 
+                    // }
                     // else
                     putWMS("geonode:osm_highways");
                 }
@@ -2345,6 +2311,8 @@
 
     // ***********NEAREST QUERY
     let wellFacility,
+    // ***********NEAREST QUERY
+    let wellFacility,
         $findNearest = $('#find-nearest'),
         $setlocation = $('#setlocation'),
         $setbuffer = $('#setbuffer')
@@ -2419,6 +2387,7 @@
             var latLng = marker.getLatLng();
             var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
    
+   
             if (distance < minDistance) {
                 minDistance = distance;
                 nearestMarker = marker;
@@ -2437,6 +2406,7 @@
             // Convert distance to a readable format
             var readableDistance = (minDistance / 1000).toFixed(2) + ' km';
            
+           
             // Add a tooltip to the polyline with the distance
             polyline.bindTooltip(readableDistance, {
                 permanent: true,
@@ -2452,6 +2422,7 @@
         findNearestWell();
     });
    
+   
     // SET BUFFER
     let slider = document.getElementById("myRange");
     let output = document.getElementById("demo");
@@ -2461,7 +2432,6 @@
     output.innerHTML = this.value;
     $setbuffer.text(`Wells within ${this.value} Km`);
     }
-
     $setbuffer.on('click', function (e) {
     if (!currentPos) return;
     let range = parseInt(slider.value) * 1000; // Convert to meters
@@ -2505,7 +2475,6 @@
     rangeInfo.addTo(mymap);
 });
 
-
     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
@@ -2513,51 +2482,51 @@
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    {% comment %} $setbuffer.on('click', function (e) {
-        console.log("Hi m a new buffer");
-        if (oldhfbb) {
-            console.log("remove buffer");
-            mymap.removeLayer(circle);
-            oldhfbb.forEach(layer => mymap.removeLayer(layer));
+    //$setbuffer.on('click', function (e) {
+      //  console.log("Hi m a new buffer");
+       // if (oldhfbb) {
+         //   console.log("remove buffer");
+          //  mymap.removeLayer(circle);
+          //  oldhfbb.forEach(layer => mymap.removeLayer(layer));
             // oldhfbb = null;
-            healthFacilityInBB = null;
-            healthFacility2 = null;
-            healthFacility1 = null;
-        }
-        mymap.removeLayer(circle);
+         //   healthFacilityInBB = null;
+         //   healthFacility2 = null;
+        //    healthFacility1 = null;
+        //}
+        //mymap.removeLayer(circle);
 
-        var radius = (output.innerHTML) * 1000;
-        var circleCenter = currentPos;
-        var circleOptions = {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.1
-        }
-        circle = new L.circle(circleCenter, radius, circleOptions);
-        circle.addTo(mymap);
-        console.log("active in buffer", activatedHealthFacility);
-        let keys = Object.keys(activatedHealthFacility);
-        let k = '';
-        keys.forEach((v, i) => {
-            k = v;
-            if (k === "Allo")
-                querybufAllo(currentPos);
-            if (k === 'Alt')
-                querybufALt(currentPos);
-            if (k === 'CHC')
-                querybufCHC(currentPos);
-            if (k === 'PHC')
-                querybufPHC(currentPos);
-            if (k === 'DCH' || k === 'DCHC' || k === 'DCCC')
-                queryArog(currentPos);
-            if (k === 'hospital' || k === 'subcenter' || k === 'mhu' || k === 'phc' || k === 'clinic' || k === 'phu' || k === 'ashu' || k === 'mobmedu' || k === 'hfwi' || k === 'mhi' || k === 'dc' || k === 'phrmcy' || k === 'optical' || k === 'delvry' || k === 'dropin' || k === 'dspnsry' || k === 'dropin' || k === 'othr')
-                querybuf(currentPos);
+        //var radius = (output.innerHTML) * 1000;
+        //var circleCenter = currentPos;
+        //var circleOptions = {
+        //    color: 'red',
+        //    fillColor: '#f03',
+        //    fillOpacity: 0.1
+        //}
+        //circle = new L.circle(circleCenter, radius, circleOptions);
+        //circle.addTo(mymap);
+        //console.log("active in buffer", activatedHealthFacility);
+        //let keys = Object.keys(activatedHealthFacility);
+        //let k = '';
+        //keys.forEach((v, i) => {
+            //k = v;
+            //if (k === "Allo")
+            //    querybufAllo(currentPos);
+            //if (k === 'Alt')
+            //    querybufALt(currentPos);
+            //if (k === 'CHC')
+            //    querybufCHC(currentPos);
+            //if (k === 'PHC')
+            //    querybufPHC(currentPos);
+          //  if (k === 'DCH' || k === 'DCHC' || k === 'DCCC')
+           //     queryArog(currentPos);
+           // if (k === 'hospital' || k === 'subcenter' || k === 'mhu' || k === 'phc' || k === 'clinic' || k === 'phu' || k === 'ashu' || k === 'mobmedu' || k === 'hfwi' || k === 'mhi' || k === 'dc' || k === 'phrmcy' || k === 'optical' || k === 'delvry' || k === 'dropin' || k === 'dspnsry' || k === 'dropin' || k === 'othr')
+           //     querybuf(currentPos);
 
-        })
+        //})
         //querybuf(currentPos);
 
 
-    }); {% endcomment %}
+    //}); 
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -2657,7 +2626,7 @@
             const updateDate = "Dedicated COVID Facilities-Arogya";
             layer.bindPopup(`<table class = 'popupclass'>
                                            <tr><td>Facility Name:</td><td> ${feature.properties.faclty_nam}</td></tr>
-    
+   
                                            <tr><td>Category:</td><td> ${feature.properties.category}</td></tr>
                                             <tr><td>Facility Type:</td><td> ${feature.properties.type}</td></tr>
                                           <tr><td>Total Isolation beds(excluding ICU beds)</td><td> ${feature.properties.iso_minus_}</td></tr>
@@ -3182,6 +3151,7 @@
     var wmshealthLayerList = [];
     var wms_legend;
     var wms_legend1;
+    var wms_legendRiver;
     let insti_content;
     var searchControl;
 
@@ -3339,7 +3309,7 @@
         clear_distlayer();
         clearpoint_layer();
         wms_layer.addTo(mymap);
-        
+       
         mymap.setView([stLayerLatLong[1], stLayerLatLong[2] - 2], 7);
         LayerList.push(wms_layer);
         // addWMSLegend(layer);
@@ -3351,6 +3321,7 @@
         // if (area) {
         //     mymap.removeLayer(area);
         // }
+        console.log("district slected from dd is "+district+"and layer is "+layerName)
         let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
 
         let options = {
@@ -3364,7 +3335,7 @@
         };
         let parameters = L.Util.extend(options);
         layer_url = rootUrl + L.Util.getParamString(parameters)
-
+        console.log("layer url is "+layer_url);
         fetch(layer_url).then(
             function (response) {
                 if (response.status !== 200) {
@@ -3529,6 +3500,31 @@
         lagendGraphic1 = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + layer + "&LEGEND_OPTIONS=forceLabels:on";
         wms_legend1 = L.wmsLegend(lagendGraphic1);
     }
+    function addWMSLegengForRiver(layer,cql) {
+        //alert("In grpahics"+layer+" "+cql)
+        var encodedCQL = encodeURIComponent(cql);
+
+            // Construct WMS layer with CQL filter
+            var legendUrl = 'https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic'
+                    + '&VERSION=1.0.0'
+                    + '&FORMAT=image/png'
+                    + '&WIDTH=20'
+                    + '&HEIGHT=20'
+                    + '&LAYER=' + layer
+                    + '&LEGEND_OPTIONS=forceLabels:on'
+                    + '&CQL_FILTER=' + encodeURIComponent(cql);
+
+    // Create new legend control and add to map
+    // wms_legend1 = L.wmsLegend(legendUrl);
+    // wms_legend1.addTo(mymap);
+    var legendImg = document.createElement('img');
+    legendImg.src = legendUrl;
+
+    // Append legend image to a div or directly to the map UI
+    document.getElementById('legendContainer').appendChild(legendImg);
+    }
+    
+    
 
     function getColor(d) {
         return d < 500 ? '#008080' :
@@ -3744,6 +3740,7 @@
 
     function putWMSru(layer) {
         var selectedDistrict = document.getElementById("district").value;
+        // alert(selectedDistrict)
         if (selectedDistrict == "") {
             alert("Please select above state and district");
         }
@@ -3943,13 +3940,16 @@
     }
 
     function removeWMS(unchecked_layer) {
+        console.log("unchecked layer is ",unchecked_layer);
+        // alert(unchecked_layer)
         if (wms_legend) {
             mymap.removeControl(wms_legend);
         }
         if (wms_legend1) {
+           
             mymap.removeControl(wms_legend1);
         }
-
+        mymap.removeControl(wms_legend1);
         if (unchecked_layer == "maharashtra_rivers_from_osm2") {
 
             newLayerList.forEach((layer, index) => {
@@ -3963,6 +3963,7 @@
 
             newLayerList.forEach((layer, index) => {
                 if (layer.options.layers === unchecked_layer) {
+                   
                     mymap.removeLayer(layer);
                     newLayerList.splice(index, 1);
                 }
@@ -4041,7 +4042,7 @@
         if (wms_legend) {
             mymap.removeControl(wms_legend);
         }
-        //console.log(wms_legend); 
+        //console.log(wms_legend);
         addWMSLegend(facility);
         TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
         tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
@@ -4155,178 +4156,63 @@
             });
 
     }
-    // function to display all popups 
-    function Identify_i(e) {
+    // function to display all popups
+   
 
-        //console.log("Identify");
-        // set parameters needed for GetFeatureInfo WMS request
-        var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
-        var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
-        var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
-        var WIDTH = mymap.getSize().x;
-        var HEIGHT = mymap.getSize().y;
-
-        var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
-        var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
-
-        // compose the URL for the request
-        console.log(e);
-
-        var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
-        // console.log(URL);
-        //send GetFeatureInfo as asynchronous HTTP request using jQuery $.ajax
-        tableurl = URL;
-        console.log("url tribe", URL)
-        $.ajax({
-            url: URL,
-            dataType: "json",
-            type: "GET",
-            success: function (data) {
-                if (data.features.length !== 0) { // at least one feature returned in response
-                    var feature = data.features[0]; // first feature from response
-                    console.log(feature);
-                    // Set up popup for clicked feature and open it
-                    var popup = new L.Popup({
-                        maxWidth: 300
-                    });
-                    var showpopup = false
-                    if (feature.properties.category === "at") {
-                        //console.log("I reached at");
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    } else if (feature.properties.category === "m") {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    } else if (feature.properties.category === "mm") {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    } else if (feature.properties.category === "t") {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                            "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    } else if (feature.properties.f_ill) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
-                            "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
-                            "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
-                            "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
-                            "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
-                            "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
-
-                    } else if (feature.properties.ass_car) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                            "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
-                            "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
-                            "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
-                            "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
-                            "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
-
-                    } else if (feature.properties.town_name) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
-                            "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
-                            "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
-                            "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
-                            "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
-
-                    } else if (feature.properties.village_na) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                            "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-                            "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
-                            "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
-                            "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
-                            "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
-                            "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
-
-                    }
-                    else if (feature.properties.area_irr) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
-                            "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
-                            "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
-                            "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
-                            "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
-                            "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
-                            "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
-
-                    }
-                    else if (feature.properties.SEGMENT_ID) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
-                            "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
-                            "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
-                            "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
-                            "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
-                            "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
-                            "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
-                            "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
-
-                    }
-                    else if (feature.properties.ELEV) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                            "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
-                            "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
-                            "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
-
-                    }
-                    else if (feature.properties.TypeofSour) {
-                        showpopup = true
-                        insti_content = "<table class = 'popupclass' ><tr><td><b>Nashik Wells </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                            "<tr><td><b>taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-                            "<tr><td><b>village</b></td><td>" + feature.properties.village + "</td></tr>" +
-                            "<tr><td>TypeofSource</td><td><b>" + feature.properties.TypeofSour + "<b></td></tr>" +
-                            "<tr><td>color</td><td><b>" + feature.properties.color + "<b></td></tr>" +
-                            "<tr><td>odur</td><td><b>" + feature.properties.odur + "<b></td></tr>" +
-                            "<tr><td>Taste</td><td><b>" + feature.properties.Test + "<b></td></tr>" +
-                            "<tr><td>Ph</td><td><b>" + feature.properties.Ph + "<b></td></tr>" +
-                            "<tr><td>Alkalinity</td><td><b>" + feature.properties.Alkalinity + "<b></td></tr>" +
-                            "<tr><td>Chloride</td><td><b>" + feature.properties.Chloride + "<b></td></tr>" +
-                            "<tr><td>Fluoride</td><td><b>" + feature.properties.Fluoride + "<b></td></tr>" +
-                            "<tr><td>Nitrate</td><td><b>" + feature.properties.Nitrate + "<b></td></tr>" +
-                            "<tr><td>Sulphate</td><td><b>" + feature.properties.Sulphate + "<b></td></tr>" +
-                            "<tr><td>Iron</td><td><b>" + feature.properties.Iron + "<b></td></tr>" +
-                            "<tr><td>Ca</td><td><b>" + feature.properties.Ca + "<b></td></tr>" +
-                            "<tr><td>Remark for drinking</td><td><b>" + feature.properties.Remark + "<b></td></tr>" +
-                            "<tr><td>Turbidity</td><td><b>" + feature.properties.Turbidityr + "<b></td></tr>";
-
-                    }
-
-
-                    if (showpopup) {
-                        popup.setContent(insti_content);
-                        popup.setLatLng(e.latlng);
-                        mymap.openPopup(popup);
-                    }
-
-
-                }
+    function loadCSV(url, callback) {
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            if (!data) {
+                console.error("Empty CSV data");
+                return;
             }
+
+            const lines = data.split('\n');
+            const result = [];
+            const headers = lines[0].split(',');
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentline = lines[i].split(',');
+
+                // Skip empty lines
+                if (currentline.length === 1 && currentline[0].trim() === '') {
+                    continue;
+                }
+
+                const obj = {};
+
+                for (let j = 0; j < headers.length; j++) {
+                    obj[headers[j].trim()] = currentline[j] ? currentline[j].trim() : ''; // Check if the value is defined
+                }
+                result.push(obj);
+            }
+            callback(result);
+        })
+        .catch(error => {
+            console.error("Error loading CSV:", error);
+        });
+}
+
+
+    let keyMapping = {};
+    function initializeKeyMapping() {
+        const antodaya_dd_csvUrl = "{% static 'data/healthdash/antodaya_demography_dd.csv' %}"; // Replace with the correct path to your CSV file
+       
+        loadCSV(antodaya_dd_csvUrl, function(data) {
+            data.forEach(item => {
+                keyMapping[item.key] = item.label;
+               
+            });
+            // Initialize the map and add the identify event listener after the key mapping is ready
+            initializeMap();
         });
     }
+    function initializeMap() {
+            // Create a map centered at specified coordinates
+                        // Add event listener for map clicks to trigger Identify function
+            mymap.addEventListener('click', Identify);
+        }
     function Identify(e) {
 
         //console.log("Identify");
@@ -4363,153 +4249,40 @@
                     });
                     var showpopup = false
                     var properties = feature.properties;
-
                     var popupContent = "<div class='popup-content'><table class='popupclass'>";
-                        for (var key in properties) {
-                            showpopup = true;
-                            popupContent += "<tr><td><b>" + key + ":</b></td><td>" + properties[key] + "</td></tr>";
-                        }
-                        popupContent += "</table></div>";
-                    // if (feature.properties.category === "at") {
-                    //     //console.log("I reached at");
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    // } else if (feature.properties.category === "m") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-                    // } else if (feature.properties.category === "mm") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Mini MADA District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    // } else if (feature.properties.category === "t") {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Tribal Sub Plan District</b></td><td>" + feature.properties.district + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-                    //         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-
-                    // } else if (feature.properties.f_ill) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Demographics Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.tru + "</td></tr>" +
-                    //         "<tr><td>Total Population</td><td>" + feature.properties.tot_p + "</td></tr>" +
-                    //         "<tr><td>Total Female Population</td><td>" + feature.properties.tot_f + "</td></tr>" +
-                    //         "<tr><td>Total Male Population</td><td>" + feature.properties.tot_m + "</td></tr>" +
-                    //         "<tr><td>Illiterate Population</td><td>" + feature.properties.p_ill + "</tr>" +
-                    //         "<tr><td>Literate: Population</td><td>" + feature.properties.p_lit + "</tr></table>";
-
-                    // } else if (feature.properties.ass_car) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Household Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Area Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-                    //         "<tr><td><b>Area Type</b></td><td>" + feature.properties.area_type + "</td></tr>" +
-                    //         "<tr><td>% of Untreated Tap water as Drinking water</td><td><b>" + feature.properties.msdw_taput + "<b></td></tr>" +
-                    //         "<tr><td>% of Thratched Roof type</td><td><b>" + feature.properties.mroof_gra + "<b></td></tr>" +
-                    //         "<tr><td>% of Pit Latrine with Slab/Ventilated improved pit</td><td><b>" + feature.properties.plat_vent + "<b></td></tr>" +
-                    //         "<tr><td>% sof Bathroom without Roof</td><td><b>" + feature.properties.nobathroom + "<b></td></tr></table>";
-
-                    // } else if (feature.properties.town_name) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Town Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>" +
-                    //         "<tr><td>Total Population of Town</td><td><b>" + feature.properties.tot_pop + "<b></td></tr>" +
-                    //         "<tr><td>Total Scheduled Castes Population of Town</td><td><b>" + feature.properties.tot_sc_pop + "<b></td></tr>" +
-                    //         "<tr><td>Total Scheduled Tribes Population of Town</td><td><b>" + feature.properties.tot_st_pop + "<b></td></tr>" +
-                    //         "<tr><td>Density (Census 2011)</td><td><b>" + feature.properties.density_20 + "<b></td></tr></table>";
-
-                    // } else if (feature.properties.village_na) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Village Census 2011</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-                    //         "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-                    //         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.taluka_nam + "</td></tr>" +
-                    //         "<tr><td>Total Population</td><td><b>" + feature.properties.tot_popu + "<b></td></tr>" +
-                    //         "<tr><td>Total Household</td><td><b>" + feature.properties.tot_hh + "<b></td></tr>" +
-                    //         "<tr><td>Number of Govt Pre-Primary School</td><td><b>" + feature.properties.govt_pre_1 + "<b></td></tr>" +
-                    //         "<tr><td>Number of Govt Primary School</td><td><b>" + feature.properties.govt_pri_1 + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.area_irr) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Antyodaya Data </b></td><td>" + feature.properties.dist_name + "</td></tr>" +
-                    //         "<tr><td><b>Census_201</b></td><td>" + feature.properties.census_201 + "</td></tr>" +
-                    //         "<tr><td><b>Total_population</b></td><td>" + feature.properties.total_pop + "</td></tr>" +
-                    //         "<tr><td>Average Rain</td><td><b>" + feature.properties.ava_rain + "<b></td></tr>" +
-                    //         "<tr><td>Village Name</td><td><b>" + feature.properties.vill_name + "<b></td></tr>" +
-                    //         "<tr><td>male population</td><td><b>" + feature.properties.m_pop + "<b></td></tr>" +
-                    //         "<tr><td>Female Population</td><td><b>" + feature.properties.f_pop + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.SEGMENT_ID) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Drainage Data </b></td><td>" + feature.properties.SEGMENT_ID + "</td></tr>" +
-                    //         "<tr><td><b>Node A</b></td><td>" + feature.properties.NODE_A + "</td></tr>" +
-                    //         "<tr><td><b>Node b</b></td><td>" + feature.properties.NODE_B + "</td></tr>" +
-                    //         "<tr><td>Basin</td><td><b>" + feature.properties.BASIN + "<b></td></tr>" +
-                    //         "<tr><td>Order</td><td><b>" + feature.properties.ORDER + "<b></td></tr>" +
-                    //         "<tr><td>Order cell</td><td><b>" + feature.properties.ORDER_CELL + "<b></td></tr>" +
-                    //         "<tr><td>Length</td><td><b>" + feature.properties.LENGTH + "<b></td></tr></table>" +
-                    //         "<tr><td>Layer</td><td><b>" + feature.properties.layer + "<b></td></tr></table>";
-
-                    // }
-                    // else if (feature.properties.ELEV) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Contours Data </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>FID</b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>ID</b></td><td>" + feature.properties.ID + "</td></tr>" +
-                    //         "<tr><td>Elevation</td><td><b>" + feature.properties.ELEV + "<b></td></tr>";
-
-                    // }
-                    // else if (feature.properties.TypeofSour) {
-                    //     showpopup = true
-                    //     insti_content = "<table class = 'popupclass' ><tr><td><b>Nashik Wells </b></td><td>" + feature.properties.fid + "</td></tr>" +
-                    //         "<tr><td><b>taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-                    //         "<tr><td><b>village</b></td><td>" + feature.properties.village + "</td></tr>" +
-                    //         "<tr><td>TypeofSource</td><td><b>" + feature.properties.TypeofSour + "<b></td></tr>" +
-                    //         "<tr><td>color</td><td><b>" + feature.properties.color + "<b></td></tr>" +
-                    //         "<tr><td>odur</td><td><b>" + feature.properties.odur + "<b></td></tr>" +
-                    //         "<tr><td>Taste</td><td><b>" + feature.properties.Test + "<b></td></tr>" +
-                    //         "<tr><td>Ph</td><td><b>" + feature.properties.Ph + "<b></td></tr>" +
-                    //         "<tr><td>Alkalinity</td><td><b>" + feature.properties.Alkalinity + "<b></td></tr>" +
-                    //         "<tr><td>Chloride</td><td><b>" + feature.properties.Chloride + "<b></td></tr>" +
-                    //         "<tr><td>Fluoride</td><td><b>" + feature.properties.Fluoride + "<b></td></tr>" +
-                    //         "<tr><td>Nitrate</td><td><b>" + feature.properties.Nitrate + "<b></td></tr>" +
-                    //         "<tr><td>Sulphate</td><td><b>" + feature.properties.Sulphate + "<b></td></tr>" +
-                    //         "<tr><td>Iron</td><td><b>" + feature.properties.Iron + "<b></td></tr>" +
-                    //         "<tr><td>Ca</td><td><b>" + feature.properties.Ca + "<b></td></tr>" +
-                    //         "<tr><td>Remark for drinking</td><td><b>" + feature.properties.Remark + "<b></td></tr>" +
-                    //         "<tr><td>Turbidity</td><td><b>" + feature.properties.Turbidityr + "<b></td></tr>";
-
-                    // }
 
 
-                    if (showpopup) {
-                        
+                         // List of keys to exclude
+                var keysToExclude = ['fid', 'field_198', 'field_197'];
+
+                for (var key in properties) {
+                    if (keysToExclude.indexOf(key) === -1) {
+                        showpopup = true;
+                        var displayKey = keyMapping[key] || key; // Use descriptive name or fallback to the key
+                        // Format the display key by replacing underscores with spaces and capitalizing the words
+                        displayKey = displayKey.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+                        popupContent += "<tr><td><b>" + displayKey + ":</b></td><td>" + properties[key] + "</td></tr>";
+                    }
+                }
+
+                popupContent += "</table></div>";
+               
+                if (showpopup) {
+                       
                         popup.setContent(popupContent);
                         popup.setLatLng(e.latlng);
                         mymap.openPopup(popup);
                     }
-
-
                 }
+            },
+            error:function(xhr, status, error){
+                console.log("Error :",error)
             }
         });
+       
     }
-
-    mymap.addEventListener('click', Identify);
+    initializeKeyMapping();
+   // mymap.addEventListener('click', Identify);
 
 
     function putArogya(facility) {
@@ -4665,7 +4438,7 @@
         // const url2 = 'https://geonode3.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
         const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
         const url2 = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
-        // const url3 = 'https://geoserver2.communitygis.net/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson'; 
+        // const url3 = 'https://geoserver2.communitygis.net/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
         // const url4 = 'http://geoserver2.communitygis.net:8080/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
         const url3 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3ANashik_district_well&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'
 
@@ -4727,7 +4500,7 @@
                 layer.bindPopup(`<div class = 'text-left'>Well Data<br>
                                 District: ${feature.properties.District}<br>
                                 Well_Type :${feature.properties.Well_Type}<br>
-                                
+                               
                                 </div>`)
             }
 
@@ -4798,8 +4571,8 @@
             style: ""
         });
         console.log(districtLayer)
-        // clear_layer(); 
-        // clear_distlayer();   
+        // clear_layer();
+        // clear_distlayer();  
         // clear_tallayer();
 
 
@@ -4818,6 +4591,7 @@
         console.log(distLayerList);
 
     }
+
 
     var observationWellMarkers = [];
 
@@ -4877,6 +4651,7 @@
                                 </div>`);
             }
             else if (facility == 'bhandara_obs_wells') {
+                
                 layer.bindPopup(`<div class = 'text-left'><b>Well Data</b><br>
                                             District: ${feature.properties.DTENAME}<br>
                                             DTE CODE : ${feature.properties.DTECODE}<br>
@@ -4884,8 +4659,11 @@
                                             NAME: ${feature.properties.THENAME}<br>
                                             GPE NAME: ${feature.properties.GPENAME}<br>
                                             VILLAGE NAME: ${feature.properties.VLENAME}<br>
+                                               
                                             HABI_NAME: ${feature.properties.HABI_NAME}<br>
+                                               
                                             OW_LOCATIO: ${feature.properties.OW_LOCATIO}<br>
+                                               
                                             PARAPET_HT: ${feature.properties.PARAPET_HT}<br>
                                             WELL_DEPTH: ${feature.properties.WELL_DEPTH}<br>
                                             WELL_LININ: ${feature.properties.WELL_LININ}<br>
@@ -4919,6 +4697,11 @@
                         },
                         onEachFeature: onEachFeatureForPoint,
                     }).addTo(mymap);
+                    healthFacility.eachLayer(function (layer) {
+                        observationWellMarkers.push(layer);
+                    });
+                    var hel = healthFacility1
+                    //legend.addTo(mymap);
 
                     activatedHealthFacility[facility] = healthFacility;
                 });
@@ -5047,138 +4830,7 @@
     
     
 
-    // function Identify(e) {
-
-    //     // set parameters needed for GetFeatureInfo WMS request
-    //     var sw = mymap.options.crs.project(mymap.getBounds().getSouthWest());
-    //     var ne = mymap.options.crs.project(mymap.getBounds().getNorthEast());
-    //     var BBOX = sw.x + "," + sw.y + "," + ne.x + "," + ne.y;
-    //     var WIDTH = mymap.getSize().x;
-    //     var HEIGHT = mymap.getSize().y;
-
-    //     var X = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).x);
-    //     var Y = Math.trunc(mymap.layerPointToContainerPoint(e.layerPoint).y);
-
-    //     // compose the URL for the request
-
-    //     var URL = TRIBLAYER + '&BBOX=' + BBOX + '&FEATURE_COUNT=1&HEIGHT=' + HEIGHT + '&WIDTH=' + WIDTH + '&INFO_FORMAT=application%2Fjson&TILED=false&CRS=EPSG%3A3857&I=' + X + '&J=' + Y;
-    //     //console.log(e);
-    //     console.log("URL",URL);
-    //     $.ajax({
-    //         url: URL,
-    //         dataType: "json",
-    //         type: "GET",
-    //         success: function(data) {
-    //             if (data.features.length !== 0) { // at least one feature returned in response
-    //                 var feature = data.features[0]; // first feature from response
-    //                 //console.log(feature);
-    //                 // Set up popup for clicked feature and open it
-    //                 var popup = new L.Popup({
-    //                     maxWidth: 300
-    //                 });
-    //                 //console.log(feature.properties.facltytyp);
-    //                 if (feature.properties.type === "aided ashramschool") {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>" +
-
-
-    //                         "</table>";
-    //                 } else if (feature.properties.area_name) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Additional TSP District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Village Name</b></td><td>" + feature.properties.area_name + "</td></tr>" +
-    //                         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_p + "</td></tr>" +
-    //                         "<tr><td><b>Total Tribal Population</b></td><td>" + feature.properties.st_pop + "</td></tr>" +
-    //                         "<tr><td><b>Percentage Total Tribal Population</b></td><td>" + feature.properties.percent_of + "%" + "</td></tr></table>";
-    //                 } else if (feature.properties.name_of_sc) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.district + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.name_of_sc + "</td></tr>";
-
-    //                 } else if (feature.properties.village__1) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>District</b></td><td>" + feature.properties.distname + "</td></tr>" +
-    //                         "<tr><td><b>Block</b></td><td>" + feature.properties.block_name + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-    //                         "<tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>";
-
-    //                 }
-    //                 else if (feature.properties.town_name) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Urban Areas</b></td><td>" + 
-    //                         "<tr><td><b>State</b></td><td>" + feature.properties.state_name + "</td></tr>" +
-    //                         "<tr><td><b>District</b></td><td>" + feature.properties.district_n + "</td></tr>" +
-    //                         "<tr><td><b>Town Name</b></td><td>" + feature.properties.town_name + "</td></tr>"+
-    //                         "<tr><td><b>Total Houses</b></td><td>" + feature.properties.tot_hh + "</td></tr>" +
-    //                         "<tr><td><b>Total Population</b></td><td>" + feature.properties.tot_pop + "</td></tr>" +
-    //                         "<tr><td><b>Total Male Population</b></td><td>" + feature.properties.tot_mpop + "</td></tr>" +
-    //                         "<tr><td><b>Total Female Population</b></td><td>" + feature.properties.tot_f_pop + "</td></tr>" +
-    //                         "<tr><td><b>Total SC Population</b></td><td>" + feature.properties.tot_sc_pop + "</td></tr>" +
-    //                         "<tr><td><b>Pucca Road</b></td><td>" + feature.properties.pucca_road + "</td></tr>" +
-    //                         "<tr><td><b>Kutcha Road</b></td><td>" + feature.properties.kutcha_roa + "</td></tr>" ;                                                      
-
-
-    //                 }
-    //                 else if (feature.properties.institutec) {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Institute Name</b></td><td>" + feature.properties.instituten + "</td></tr>" +
-    //                         "<tr><td><b>Institute Address</b></td><td>" + feature.properties.institutea + "</td></tr>" +
-    //                         "<tr><td><b>District Name</b></td><td>" + feature.properties.districtna + "</td></tr>" +
-    //                         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.talukaname + "</td></tr></table>";
-    //                 }
-    //                 else if (feature.properties.Turbidity){
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Location Source</b></td><td>" + feature.properties.SourceLoca + "</td></tr>" +
-    //                         "<tr><td><b>Taluka</b></td><td>" + feature.properties.taluka + "</td></tr>" +
-    //                         "<tr><td><b>Gram Panchayat</b></td><td>" + feature.properties.GP + "</td></tr>" +
-    //                         "<tr><td><b>Village</b></td><td>" + feature.properties.village + "</td></tr>"+
-    //                         "<tr><td><b>Alkalinity</b></td><td>" + feature.properties.Alkalinity + "</td></tr>"+
-    //                         "<tr><td><b>Ph</b></td><td>" + feature.
-    //                         properties.Ph + "</td></tr>"+
-    //                         "<tr><td><b>Chloride</b></td><td>" + feature.properties.Chloride + "</td></tr>"+
-    //                         "<tr><td><b>Fluoride</b></td><td>" + feature.properties.Fluoride + "</td></tr>"+
-    //                         "<tr><td><b>Nitrate</b></td><td>" + feature.properties.Nitrate + "</td></tr>"+
-    //                         "<tr><td><b>Sulphate</b></td><td>" + feature.properties.Sulphate + "</td></tr>"+
-    //                         "<tr><td><b>Turbidity</b></td><td>" + feature.properties.Turbidity + "</td></tr></table>";
-    //                 }
-    //                 else if(feature.properties.school_cod){
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>School Name</b></td><td>" + feature.properties.school_nam + "</td></tr>" +
-
-    //                         "<tr><td><b>District Name</b></td><td>" + feature.properties.distname + "</td></tr>" +
-    //                         "<tr><td><b>Taluka Name</b></td><td>" + feature.properties.block_name + "</td></tr>"+
-    //                         "<tr><td><b>Village Name</b></td><td>" + feature.properties.village_na + "</td></tr>" +
-    //                         "</table>";
-    //                 }
-    //                  else {
-    //                     insti_content = "<table class = 'popupclass' ><tr><td><b>Facility Name</b></td><td>" + feature.properties.facltyname + "</td></tr>" +
-    //                         "<tr><td><b>Facility Type</b></td><td>" + feature.properties.facltytyp + "</td></tr>" +
-    //                         "<tr><td><b>Amenities</b></td><td>" + feature.properties.amenities + "</td></tr>" +
-    //                         "<tr><td><b>Address</b></td><td>" + feature.properties.address_te1 + "</td></tr>" +
-    //                         "<tr><td><b>District</b></td><td>" + feature.properties.district_g + "</td></tr>" +
-    //                         "<tr><td><b>State</b></td><td>" + feature.properties.state_gen + "</td></tr>" +
-    //                         "<tr><td><b>Pin Code</b></td><td>" + feature.properties.pincode_ge + "</td></tr>" +
-    //                         "<tr><td><b>Total Bed Count</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Pin Code Accuracy (within area)</b></td><td>" + "Yes" + "</td></tr>" +
-    //                         "<tr><td><b>Management</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Food Arrangement</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Email ID</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Website</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Phone number</b></td><td>" + "Unavailable" + "</td></tr>" +
-    //                         "<tr><td><b>Last updated</b></td><td>" + "2nd June,2020" + "</td></tr>" +
-    //                         `<tr><button type="button" class="btn btn-outline-dark" style="color:white;"><a style="color:white;text-decoration:none" href="https://ee.humanitarianresponse.info/x/#BLiUveaW">Click here for Correction/Feedbacks</a></button></tr>` +
-    //                         "</table>";
-    //                 }
-
-
-    //                 popup.setContent(insti_content);
-    //                 popup.setLatLng(e.latlng);
-    //                 mymap.openPopup(popup);
-    //             }
-    //         }
-    //     });
-    // }
-
-    // mymap.addEventListener('click', Identify);
-
-
+    
     $('.select').click(function () {
         $(this).toggleClass('highlight')
     })
@@ -5210,25 +4862,77 @@
     };
     //Water Gis function
 
-    // function getBoundary(obj) {
-    //     let boundary = obj.value;
-    //     if ($(obj).is(":checked")) {
-    //         if (boundary == "{mini_ws}"){
-    //             // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-    //             putWMS("mini_watershed_15distt_15nov22");            //postgis
-    //         }
+   
 
-    //         else if (boundary == "{ws}"){
-    //             // putWMS("rtp:pune_toilets");
-    //             putWMS("rtp:pune_toilets");
-    //         }
-    //     }
-    // }
+    function getLatLong(districtName) {
+            if (listDistrict[districtName]) {
+                return [listDistrict[districtName][1], listDistrict[districtName][2]];
+            } else {
+                console.log("District not found: " + districtName);
+                return null;
+            }
+        }
 
-    function putWMS1(layer) {
-        console.log("layer" + layer);
+    var riverLayers= {};
+    function showRiver(rivername){
+
+        console.log("river ",rivername);
         var wms_layer1;
         var selectedLayerBounds;
+        var riverLayer = 'maha_rivers_withDistrict17june24'
+        wms_river = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: 'geonode:maha_rivers_withDistrict17june24',
+                format: 'image/png',
+
+                transparent: 'true',
+                zoom: '14',
+                CQL_FILTER: "name='" + rivername + "'",
+
+            });
+            wms_river.addTo(mymap);  
+            // mymap.fitBounds(villageLayer.getBounds());
+     
+            newLayerList.push(wms_river);
+            console.log("wms_river is "+wms_river)
+            riverLayers[rivername] = wms_river;
+
+            // if (wms_legend1) {
+            //      mymap.removeControl(wms_legend1);
+            //  }
+            
+            //  addWMSLegengForRiver(riverLayer, "name='" + rivername + "'");
+            
+            // TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_river.options.layers + "&QUERY_LAYERS=" + wms_river.options.layers;
+            // tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_river.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
+       
+            const wfsUrl = `https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.1.0&request=GetFeature&typeName=geonode:maha_rivers_withDistrict17june24&outputFormat=application/json&CQL_FILTER=name='${rivername}'`;
+
+    $.ajax({
+        url: wfsUrl,
+        success: function (data) {
+            if (data.features && data.features.length > 0) {
+                const bounds = L.geoJSON(data).getBounds();
+                mymap.fitBounds(bounds);
+            } else {
+                console.error('No features found for the river:', rivername);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error('Error fetching WFS data:', error);
+        }
+    });
+    }
+        
+    function putWMS1(layer) {
+
+        console.log("layer " + layer);
+        var wms_layer1;
+        var selectedLayerBounds;
+        const url = new URL(window.location.href);
+        // Extract the 'district_name' parameter
+        const districtName = url.searchParams.get('district');
+        console.log("district name is "+districtName)
+       
         if (layer == "maharashtra_rivers_from_osm") {
             wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                 layers: layer,
@@ -5238,6 +4942,7 @@
 
                 cql_filter: "name='Chulband'",
             });
+        
 
         }
         else if (layer == "maharashtra_rivers_from_osm2") {
@@ -5247,8 +4952,20 @@
 
                 transparent: 'true',
                 zoom: '14',
+                cql_filter: "district='${district}'",
 
             });
+        }
+        else if (layer == "maha_rivers_withDistrict17june24") {
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: 'true',
+                zoom: '14',
+
+                cql_filter: "name='Gora'",
+            });
+
         }
         else {
 
@@ -5257,126 +4974,37 @@
                 format: 'image/png',
                 transparent: 'true',
                 zoom: '16',
-                // propertyName: 'field_13,latitude,longitude', 
+                // propertyName: 'field_13,latitude,longitude',
             });
 
         }
 
-
-
         wms_layer1.addTo(mymap);
-        
+       
         newLayerList.push(wms_layer1);
 
-        console.log(wms_layer1);
+        console.log("wms layer 1 is ",wms_layer1);
         if (layer == 'Pawana_Basin_Layer0')
             mymap.flyTo([18.637, 73.605], 11);
-        // else if (layer == 'Indrayani_Basin')
-        //     mymap.flyTo([18.688, 73.598], 11);
-        // else if (layer == 'wainganga_riverline_7april23')
-        //     mymap.flyTo([21.077, 79.599], 11);
-        // else if (layer == 'poisar_River_Nov22')
-        //     mymap.flyTo([19.210712, 72.835955], 14);
-        // else if (layer == 'Dahisar_River_Nov22')
-        //     mymap.flyTo([19.255310, 72.854402], 14);
-        // else if (layer == 'Ahamadnagar_drainage_files')
-        //     mymap.flyTo([19.423, 74.548], 10);
-        // else if (layer == 'Oshiwara_River_Nov22')
-        //     mymap.flyTo([19.161106, 72.858474], 13);
-        // else if (layer == 'River_line_layers')
-        //     mymap.flyTo([18.663, 73.59], 12);
-        // else if (layer == 'Indrayani_river_line_layer')
-        //     mymap.flyTo([18.741, 73.587], 11);
-        // else if (layer == 'Mithi_River_Nov22')
-        //     mymap.flyTo([19.09546, 72.87995], 14);
-        // else if (layer == 'ulhas_villages')
-        //     mymap.flyTo([19.244, 73.12], 11);
-        // else if (layer == 'maharashtra_rivers_from_osm')
-        //     mymap.flyTo([19.6322, 76.032], 7);
-        // else if (layer == 'mini_15_district0')
-        //     mymap.flyTo([19.6322, 76.032], 7);
-        // else if (layer == 'pawana_villages_poly_layers')
-        //     mymap.flyTo([18.633, 73.604], 12);
-        // else if (layer == 'Indrayani_poly_village')
-        //     mymap.flyTo([18.688, 73.598], 11);
-        // else if (layer == 'Agrani_villages')
-        //     mymap.flyTo([17.054, 74.765], 11);
-        // else if (layer == 'Ashele_GW') {
-        //     mymap.flyTo([19.2107, 73.1523], 15);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_tumsar_mothagaon_gsda_priority') {
-        //     mymap.flyTo([21.509, 79.6621], 14);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_tumsar_bhondki_gsda_priority') {
-        //     mymap.flyTo([21.4666, 79.7138], 14);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_tumsar_mothagaon_gsda_lineament') {
-        //     mymap.flyTo([21.51, 79.662], 14);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_tumsar_binakhi_gsda_lineament') {
-        //     mymap.flyTo([21.489, 79.8818], 14);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Ashele_priority') {
-        //     mymap.flyTo([19.2107, 73.1523], 15);
-        //     addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Ashele_line') {
-        //     mymap.flyTo([19.2107, 73.1523], 15);
-        //     addWMSLegend1(layer);
-        // }
         else if (layer == 'Nashik_water_quality_turbidity') {
             mymap.flyTo([19.2107, 73.1523], 8);
             // addWMSLegend1(layer);
         }
-        // else if (layer == 'Nashik_water_quality_alkanility0') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_ph') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Nitrates') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Flourides') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Chloride') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Sulphate') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Odour') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Nashik_water_quality_Taste') {
-        //     mymap.flyTo([19.2107, 73.1523], 8);
-        //     // addWMSLegend1(layer);
-        // }
-        // else if (layer == 'Bhandara_Shapefile_village') {
-        //     mymap.flyTo([21.1085634965, 79.786], 8);
-        //     // addWMSLegend1(layer);
-        // }
+       
         {% for layer in alllayers %}
-        
-        else if (layer == '{{layer.name}}') {
-            mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
-    }
+       
+            else if (layer == '{{layer.name}}') {
+                if(layer.latlong)
+                    mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
+                else{
+                    let latlong = getLatLong(districtName);
+                    mymap.flyTo(latlong, 10);
+                    console.log("lat long of "+districtName +" is "+latlong)
+                }
+            }
 
-    {% endfor %}
-
+        {% endfor %}
+   
 
 
     if (wms_legend) {
@@ -5389,14 +5017,10 @@
     addWMSLegend(layer);
     // alert(layer)
     addWMSLegend1(layer);
-    // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+    
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
     tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
-        // console.log(TRIBLAYER);
-
-        // Function to fetch data from WFS
-
-
+       
     }
 
 
@@ -5423,7 +5047,7 @@
                 format: 'image/png',
                 transparent: 'true',
                 zoom: '14',
-                // propertyName: 'field_13,latitude,longitude', 
+                // propertyName: 'field_13,latitude,longitude',
             });
 
         }
@@ -5436,9 +5060,9 @@
         console.log(wms_layer1);
         if (layer == 'Pawana_Basin_Layer0')
             mymap.flyTo([18.637, 73.605], 11);
-        
+       
         {% for layer in alllayers %}
-        
+       
         else if (layer == '{{layer.name}}') {
             mymap.flyTo([{{ layer.latlong }}], {{ layer.zoomlevel}});
         }

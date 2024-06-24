@@ -261,3 +261,125 @@ class human_form_model(models.Model):
     def __str__(self):
         return self.district_name
     
+class MahaRiversFromOsmV116June23(models.Model):
+    geom = models.GeometryField(srid=4326)
+    fid = models.IntegerField(blank=True, null=True)
+    full_id = models.CharField(max_length=254, blank=True, null=True)
+    osm_id = models.CharField(max_length=254, blank=True, null=True)
+    osm_type = models.CharField(max_length=254, blank=True, null=True)
+    waterway = models.CharField(max_length=254, blank=True, null=True)
+    name_mr = models.CharField(max_length=254, blank=True, null=True)
+    name = models.CharField(max_length=254, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'maha_rivers_from_osm_v1_16june23'
+
+class MahaDemoV2126April24(models.Model):
+    id = models.DecimalField(primary_key=True, max_digits=65535, decimal_places=65535)
+    geom = models.GeometryField(srid=4326)  # Example for MultiPolygon
+
+    fid_1 = models.CharField(max_length=254, blank=True, null=True)
+    fid = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    dist_name = models.CharField(max_length=254, blank=True, null=True)
+    area_name = models.CharField(max_length=254, blank=True, null=True)
+    dist_lgd = models.CharField(max_length=254, blank=True, null=True)
+    cen_2011 = models.CharField(max_length=254, blank=True, null=True)
+    dist_2001 = models.CharField(max_length=254, blank=True, null=True)
+    taluka_201 = models.CharField(max_length=254, blank=True, null=True)
+    ward = models.CharField(max_length=254, blank=True, null=True)
+    tru = models.CharField(max_length=254, blank=True, null=True)
+    no_hh = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    p_06 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    m_06 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    f_06 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    p_sc = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    m_sc = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    f_sc = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    p_st = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    m_st = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    f_st = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    p_lit = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    m_lit = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    f_lit = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    p_ill = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    m_ill = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    f_ill = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_work_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_work_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    tot_work_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    mainwork_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    mainwork_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    mainwork_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_cl_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_cl_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_cl_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_al_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_al_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_al_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_hh_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_hh_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_hh_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_ot_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_ot_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    main_ot_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_cl_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_cl_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_cl_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_al_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_al_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_al_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_hh_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_hh_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_hh_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_ot_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_ot_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_ot_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_3 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_1 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_2 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_cl_3_field = models.DecimalField(db_column='marg_cl_3_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_cl_1 = models.DecimalField(db_column='marg_cl__1', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_cl_2 = models.DecimalField(db_column='marg_cl__2', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_al_3_field = models.DecimalField(db_column='marg_al_3_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_al_1 = models.DecimalField(db_column='marg_al__1', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_al_2 = models.DecimalField(db_column='marg_al__2', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_hh_3_field = models.DecimalField(db_column='marg_hh_3_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_hh_1 = models.DecimalField(db_column='marg_hh__1', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_hh_2 = models.DecimalField(db_column='marg_hh__2', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_ot_3_field = models.DecimalField(db_column='marg_ot_3_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_ot_1 = models.DecimalField(db_column='marg_ot__1', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_ot_2 = models.DecimalField(db_column='marg_ot__2', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    margwork_0 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_4 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    margwork_5 = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    marg_cl_0_field = models.DecimalField(db_column='marg_cl_0_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_cl_3 = models.DecimalField(db_column='marg_cl__3', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_cl_4 = models.DecimalField(db_column='marg_cl__4', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_al_0_field = models.DecimalField(db_column='marg_al_0_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_al_3 = models.DecimalField(db_column='marg_al__3', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_al_4 = models.DecimalField(db_column='marg_al__4', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_hh_0_field = models.DecimalField(db_column='marg_hh_0_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_hh_3 = models.DecimalField(db_column='marg_hh__3', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_hh_4 = models.DecimalField(db_column='marg_hh__4', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    marg_ot_0_field = models.DecimalField(db_column='marg_ot_0_', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it ended with '_'.
+    marg_ot_3 = models.DecimalField(db_column='marg_ot__3', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    non_work_p = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    non_work_m = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    non_work_f = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    taluka_nam = models.CharField(max_length=254, blank=True, null=True)
+    dist_2011 = models.CharField(max_length=254, blank=True, null=True)
+    marg_ot_5 = models.DecimalField(db_column='marg_ot__5', max_digits=65535, decimal_places=65535, blank=True, null=True)  # Field renamed because it contained more than one '_' in a row.
+    layer = models.CharField(max_length=254, blank=True, null=True)
+    path = models.CharField(max_length=254, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'maha_demo_v21_26april24'
+    
