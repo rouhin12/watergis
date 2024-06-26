@@ -174,7 +174,7 @@ function clearMap() {
 }
 
 function putWMSspatial(layer, filter) {
-    clearMap();
+    //clearMap();
     console.log("layer: " + layer);
     var wms_layer1;
     const url = new URL(window.location.href);
@@ -206,6 +206,7 @@ function executeCombinedQuery() {
         var filter = '';
         if (farmThreshold && cen2011Values.length > 0) {
             var cen2011Filter = cen2011Values.join(',');
+            console.log("in fetch census 2011 districtlayer name" + districtLayerName)
             filter += `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
         }
 
@@ -217,6 +218,7 @@ function executeCombinedQuery() {
 
             putWMSspatial(districtLayerName, filter);
         }
+        putWMSspatial(districtLayerName, filter);
     });
 }
 
