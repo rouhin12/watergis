@@ -1301,33 +1301,7 @@
             });
         }
     })
-
-    function clearWells() {
-        // Remove well markers
-        wellMarkers.forEach(marker => mymap.removeLayer(marker));
-        wellMarkers = [];
-   
-        // Remove observation well markers
-        observationWellMarkers.forEach(marker => mymap.removeLayer(marker));
-        observationWellMarkers = [];
-    }
-
-    function toggleWells(checkbox) {
-        if (checkbox.checked) {
-            document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
-            document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
-            defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
-            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
-        } else {
-            document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
-            document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
-            clearWells(); // Call the clearWells function to remove both types of wells
-        }
-    }
-
-    var wellMarkers = [];
-
-
+    
     function clearWells() {
         // Remove well markers
         wellMarkers.forEach(marker => mymap.removeLayer(marker));
@@ -1395,131 +1369,6 @@
         });
     }
 
-    {% comment %} function fetchVillagesWithinBuffer() {
-        const selectedDistrict = document.getElementById("district").value;
-    
-        if (!selectedDistrict) {
-            alert("Please select above state and district");
-            return;
-        }
-    
-        const riverLayer = 'maharashtra_rivers_from_osm'; // Your river layer name
-        const villageLayer = 'geonode:maha_village_polygon_29mar'; // Your village layer name
-    
-        const riversUrl = `https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=${riverLayer}&outputFormat=application/json&srsName=EPSG:4326`;
-        const villagesUrl = `https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=${villageLayer}&outputFormat=application/json&srsName=EPSG:4326&cql_filter=district_n='${selectedDistrict}'`;
-    
-        // Fetch river data
-        fetch(riversUrl)
-            .then(response => response.json())
-            .then(riverData => {
-                // Fetch village data
-                fetch(villagesUrl)
-                    .then(response => response.json())
-                    .then(villageData => {
-                        // Perform the buffer and intersection check
-                        const bufferedRivers = createBufferAroundRivers(riverData);
-                        const villagesWithinBuffer = findVillagesWithinBuffer(bufferedRivers, villageData);
-                        // Add the villages within the buffer to the map
-                        addGeoJsonToMap(villagesWithinBuffer);
-                    })
-                    .catch(error => console.error('Error fetching village data:', error));
-            })
-            .catch(error => console.error('Error fetching river data:', error));
-    }
-    
-    // Function to create a buffer around each river
-    function createBufferAroundRivers(riverData) {
-        const bufferedRivers = {
-            type: 'FeatureCollection',
-            features: []
-        };
-    
-        riverData.features.forEach((river, riverIndex) => {
-            if (!isValidGeometry(river.geometry)) {
-                console.error(`Invalid river geometry at index ${riverIndex}:`, river.geometry);
-                return;
-            }
-    
-            try {
-                // Create a buffer of 5 km around the river
-                const buffer = turf.buffer(river, 5, { units: 'kilometers' });
-                bufferedRivers.features.push(buffer);
-            } catch (error) {
-                console.error(`Error creating buffer for river ${riverIndex}:`, error);
-            }
-        });
-    
-        return bufferedRivers;
-    }
-    function isValidGeometry(geometry) {
-        if (!geometry || !geometry.type || !geometry.coordinates) return false;
-        return validateCoordinates(geometry.coordinates);
-    }
-    
-    // Recursive function to validate coordinates
-    function validateCoordinates(coordinates) {
-        if (!Array.isArray(coordinates)) return false;
-        if (typeof coordinates[0] === 'number') {
-            return coordinates.length >= 2 && coordinates.every(coord => typeof coord === 'number');
-        }
-        return coordinates.every(coord => validateCoordinates(coord));
-    }
-
-    function addGeoJsonToMap(geoJsonData) {
-        L.geoJSON(geoJsonData).addTo(mymap);
-    } {% endcomment %}
-
-
-
-
-    
-    
-    {% comment %} function checkIfLayersTouch(villagesGeoJSON, riversGeoJSON) {
-        var villages = villagesGeoJSON.features;
-        var rivers = riversGeoJSON.features;
-    
-        var result = false;
-    
-        villages.forEach(function(villageFeature) {
-            rivers.forEach(function(riverFeature) {
-                // Check if village polygon touches river feature
-                if (turf.booleanTouch(villageFeature, riverFeature)) {
-                    result = true; // Set result to true if they touch
-                }
-            });
-        });
-    
-        return result;
-    }
-    
-    // Fetch villages GeoJSON data
-    fetch('https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=maha_village_polygon_29mar&outputFormat=application/json')
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(data) {
-            var villagesGeoJSON = data;
-    
-            // Fetch rivers GeoJSON data
-            fetch('https://geonode.communitygis.in/geoserver/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=maharashtra_rivers_from_osm&outputFormat=application/json')
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(data) {
-                    var riversGeoJSON = data;
-    
-                    // Check if layers touch each other
-                    var doLayersTouch = checkIfLayersTouch(villagesGeoJSON, riversGeoJSON);
-                    console.log('Do layers touch each other?', doLayersTouch);
-                })
-                .catch(function(error) {
-                    console.error('Error fetching rivers data:', error);
-                });
-        })
-        .catch(function(error) {
-            console.error('Error fetching villages data:', error);
-        }); {% endcomment %}
 
 
     var wellMarkers = [];
@@ -1653,19 +1502,11 @@
         else {
 
             wellMarkers.forEach(marker => {
-            wellMarkers.forEach(marker => {
                 mymap.removeLayer(marker);
             });
             wellMarkers = [];
         }
-
-
-
-
-    }
-
-
-
+}
     //code for dependent dropdown start    
     function filterCSV(csv, key, value) {
         var result = [];
@@ -2291,7 +2132,7 @@ function addnashikWMSLegend(obj) {
     function removeWFSfac(facility) {
         mymap.removeLayer(activatedHealthFacility[facility]);
         remove(facility);
-        legend.update();
+        //legend.update();
     };
 
     function remove(facility) {
@@ -2309,8 +2150,6 @@ function addnashikWMSLegend(obj) {
         wardLayerList.forEach(layer => mymap.removeLayer(layer));
     }
 
-    // ***********NEAREST QUERY
-    let wellFacility,
     // ***********NEAREST QUERY
     let wellFacility,
         $findNearest = $('#find-nearest'),
@@ -2387,7 +2226,6 @@ function addnashikWMSLegend(obj) {
             var latLng = marker.getLatLng();
             var distance = mymap.distance(currentPos, [latLng.lat, latLng.lng]);
    
-   
             if (distance < minDistance) {
                 minDistance = distance;
                 nearestMarker = marker;
@@ -2406,7 +2244,6 @@ function addnashikWMSLegend(obj) {
             // Convert distance to a readable format
             var readableDistance = (minDistance / 1000).toFixed(2) + ' km';
            
-           
             // Add a tooltip to the polyline with the distance
             polyline.bindTooltip(readableDistance, {
                 permanent: true,
@@ -2422,7 +2259,6 @@ function addnashikWMSLegend(obj) {
         findNearestWell();
     });
    
-   
     // SET BUFFER
     let slider = document.getElementById("myRange");
     let output = document.getElementById("demo");
@@ -2432,6 +2268,7 @@ function addnashikWMSLegend(obj) {
     output.innerHTML = this.value;
     $setbuffer.text(`Wells within ${this.value} Km`);
     }
+
     $setbuffer.on('click', function (e) {
     if (!currentPos) return;
     let range = parseInt(slider.value) * 1000; // Convert to meters
@@ -2475,14 +2312,14 @@ function addnashikWMSLegend(obj) {
     rangeInfo.addTo(mymap);
 });
 
-    //////// BUFFER
+     //////// BUFFER
     var circle = new L.circle();
     let healthFacilityInBB = null;
     let oldhfbb = [];
     let healthFacility1 = null;
     let healthFacility2 = null;
 
-    //$setbuffer.on('click', function (e) {
+    {% comment %}//$setbuffer.on('click', function (e) {
       //  console.log("Hi m a new buffer");
        // if (oldhfbb) {
          //   console.log("remove buffer");
@@ -2526,7 +2363,7 @@ function addnashikWMSLegend(obj) {
         //querybuf(currentPos);
 
 
-    //}); 
+    //});  {% endcomment %}
     var highlight = L.circleMarker()
     // let indstate = document.getElementById('indstate').value;
 
@@ -3661,11 +3498,6 @@ function addnashikWMSLegend(obj) {
         setView1('geonode:india_pincodes_12june', pincode);
 
         pinLayerList.push(wms_layer);
-
-
-
-
-
     }
 
     // let area = null;
@@ -3673,25 +3505,19 @@ function addnashikWMSLegend(obj) {
         let fac = obj.value;
         var district = document.getElementById('district').value;
         if ($(obj).is(":checked")) {
-            // Show throbber
-            document.getElementById('throbber').style.display = 'block';
-
-            // Hide throbber after 5 seconds
-            setTimeout(function() {
-                document.getElementById('throbber').style.display = 'none';
-            }, 5000);
-
-            // Execute the necessary functionality
             if (fac == "{nashik_wells}") {
                 mymap.setView([19.2107, 73.1523], 8);
                 putWFSFacility("nashik_wells", "Nashik");
             }
             else if (fac == "{bhandara_obs_wells}") {
-                // Simulate a delay to mimic processing (you can remove this setTimeout if unnecessary)
-                setTimeout(function() {
-                    // mymap.setView([21.096, 79.803], 8);
-                    putWFSFacility("bhandara_obs_wells", "Bhandara");
-                }, 1000);
+                putWFSFacility("bhandara_obs_wells", "Bhandara");
+            }
+            else if (fac == "{bhandara_obs_wells_stress}") {
+                //document.getElementById('throbber').style.display = 'block'; // Show throbber
+                putWFSFacilityStress("bhandara_obs_wells", "Bhandara");
+                //setTimeout(() => {
+                //   document.getElementById('throbber').style.display = 'none'; // Hide throbber after 2 seconds
+                //}, 2000); 
             }
         } else {
             mymap.removeLayer(circle);
@@ -3700,6 +3526,13 @@ function addnashikWMSLegend(obj) {
                 removeWFSfac("nashik_wells");
             else if (fac === "{bhandara_obs_wells}")
                 removeWFSfac("bhandara_obs_wells");
+            else if (fac === "{bhandara_obs_wells_stress}") {
+                removeWFSfac("bhandara_obs_wells");
+                console.log("Removing stress_legend from map");
+                if (mymap.hasLayer(stress_legend)) {
+                    mymap.removeControl(stress_legend);
+                }
+            }
         }
     }
 
@@ -4592,7 +4425,6 @@ function addnashikWMSLegend(obj) {
 
     }
 
-
     var observationWellMarkers = [];
 
     function putWFSFacility(facility, district) {
@@ -4672,10 +4504,9 @@ function addnashikWMSLegend(obj) {
                                             WATER_LEVEL: ${feature.properties.WATER_LEVE}<br>
                                             </div>`);
             }
-            updateStressLevelsOnMap();
-            stress_legend.addTo(mymap);
         }
-
+           
+            
         fetch(newurl).then(
             function (response) {
                 if (response.status !== 200) {
@@ -4699,6 +4530,7 @@ function addnashikWMSLegend(obj) {
                     }).addTo(mymap);
                     healthFacility.eachLayer(function (layer) {
                         observationWellMarkers.push(layer);
+      
                     });
                     var hel = healthFacility1
                     //legend.addTo(mymap);
@@ -4710,127 +4542,218 @@ function addnashikWMSLegend(obj) {
             });
     };
 
-    async function fetchPopulationData() {
-         const cacheKey = 'populationData';
-    let populationMap;
 
-    // Check if data is already cached
-    const cachedData = localStorage.getItem(cacheKey);
-    if (cachedData) {
-        populationMap = new Map(JSON.parse(cachedData));
-    } else {
-        const demographicsUrl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=cen_2011,tot_p';
-        
-        try {
-            const response = await fetch(demographicsUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch population data from ${demographicsUrl}`);
+    function putWFSFacilityStress(facility, district) {
+        putdist(district);
+
+        var geojsonMarkerOptions = {
+            radius: 6,
+            fillColor: "#013378",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        var geojsonMarkerOptions2 = {
+            radius: 6,
+            fillColor: "#0004ff",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        var geojsonMarkerOptions3 = {
+            radius: 5,
+            fillColor: "#a8325a",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        var geojsonMarkerOptions4 = {
+            radius: 5,
+            fillColor: "#143d5e",
+            color: "#000",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+        };
+
+        if (facility == 'bhandara_obs_wells') {
+            newurl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3AJS2OBW0&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326';
+        }
+
+        function onEachFeatureForPoint(feature, layer) {
+             if (facility == 'bhandara_obs_wells') {
+                
+                layer.bindPopup(`<div class = 'text-left'><b>Well Data</b><br>
+                                            District: ${feature.properties.DTENAME}<br>
+                                            DTE CODE : ${feature.properties.DTECODE}<br>
+                                            DTE NAME: ${feature.properties.DTENAME}<br>
+                                            NAME: ${feature.properties.THENAME}<br>
+                                            GPE NAME: ${feature.properties.GPENAME}<br>
+                                            VILLAGE NAME: ${feature.properties.VLENAME}<br>
+                                               
+                                            HABI_NAME: ${feature.properties.HABI_NAME}<br>
+                                               
+                                            OW_LOCATIO: ${feature.properties.OW_LOCATIO}<br>
+                                               
+                                            PARAPET_HT: ${feature.properties.PARAPET_HT}<br>
+                                            WELL_DEPTH: ${feature.properties.WELL_DEPTH}<br>
+                                            WELL_LININ: ${feature.properties.WELL_LININ}<br>
+                                            WELL_LININ: ${feature.properties.WELL_LININ}<br>
+                                            WELL_DIAMETER: ${feature.properties.WELL_DIAME}<br>
+                                            WATER_LEVEL: ${feature.properties.WATER_LEVE}<br>
+                                            </div>`);
             }
-            const data = await response.json();
-            populationMap = new Map();
+        }
+           
+            
+        fetch(newurl).then(
+            function (response) {
+                if (response.status !== 200) {
+                    console.log('Looks like there was a problem. Status Code: ' + response.status);
+                    return;
+                }
 
-            data.features.forEach(item => {
-                const vlecode = item.properties.cen_2011;
-                const population = parseFloat(item.properties.tot_p);
-                populationMap.set(vlecode, population);
+                response.json().then(function (geojsonData) {
+                    healthFacility = L.geoJson(geojsonData.features, {
+                        pointToLayer: function (feature, latlng) {
+                            if (facility === 'nashik_wells')
+                                return L.circleMarker(latlng, geojsonMarkerOptions);
+                            else if (facility === 'bhandara_obs_wells')
+                                return L.circleMarker(latlng, geojsonMarkerOptions2);
+                            else if (facility === 'Allo')
+                                return L.circleMarker(latlng, geojsonMarkerOptions3);
+                            else if (facility === 'Alt')
+                                return L.circleMarker(latlng, geojsonMarkerOptions4);
+                        },
+                        onEachFeature: onEachFeatureForPoint,
+                    }).addTo(mymap);
+                    var hel = healthFacility1
+                    //legend.addTo(mymap);
+
+                    activatedHealthFacility[facility] = healthFacility;
+            updateStressLevelsOnMap();
+            console.log("Adding stress_legend to map inside putWFSFacilityStress");
+            if (!mymap.hasLayer(stress_legend)) {
+                stress_legend.addTo(mymap);
+            }
+                });
+            }).catch(function (err) {
+                console.log('Fetch Error :-S', err);
             });
-
-            // Cache the data for future use
-            localStorage.setItem(cacheKey, JSON.stringify([...populationMap]));
-        } catch (error) {
-            console.error('Error fetching population data:', error);
-        }
-    }
-
-    return populationMap;
-}
-
-    async function updateStressLevelsOnMap() {
-        const populationMap = await fetchPopulationData();
-        
-        function calculateVolumeAndStress(feature) {
-            let diameter = feature.properties.WELL_DIAME;
-            let depth = feature.properties.WELL_DEPTH;
-            let radius = diameter / 2;
-            let volume = Math.PI * Math.pow(radius, 2) * depth;
-            volume = volume.toFixed(2);
-
-            const population = populationMap.get(feature.properties.VLECODE);
-            const stressLevel = population ? (volume / population).toFixed(2) : 'N/A';
-            //console.log(volume,population,stressLevel);
-            //console.log("stress:",stressLevel);
-            return { volume, population, stressLevel };
-
-        }
-
-        function getColor(stressLevel) {
-            if (stressLevel === 'N/A') return 'blue';
-            if (stressLevel < 0.5) return '#00ff00'; // Green
-            if (stressLevel <= 1.0) return 'yellow'; // Yellow
-            if (stressLevel <= 1.5) return 'orange'; // Orange
-            if (stressLevel <= 2.0) return 'darkorange'; // Dark Orange
-            if (stressLevel <= 2.5) return 'orangered'; // Orange Red
-            if (stressLevel <= 3.0) return 'red'; // Red
-            if (stressLevel <= 3.5) return 'darkred'; // Dark Red
-            if (stressLevel <= 4.0) return 'purple'; // Purple for stress levels above 3.5
-            if (stressLevel <= 4.5) return '#8a2be2'; // BlueViolet for stress levels 4.0 - 4.5
-            if (stressLevel <= 5.0) return '#9370db';
-            return 'brown'; // Purple for stress levels above 3.5
-        }
-
-        mymap.eachLayer(function(layer) {
-            if (layer.feature) {
-                const { stressLevel } = calculateVolumeAndStress(layer.feature);
-                const markerOptions = {
-                    radius: 6,
-                    fillColor: getColor(stressLevel),
-                    color: "#000",
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8
-                };
-
-                layer.setStyle(markerOptions);
-            }
-        });
-    }
-
-    const stress_legend = L.control({ position: 'bottomright' });
-
-    stress_legend.onAdd = function(mymap) {
-        const div = L.DomUtil.create('div', 'info stress_legend');
-        const labels = ['<strong>Stress Level</strong>'];
-        const colors = ['#0004ff', '#00ff00', '#ffff00', '#ffa500', '#ff8c00', '#ff4500', '#ff0000', '#8b0000', '#800080', '#8a2be2', '#9370db', 'brown'];
-
-        labels.push('<div class="label"><i style="background:' + colors[0] + '"></i> N/A</div>');
-        labels.push('<div class="label"><i style="background:' + colors[1] + '"></i> 0 - 0.5</div>');
-        labels.push('<div class="label"><i style="background:' + colors[2] + '"></i> 0.5 - 1.0</div>');
-        labels.push('<div class="label"><i style="background:' + colors[3] + '"></i> 1.0 - 1.5</div>');
-        labels.push('<div class="label"><i style="background:' + colors[4] + '"></i> 1.5 - 2.0</div>');
-        labels.push('<div class="label"><i style="background:' + colors[5] + '"></i> 2.0 - 2.5</div>');
-        labels.push('<div class="label"><i style="background:' + colors[6] + '"></i> 2.5 - 3.0</div>');
-        labels.push('<div class="label"><i style="background:' + colors[7] + '"></i> 3.0 - 3.5</div>');
-        labels.push('<div class="label"><i style="background:' + colors[8] + '"></i> 3.5 - 4.0</div>');
-        labels.push('<div class="label"><i style="background:' + colors[9] + '"></i> 4.0 - 4.5</div>');
-        labels.push('<div class="label"><i style="background:' + colors[10] + '"></i> 4.5 - 5.0</div>');
-        labels.push('<div class="label"><i style="background:' + colors[11] + '"></i> > 5.0</div>');
-
-        div.innerHTML = labels.join('<br>');
-        return div;
     };
 
 
-    {% comment %} document.getElementById('toggle-stress-level').addEventListener('click', function() {
-        updateStressLevelsOnMap();
-        stress_legend.addTo(mymap);
-        putWFSFacility('bhandara_obs_wells', 'Bhandara');
-    }); {% endcomment %}
+            
+            async function fetchPopulationData() {
+                const cacheKey = 'populationData';
+                let populationMap;
+               
+                // Check if data is already cached
+                const cachedData = localStorage.getItem(cacheKey);
+                if (cachedData) {
+                populationMap = new Map(JSON.parse(cachedData));
+                } else {
+                const demographicsUrl = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=cen_2011,tot_p';
+                
+                try {
+                const response = await fetch(demographicsUrl);
+                if (!response.ok) {
+                throw new Error(`Failed to fetch population data from ${demographicsUrl}`);
+                }
+                const data = await response.json();
+                populationMap = new Map();
+               
+                data.features.forEach(item => {
+                const vlecode = item.properties.cen_2011;
+                const population = parseFloat(item.properties.tot_p);
+                populationMap.set(vlecode, population);
+                });
+               
+                // Cache the data for future use
+                localStorage.setItem(cacheKey, JSON.stringify([...populationMap]));
+                } catch (error) {
+                console.error('Error fetching population data:', error);
+                }
+                }
+               
+                return populationMap;
+               }
+
+async function updateStressLevelsOnMap() {
+    //putWFSFacilityStress("bhandara_obs_wells", "Bhandara");
+
+    const populationMap = await fetchPopulationData();
+    
+    function calculateVolumeAndStress(feature) {
+    let diameter = feature.properties.WELL_DIAME;
+    let name = feature.properties.THENAME;
+    let water_level= feature.properties.WATER_LEVE;
+    let radius = diameter / 2;
+    let volume = Math.PI * Math.pow(radius, 2) * water_level;
+    volume = volume.toFixed(2);
+   
+    const population = populationMap.get(feature.properties.VLECODE);
+    const stressLevel = population ? (volume / population).toFixed(2) : 'N/A';
+    console.log(name, volume,population,stressLevel);
+    //console.log("stress:",stressLevel);
+    return {volume, population, stressLevel };
+   
+    }
+   
+    function getColor(stressLevel) {
+        if (stressLevel === 'N/A') return 'blue';
+        if (stressLevel < 0.05) return 'yellow';
+        if (stressLevel <= 0.1) return 'red';
+        if (stressLevel <= 0.134) return 'purple';
+        if (stressLevel === 0.135) return 'green';
+        if (stressLevel <= 0.2) return 'orange';
+        if (stressLevel > 0.2) return 'pink';
+        return 'blue'; // Fallback color for unexpected values
+    }
+   
+    mymap.eachLayer(function(layer) {
+    if (layer.feature) {
+    const { stressLevel } = calculateVolumeAndStress(layer.feature);
+    const markerOptions = {
+    radius: 6,
+    fillColor: getColor(stressLevel),
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+    };
+   
+    layer.setStyle(markerOptions);
+    }
+    });
+    }
+   
+    const stress_legend = L.control({ position: 'bottomright' });
+   
+    stress_legend.onAdd = function(mymap) {
+    const div = L.DomUtil.create('div', 'info stress_legend');
+    const labels = ['<strong>Premonsoon Stress Level (Assuming 135 liters per head per day)</strong>'];
+    const colors = ['blue', 'yellow', 'red', 'purple', 'green', 'orange', 'pink'];
+    
+    labels.push('<div class="label"><i style="background:' + colors[0] + '"></i> N/A</div>');
+    labels.push('<div class="label"><i style="background:' + colors[1] + '"></i> 0 - 0.05 cubic m per head</div>');
+    labels.push('<div class="label"><i style="background:' + colors[2] + '"></i> 0.05 - 0.1 cubic m per head</div>');
+    labels.push('<div class="label"><i style="background:' + colors[3] + '"></i> 0.1 - 0.134 cubic m per head</div>');
+    labels.push('<div class="label"><i style="background:' + colors[4] + '"></i> == 0.135 cubic m per head</div>');
+    labels.push('<div class="label"><i style="background:' + colors[5] + '"></i> 0.135 - 0.2 cubic m per head</div>');
+    labels.push('<div class="label"><i style="background:' + colors[6] + '"></i> > 0.2 cubic m per head</div>');
+   
+    div.innerHTML = labels.join('<br>');
+    return div;
+    };
 
 
-    
-    
-
-    
     $('.select').click(function () {
         $(this).toggleClass('highlight')
     })
