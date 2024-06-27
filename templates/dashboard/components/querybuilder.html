@@ -151,7 +151,7 @@
 </div>
 
 <script>
-var newLayerList = [];
+ var newLayerList = [];
 var cen2011Values = [];
 
 function handleSpatialTabClick() {
@@ -174,28 +174,28 @@ function clearMap() {
 }
 
 function putWMSspatial(layer, filter) {
-    //clearMap();
-    console.log("layer: " + layer);
+    clearMap();
+    //console.log("layer: " + layer);
     var wms_layer1;
     const url = new URL(window.location.href);
     const districtName = url.searchParams.get('district');
-    console.log("district name is in query builder: " + districtName);
+    //console.log("district name is in query builder: " + districtName);
 
     // Convert districtName to lowercase for layer name
-    var districtLayerName = districtName.toLowerCase() + '_antyodaya_refactored';
+    var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
 
     wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
-        layers: layer,
+        layers: districtLayerName,
         format: 'image/png',
         transparent: true,
         zoom: 14,
-        CQL_FILTER: (layer === 'maha_demo_v21_26april24' ? "dist_name='" + districtName + "' AND " : "") + filter,
+        CQL_FILTER: filter,
     });
-
+    //console.log(wms_layer1)
     wms_layer1.addTo(mymap);
     newLayerList.push(wms_layer1);
 
-    mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
+    // mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
 }
 
 function executeCombinedQuery() {
@@ -206,18 +206,15 @@ function executeCombinedQuery() {
         var filter = '';
         if (farmThreshold && cen2011Values.length > 0) {
             var cen2011Filter = cen2011Values.join(',');
-            console.log("in fetch census 2011 districtlayer name" + districtLayerName)
-            filter += `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
+            filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
+            //console.log("Filter:", filter);
         }
 
-        if (filter) {
-            const url = new URL(window.location.href);
-            const districtName = url.searchParams.get('district');
-            // Convert districtName to lowercase for layer name
-            var districtLayerName = districtName.toLowerCase() + '_antyodaya_refactored';
+        const url = new URL(window.location.href);
+        const districtName = url.searchParams.get('district');
+        var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
 
-            putWMSspatial(districtLayerName, filter);
-        }
+        //console.log("Calling putWMSspatial with filter:", filter);
         putWMSspatial(districtLayerName, filter);
     });
 }
@@ -253,7 +250,7 @@ function fetchCen2011Values(populationThreshold, callback) {
                     cen2011Values.push(cen2011Int);
                 }
             });
-            console.log('cen_2011 values:', cen2011Values);
+            //console.log('cen_2011 values:', cen2011Values);
             
             callback();
         })
