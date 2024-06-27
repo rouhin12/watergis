@@ -154,18 +154,6 @@
  var newLayerList = [];
 var cen2011Values = [];
 
-function handleSpatialTabClick() {
-    var spatialTab = document.querySelector('#spatial-tab');
-    if (spatialTab) {
-        spatialTab.addEventListener('click', function(event) {
-            var layer = 'maha_demo_v21_26april24';
-            putWMSspatial(layer);
-        });
-    }
-}
-
-handleSpatialTabClick();
-
 function clearMap() {
     newLayerList.forEach(layer => {
         mymap.removeLayer(layer);
@@ -175,13 +163,10 @@ function clearMap() {
 
 function putWMSspatial(layer, filter) {
     clearMap();
-    //console.log("layer: " + layer);
     var wms_layer1;
     const url = new URL(window.location.href);
     const districtName = url.searchParams.get('district');
-    //console.log("district name is in query builder: " + districtName);
 
-    // Convert districtName to lowercase for layer name
     var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
 
     wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
@@ -191,11 +176,8 @@ function putWMSspatial(layer, filter) {
         zoom: 14,
         CQL_FILTER: filter,
     });
-    //console.log(wms_layer1)
     wms_layer1.addTo(mymap);
     newLayerList.push(wms_layer1);
-
-    // mymap.flyTo([specific_latitude, specific_longitude], specific_zoom_level);
 }
 
 function executeCombinedQuery() {
@@ -207,14 +189,12 @@ function executeCombinedQuery() {
         if (farmThreshold && cen2011Values.length > 0) {
             var cen2011Filter = cen2011Values.join(',');
             filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
-            //console.log("Filter:", filter);
         }
 
         const url = new URL(window.location.href);
         const districtName = url.searchParams.get('district');
         var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
 
-        //console.log("Calling putWMSspatial with filter:", filter);
         putWMSspatial(districtLayerName, filter);
     });
 }
@@ -250,7 +230,6 @@ function fetchCen2011Values(populationThreshold, callback) {
                     cen2011Values.push(cen2011Int);
                 }
             });
-            //console.log('cen_2011 values:', cen2011Values);
             
             callback();
         })
@@ -258,4 +237,5 @@ function fetchCen2011Values(populationThreshold, callback) {
             console.error('Error fetching cen_2011 values:', error);
         });
 }
+
 </script>
