@@ -91,22 +91,16 @@
         </div>
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
-            <div class="mb-3">
-                <label for="population_threshold">Population Threshold</label>
-                <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="50" max="5000">
-            </div>
-            <div class="mb-3">
-                <label for="farm_threshold">Total Households Engaged In Farm Activities Threshold</label>
-                <input type="number" class="form-control form-control-sm" id="farm_threshold" value="500" min="50" max="5000">
-            </div>
+            <!-- Removed unnecessary elements for spatial query -->
             <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeCombinedQuery()">
+                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="putWMSspatial()">
                     <i class="icofont-check-circled"></i> Apply Query
                 </button>
             </div>
         </div>
 
         <div class="tab-pane fade" id="nearest" role="tabpanel" aria-labelledby="nearest-tab">
+            <!-- Removed unnecessary elements for nearest query -->
             <div id="navigatedarea">
                 <div id="checkboxes22">
                     <div class="tooltips" title="Please select the Wells" id="showWellsDiv">
@@ -151,91 +145,56 @@
 </div>
 
 <script>
- var newLayerList = [];
-var cen2011Values = [];
-
-function clearMap() {
-    newLayerList.forEach(layer => {
-        mymap.removeLayer(layer);
-    });
-    newLayerList = [];
-}
-
-function putWMSspatial(layer, filter) {
-    clearMap();
-    var wms_layer1;
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
-
-    var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
-
-    wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
-        layers: districtLayerName,
-        format: 'image/png',
-        transparent: true,
-        zoom: 14,
-        CQL_FILTER: filter,
-    });
-    wms_layer1.addTo(mymap);
-    newLayerList.push(wms_layer1);
-}
-
-function executeCombinedQuery() {
-    var populationThreshold = document.getElementById('population_threshold').value;
-    var farmThreshold = document.getElementById('farm_threshold').value;
-
-    fetchCen2011Values(populationThreshold, function() {
-        var filter = '';
-        if (farmThreshold && cen2011Values.length > 0) {
-            var cen2011Filter = cen2011Values.join(',');
-            filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
-        }
-
-        const url = new URL(window.location.href);
-        const districtName = url.searchParams.get('district');
-        var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
-
-        putWMSspatial(districtLayerName, filter);
-    });
-}
-
-function fetchCen2011Values(populationThreshold, callback) {
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
+    var newLayerList = [];
     
-    const wfsUrl = 'https://geonode.communitygis.in/geoserver/wfs';
-    const params = new URLSearchParams({
-        service: 'WFS',
-        version: '1.0.0',
-        request: 'GetFeature',
-        typeName: 'maha_demo_v21_26april24',
-        outputFormat: 'application/json',
-        CQL_FILTER: `tot_p <= ${populationThreshold} AND dist_name='${districtName}'`,
-        propertyName: 'cen_2011'
-    });
-
-    fetch(`${wfsUrl}?${params.toString()}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            cen2011Values = [];
-            const features = data.features;
-            features.forEach(feature => {
-                let cen2011Int = parseInt(feature.properties.cen_2011);
-                if (!isNaN(cen2011Int) && cen2011Int !== 0) {
-                    cen2011Values.push(cen2011Int);
-                }
-            });
-            
-            callback();
-        })
-        .catch(error => {
-            console.error('Error fetching cen_2011 values:', error);
+    function clearMap() {
+        newLayerList.forEach(layer => {
+            mymap.removeLayer(layer);
         });
-}
-
+        newLayerList = [];
+    }
+    
+    function putWMSspatial() {
+        // Clear existing layers
+        clearMap();
+    
+        // Get district name from URL parameter
+        const url = new URL(window.location.href);
+        const district = url.searchParams.get('district');
+        if (!district) {
+            console.error('District parameter not found in URL.');
+            return;
+        }
+    
+        // Define the WMS layer for rivers with District filter
+        const riversLayer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+            layers: 'maha_rivers_withDistrict17june24',
+            format: 'image/png',
+            transparent: false,
+            CQL_FILTER: `district='${district}'`
+        });
+    
+        // Add the rivers layer to map and newLayerList
+        riversLayer.addTo(mymap);
+        newLayerList.push(riversLayer);
+    
+        // Define the WMS layer for centroids with District filter
+        const centroidsLayer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+            layers: 'maha_demo_v21_centroids_27June24',
+            format: 'image/png',
+            transparent: false,
+            CQL_FILTER: `dist_name='${district}'`
+        });
+    
+        // Add the centroids layer to map and newLayerList
+        centroidsLayer.addTo(mymap);
+        newLayerList.push(centroidsLayer);
+    }
+    
+    // Initial call to display both layers when spatial tab is selected
+    putWMSspatial();
+    
 </script>
+    
+    
+    
