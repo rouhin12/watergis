@@ -32,4 +32,5 @@ urlpatterns = [
     path('documents/', include(wagtaildocs_urls)),    
     path('cms/', include(wagtail_urls)),
     path(r'^i18n/', include('django.conf.urls.i18n')),
+    
 ]

@@ -22,6 +22,10 @@ from wagtail.images.models import Image
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
+import csv
+import matplotlib.pyplot as plt
+import base64
+import io
 
 import os, requests,json
 # from urllib.parse import quote
@@ -168,14 +172,8 @@ def water_quality_form(request):
         if form.is_valid():
             # Extract form data
             print(request.POST['name'])
-            name = request.POST['name']
-            state = request.POST['state']
-            district = request.POST['district']
-            taluka = request.POST['taluka']
-            village = request.POST['village']
-            gram_panch = request.POST['gram_panch']
-            water_quality = request.POST['water_quality']
-            color= request.POST['color']
+            name = request.POST['na2024-07-01 15:55:52.376 [info] Send text to terminal: /bin/python3 /home/rouhin/.vscode/extensions/ms-python.python-2024.8.1/python_files/printEnvVariablesToFile.py /home/rouhin/.vscode/extensions/ms-python.python-2024.8.1/python_files/deactivate/bash/envVars.txt
+olor']
             odour= request.POST['odour']
             taste= request.POST['taste']
             ph = request.POST['ph']
@@ -394,7 +392,6 @@ def district_rivers_view(request, district_name):
 #         river_data = response.json()
         
 #         river_geometry = None  # Initialize river_geometry
-        
 #         for feature in river_data['features']:
 #             if feature['properties']['name'] == river_name:
 #                 print("River found")
@@ -509,4 +506,52 @@ def intersecting_villages(request):
     else:
         # Handle case where no river with the given name exists
         raise Http404("River with name '{}' does not exist".format(river_name))
+    
+def timeseries(request):
+    try:
+        # Load the data
+        file_path = '/home/rouhin/amrutvahini/bhandara water level/Dates_and_WaterLevel.csv'
+        data = pd.read_csv(file_path)
+
+        # Convert the 'dates' column to datetime format
+        data['Date'] = pd.to_datetime(data['dates'])
+
+        # Filter the data for years after 2018
+        data = data[data['Date'].dt.year > 2018]
+
+        # Set the 'Date' column as the index
+        data.set_index('Date', inplace=True)
+
+        # Extract year from the 'Date' index
+        data['Year'] = data.index.year
+
+        # Plot the data
+        plt.figure(figsize=(10, 6))
+        for year, group in data.groupby('Year'):
+            plt.plot(group.index, group['water area(hectares)'], marker='o', linestyle='-', label=str(year))
+
+        plt.title('Water Level Over Time')
+        plt.xlabel('Date')
+        plt.ylabel('Water Level (hectares)')
+        plt.legend(title='Year')
+        plt.grid(True)
+
+        # Improve date formatting on x-axis
+        plt.gcf().autofmt_xdate()
+
+        # Save the plot to a PNG image in memory
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        image_png = buf.getvalue()
+        buf.close()
         
+        # Encode the PNG image to base64 string
+        graph = base64.b64encode(image_png).decode('utf-8')
+
+        # Pass the image to the template
+        return render(request, 'timeseries.html', {'graph': graph})
+
+    except Exception as e:
+        return render(request, 'error.html', {'error': str(e)})
+

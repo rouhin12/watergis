@@ -34,7 +34,7 @@ urlpatterns = [
     path('get_layer/', views.get_layer, name='get_layer'),
     # path('get_villages_near_river/', views.get_villages_near_river, name='get_villages_near_river'),
     path('intersecting_villages/', views.intersecting_villages, name='intersecting_villages'),
-
+    path('dashboard/timeseries',  views.timeseries, name='timeseries'),
 ]
     
 
