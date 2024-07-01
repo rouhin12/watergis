@@ -1,6 +1,7 @@
 {% load static%} {% load i18n %}
 <style>
     #showWellsDiv,
+    #wells_nashik,
     #obs_wells_district0 {
         display: none;
     }
@@ -117,6 +118,12 @@
                             <span style="color:black;"><b> Observation Wells</b></span>
                         </label>
                     </div>
+                    {% comment %} <div class="tooltips" title="Please select nashik Wells" id="wells_nashik">
+                        <label>
+                            <input type="checkbox" value="{nashik_wells}" id="nashik_wells" onchange="GetSelectedWells(this)">
+                            <span style="color:black;"><b> Nashik Wells</b></span>
+                        </label>
+                    </div> {% endcomment %}
                 </div>
 
             <div class="tooltips" title="Please select Wells">
