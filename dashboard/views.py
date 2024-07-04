@@ -23,7 +23,9 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
-import os, requests,json
+import os, requests,json,io
+import pandas as pd
+import matplotlib.pyplot as plt
 # from urllib.parse import quote
 
 
@@ -510,3 +512,48 @@ def intersecting_villages(request):
         # Handle case where no river with the given name exists
         raise Http404("River with name '{}' does not exist".format(river_name))
         
+def timeseries(request):
+    # Load the data
+    # file_path = "{% static 'data/healthdash/Dates_and_WaterLevel.csv' %}"
+    file_path = os.path.join(settings.BASE_DIR,'dashboard', 'static', 'data', 'healthdash', 'Dates_and_WaterLevel.csv')
+   
+    data = pd.read_csv(file_path)
+
+    # Convert the 'dates' column to datetime format
+    data['Date'] = pd.to_datetime(data['dates'])
+
+    # Filter the data for years after 2018
+    data = data[data['Date'].dt.year > 2018]
+
+    # Set the 'Date' column as the index
+    data.set_index('Date', inplace=True)
+
+    # Extract year from the 'Date' index
+    data['Year'] = data.index.year
+
+    # Plot the data
+    plt.figure(figsize=(10, 6))
+    for year, group in data.groupby('Year'):
+        plt.plot(group.index, group['water area(hectares)'], marker='o', linestyle='-', label=str(year))
+
+    plt.title('Water Level Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Water Level (hectares)')
+    plt.legend(title='Year')
+    plt.grid(True)
+
+    # Improve date formatting on x-axis
+    plt.gcf().autofmt_xdate()
+
+    # Save the plot to a PNG image in memory
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image_png = buf.getvalue()
+    buf.close()
+    
+    # Encode the PNG image to base64 string
+    graph = base64.b64encode(image_png).decode('utf-8')
+
+    # Pass the image to the template
+    return render(request, 'dashboard/timeseries.html', {'graph': graph})
