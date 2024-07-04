@@ -1,0 +1,766 @@
+S.No.,District,Block,Panchayat,Village id,Village,House Holds,House Connection
+1,Bhandara,Bhandara,Ambadi,256508,Ambadi,635,434
+2,Bhandara,Bhandara,Ambadi,593099,Girola,304,46
+3,Bhandara,Bhandara,Ambadi,256509,Palgaon,144,11
+4,Bhandara,Bhandara,Amgaon,256507,Amgaon,890,678
+5,Bhandara,Bhandara,Arjuni (punarvasan),653953,Arjuni,307,130
+6,Bhandara,Bhandara,Basora,256519,Basora,215,84
+7,Bhandara,Bhandara,Bela,256513,Bela (CT) -0001,1679,1623
+8,Bhandara,Bhandara,Belgaon,256522,Belgaon,170,170
+9,Bhandara,Bhandara,Belgaon,593100,Kitadi,20,20
+10,Bhandara,Bhandara,Berodi (punarvasan),653954,Berodi,260,96
+11,Bhandara,Bhandara,Bhilewada,256521,Bhilewada,506,506
+12,Bhandara,Bhandara,Bhojapur,256516,Bhojapur,1182,1182
+13,Bhandara,Bhandara,Borgaon Bk. (punarvasan),256514,Borgaon Bk.,352,210
+14,Bhandara,Bhandara,Borgaon Kh.,256515,Borgaon Kh.,320,320
+15,Bhandara,Bhandara,Chandori,256529,Chandori,480,480
+16,Bhandara,Bhandara,Chandori,256530,Koknagad,129,129
+17,Bhandara,Bhandara,Chandori,256531,Singori,70,26
+18,Bhandara,Bhandara,Chikhal Pahela,256523,Chikhal Pahela,104,18
+19,Bhandara,Bhandara,Chikhal Pahela,256524,Sonegaon,90,90
+20,Bhandara,Bhandara,Chikhal Pahela,256525,Yetewahi,65,62
+21,Bhandara,Bhandara,Chikhali,256528,Chikhali,280,280
+22,Bhandara,Bhandara,Chowa,256526,Chowa,305,80
+23,Bhandara,Bhandara,Chowa,256527,Usaripar,102,7
+24,Bhandara,Bhandara,Dabha,256542,Dabha,525,525
+25,Bhandara,Bhandara,Dabha,256543,Jamni,122,122
+26,Bhandara,Bhandara,Dawadipar Bela,256540,Dawadipar(be),332,332
+27,Bhandara,Bhandara,Dawadipar/ba.,256541,Dawadipar(ba),377,164
+28,Bhandara,Bhandara,Dawwa,256535,Dawwa,207,207
+29,Bhandara,Bhandara,Dawwa,256537,Ganglewada,57,25
+30,Bhandara,Bhandara,Dawwa,256536,Garada Jangli,123,83
+31,Bhandara,Bhandara,Dhargaon,256533,Chintapur,146,146
+32,Bhandara,Bhandara,Dhargaon,256532,Dhargaon,524,524
+33,Bhandara,Bhandara,Dhargaon,256534,Kanhadmoh,42,21
+34,Bhandara,Bhandara,Dighori,256539,Dighori,245,245
+35,Bhandara,Bhandara,Dodmazari,256538,Dedmazari,248,71
+36,Bhandara,Bhandara,Ganeshpur,256544,Ganeshpur (CT) -0001,2385,2284
+37,Bhandara,Bhandara,Garada Bk.,256551,Garada Bk.,255,65
+38,Bhandara,Bhandara,Garada Bk.,256552,Mendha,112,10
+39,Bhandara,Bhandara,Garada Kh.,256550,Garada Kh.,255,69
+40,Bhandara,Bhandara,Golewadi,256549,Dongargaon,68,21
+41,Bhandara,Bhandara,Golewadi,256548,Golewadi,450,450
+42,Bhandara,Bhandara,Gopiwada,256545,Gopiwada,742,742
+43,Bhandara,Bhandara,Gopiwada,256546,Malegaon,69,56
+44,Bhandara,Bhandara,Gunthara,256547,Gunthara,570,570
+45,Bhandara,Bhandara,Hattidohi,256553,Hattidohi,268,268
+46,Bhandara,Bhandara,Indurkha,256554,Indurkha,230,230
+47,Bhandara,Bhandara,Itgaon (punarvasan),256555,Itgaon,185,185
+48,Bhandara,Bhandara,Jakh,256557,Gunjepar,155,155
+49,Bhandara,Bhandara,Jakh,256556,Jakh,166,166
+50,Bhandara,Bhandara,Jakh,256558,Navegaon,56,56
+51,Bhandara,Bhandara,Jamgaon-wadad Punarvasan,256559,Jamgaon,275,163
+52,Bhandara,Bhandara,Jamgaon-wadad Punarvasan,256560,Maudi,180,180
+53,Bhandara,Bhandara,Karachkheda,256568,Karachkheda,362,362
+54,Bhandara,Bhandara,Karachkheda,256569,Nerodi,196,196
+55,Bhandara,Bhandara,Kardha,256567,Kardha,1000,630
+56,Bhandara,Bhandara,Kawadshi,256565,Kawadshi,410,410
+57,Bhandara,Bhandara,Kawalewada,256577,Kawalewada,268,128
+58,Bhandara,Bhandara,Kesalwada,256518,Kesalwada,949,804
+59,Bhandara,Bhandara,Khairi,256571,Khairi,228,98
+60,Bhandara,Bhandara,Khairi/be.,256570,Khairi,264,200
+61,Bhandara,Bhandara,Khamari Buti,256576,Khamari,720,572
+62,Bhandara,Bhandara,Khamata,256626,Khambata,148,35
+63,Bhandara,Bhandara,Khamata,256625,Takali,108,32
+64,Bhandara,Bhandara,Kharadi,256644,Kharadi,157,157
+65,Bhandara,Bhandara,Kharbi,256564,Kharbi,774,774
+66,Bhandara,Bhandara,Khokarla,626275,Khokurala,2000,1586
+67,Bhandara,Bhandara,Khurshipar,256574,Khurshipar,306,194
+68,Bhandara,Bhandara,Khurshipar,256575,Waghbodi,131,4
+69,Bhandara,Bhandara,Koka,256637,Koka,573,455
+70,Bhandara,Bhandara,Koka,256638,Nawegaon,69,8
+71,Bhandara,Bhandara,Kondhi,256561,Kondhi,689,689
+72,Bhandara,Bhandara,Kondhi,256562,Lohara,104,52
+73,Bhandara,Bhandara,Kondhi,256563,Pevtha,50,50
+74,Bhandara,Bhandara,Korambhi,256566,Korambhi,317,226
+75,Bhandara,Bhandara,Kothurna,256573,Kothurna,496,496
+76,Bhandara,Bhandara,Laweshwar,256578,Laweshwar,216,76
+77,Bhandara,Bhandara,Madgi,256586,Madgi,305,132
+78,Bhandara,Bhandara,Madgi,593102,Purkabodi,16,16
+79,Bhandara,Bhandara,Malipar,256587,Malipar,150,150
+80,Bhandara,Bhandara,Mandangaon,256580,Mandangaon,138,138
+81,Bhandara,Bhandara,Mandangaon,256581,Sitepar,90,82
+82,Bhandara,Bhandara,Mandwi,256579,Mandwi,509,291
+83,Bhandara,Bhandara,Manegaon,256588,Manegaon,668,458
+84,Bhandara,Bhandara,Manegaon,256589,Zabada,111,21
+85,Bhandara,Bhandara,Matora,256582,Matora,512,243
+86,Bhandara,Bhandara,Matora,256583,Salehatti,84,84
+87,Bhandara,Bhandara,Mohadura,256584,Mohadura,480,480
+88,Bhandara,Bhandara,Mujabi,256585,Mujabi,358,358
+89,Bhandara,Bhandara,Nandora,256590,Nandora,383,261
+90,Bhandara,Bhandara,Nawargaon,256593,Nawargaon,363,303
+91,Bhandara,Bhandara,Nimgaon,256591,Nimgaon,225,225
+92,Bhandara,Bhandara,Nimgaon,256592,Pagora,124,124
+93,Bhandara,Bhandara,Pachkhedi,256599,Mathadi,8,8
+94,Bhandara,Bhandara,Pachkhedi,256598,Pachkhedi,260,24
+95,Bhandara,Bhandara,Pahela,256600,Pahela,735,735
+96,Bhandara,Bhandara,Pahela,256601,Shrinagar,134,134
+97,Bhandara,Bhandara,Paladi,256603,Paladi,204,28
+98,Bhandara,Bhandara,Pandharabodi,256602,Pandrabodi,503,307
+99,Bhandara,Bhandara,Parsodi,256596,Parsodi,895,895
+100,Bhandara,Bhandara,Pindkepar,256597,Pindkepar,242,3
+101,Bhandara,Bhandara,Pipari (punarvasan),256595,Chicholi,28,28
+102,Bhandara,Bhandara,Pipari (punarvasan),256594,Pipari,352,352
+103,Bhandara,Bhandara,Rajedahegaon,256643,Rajedahegaon,455,213
+104,Bhandara,Bhandara,Rajegaon,256606,Rajegaon,279,279
+105,Bhandara,Bhandara,Rawanwadi,256605,Khapa,95,4
+106,Bhandara,Bhandara,Rawanwadi,256604,Rawanwadi,132,132
+107,Bhandara,Bhandara,Sahuli,256607,Sahuli,359,259
+108,Bhandara,Bhandara,Salebardi,256613,Ajimabad,173,173
+109,Bhandara,Bhandara,Salebardi,256614,Khapa,53,15
+110,Bhandara,Bhandara,Salebardi,256615,Salebardi,186,30
+111,Bhandara,Bhandara,Salebardi,256610,Salebardi,207,110
+112,Bhandara,Bhandara,Sangam (punarvasan),256572,Sangam,110,110
+113,Bhandara,Bhandara,Sarpewada,256642,Chandrapur,85,85
+114,Bhandara,Bhandara,Sarpewada,256640,Dudhara,104,4
+115,Bhandara,Bhandara,Sarpewada,256641,Injewada,180,43
+116,Bhandara,Bhandara,Sarpewada,256639,Sarpewada,267,143
+117,Bhandara,Bhandara,Sawari (j.n.),256619,Sawari Jawharnagar (CT) -0001,610,488
+118,Bhandara,Bhandara,Sawari (khut),256620,Pimpalgaon,70,5
+119,Bhandara,Bhandara,Sawari (khut),604204,Sawari,284,164
+120,Bhandara,Bhandara,Shahapur,256609,Shahapur (CT) -0001,1135,850
+121,Bhandara,Bhandara,Shirsi,256621,Shirsi,390,275
+122,Bhandara,Bhandara,Silli,256616,Silli,1012,628
+123,Bhandara,Bhandara,Sirasghat (punarvasan),256612,Sirasghat,100,20
+124,Bhandara,Bhandara,Sonuli,256618,Sonuli,206,188
+125,Bhandara,Bhandara,Surewada (punarvasan),256617,Surewada,605,605
+126,Bhandara,Bhandara,Tawepar,256624,Khurshipar,163,163
+127,Bhandara,Bhandara,Tawepar,256623,Tawepar,344,140
+128,Bhandara,Bhandara,Tekepar (punarvasan),256629,Tekepar (punarvasan),298,102
+129,Bhandara,Bhandara,Tekepar(do),256627,Tekepar,391,176
+130,Bhandara,Bhandara,Tekepar(do),256628,Usaragondi,222,222
+131,Bhandara,Bhandara,Tekepar(madgi),256630,Tekepar(madgi),234,234
+132,Bhandara,Bhandara,Thana,256622,Thana (CT) -0001,2077,1687
+133,Bhandara,Bhandara,Tiddi,256632,Makar-dhokda,211,35
+134,Bhandara,Bhandara,Tiddi,256631,Tiddi,212,36
+135,Bhandara,Bhandara,Umari,256634,Ashoknagar,294,169
+136,Bhandara,Bhandara,Umari,256633,Umari,121,56
+137,Bhandara,Bhandara,Wadad,256635,Wadad,185,44
+138,Bhandara,Bhandara,Wakeshwar,256636,Wakeshwar,626,348
+139,Bhandara,Lakhandur,Asola,256502,Asola,423,423
+140,Bhandara,Lakhandur,Athali,256499,Athali,315,287
+141,Bhandara,Lakhandur,Barwha,256481,Barwha,553,553
+142,Bhandara,Lakhandur,Belati,256446,Belati,401,389
+143,Bhandara,Lakhandur,Belati,256447,Kondhala,33,33
+144,Bhandara,Lakhandur,Bhagadi,256495,Bhagadi,915,915
+145,Bhandara,Lakhandur,Bothali,256452,Bothali,418,418
+146,Bhandara,Lakhandur,Chapral,256427,Chapral,840,840
+147,Bhandara,Lakhandur,Chapral,256428,Mendha,320,190
+148,Bhandara,Lakhandur,Chichal,256482,Chichal,282,245
+149,Bhandara,Lakhandur,Chichal,256483,Konda-mondhi,110,70
+150,Bhandara,Lakhandur,Chicholi,256497,Antergaon Kha.,219,219
+151,Bhandara,Lakhandur,Chicholi,603808,Antargaon (raiyyat Wari),25,25
+152,Bhandara,Lakhandur,Chicholi,256496,Chicholi,337,337
+153,Bhandara,Lakhandur,Chikna,256477,Chikna,133,109
+154,Bhandara,Lakhandur,Dahegaon,256490,Dahegaon,316,316
+155,Bhandara,Lakhandur,Dambevirli,256506,irali dambi,493,493
+156,Bhandara,Lakhandur,Dharmapuri,256484,Dharmapuri,250,250
+157,Bhandara,Lakhandur,Dholsar,256458,Dholsar,355,313
+158,Bhandara,Lakhandur,Dighori (mothi),256480,Dighori (mothi),1507,1150
+159,Bhandara,Lakhandur,Dokesarandi,256467,Doke Sarandi,325,325
+160,Bhandara,Lakhandur,Donad,256437,Donad,305,305
+161,Bhandara,Lakhandur,Gaurala,256474,Gawarala,390,390
+162,Bhandara,Lakhandur,Gunjepar,256453,Gunjepar,210,202
+163,Bhandara,Lakhandur,Gunjepar,256454,Kinhi,165,165
+164,Bhandara,Lakhandur,Hardoli,256442,Hardoli,353,222
+165,Bhandara,Lakhandur,Itan,256465,Itari,477,477
+166,Bhandara,Lakhandur,Jaitpur,256476,Jaitpur,850,515
+167,Bhandara,Lakhandur,Kanhalgaon,256432,Chichgaon,112,112
+168,Bhandara,Lakhandur,Kanhalgaon,256431,Kanhalgaon,378,378
+169,Bhandara,Lakhandur,Karandla,256466,Karandala,326,326
+170,Bhandara,Lakhandur,Khairi (pat),256505,Khairi (pat),317,317
+171,Bhandara,Lakhandur,Khairi(ghar),256456,Ghartoda,135,135
+172,Bhandara,Lakhandur,Khairi(ghar),256455,Khairi (ghar),166,70
+173,Bhandara,Lakhandur,Khairna,256472,Khairna,312,312
+174,Bhandara,Lakhandur,Kholmara,256475,Kholmara,198,154
+175,Bhandara,Lakhandur,Kirmati,256470,Kirmati,285,285
+176,Bhandara,Lakhandur,Kochhi,256494,Dandegaon,248,248
+177,Bhandara,Lakhandur,Kochhi,256493,Kochchhi,274,272
+178,Bhandara,Lakhandur,Kudegaon,256469,Kudegaon,503,503
+179,Bhandara,Lakhandur,Madeghat,256429,Madeghat,552,541
+180,Bhandara,Lakhandur,Manded,256503,Manded,381,381
+181,Bhandara,Lakhandur,Manded,256504,Sawargaon,139,139
+182,Bhandara,Lakhandur,Mandhal,256460,Mandhal,845,618
+183,Bhandara,Lakhandur,Manegaon,256492,Borgaon,110,110
+184,Bhandara,Lakhandur,Manegaon,256491,Manegaon,273,273
+185,Bhandara,Lakhandur,Masal,256457,Masal,832,670
+186,Bhandara,Lakhandur,Moharna,256473,Moharana,692,546
+187,Bhandara,Lakhandur,Murmadi,256489,Murmadi,420,420
+188,Bhandara,Lakhandur,Murza,256487,Malada,86,2
+189,Bhandara,Lakhandur,Murza,256486,Murza,268,229
+190,Bhandara,Lakhandur,Murza,256488,Zari,62,62
+191,Bhandara,Lakhandur,Nanded,256471,Nanded,395,395
+192,Bhandara,Lakhandur,Opara,256461,Opara,460,460
+193,Bhandara,Lakhandur,Pachgaon,256445,Pachgaon,227,40
+194,Bhandara,Lakhandur,Pahungaon,256468,Pahungaon,430,237
+195,Bhandara,Lakhandur,Palependhari,256439,Palependhari,335,335
+196,Bhandara,Lakhandur,Pardi,256485,Pardi,559,559
+197,Bhandara,Lakhandur,Parsodi (nag),256498,Parsodi(nag),279,268
+198,Bhandara,Lakhandur,Pauldawana,256449,Parsodi,148,96
+199,Bhandara,Lakhandur,Pauldawana,256448,Pauldawana,147,86
+200,Bhandara,Lakhandur,Pauldawana,256450,Tai Kh.,135,3
+201,Bhandara,Lakhandur,Pendhari,256441,Pendhari,177,177
+202,Bhandara,Lakhandur,Pimpalgaon,256430,Pimpalgaon,970,970
+203,Bhandara,Lakhandur,Puyar,256433,Puyar,364,364
+204,Bhandara,Lakhandur,Rajni,256462,Rajani,438,409
+205,Bhandara,Lakhandur,Rohani,256438,Rohani,355,355
+206,Bhandara,Lakhandur,Sakhara,256479,Sakara,213,213
+207,Bhandara,Lakhandur,Sarandi(bk),256459,Sarandi bk.,854,854         
+208,Bhandara,Lakhandur,Sonegaon,256444,Ghodezari,115,6
+209,Bhandara,Lakhandur,Sonegaon,256443,Sonegaon,163,163
+210,Bhandara,Lakhandur,Soni,256426,Indora,324,242
+211,Bhandara,Lakhandur,Soni,256425,Soni,1025,987
+212,Bhandara,Lakhandur,Tai(bk),256451,Tai bk.,416,416
+213,Bhandara,Lakhandur,Tawasi,256478,Tawasi,503,353
+214,Bhandara,Lakhandur,Tirkhuri,256440,Tirkhuri,168,168
+215,Bhandara,Lakhandur,Vihirgaon,603809,Awali,112,97
+216,Bhandara,Lakhandur,Vihirgaon,256435,Tembhari,123,16
+217,Bhandara,Lakhandur,Vihirgaon,256434,Vihirgaon,46,45
+218,Bhandara,Lakhandur,Virli (kh),256464,Irali kh.,333,333
+219,Bhandara,Lakhandur,Virli(bk),256463,Irali bk.,700,694
+220,Bhandara,Lakhani,Alesur,593091,Alesur,170,170
+221,Bhandara,Lakhani,Bhugaon,256281,Bhugaon,352,107
+222,Bhandara,Lakhani,Borgaon,256266,Borgaon,290,259
+223,Bhandara,Lakhani,Channa,593105,Channa,342,342
+224,Bhandara,Lakhani,Daitmangali,256302,Chikhalbodi,76,58
+225,Bhandara,Lakhani,Daitmangali,256301,Daitmangli,105,63
+226,Bhandara,Lakhani,Deori,256317,Deori,206,51
+227,Bhandara,Lakhani,Deori,603795,Murmadi Ha,1,1
+228,Bhandara,Lakhani,Deori,256318,Saigaon,68,68
+229,Bhandara,Lakhani,Deori,603797,Sangaon,18,18
+230,Bhandara,Lakhani,Dhabetekadi,256275,Dhabetekari,275,268
+231,Bhandara,Lakhani,Dhanala,256261,Dhanala,287,287
+232,Bhandara,Lakhani,Dighori,256276,Dighori,356,356
+233,Bhandara,Lakhani,Dongargaon Na,256333,Dongargaon Na,123,33
+234,Bhandara,Lakhani,Dongargaon Na,256335,Khurshipar,83,83
+235,Bhandara,Lakhani,Dongargaon Na,256334,Malkazari,36,36
+236,Bhandara,Lakhani,Dongargaon Sa,256279,Dongargaon,162,162
+237,Bhandara,Lakhani,Gadegaon,256257,Gadegaon,768,758
+238,Bhandara,Lakhani,Garada,256259,Garada,454,454
+239,Bhandara,Lakhani,Ghodezari,256288,Ghodezari,252,252
+240,Bhandara,Lakhani,Gondegaon,256337,Gondegaon,260,218
+241,Bhandara,Lakhani,Gondi,256320,Dhwarkheda,112,2
+242,Bhandara,Lakhani,Gondi,256319,Gondi,129,60
+243,Bhandara,Lakhani,Gondsawari,256307,Gondsawari,234,206
+244,Bhandara,Lakhani,Gurdha,256286,Gurdha,370,370
+245,Bhandara,Lakhani,Isapur,256336,Isapur,232,2
+246,Bhandara,Lakhani,Jewanala,256285,Jewanala,582,582
+247,Bhandara,Lakhani,Kaneri,256332,Kaneri,620,620
+248,Bhandara,Lakhani,Kanhalgaon,256341,Kanhalgaon,259,130
+249,Bhandara,Lakhani,Kawlewada,256322,Kawadsi,103,103
+250,Bhandara,Lakhani,Kawlewada,256321,Kawalewada,201,201
+251,Bhandara,Lakhani,Kawlewada,256323,Khairi,58,58
+252,Bhandara,Lakhani,Kawlewada,256325,Mangapur,185,185
+253,Bhandara,Lakhani,Kawlewada,256324,Pahadi,26,26
+254,Bhandara,Lakhani,Kesalwad(/pawar),256297,Kesalwada(pawar),279,279
+255,Bhandara,Lakhani,Kesalwad(waghaye),256258,Kesalwada(Waghaye),882,839
+256,Bhandara,Lakhani,Khairi/bam.,256263,Khairi,165,165
+257,Bhandara,Lakhani,Kharasi,256314,Kharashi,328,328
+258,Bhandara,Lakhani,Khedepar,256300,Khedepar,132,132
+259,Bhandara,Lakhani,Khunari,256289,Khunari,260,260
+260,Bhandara,Lakhani,Kinhi,256303,Kinhi (gadegaon),158,158
+261,Bhandara,Lakhani,Kinhi,256304,Sonekhari,49,49
+262,Bhandara,Lakhani,Kitadi,256315,Kitadi,558,558
+263,Bhandara,Lakhani,Kolari,256290,Kolari,437,437
+264,Bhandara,Lakhani,Lakhori,256252,Lakhori,760,760
+265,Bhandara,Lakhani,Lohara,256311,Lohara,358,358
+266,Bhandara,Lakhani,Lohara,256312,Narva,158,38
+267,Bhandara,Lakhani,Macharna,256338,Macharna,312,269
+268,Bhandara,Lakhani,Manegaon,256253,Manegaon,495,452
+269,Bhandara,Lakhani,Mangali,256326,Mangali,301,301
+270,Bhandara,Lakhani,Marhegaon,256268,Maregaon,514,514
+271,Bhandara,Lakhani,Masalmeta,256296,Masalmeta,410,340
+272,Bhandara,Lakhani,Mendha,256280,Mendha,388,388
+273,Bhandara,Lakhani,Miregaon,256327,Miregaon,444,381
+274,Bhandara,Lakhani,Mogara,256274,Mogara,277,277
+275,Bhandara,Lakhani,Morgaon,256293,Morgaon,374,374
+276,Bhandara,Lakhani,Murmadi/saw.,256255,Murmadi/saw.,2162,412
+277,Bhandara,Lakhani,Murmadi/tup.,256277,Murmadi(tup),493,380
+278,Bhandara,Lakhani,Nilagondi,256267,Nilagondi,317,317
+279,Bhandara,Lakhani,Nimgaon,256287,Nimgaon,264,264
+280,Bhandara,Lakhani,Palandur,256310,Palandur,1127,1127
+281,Bhandara,Lakhani,Palasgaon,256291,Palasgaon,217,217
+282,Bhandara,Lakhani,Parsodi,256309,Khurshipar,34,1
+283,Bhandara,Lakhani,Parsodi,256308,Parsodi,444,150
+284,Bhandara,Lakhani,Pathari,256313,Pathari,310,310
+285,Bhandara,Lakhani,Pendhari,256331,Pendhari,479,479
+286,Bhandara,Lakhani,Pimpalgaon,256262,Pimpalgaon,805,751
+287,Bhandara,Lakhani,Pohara,256329,Gadpendhari,138,50
+288,Bhandara,Lakhani,Pohara,256330,Mendha.,192,80
+289,Bhandara,Lakhani,Pohara,256328,Pohara,1050,1015
+290,Bhandara,Lakhani,Rajegaon,256265,Rajegaon,285,285
+291,Bhandara,Lakhani,Rampuri,256270,Nanhori,116,116
+292,Bhandara,Lakhani,Rampuri,256269,Rampuri,347,347
+293,Bhandara,Lakhani,Rengepar/khota,256299,Rengepar(kotha),552,409
+294,Bhandara,Lakhani,Rengepar/kohali,256272,Chichtola,126,126
+295,Bhandara,Lakhani,Rengepar/kohali,256271,Rengepar(kohali),319,319
+296,Bhandara,Lakhani,Rengola,256340,Kesalwada,114,32
+297,Bhandara,Lakhani,Rengola,256339,Rengola,363,363
+298,Bhandara,Lakhani,Salebhata,256292,Salebhata,610,500
+299,Bhandara,Lakhani,Samewada,256264,Samewada,254,254
+300,Bhandara,Lakhani,Sawari,256256,Sawari,626,576
+301,Bhandara,Lakhani,Seloti,256254,Seloti,450,450
+302,Bhandara,Lakhani,Shivani,256273,Shiwani,252,252
+303,Bhandara,Lakhani,Sindipar,256295,Mundipar,218,218
+304,Bhandara,Lakhani,Sindipar,256294,Sindipar,194,194
+305,Bhandara,Lakhani,Sipewada,256260,Sipewada,239,239
+306,Bhandara,Lakhani,Somalwada,256306,Mendha (somalwada),127,69
+307,Bhandara,Lakhani,Somalwada,256305,Somalwada,576,416
+308,Bhandara,Lakhani,Sonmala,256278,Sonmala,352,105
+309,Bhandara,Lakhani,Vihirgaon,256282,Vihirgaon,295,295
+310,Bhandara,Lakhani,Wakal,256316,Wakal,322,282
+311,Bhandara,Lakhani,Zarap,256284,Kolara,162,162
+312,Bhandara,Lakhani,Zarap,256283,Zarap,305,305
+313,Bhandara,Mohadi,Akola,256672,Akola,238,67
+314,Bhandara,Mohadi,Andhalgaon,256671,Andhalgaon,1630,815
+315,Bhandara,MOHADI,ANDHALGAON,606167,NIRLA,1,1
+316,Bhandara,Mohadi,Betala,593106,Betala,716,513
+317,Bhandara,Mohadi,Bhikarkheda,256656,Bhikarkheda,199,199
+318,Bhandara,Mohadi,Bhikarkheda,256657,Dharmapuri,47,47
+319,Bhandara,Mohadi,Bhosa,256705,Bhosa,59,59
+320,Bhandara,Mohadi,Bhosa,256706,Takali,128,128
+321,Bhandara,Mohadi,Bidsitepar,256713,Bidsitepar,305,305
+322,Bhandara,Mohadi,Bondri,256663,Bondri,130,130
+323,Bhandara,Mohadi,Bondri,256664,Ghorpad,115,105
+324,Bhandara,Mohadi,Borgaon(mundhari),256735,Borgaon(mundhari),197,197
+325,Bhandara,Mohadi,Bothali,256710,Bothali,183,183
+326,Bhandara,Mohadi,Bothali,256711,Panjara,130,130
+327,Bhandara,Mohadi,Chichkheda,256697,Chichkheda,180,180
+328,Bhandara,Mohadi,Chicholi,256673,Chicholi,238,165
+329,Bhandara,Mohadi,Dahegaon,256698,Dahegaon,245,245
+330,Bhandara,Mohadi,Deulgaon,606170,Bitekhari,40,40
+331,Bhandara,Mohadi,Deulgaon,256661,Deulgaon,150,46
+332,Bhandara,MOHADI,DEWHADA BK,256717,DEWHADA BUJ.,169,169
+333,Bhandara,MOHADI,DEWHADA BK,256718,NARSINHATOLA,369,369
+334,Bhandara,MOHADI,DEWHADA KH,256716,DEWHADA KH.,413,413
+335,Bhandara,Mohadi,Dhiwarwada,256736,Dhiwarwada,452,452
+336,Bhandara,Mohadi,Dhop,256647,Dhop,371,371
+337,Bhandara,Mohadi,Dhusala,256666,Dhusala,495,495
+338,Bhandara,Mohadi,Dongargaon,256678,Dongargaon,645,473
+339,Bhandara,Mohadi,Ekalari,256712,Ekalari,554,554
+340,Bhandara,Mohadi,Hardoli,256692,Hardoli,570,523
+341,Bhandara,Mohadi,Hivra,256645,Hivra,402,402
+342,Bhandara,Mohadi,Jamb,256646,Jamb,915,809
+343,Bhandara,Mohadi,Jambhora,256728,Jambhora,747,441
+344,Bhandara,Mohadi,Jambhora,256729,Kisanpur,99,99
+345,Bhandara,Mohadi,Kandri,256662,Kandri,1064,1064
+346,Bhandara,Mohadi,Kanhadgaon,256690,Kanhadgaon,335,335
+347,Bhandara,Mohadi,Kanhalgaon(mundhari),256727,Kanhalgaon(mundhari),220,214
+348,Bhandara,Mohadi,Kardi,256724,Kardi,1179,962
+349,Bhandara,Mohadi,Kate Bamhani,256652,Kate Bamhani,182,182
+350,Bhandara,Mohadi,Kati,256676,Kati,240,240
+351,Bhandara,Mohadi,Kesalwada,256730,Kesalwada (jambhora),144,144
+352,Bhandara,Mohadi,Kesalwada,256731,Lendezari (jambhora),9,9
+353,Bhandara,Mohadi,Khadki,256739,Bonde,61,3
+354,Bhandara,Mohadi,Khadki,256738,Dongardeo,102,82
+355,Bhandara,Mohadi,Khadki,256737,Khadki,460,275
+356,Bhandara,Mohadi,Khairlanji,256667,Khairlanji,190,190
+357,Bhandara,MOHADI,KHAMARI BK,256704,KHAMARI BK,585,579
+358,Bhandara,Mohadi,Khutsawari,256694,Khutsawari,300,300
+359,Bhandara,Mohadi,Kusari,256683,Kushari,597,419
+360,Bhandara,Mohadi,Mahalgaon,256680,Mahalgaon,187,97
+361,Bhandara,Mohadi,Mahalgaon,256681,Morgaon,142,142
+362,Bhandara,Mohadi,Malida,256670,Malida,185,185
+363,Bhandara,Mohadi,Mandesar,256695,Mandesar,377,377
+364,Bhandara,Mohadi,Mandesar,256696,Rampur,211,211
+365,Bhandara,MOHADI,MOHAGAON (DEVI),256701,MOHAGAON (DEVI),533,533
+366,Bhandara,MOHADI,MOHGAON (KARDI),256722,DAWADIPAR (KARDI),61,61
+367,Bhandara,Mohadi,Mohgaon (kardi),606173,Jambhalapani,21,21
+368,Bhandara,Mohadi,Mohgaon (kardi),256721,Mohgaon (nilaj),194,129
+369,Bhandara,MOHADI,MUNDHARI BK,256726,MUNDHARI BUJ,736,569
+370,Bhandara,MOHADI,MUNDHARI KH,256725,MUNDHARI KH,352,294
+371,Bhandara,MOHADI,NAVEGAON BK,256720,NAVEGAON BUJ.,216,216
+372,Bhandara,Mohadi,Navegaon (dhusala),256668,Navegaon (dhusala),250,250
+373,Bhandara,Mohadi,Neri,256707,Neri,571,539
+374,Bhandara,MOHADI,NILAJ KH,256723,NILAJ KH,234,50
+375,Bhandara,MOHADI,NILAJ BK,256719,NILAJ BK,445,319
+376,Bhandara,Mohadi,Pachgaon,256708,Pachgaon,646,626
+377,Bhandara,Mohadi,Pahuni,256715,Pahuni,285,280
+378,Bhandara,Mohadi,Paldongari,256665,Paldongari,177,177
+379,Bhandara,Mohadi,Palora,256732,Palora (jambhora),790,599
+380,Bhandara,Mohadi,Pandharabodi,256677,Pandharabodi,370,370
+381,Bhandara,MOHADI,PANJARA (BORI),256734,BORI,138,138
+382,Bhandara,MOHADI,PANJARA (BORI),256733,PANJARA (BORI),202,202
+383,Bhandara,MOHADI,PANJARA (GRAMDAN),256660,PANJARA(GRAMDAN),41,41
+384,Bhandara,MOHADI,PARDI,603799,KHODGAON,1,1
+385,Bhandara,Mohadi,Pardi,256689,Pardi,385,385
+386,Bhandara,MOHADI,PIMPALGAON (KANHALGAON),256679,PIMPALGAON (KANHALGAON),165,160
+387,Bhandara,MOHADI,PIMPALGAON (ZANZAD),256703,CHORKHAMARI,171,171
+388,Bhandara,MOHADI,PIMPALGAON (ZANZAD),256702,PIMPALGAON (KHAMARI,207,207
+389,Bhandara,Mohadi,Roha,256685,Ghatkuroda,110,110
+390,Bhandara,Mohadi,Roha,256684,Roha,485,169
+391,Bhandara,Mohadi,Rohna,256700,Rohna,552,552
+392,Bhandara,Mohadi,Sakarla,256669,Sakarla,255,255
+393,Bhandara,MOHADI,SALAI BK,256653,SALAI BUJ,465,465
+394,Bhandara,MOHADI,SALAI KH,256649,SALAI KH.,486,370
+395,Bhandara,Mohadi,Salebardi,256675,Salebardi,189,189
+396,Bhandara,Mohadi,Satona,256714,Satona,736,581
+397,Bhandara,Mohadi,Sirsoli,256691,Sirsoli,210,210
+398,Bhandara,Mohadi,Sitepar(zanzad),256693,Sitepar,220,220
+399,Bhandara,Mohadi,Siwani,256674,Siwani,220,220
+400,Bhandara,Mohadi,Tadgaon,606171,Sihari,144,144
+401,Bhandara,Mohadi,Tadgaon,256648,Tadgaon,340,340
+402,Bhandara,Mohadi,Takala,256651,Takala,230,230
+403,Bhandara,Mohadi,Tanga,256654,Tanga,291,147
+404,Bhandara,Mohadi,Usarra,256650,Usarra,600,452
+405,Bhandara,Mohadi,Vihirgaon,256655,Vihirgaon,249,249
+406,Bhandara,Mohadi,Wadegaon,256682,Wadegaon,320,320
+407,Bhandara,Mohadi,Warthi,256709,Warthi (CT),3316,3316
+408,Bhandara,Mohadi,Wasera,256659,Futara,109,106
+409,Bhandara,Mohadi,Wasera,256658,Wasela,43,43
+410,Bhandara,Pauni,Adyal,256122,Adyal,2169,2111
+411,Bhandara,Pauni,Akot,256153,Akot,750,647
+412,Bhandara,Pauni,Amgaon,256237,Amgaon (adarsh),224,224
+413,Bhandara,Pauni,Amgaon,593074,Salebhatti,1,0
+414,Bhandara,Pauni,Asgaon,256178,Asgaon,1235,1212
+415,Bhandara,Pauni,Bachewadi,256163,Bachewadi,203,180
+416,Bhandara,Pauni,Bahmani (sindpuri),256210,Brahmani (sindpuri),291,291
+417,Bhandara,Pauni,Betala,256248,Betala (pauni),223,68
+418,Bhandara,Pauni,Betala,603804,Kachekhani,1,0
+419,Bhandara,Pauni,Betala,593077,Rohana (wahi),6,6
+420,Bhandara,Pauni,Betala,256250,Singori (wahi),95,3
+421,Bhandara,Pauni,Betala,256249,Welwa,119,111
+422,Bhandara,Pauni,Bhawad,256164,Bhawad,529,529
+423,Bhandara,Pauni,Bhendala,256180,Bhendara,357,357
+424,Bhandara,Pauni,Bhendala,256182,Wadegaon (sindpuri),117,117
+425,Bhandara,Pauni,Bhendala,256181,Yenoda,74,74
+426,Bhandara,Pauni,Bhojapur,256218,Bhojapur (pauni),270,270
+427,Bhandara,Pauni,Bhojapur,256221,Chandakapur (i),110,96
+428,Bhandara,Pauni,Bhojapur,256219,Rewani,129,13
+429,Bhandara,Pauni,Bhojapur,593076,Selari,20,19
+430,Bhandara,Pauni,Bhojapur,256220,Sindhi,47,47
+431,Bhandara,Pauni,Bhuyar,256231,Bhuyar,859,859
+432,Bhandara,Pauni,Borgaon,256187,Borgaon (asgaon),319,319
+433,Bhandara,Pauni,Bramhi,256161,Ambadi (navegaon),60,34
+434,Bhandara,Pauni,Bramhi,256160,Brahmi,538,523
+435,Bhandara,Pauni,Bramhi,256162,Navegaon (brahmi),103,103
+436,Bhandara,Pauni,Chakara,256156,Chakara,230,230
+437,Bhandara,Pauni,Chichal,256146,Chichal,1384,1022
+438,Bhandara,PAUNI,Chichkheda,256201,CHICHKHEDA,105,1
+439,Bhandara,Pauni,Chikhali,256127,Chikhali (adyal),284,214
+440,Bhandara,Pauni,Dhamani,256192,Dhamani,232,232
+441,Bhandara,Pauni,Dhanori,256214,Dhanori,232,232
+442,Bhandara,Pauni,Fanoli,256174,Atri,132,132
+443,Bhandara,Pauni,Fanoli,256173,Fanoli,151,151
+444,Bhandara,Pauni,Gose Bk.,256150,Gose Bk.,293,224
+445,Bhandara,Pauni,Gose Kh.,256152,Gose Kh.,364,291
+446,Bhandara,Pauni,Gudegaon,256222,Gudegaon,471,471
+447,Bhandara,Pauni,Itgaon,256208,Itgaon (kurza),233,233
+448,Bhandara,Pauni,Junona,256184,Junona,279,244
+449,Bhandara,Pauni,Kakepar,256239,Dhakundi,24,24
+450,Bhandara,Pauni,Kakepar,256238,Kakepar,218,218
+451,Bhandara,Pauni,Kakepar,256240,Tekadi,155,80
+452,Bhandara,Pauni,Kalewada,256134,Kalewada,240,240
+453,Bhandara,Pauni,Kalewada,256135,Kamkazari,65,65
+454,Bhandara,Pauni,Kalewada,256136,Khairi (tirri),90,21
+455,Bhandara,Pauni,Kanhalgaon,256229,Chandi,157,50
+456,Bhandara,Pauni,Kanhalgaon,256230,Channewada,72,62
+457,Bhandara,Pauni,Kanhalgaon,256228,Kanhalgaon (somnala),425,384
+458,Bhandara,Pauni,Katurli,256175,Katurli,302,232
+459,Bhandara,Pauni,Katurli,256176,Somanala Kh.,38,27
+460,Bhandara,Pauni,Kesalwada,256124,Kesalapuri,54,36
+461,Bhandara,Pauni,Kesalwada,256123,Kesalwada (chikhali),210,173
+462,Bhandara,Pauni,Kesalwada,256126,Salewada,102,102
+463,Bhandara,Pauni,Kesalwada,256125,Telpendhari,27,9
+464,Bhandara,Pauni,Khairi (diwan),256179,Khairi (diwan),395,395
+465,Bhandara,Pauni,Khambadi,256171,Borgaon (khambadi),68,4
+466,Bhandara,Pauni,Khambadi,256170,Khambadi,168,117
+467,Bhandara,Pauni,Khapari (korambhi),256206,Khapari (korambhi),165,165
+468,Bhandara,Pauni,Khatkheda,256223,Khatkheda,247,247
+469,Bhandara,Pauni,Khatkheda,256224,Nandikheda,77,60
+470,Bhandara,Pauni,Kodurli,256213,Kodurli (pawani),409,409
+471,Bhandara,Pauni,Kondha,256141,Kondha,1168,1168
+472,Bhandara,Pauni,Korambi,256204,Khaksi,15,15
+473,Bhandara,Pauni,Korambi,256203,Korambhi (khapri),222,177
+474,Bhandara,Pauni,Korambi,593073,Mujbi,4,0
+475,Bhandara,Pauni,Korambi,256205,Thana (korambi),27,13
+476,Bhandara,Pauni,Kosara,256142,Kosara,719,684
+477,Bhandara,Pauni,Kosara,256143,Nirgudi,40,3
+478,Bhandara,Pauni,Kurza,256209,Kurza,461,456
+479,Bhandara,Pauni,Lonara,256212,Lonhara,373,224
+480,Bhandara,Pauni,Malchi (punarvasan),256148,Malchi,75,54
+481,Bhandara,Pauni,Malchi (punarvasan),256149,Pendhari,50,1
+482,Bhandara,Pauni,Mangali,256186,Mangali (chauras),760,730
+483,Bhandara,Pauni,Mendha (punrvasan),256151,Mendha (punarvasan),192,192
+484,Bhandara,Pauni,Mendhegaon,256233,Khapari (bhugar),62,62
+485,Bhandara,Pauni,Mendhegaon,256232,Mendhegaon,215,215
+486,Bhandara,Pauni,Minsi,256132,Bhikarminsi,33,33
+487,Bhandara,Pauni,Minsi,256131,Minsi,305,299
+488,Bhandara,Pauni,Minsi,256133,Pannasi,25,5
+489,Bhandara,Pauni,Mohari,256191,Lawadi,94,50
+490,Bhandara,Pauni,Mohari,256190,Mohari,322,322
+491,Bhandara,Pauni,Mokhara,256211,Mokhara,174,103
+492,Bhandara,Pauni,Navegaon(palepar),256144,Nevegaon Alias Palepar,179,179
+493,Bhandara,Pauni,Nerala,256128,Nerala,686,666
+494,Bhandara,Pauni,Nighavi,256172,Nighavi,285,285
+495,Bhandara,Pauni,Nilaj,256235,Kotalpar,14,6
+496,Bhandara,Pauni,Nilaj,256234,Nilaj (amgaon),341,327
+497,Bhandara,Pauni,Nilaj,256236,Ranala Alias Ahnapurna,30,1
+498,Bhandara,Pauni,Nishti,256241,Nishti,344,344
+499,Bhandara,Pauni,Nishti,256243,Thanegaon,44,13
+500,Bhandara,Pauni,Nishti,256242,Waigaon,127,113
+501,Bhandara,Pauni,Pahungaon,593072,Jogikheda (hamesha),1,0
+502,Bhandara,Pauni,Pahungaon,593071,Jogikheda(rithi),1,0
+503,Bhandara,Pauni,Pahungaon,256202,Kawadsi (parsodi),35,6
+504,Bhandara,Pauni,Pahungaon,256200,Pahungaon,281,281
+505,Bhandara,Pauni,Palora,256165,Palora (chauras),417,417
+506,Bhandara,Pauni,Parsodi,256199,Gaidongari,91,91
+507,Bhandara,Pauni,Parsodi,256198,Mahalgaon (parsodi),34,13
+508,Bhandara,Pauni,Parsodi,256197,Parsodi (gaidongri),120,120
+509,Bhandara,Pauni,Pathari,256147,Pathari (chichal),400,352
+510,Bhandara,Pauni,Pauna Buj,256193,Pauna Bk.,253,253
+511,Bhandara,Pauni,Pauna Kh.,256189,Visapur,124,124
+512,Bhandara,Pauni,Pauna Kh.,256188,Pauna Kh.,311,227
+513,Bhandara,Pauni,Pilandri,256140,Kodurli,65,65
+514,Bhandara,Pauni,Pilandri,256139,Pilandri,330,314
+515,Bhandara,Pauni,Pimpalgaon,256166,Pimpalgaon (nipani),448,448
+516,Bhandara,Pauni,Ranala,256169,Khairi (telota),137,137
+517,Bhandara,Pauni,Ranala,256168,Ranala,189,189
+518,Bhandara,Pauni,Ranala,593075,Thana (navegal),1,1
+519,Bhandara,Pauni,Ruyad,256196,Ruyad,326,304
+520,Bhandara,Pauni,Saundal,256159,Khapari (saundad),53,53
+521,Bhandara,Pauni,Saundal,256157,Saundal,189,189
+522,Bhandara,Pauni,Saundal,256158,Surbodi,128,1
+523,Bhandara,Pauni,Sawarla,256216,Savarla,834,635
+524,Bhandara,Pauni,Sawarla,256217,Vilam,96,61
+525,Bhandara,Pauni,Sedi Somnala,256227,Khokari Dhorap,126,126
+526,Bhandara,Pauni,Sedi Somnala,256225,Sedisomnala,265,264
+527,Bhandara,Pauni,Sedi Somnala,256226,Shivnala (gondi),62,1
+528,Bhandara,Pauni,Sendri Bk.,256195,Sendri Bk.,350,348
+529,Bhandara,Pauni,Sendri Kh.,256167,Sendri Kh.,270,264
+530,Bhandara,Pauni,Shivnala Chouras,256185,Shivnala (walani),422,422
+531,Bhandara,Pauni,Sindpuri,256207,Sindpuri (pauni),137,137
+532,Bhandara,Pauni,Sirsala,256215,Sirsala,190,144
+533,Bhandara,Pauni,Somanala Bk.,256155,Somanala Bk.,297,297
+534,Bhandara,Pauni,Sonegaon,256145,Sonegaon (virli),320,320
+535,Bhandara,Pauni,Tirri,256130,Segaon,38,38
+536,Bhandara,Pauni,Tirri,256129,Tirri,402,402
+537,Bhandara,Pauni,Umari,256194,Umari (visapur),191,191
+538,Bhandara,Pauni,Umari(adyal),256137,Umari (adyal),301,276
+539,Bhandara,Pauni,Virli Khandar,256177,Virali(Khandar),402,402
+540,Bhandara,Pauni,Wahi,256245,Garadapur,100,31
+541,Bhandara,Pauni,Wahi,256247,Naigaon,55,55
+542,Bhandara,Pauni,Wahi,256246,Nimgaon (avalgaon),55,55
+543,Bhandara,Pauni,Wahi,256244,Wahi,308,131
+544,Bhandara,Pauni,Walani,256183,Walani,650,650
+545,Bhandara,Pauni,Wasela,256154,Wasela,246,246
+546,Bhandara,Sakoli,Amgaon (bk.),256387,Amgaon bk.,188,188
+547,Bhandara,Sakoli,Bamhani,604221,Bamhani,255,182
+548,Bhandara,Sakoli,Bampewada,256352,Bampewada,648,290
+549,Bhandara,Sakoli,Baradkinhi,256392,Baradkinhi,141,141
+550,Bhandara,Sakoli,Baradkinhi,256394,Kitadi,52,52
+551,Bhandara,Sakoli,Bodra,256369,Bodra,542,335
+552,Bhandara,Sakoli,Bolde,256407,Bolde,294,294
+553,Bhandara,Sakoli,Bolde,256408,Salai Bk.,220,220
+554,Bhandara,Sakoli,Bonde,256395,Bonde,252,252
+555,Bhandara,Sakoli,Borgaon,256361,Borgaon,177,137
+556,Bhandara,Sakoli,Chandori,256346,Chandori,631,631
+557,Bhandara,Sakoli,Chandori,256347,Makkitola,42,42
+558,Bhandara,Sakoli,Chargaon,256388,Chargaon,236,236
+559,Bhandara,Sakoli,Chargaon,256389,Sundari,135,135
+560,Bhandara,Sakoli,Dharmapuri,256383,Dharmapuri,310,188
+561,Bhandara,Sakoli,Dharmapuri,256384,Gadkumbhali,212,132
+562,Bhandara,Sakoli,Ghanod,256345,Ghanod,570,482
+563,Bhandara,Sakoli,Girola,256393,Girola,214,214
+564,Bhandara,Sakoli,Gondumari,256400,Gondumari,730,730
+565,Bhandara,Sakoli,Gudhari,256366,Chichgaon,117,117
+566,Bhandara,Sakoli,Gudhari,256365,Gudhari,201,201
+567,Bhandara,Sakoli,Gudhari,256367,Sarati,152,152
+568,Bhandara,Sakoli,Jambhali,256370,Jambhali,449,292
+569,Bhandara,Sakoli,Jambhali Khamba,256344,Jambhali Khamba,424,303
+570,Bhandara,Sakoli,Katangdhara,256413,Katangdhara,206,206
+571,Bhandara,Sakoli,Katangdhara,256414,Nyaharwani,63,63
+572,Bhandara,Sakoli,Kesalwada,256411,Kesalwada,148,148
+573,Bhandara,Sakoli,Khairi,256360,Amgaon Kh.,160,102
+574,Bhandara,Sakoli,Khairi,256357,Khairi,133,133
+575,Bhandara,Sakoli,Khairi,256359,Pitezari,166,166
+576,Bhandara,Sakoli,Khairi,256358,Walmazari,209,209
+577,Bhandara,Sakoli,Khamba,256421,Khamba,441,307
+578,Bhandara,Sakoli,Khamba,256422,Rengepar,187,33
+579,Bhandara,Sakoli,Khandala,256403,Khandala,610,328
+580,Bhandara,Sakoli,Kinhi,256373,Kinhi,560,560
+581,Bhandara,Sakoli,Kinhi (ekodi),256364,Kinhi(ekodi),926,554
+582,Bhandara,Sakoli,Kumbhali,256386,Kumbhali,644,527
+583,Bhandara,Sakoli,Lawari,256424,Lawari,891,891
+584,Bhandara,Sakoli,Mahalgaon,256398,Mahalgaon,498,498
+585,Bhandara,Sakoli,Malutola,256423,Malutola,320,320
+586,Bhandara,Sakoli,Mohgata,256353,Mohgata,209,36
+587,Bhandara,Sakoli,Mokhe,256374,Mokhe,233,233
+588,Bhandara,Sakoli,Mokhe,256375,Sitepar,105,105
+589,Bhandara,Sakoli,Mundipar,256385,Mundipar,296,229
+590,Bhandara,Sakoli,Nilaj,256399,Nilaj,382,382
+591,Bhandara,Sakoli,Palasgaon,256401,Palasgaon,960,815
+592,Bhandara,Sakoli,Palaspani,256351,Nipiyartola,76,76
+593,Bhandara,Sakoli,Palaspani,256350,Palaspani,379,379
+594,Bhandara,Sakoli,Papala (bk.),256409,Papala Bk.,290,290
+595,Bhandara,Sakoli,Parastola,256362,Parastola,287,64
+596,Bhandara,Sakoli,Parsodi,256390,Parsodi,1012,1002
+597,Bhandara,Sakoli,Pathari,256377,Jamanapur,621,621
+598,Bhandara,Sakoli,Pathari,256378,Khairlanji,164,164
+599,Bhandara,Sakoli,Pathari,256376,Pathari,240,240
+600,Bhandara,Sakoli,Pindkepar,256371,Pindkepar,858,858
+601,Bhandara,Sakoli,Sakara,256402,Sakara,270,270
+602,Bhandara,Sakoli,Sakara,604216,Watetekar,23,17
+603,Bhandara,Sakoli,Salebardi,256417,Salebardi,212,164
+604,Bhandara,Sakoli,Salebardi,256418,Yetgaon,78,78
+605,Bhandara,Sakoli,Sangadi,256419,Sangadi,1727,1560
+606,Bhandara,Sakoli,Sangaon,256412,Sangaon,155,107
+607,Bhandara,Sakoli,Sasara,256415,Sasara,1077,1016
+608,Bhandara,Sakoli,Satalwada,256355,Satalwada,404,404
+609,Bhandara,Sakoli,Sawarbandh,256354,Sawarbandh,567,220
+610,Bhandara,Sakoli,Siregaontola,256420,Siregaontola,148,148
+611,Bhandara,Sakoli,Sivanibandh,256404,Sivanibandh,363,198
+612,Bhandara,Sakoli,Sonpuri,256368,Sonpuri,234,57
+613,Bhandara,Sakoli,Sukali,256397,Sukali,385,331
+614,Bhandara,Sakoli,Tudmapuri,256372,Tudmapuri,392,200
+615,Bhandara,Sakoli,Ukara,256380,Ukara,172,143
+616,Bhandara,Sakoli,Umari,256391,Umari,942,750
+617,Bhandara,Sakoli,Umarzari,256343,Ategaon,153,95
+618,Bhandara,Sakoli,Umarzari,256342,Umarzari,213,144
+619,Bhandara,Sakoli,Usgaon,256349,Sonegaon,126,126
+620,Bhandara,Sakoli,Usgaon,256348,Usgaon,285,285
+621,Bhandara,Sakoli,Vihirgaon Buradya,256416,Vihirgaon,363,348
+622,Bhandara,Sakoli,Wadad,256396,Wadad,1298,628
+623,Bhandara,Sakoli,Wadegaon,256356,Wadegaon,442,223
+624,Bhandara,Sakoli,Wangi,256406,Wangi,403,403
+625,Bhandara,Sakoli,Wirshi,256379,Wirshi,658,658
+626,Bhandara,Sakoli,Yekodi,256363,Yekodi,659,553
+627,Bhandara,Sakoli,Zadgaon,256410,Papala Kh.,77,77
+628,Bhandara,Sakoli,Zadgaon,256405,Zadgaon,148,21
+629,Bhandara,Tumsar,Alesur,593098,Alesur,368,301
+630,Bhandara,Tumsar,Alesur,256044,Gonditola,232,114
+631,Bhandara,Tumsar,Alesur,256046,Khapa (lendezari),94,94
+632,Bhandara,Tumsar,Alesur,256043,Vitpur,90,68
+633,Bhandara,Tumsar,Ambagad,255988,Ambagad,602,602
+634,Bhandara,Tumsar,Ambagad,255989,Dawezari,86,21
+635,Bhandara,Tumsar,Ambagad,255990,Rampur Hamesha,226,123
+636,Bhandara,Tumsar,Asalpani,256037,Asalpani,165,165
+637,Bhandara,Tumsar,Asalpani,256038,Garkabhonga,34,5
+638,Bhandara,Tumsar,Asalpani,256040,Karli,89,3
+639,Bhandara,Tumsar,Asalpani,256039,Mothagaon,107,107
+640,Bhandara,Tumsar,Ashti,256055,Ashti,1072,622
+641,Bhandara,Tumsar,Balapur Hamesha,256054,Balapur Hamesha,334,334
+642,Bhandara,Tumsar,Bamhani,255998,Bramhani,335,335
+643,Bhandara,Tumsar,Bapera (a),256018,Bapera (Ambagad),294,294
+644,Bhandara,Tumsar,Bapera (si),256072,Bapera (Sihora),677,677
+645,Bhandara,Tumsar,Binaki,593096,Binakhi,270,228
+646,Bhandara,Tumsar,Borgaon,256081,Borgaon,265,265
+647,Bhandara,Tumsar,Bori,256002,Bori,538,399
+648,Bhandara,Tumsar,Chandpur,256112,Chandpur,296,296
+649,Bhandara,Tumsar,Chargaon,255994,Chargaon,274,274
+650,Bhandara,Tumsar,Chicholi,256118,Bhondki,43,43
+651,Bhandara,Tumsar,Chicholi,256117,Chicholi,520,43
+652,Bhandara,Tumsar,Chikhala,256106,Chikhala,1010,1000
+653,Bhandara,Tumsar,Chikhali,256041,Chikhali (Kamkasur),311,187
+654,Bhandara,Tumsar,Chulhad,256067,Chulhad,1284,1142
+655,Bhandara,Tumsar,Chulhardoh,256120,Agri,63,54
+656,Bhandara,Tumsar,Chulhardoh,256119,Chulhardoh,89,53
+657,Bhandara,Tumsar,Dawezari,256085,Dawezari (Dhanegaon),454,106
+658,Bhandara,Tumsar,Deonara,256051,Deonara,113,57
+659,Bhandara,Tumsar,Deonara,256052,Gowaritola,298,95
+660,Bhandara,Tumsar,Deorideo,256068,Deorideo,231,39
+661,Bhandara,Tumsar,Deosarra,256073,Deosarra,298,298
+662,Bhandara,Tumsar,Dewhadi,255993,Dewhadi,2217,2154
+663,Bhandara,Tumsar,Dhanegaon,256080,Dhanegaon,247,247
+664,Bhandara,Tumsar,Dhorwada,255996,Dhorwada,286,71
+665,Bhandara,Tumsar,Dhutera,256063,Dhutera,306,306
+666,Bhandara,Tumsar,Dhutera,256064,Hirapur Hamesha,160,44
+667,Bhandara,Tumsar,Dhutera,256066,Mohagaon Khurd,69,1
+668,Bhandara,Tumsar,Dhutera,256065,Sakkardara,253,66
+669,Bhandara,Tumsar,Dongari Bk.,256048,Bajartola,712,223
+670,Bhandara,Tumsar,Dongari Bk.,256047,Dongari Bk.,439,340
+671,Bhandara,Tumsar,Dongarla,256093,Dongarla,461,461
+672,Bhandara,Tumsar,Garra,256036,Garra,793,793
+673,Bhandara,Tumsar,Gobarwahi,256116,Gobarwahi,647,621
+674,Bhandara,Tumsar,Gondekhari,256071,Gondekhari,297,297
+675,Bhandara,Tumsar,Gonditola,256074,Gonditola,478,478
+676,Bhandara,Tumsar,Gudri Kh.,256111,Dhamlewada,39,39
+677,Bhandara,Tumsar,Gudri Kh.,256108,Gudru Kh.,99,21
+678,Bhandara,Tumsar,Gudri Kh.,256109,Khandal,98,98
+679,Bhandara,Tumsar,Gudri Kh.,256110,Sodipur,84,67
+680,Bhandara,Tumsar,Hardoli (a),256017,Hardoli (Ambagad),314,314
+681,Bhandara,Tumsar,Hardoli (si),256099,Hardoli (Sihora),420,400
+682,Bhandara,Tumsar,Hasara,256005,Hasara,661,533
+683,Bhandara,Tumsar,Hingna,256006,Hingana,258,245
+684,Bhandara,Tumsar,Karkapur,256094,Karkapur,310,296
+685,Bhandara,Tumsar,Kawalewada,256062,Kawalewada,412,412
+686,Bhandara,Tumsar,Khairlanji (dongarla),256101,Khairlanji (dongarla),171,109
+687,Bhandara,Tumsar,Khapa,256004,Khapa(Tumsar),673,43
+688,Bhandara,Tumsar,Kharbi,256012,Kharbi,425,425
+689,Bhandara,Tumsar,Koshti,255999,Koshti,156,156
+690,Bhandara,Tumsar,Koshti,256000,Shiwani,135,135
+691,Bhandara,Tumsar,Kurmuda,256053,Kurmuda,289,289
+692,Bhandara,Tumsar,Lendezari,256031,Lawada,123,105
+693,Bhandara,Tumsar,Lendezari,256029,Lendezari,185,63
+694,Bhandara,Tumsar,Lendezari,256030,Mangarli,117,91
+695,Bhandara,Tumsar,Lendezari,256032,Pangadi,14,14
+696,Bhandara,Tumsar,Lobhi,256056,Lobhi,677,603
+697,Bhandara,Tumsar,Lohara,256021,Lohara,468,385
+698,Bhandara,Tumsar,Machhera,256087,Machhera,251,251
+699,Bhandara,Tumsar,Madagi,255997,Madagi (dewhadi),874,874
+700,Bhandara,Tumsar,Mahalgaon,256078,Bramhantola,123,123
+701,Bhandara,Tumsar,Mahalgaon,256077,Mahalgaon,225,225
+702,Bhandara,Tumsar,Mandhal,256010,Mandhal,494,494
+703,Bhandara,Tumsar,Mandhal,256011,Panjara,140,123
+704,Bhandara,Tumsar,Mandwi (dhabale),256104,Mandwi (dhabale),235,235
+705,Bhandara,Tumsar,Mangali (si.),256069,Mangali (si.),210,210
+706,Bhandara,Tumsar,Mangali(d),256015,Mangali(d),358,358
+707,Bhandara,Tumsar,Mehegaon,256007,Mehegaon,275,191
+708,Bhandara,Tumsar,Mitewani,256016,Mitewani,698,241
+709,Bhandara,Tumsar,Mohadi Khapa,256075,Mohadi Khapa,395,395
+710,Bhandara,Tumsar,Mohagaon,256098,Mohagaon (khadan),385,241
+711,Bhandara,Tumsar,Murali,256083,Murali,180,180
+712,Bhandara,Tumsar,Nakadongari,256060,Naka Dongari,865,642
+713,Bhandara,Tumsar,Navargaon,256003,Navargaon (tumsar),192,192
+714,Bhandara,Tumsar,Pachara,255992,Nawegaon,62,8
+715,Bhandara,Tumsar,Pachara,255991,Pachara,207,105
+716,Bhandara,Tumsar,Panjara,256102,Panjara (rengepar),119,119
+717,Bhandara,Tumsar,Panjara,256103,Rengepar (panjara),246,246
+718,Bhandara,Tumsar,Paraswada (dewhadi),256013,Paraswada (dewhadi),284,116
+719,Bhandara,Tumsar,Paraswada (sihora),256105,Paraswada (sihora),275,275
+720,Bhandara,Tumsar,Pathari,256061,Pathari,631,508
+721,Bhandara,Tumsar,Pawanara,256020,Pawanara,289,40
+722,Bhandara,Tumsar,Pawanarkhari,256059,Chandmara,140,109
+723,Bhandara,Tumsar,Pawanarkhari,256057,Pawanar Khari,277,103
+724,Bhandara,Tumsar,Pawanarkhari,256058,Pawanarkhari Hamesha,175,55
+725,Bhandara,Tumsar,Pipari Chunni,256089,Pipari Chunni,403,403
+726,Bhandara,Tumsar,Pipari Chunni,256090,Wangi,41,41
+727,Bhandara,Tumsar,Pipariya,256026,Gaimukh,87,43
+728,Bhandara,Tumsar,Pipariya,256027,Gowaritola,194,11
+729,Bhandara,Tumsar,Pipariya,256025,Pipariya,260,143
+730,Bhandara,Tumsar,Pipariya,256028,Sonpuri,24,22
+731,Bhandara,Tumsar,Pipra,256008,Pipra (sakhali),277,277
+732,Bhandara,Tumsar,Pipra,603811,Zanzeria,1,1
+733,Bhandara,Tumsar,Rajapur,256107,Rajapur,610,462
+734,Bhandara,Tumsar,Ranera,256091,Ranera,175,166
+735,Bhandara,Tumsar,Rongha,256033,Rongha,609,209
+736,Bhandara,Tumsar,Rupera,256086,Rupera,244,244
+737,Bhandara,Tumsar,Sakhadi,256019,Sakhadi,445,445
+738,Bhandara,Tumsar,Sihora,256079,Sihora,1347,994
+739,Bhandara,Tumsar,Silegaon,256097,Silegaon,772,372
+740,Bhandara,Tumsar,Sindpuri,256084,Sindpuri,462,462
+741,Bhandara,Tumsar,Sitasawangi,256115,Sitasawangi,890,540
+742,Bhandara,Tumsar,Sitepar,256100,Sitepar (khairlanji),154,154
+743,Bhandara,Tumsar,Sondya,256076,Sondya,286,145
+744,Bhandara,Tumsar,Sonegaon,256082,Sonegaon,370,370
+745,Bhandara,Tumsar,Sorna,256023,Lanzera,163,143
+746,Bhandara,Tumsar,Sorna,256024,Mandekasa,2,0
+747,Bhandara,Tumsar,Sorna,256022,Sorna,149,127
+748,Bhandara,Tumsar,Station Toli,256001,Stationtoli,340,205
+749,Bhandara,Tumsar,Sukali,255995,Sukali,545,545
+750,Bhandara,Tumsar,Sukali (nak),256070,Sukali (nak),296,296
+751,Bhandara,Tumsar,Susurdoh (punarvasan),256035,Kamkasur,40,1
+752,Bhandara,Tumsar,Susurdoh (punarvasan),606108,Sitekasa,57,57
+753,Bhandara,Tumsar,Susurdoh (punarvasan),256034,Susurdoh (punarvsan),135,135
+754,Bhandara,Tumsar,Tamaswadi,256096,Tamaswadi (umarwada),327,134
+755,Bhandara,Tumsar,Temani,256114,Khapa Mohadi,8,4
+756,Bhandara,Tumsar,Temani,256113,Temani,319,79
+757,Bhandara,Tumsar,Tudka,256014,Tamaswadi (tudka),198,94
+758,Bhandara,Tumsar,Tudka,606109,Tudka,235,185
+759,Bhandara,Tumsar,Umarwada,256095,Umar Wada,454,454
+760,Bhandara,Tumsar,Wahani,256088,Wahani,407,407
+761,Bhandara,Tumsar,Warpindakepar,256121,Warpindakepar,208,161
+762,Bhandara,Tumsar,Yedarbuchi,256050,Sundartola,212,36
+763,Bhandara,Tumsar,Yedarbuchi,256049,Yedarbuchi,216,216
+764,Bhandara,Tumsar,Yerli,256092,Yerli,771,771
+765,Bhandara,Tumsar,Zarli,256009,Zarli,146,146

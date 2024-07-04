@@ -1316,49 +1316,173 @@
         if (checkbox.checked) {
             document.getElementById('chwells').checked = true; // Check the "Show Wells" checkbox
             document.getElementById('bhandara_obs_wells').checked = true; // Check the "Observation Wells" checkbox
+            //document.getElementById('nashik_wells').checked = true;
             defineWell(document.getElementById('chwells')); // Call the defineWell function for "Show Wells"
-            GetSelectedWells(document.getElementById('bhandara_obs_wells')); // Call the GetSelectedWells function for "Observation Wells"
+            GetSelectedWells(document.getElementById('bhandara_obs_wells'));// Call the GetSelectedWells function for "Observation Wells"
+            //GetSelectedWells(document.getElementById('nashik_wells'));
             wellControls.style.display = 'block';
         } else {
             document.getElementById('chwells').checked = false; // Uncheck the "Show Wells" checkbox
             document.getElementById('bhandara_obs_wells').checked = false; // Uncheck the "Observation Wells" checkbox
+            //document.getElementById('nashik_wells').checked = false;
             clearWells(); // Call the clearWells function to remove both types of wells
             wellControls.style.display = 'none'; 
         }
     }
+
+    var popupLayer;
+    var popupLayersArray = [];
+    
+    async function tapStress() {
+        try {
+            // Show throbber while loading
+            document.getElementById('throbber').style.display = 'block';
+    
+            // Load CSV data
+            d3.csv("{% static 'bhandara_tap_connection/bhandara_villages_fhtc.csv' %}", async function(error, csvData) {
+                if (error) {
+                    console.error('Error loading the CSV file:', error);
+                    return;
+                }
+    
+                // Load JSON data
+                const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326");
+    
+                // Process CSV and JSON data
+                csvData.forEach(function(csvRow) {
+                    const block = csvRow.Block;
+                    const village = csvRow.Village;
+                    const houseConnection = csvRow['House Connection'];
+    
+                    // Find matching JSON record based on Block and Village
+                    const matchingJsonRecord = jsonData.features.find(function(jsonRow) {
+                        return jsonRow.properties.taluka_nam.toLowerCase() === csvRow.Block.toLowerCase() &&
+                               jsonRow.properties.area_name.toLowerCase() === csvRow.Village.toLowerCase();
+                    });
+    
+                    if (matchingJsonRecord) {
+                        const totalPop = matchingJsonRecord.properties.tot_p;
+                        const totConsumption = 55 * parseFloat(houseConnection) * parseFloat(totalPop);
+                        const stress = (parseFloat(totalPop) / parseFloat(houseConnection)).toFixed(2);
+    
+                        const popupContent = `
+                            <b>Village:</b> ${village}<br>
+                            <b>Block:</b> ${block}<br>
+                            <b>Daily Total Consumption:</b> ${totConsumption} liters<br>
+                            <b>Stress:</b> ${stress} people per tap connection<br>
+                            <b>Taps:</b> ${houseConnection}<br>
+                        `;
+                        const popupOptions = {
+                            maxWidth: 350
+                        };
+    
+                        function getColor(stress) {
+                            return stress > 70 ? '#cb0523' :
+                                   stress > 60 ? '#d11c31' :
+                                   stress > 50 ? '#d52938' :
+                                   stress > 40 ? '#d93a42' :
+                                   stress > 30 ? '#df504f' :
+                                   stress > 20 ? '#e77364' :
+                                   stress > 10 ? '#ef9075' :
+                                   stress > 5  ? '#f5c8b5' :
+                                   stress > 3  ? '#81bbd8' :
+                                                 '#197db6';
+                        }
+    
+                        popupLayer = L.geoJSON(matchingJsonRecord, {
+                            style: function(feature) {
+                                return {
+                                    color: 'black', // Boundary color
+                                    weight: 0.5,
+                                    opacity: 1,
+                                    fillColor: getColor(stress), // Fill color based on stress
+                                    fillOpacity: 0.7
+                                };
+                            },
+                            onEachFeature: function(feature, layer) {
+                                layer.bindPopup(popupContent, popupOptions);
+                            }
+                        });
+                        popupLayersArray.push(popupLayer);
+                    } else {
+                        //console.log(`No match found for Block=${block}, Village=${village}`);
+                    }
+                });
+    
+                // Add popupLayer to map if checkbox is checked
+                if (document.getElementById("tap_connection_layer").checked) {
+                    popupLayersArray.forEach(function(layer) {
+                        layer.addTo(mymap);
+                    });
+                    tap_stress_legend.addTo(mymap);
+                } else {
+                    tap_stress_legend.remove();
+                    popupLayersArray.forEach(function(layer) {
+                        mymap.removeLayer(layer);
+                    });
+                    popupLayersArray = [];
+                }
+    
+                // Hide throbber after loading
+                document.getElementById('throbber').style.display = 'none';
+            });
+    
+        } catch (error) {
+            console.error('Error in tapStress:', error);
+        }
+    }
+    
+    // Fetch JSON function
+    async function fetchJSON(url) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return await response.json();
+        } catch (error) {
+            console.error('Error fetching JSON:', error);
+            throw error; // Propagate the error
+        }
+    }
     
 
-   {% comment %} function toggleRiversAndBasins(checkbox) {
-        const checkboxes = document.querySelectorAll('#collapseOne .custom-control-input.rivers-and-basins');
-        checkboxes.forEach(cb => {
-            cb.checked = checkbox.checked;
-            cb.dispatchEvent(new Event('change'));  // Trigger the change event programmatically
-        });
-    }
+ var tap_stress_legend = L.control({position: 'bottomright'});
+ 
+ tap_stress_legend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'info legend'),
+     grades = [0, 3, 5, 10, 25, 45, 55, 70],
+     labels = ['<strong>Stress on taps</strong>'],
+     from, to;
+ 
+ 
+     function getColor(d) {
+        return d > 70 ? '#cb0523' :
+        d > 60 ? '#d11c31' :
+        d > 50 ? '#d52938' :
+        d > 40 ? '#d93a42' :
+        d > 30 ? '#df504f' :
+        d > 20 ? '#e77364' :
+        d > 10 ? '#ef9075' :
+        d > 5  ? '#f5c8b5' :
+        d > 3  ? '#81bbd8' :
+                 '#197db6';
+}
+ 
+     for (var i = 0; i < grades.length; i++) {
+         from = grades[i];
+         to = grades[i + 1];
+ 
+         labels.push(
+             '<i style="background:' + getColor(from + 1) + '"></i> ' +
+             from + (to ? '&ndash;' + to : '+'));
+     }
+ 
+     div.innerHTML = labels.join('<br>');
+     return div;
+ };
 
-     function toggleVillagesLayer(checkbox) {
-        var villagesLayer = "geonode:maha_village_polygon_29mar"; 
-        if (checkbox.checked) {
-            putWMSru(villagesLayer);
-            //console.log("village");
-        } else {
-            // Remove villages layer from the map if unchecked
-            removeLayerFromMap(villagesLayer);
-        }
-    }   {% endcomment %}
 
-    function toggleCombinedLayer(checkbox) {
-        if (checkbox.checked) {
-            // Show combined layer (villages and rivers)
-            putWMSru('geonode:maha_village_polygon_29mar');  // Adjust layer name as needed for villages
-            putWMS1('maharashtra_rivers_from_osm');          // Adjust layer name as needed for rivers
-            //checkIfLayersTouch();
-        } else {
-            // Remove combined layer (villages and rivers)
-            removeLayerFromMap('geonode:maha_village_polygon_29mar');  // Adjust layer name as needed for villages
-            removeLayerFromMap('maharashtra_rivers_from_osm');          // Adjust layer name as needed for rivers
-        }
-    }
     
     // Function to remove layer from map
     function removeLayerFromMap(layer) {
@@ -3528,10 +3652,8 @@ function addnashikWMSLegend(obj) {
                 removeWFSfac("bhandara_obs_wells");
             else if (fac === "{bhandara_obs_wells_stress}") {
                 removeWFSfac("bhandara_obs_wells");
-                console.log("Removing stress_legend from map");
-                if (mymap.hasLayer(stress_legend)) {
-                    mymap.removeControl(stress_legend);
-                }
+                //console.log("Removing stress_legend from map");
+                removeStressLegend();
             }
         }
     }
@@ -4638,10 +4760,7 @@ function addnashikWMSLegend(obj) {
 
                     activatedHealthFacility[facility] = healthFacility;
             updateStressLevelsOnMap();
-            console.log("Adding stress_legend to map inside putWFSFacilityStress");
-            if (!mymap.hasLayer(stress_legend)) {
-                stress_legend.addTo(mymap);
-            }
+            addStressLegend();
                 });
             }).catch(function (err) {
                 console.log('Fetch Error :-S', err);
@@ -4700,21 +4819,21 @@ async function updateStressLevelsOnMap() {
    
     const population = populationMap.get(feature.properties.VLECODE);
     const stressLevel = population ? (volume / population).toFixed(2) : 'N/A';
-    console.log(name, volume,population,stressLevel);
+    //console.log(name, volume,population,stressLevel);
     //console.log("stress:",stressLevel);
     return {volume, population, stressLevel };
    
     }
    
-    function getColor(stressLevel) {
+    function getColorWell(stressLevel) {
         if (stressLevel === 'N/A') return 'blue';
-        if (stressLevel < 0.05) return 'yellow';
-        if (stressLevel <= 0.1) return 'red';
-        if (stressLevel <= 0.134) return 'purple';
-        if (stressLevel === 0.135) return 'green';
-        if (stressLevel <= 0.2) return 'orange';
-        if (stressLevel > 0.2) return 'pink';
-        return 'blue'; // Fallback color for unexpected values
+        if (stressLevel < 0.05) return '#FC9CA2';
+        if (stressLevel <= 0.1) return '#FA4C58';
+        if (stressLevel <= 0.134) return '#E30613';
+        if (stressLevel === 0.135) return '#C70512';
+        if (stressLevel <= 0.2) return '#9F040E';
+        if (stressLevel > 0.2) return '#77030B';
+        return '#500207'; // Fallback color for unexpected values
     }
    
     mymap.eachLayer(function(layer) {
@@ -4722,7 +4841,7 @@ async function updateStressLevelsOnMap() {
     const { stressLevel } = calculateVolumeAndStress(layer.feature);
     const markerOptions = {
     radius: 6,
-    fillColor: getColor(stressLevel),
+    fillColor: getColorWell(stressLevel),
     color: "#000",
     weight: 1,
     opacity: 1,
@@ -4733,25 +4852,40 @@ async function updateStressLevelsOnMap() {
     }
     });
     }
-   
+    
     const stress_legend = L.control({ position: 'bottomright' });
    
-    stress_legend.onAdd = function(mymap) {
-    const div = L.DomUtil.create('div', 'info stress_legend');
-    const labels = ['<strong>Premonsoon Stress Level (Assuming 135 liters per head per day)</strong>'];
-    const colors = ['blue', 'yellow', 'red', 'purple', 'green', 'orange', 'pink'];
+    function addStressLegend() {
+        stress_legend.onAdd = function (map) {
+            const div = L.DomUtil.create('div', 'info stress_legend');
+            const labels = ['<strong>Premonsoon Stress Level (Assuming 135 liters per head per day)</strong>'];
+            const ranges = [
+                {label: 'N/A', color: 'blue'},
+                {label: '0 - 0.05 cubic m per head', color: '#FC9CA2'},
+                {label: '0.05 - 0.1 cubic m per head', color: '#FA4C58'},
+                {label: '0.1 - 0.134 cubic m per head', color: '#E30613'},
+                {label: '== 0.135 cubic m per head', color: '#C70512'},
+                {label: '0.135 - 0.2 cubic m per head', color: '#9F040E'},
+                {label: '> 0.2 cubic m per head', color: '#77030B'}
+            ];
     
-    labels.push('<div class="label"><i style="background:' + colors[0] + '"></i> N/A</div>');
-    labels.push('<div class="label"><i style="background:' + colors[1] + '"></i> 0 - 0.05 cubic m per head</div>');
-    labels.push('<div class="label"><i style="background:' + colors[2] + '"></i> 0.05 - 0.1 cubic m per head</div>');
-    labels.push('<div class="label"><i style="background:' + colors[3] + '"></i> 0.1 - 0.134 cubic m per head</div>');
-    labels.push('<div class="label"><i style="background:' + colors[4] + '"></i> == 0.135 cubic m per head</div>');
-    labels.push('<div class="label"><i style="background:' + colors[5] + '"></i> 0.135 - 0.2 cubic m per head</div>');
-    labels.push('<div class="label"><i style="background:' + colors[6] + '"></i> > 0.2 cubic m per head</div>');
-   
-    div.innerHTML = labels.join('<br>');
-    return div;
-    };
+            for (const range of ranges) {
+                labels.push(`<div class="label"><i style="background:${range.color}"></i> ${range.label}</div>`);
+            }
+    
+            div.innerHTML = labels.join('<br>');
+            return div;
+        };
+    
+        stress_legend.addTo(mymap);
+    }
+    
+    // Remove legend from map
+    function removeStressLegend() {
+        if (stress_legend) {
+            stress_legend.remove();
+        }
+    }
 
 
     $('.select').click(function () {
