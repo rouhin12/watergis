@@ -1346,7 +1346,7 @@
                 }
     
                 // Load JSON data
-                const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326");
+                const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&CQL_FILTER=dist_name='Bhandara'");
     
                 // Process CSV and JSON data
                 csvData.forEach(function(csvRow) {
