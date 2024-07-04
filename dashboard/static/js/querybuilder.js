@@ -66,6 +66,22 @@ function clearGraphic() {
  }
 }
 
+$("#toggleQuerySection").on("change", function () {
+    if ($(this).is(":checked")) {
+        $("#querySection").show();
+    } else {
+        $("#querySection").hide();
+    }
+});
+
+$("#toggleQuerySection2").on("change", function () {
+    if ($(this).is(":checked")) {
+        $("#querySection2").show();
+    } else {
+        $("#querySection2").hide();
+    }
+});
+
 $("#enableColumn2").on("change", function () {
  if ($(this).is(":checked")) {
  $("#column2Options").show();
@@ -88,15 +104,7 @@ function clearAllOptions() {
 $("#clearText").on("click", function () {
  document.getElementById("rawquery").value = "";
  clearAllOptions();
- // $("#addAnotherLayerCheckbox").prop("checked", false);
 });
-
-// $("#addAnotherLayerCheckbox").on("change", function () {
-// if ($(this).is(":checked")) {
-// // Clear options selected for the previous layer
-// clearAllOptions();
-// }
-// });
 
 $("#qry_layers").on("change", function () {
  if ($("#qry_layers").val() != "--SELECT LAYER--") {
