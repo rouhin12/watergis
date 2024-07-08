@@ -628,11 +628,6 @@
 
                 {% empty %}
 
-
-
-
-
-
                 {% endfor %}
                 <!-- Separator without title -->
                 <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
@@ -652,7 +647,6 @@
             </ul><!-- List Group END-->
 
         </div><!-- sidebar-container END -->
-
 
         <!-- content -->
 
@@ -691,7 +685,6 @@
 
 
         </div>
-
 
         <div class="modal" id="myModal">
             <div class="modal-dialog">
@@ -858,7 +851,7 @@
     // end sidebar script
     var mymap;
     var source = L.wms.source(
-        "https://geoserver2.communitygis.net/geoserver/wms",
+        "https://geonode.communitygis.in/geoserver/wms",
         {
             "format": "image/png",
             "transparent": "true"
@@ -976,7 +969,7 @@
 
 
 
-        let indiaState = L.tileLayer.wms("https://geoserver2.communitygis.net/geoserver/wms", {
+        let indiaState = L.tileLayer.wms("https://geonode.communitygis.in/geoserver/wms", {
             layers: "geonode:states_in_india",
             format: "image/png",
             transparent: "true",
@@ -1197,13 +1190,9 @@
 
     $("#displayfulltable").click(function () {
 
-        // console.log("table url", tableurl2);
+        console.log("table url", tableurl2);
         if (tableurl2) {
             $('#myModal').modal('show');
-
-
-            // ctlSidebar.hide();
-            //atrribute mapping to view label and description instead od attribute name
             var attributeMapping = {
                 "state_code": {
                     "label": "State Code",
@@ -1211,7 +1200,7 @@
                 },
                
                 // Add mappings for other attributes
-            };  
+            }; 
 
 
             var div = document.getElementById("modal_info");
@@ -1906,7 +1895,7 @@
             else if (boundary == "{mah_river}") {
                 // alert("in correct place")
                 // putWMS("rtp:mumbai_toilets_nancleared");  //shapefile
-                putWMS1("maharashtra_rivers_from_osm2");
+                putWMS1("maharashtra_rivers_from_osm3");
             }
             else if (boundary == "{nashik_turbidity}") {
                 //alert("in correct place")
@@ -1969,6 +1958,11 @@
                 removeWMS("geonode:states_in_india");
             else if (boundary == "{district}")
                 removeWMS("geonode:all_india_districts_11june2020");
+            else if (boundary == "{mah_river}"){
+                // mymap.removeLayer("maharashtra_rivers_from_osm")
+                removeWMS("maharashtra_rivers_from_osm");
+            }
+                // 
             else if (boundary == "{mumwards}")
                 removewards();
             else if (boundary == "{mumsubwards}")
@@ -2066,7 +2060,7 @@ function addnashikWMSLegend(obj) {
         if ($(obj).is(":checked")) {
             mymap.setView([17.924, 77.172], 7);
             if (boundary == "{mahadem}")
-                putWMS("geonode:maha_demography_with_mumbai");
+                putWMS("geonode:maha_demo_v21_26april24");
             else if (boundary == "{mahatown}") {
                 putWMS("geonode:TownCensus_maharashtra_1_00");
             }
@@ -2092,7 +2086,7 @@ function addnashikWMSLegend(obj) {
         }
         else {
             if (boundary == "{mahadem}")
-                removeWMS("geonode:maha_demography_with_mumbai");
+                removeWMS("geonode:maha_demo_v21_26april24");
             else if (boundary == "{mahatown}") {
                 removeWMS("geonode:TownCensus_maharashtra_1_00");
             }
@@ -2131,7 +2125,7 @@ function addnashikWMSLegend(obj) {
                 putWMSru("geonode:india_pincodes_12june");
 
             else if (boundary == "{demog}")
-                putWMSru("geonode:maha_demography_with_mumbai");
+                putWMSru("geonode:maha_demo_v21_26april24");
             else if (boundary == "{house}")
                 putWMSru("geonode:household");
             else if (boundary == "{vill}")
@@ -2159,7 +2153,7 @@ function addnashikWMSLegend(obj) {
                 removeWMS("geonode:india_pincodes_12june");
 
             else if (boundary == "{demog}")
-                removeWMS("geonode:maha_demography_with_mumbai");
+                removeWMS("geonode:maha_demo_v21_26april24");
             else if (boundary == "{house}")
                 removeWMS("geonode:household");
             else if (boundary == "{vill}")
@@ -2539,7 +2533,7 @@ function addnashikWMSLegend(obj) {
         })
         console.log(query, "querybuf")
 
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
         let bbOffset = output.innerHTML / 111;
         let options = {
             service: 'WFS',
@@ -2626,7 +2620,7 @@ function addnashikWMSLegend(obj) {
         // console.log(query)
 
         // let rootUrl = 'https://geonode3.communitygis.net/geoserver/geonode/ows';
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
         let bbOffset = output.innerHTML / 111;
         let options = {
             service: 'WFS',
@@ -2682,7 +2676,7 @@ function addnashikWMSLegend(obj) {
 
 
         let query = 'chc_num>0';
-        const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
+        const url = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
 
         let bbOffset = output.innerHTML / 111;
 
@@ -2752,7 +2746,7 @@ function addnashikWMSLegend(obj) {
 
 
         let query = 'phc_num>0';
-        const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
+        const url = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
 
         let bbOffset = output.innerHTML / 111;
 
@@ -2817,7 +2811,7 @@ function addnashikWMSLegend(obj) {
     function querybufAllo(currentPos) {
         let keys = Object.keys(activatedHealthFacility);
         let query = 'h_allo_tot>0';
-        const url2 = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
+        const url2 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
 
 
         let bbOffset = output.innerHTML / 111;
@@ -2879,7 +2873,7 @@ function addnashikWMSLegend(obj) {
     function querybufALt(currentPos) {
         let keys = Object.keys(activatedHealthFacility);
         let query = 'h_alt_tot>0';
-        const url2 = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
+        const url2 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
 
 
         let bbOffset = output.innerHTML / 111;
@@ -3094,7 +3088,7 @@ function addnashikWMSLegend(obj) {
             fillOpacity: 0.7
         };
     }
-    const domain = ['https://geoserver2.communitygis.net/', 'http://localhost/'];
+    const domain = ['https://geonode.communitygis.in/', 'http://localhost/'];
     var rootUrl = domain[0] + 'geoserver/geonode/ows';
 
     var defaultParameters = {
@@ -3237,7 +3231,7 @@ function addnashikWMSLegend(obj) {
         var distLayerLatLong = listDistrict[aspiD];
         //clear_layer();
         //console.log('kk',distLayerLatLong);
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: 'geonode:maha_taluka_13march2021',
             format: 'image/png',
             transparent: 'true',
@@ -3265,7 +3259,7 @@ function addnashikWMSLegend(obj) {
         console.log(indstate);
         var stLayerLatLong = listState[indstate];
 
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: 'geonode:states_in_india',
             format: 'image/png',
             transparent: 'true',
@@ -3290,7 +3284,7 @@ function addnashikWMSLegend(obj) {
         //     mymap.removeLayer(area);
         // }
         console.log("district slected from dd is "+district+"and layer is "+layerName)
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
 
         let options = {
             service: 'WFS',
@@ -3338,7 +3332,7 @@ function addnashikWMSLegend(obj) {
         }
         clear_distlayer();
         clear_tallayer();
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: layers,
             format: 'image/png',
             transparent: 'true',
@@ -3363,7 +3357,7 @@ function addnashikWMSLegend(obj) {
         var dist = document.getElementById('district').value;
         var taluka = document.getElementById('block_s').value;
 
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: "geonode:maha_taluka_13march2021",
             cql_filter: "taluka_nam='" + taluka + "'",
             cql_filter: `taluka_nam='${taluka}' AND distname='${dist}'`,
@@ -3390,7 +3384,7 @@ function addnashikWMSLegend(obj) {
         var taluka = document.getElementById('block_s');
         var pincode = document.getElementById('pincode').value;
 
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: "geonode:india_pincodes_12june",
             cql_filter: "pincode='" + pincode + "'",
             cql_filter: `pincode='${pincode}' AND district='${district}'`,
@@ -3414,7 +3408,7 @@ function addnashikWMSLegend(obj) {
     function putwards(cql, layer) {
         var dist = cql;
         var layer = layer;
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: layer,
             format: 'image/png',
             transparent: 'true',
@@ -3437,7 +3431,7 @@ function addnashikWMSLegend(obj) {
     //this function is for state boundary
     function putWMS(layer) {
         // alert(layer);
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: layer,
             format: 'image/png',
             transparent: 'true',
@@ -3450,7 +3444,7 @@ function addnashikWMSLegend(obj) {
         }
         console.log(wms_legend);
         addWMSLegend(layer);
-        TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+        TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
         tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
         // setView2(layer);
         //styling(layer);
@@ -3460,7 +3454,7 @@ function addnashikWMSLegend(obj) {
 
 
     function addWMSLegend(layer) {
-        lagendGraphic = "https://geoserver2.communitygis.net/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + layer + "&LEGEND_OPTIONS=forceLabels:on";
+        lagendGraphic = "https://geonode.communitygis.in/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER=" + layer + "&LEGEND_OPTIONS=forceLabels:on";
         wms_legend = L.wmsLegend(lagendGraphic);
     }
     function addWMSLegend1(layer) {
@@ -3531,7 +3525,7 @@ function addnashikWMSLegend(obj) {
         if (area) {
             mymap.removeLayer(area);
         }
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
 
         let options = {
             service: 'WFS',
@@ -3582,7 +3576,7 @@ function addnashikWMSLegend(obj) {
         if (area) {
             mymap.removeLayer(area);
         }
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
 
         let options = {
             service: 'WFS',
@@ -3617,7 +3611,7 @@ function addnashikWMSLegend(obj) {
         clear_pinlayer();
         var state = document.getElementById('indstate').value;
 
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: "geonode:india_pincodes_12june",
             cql_filter: "pincode='" + pincode + "'",
             cql_filter: `pincode='${pincode}' AND state='${state}'`,
@@ -3669,7 +3663,7 @@ function addnashikWMSLegend(obj) {
         if (area) {
             mymap.removeLayer(area);
         }
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
 
         let options = {
             service: 'WFS',
@@ -3701,6 +3695,8 @@ function addnashikWMSLegend(obj) {
     }
 
     function putWMSru(layer) {
+        
+        console.log("in putWMSru for layer =",layer)
         var selectedDistrict = document.getElementById("district").value;
         // alert(selectedDistrict)
         if (selectedDistrict == "") {
@@ -3709,7 +3705,7 @@ function addnashikWMSLegend(obj) {
         else {
             if (layer == "geonode:maha_taluka_13march2021") {
 
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
@@ -3718,43 +3714,50 @@ function addnashikWMSLegend(obj) {
                 });
             }
             else if (layer == "geonode:maha_village_polygon_29mar") {
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
                     cql_filter: "district_n='" + selectedDistrict + "'"
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
 
             }
-            else if (layer == "geonode:maha_demography_with_mumbai") {
-
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+            else if (layer == "geonode:maha_demo_v21_26april24") {
+                console.log("in demography layer v21",layer,"for district",selectedDistrict)
+                
+                if(selectedDistrict == 'Ahmednagar')
+                    selectedDistrict = "Ahmadnagar"
+                
+                var cql_filter= "dist_name='" + selectedDistrict.trim() + "'";
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
-                    cql_filter: "district_n='" + selectedDistrict.toLowerCase() + "'"
+                    cql_filter: cql_filter
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                console.log("cql_filter:", cql_filter);
+
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
-
+                console.log(TRIBLAYER)
 
             }
 
             else if (layer == "geonode:household") {
                 var newstring = selectedDistrict.charAt(0).toUpperCase() + selectedDistrict.slice(1)
 
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
                     cql_filter: "district_n='" + newstring + "'"
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
@@ -3765,13 +3768,13 @@ function addnashikWMSLegend(obj) {
 
                 var newstring = selectedDistrict.charAt(0).toUpperCase() + selectedDistrict.slice(1)
                 // alert(newstring);
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
                     cql_filter: "district_n='" + newstring + "'"
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
@@ -3779,13 +3782,13 @@ function addnashikWMSLegend(obj) {
             }
             else if (layer == "geonode:TownCensus_maharashtra_1_00") {
 
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
                     cql_filter: "district_n='" + selectedDistrict.toUpperCase() + "'"
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
@@ -3797,7 +3800,7 @@ function addnashikWMSLegend(obj) {
                 var state_new = state.charAt(0).toUpperCase() + state.slice(1)
 
 
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
 
                     format: 'image/png',
@@ -3805,20 +3808,20 @@ function addnashikWMSLegend(obj) {
                     cql_filter: `state='${state_new}' AND district='${selectedDistrict}'`,
 
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
 
 
             }
             else {
-                var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+                var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                     layers: layer,
                     format: 'image/png',
                     transparent: 'true',
                     // cql_filter:"district_n='"+selectedDistrict+"'"
                     // cql_filter: "distname='"+selectedDistrict+"'"
                 });
-                TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+                TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
                 tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
             }
 
@@ -3911,26 +3914,31 @@ function addnashikWMSLegend(obj) {
            
             mymap.removeControl(wms_legend1);
         }
-        mymap.removeControl(wms_legend1);
+        
         if (unchecked_layer == "maharashtra_rivers_from_osm2") {
-
-            newLayerList.forEach((layer, index) => {
+           newLayerList.forEach((layer, index) => {
                 if (layer.options.layers === "maharashtra_rivers_from_osm") {
                     mymap.removeLayer(layer);
                     newLayerList.splice(index, 1);
                 }
+                
             });
         }
+        
         else {
-
+            console.log("in removeWMS for layer",unchecked_layer)
+            console.log("new layer list is : ",newLayerList)
             newLayerList.forEach((layer, index) => {
                 if (layer.options.layers === unchecked_layer) {
                    
                     mymap.removeLayer(layer);
                     newLayerList.splice(index, 1);
                 }
+               
+               
             });
         }
+        // mymap.removeLayer(unchecked_layer);
     }
 
     function style(feature) {
@@ -3987,7 +3995,7 @@ function addnashikWMSLegend(obj) {
 
     function putKoboHealthFacitywms(facility) {
         //console.log(cql);
-        var wms_layer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var wms_layer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: 'geonode:cumulative_health_facility_till_2june',
             format: 'image/png',
             transparent: 'true',
@@ -4006,7 +4014,7 @@ function addnashikWMSLegend(obj) {
         }
         //console.log(wms_legend);
         addWMSLegend(facility);
-        TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+        TRIBLAYER = "https://geonode.communitygis.in/geoserver/geonode/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
         tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
         wmshealthLayerList.push(wms_layer);
         activeKoboAllIndiaHealthFacity[facility] = wms_layer;
@@ -4017,7 +4025,7 @@ function addnashikWMSLegend(obj) {
     function putKoboHealthFacity(facility) {
         indstate = document.getElementById('indstate').value;
         // let rootUrl = 'https://geonode3.communitygis.net/geoserver/geonode/ows';
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
         let options = {
             service: 'WFS',
             version: '1.0.0',
@@ -4249,7 +4257,7 @@ function addnashikWMSLegend(obj) {
 
     function putArogya(facility) {
         // let rootUrl = 'https://geonode3.communitygis.net/geoserver/geonode/ows';
-        let rootUrl = 'https://geoserver2.communitygis.net/geoserver/geonode/ows';
+        let rootUrl = 'https://geonode.communitygis.in/geoserver/geonode/ows';
         //console.log(facility);
         var cql = facility;
         let options = {
@@ -4398,10 +4406,10 @@ function addnashikWMSLegend(obj) {
 
         // const url = 'https://geonode3.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
         // const url2 = 'https://geonode3.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
-        const url = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
-        const url2 = 'https://geoserver2.communitygis.net/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
-        // const url3 = 'https://geoserver2.communitygis.net/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
-        // const url4 = 'http://geoserver2.communitygis.net:8080/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
+        const url = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:maha_village_health_centroid_29mar';
+        const url2 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&outputFormat=json&typename=geonode:townhealth_centroid_15apr';
+        // const url3 = 'https://geonode.communitygis.in/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
+        // const url4 = 'http://geonode.communitygis.in:8080/geoserver/geonode/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geonode%3Astates&maxFeatures=50&outputFormat=application%2Fjson';
         const url3 = 'https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3ANashik_district_well&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326'
 
         if (facility == 'CHC')
@@ -4523,7 +4531,7 @@ function addnashikWMSLegend(obj) {
         if (state == "Chhattisgarh") {
             layers = 'geonode:all_india_districts_11june2020';
         }
-        var districtLayer = L.tileLayer.wms('https://geoserver2.communitygis.net/geoserver/wms', {
+        var districtLayer = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
             layers: layers,
             format: 'image/png',
             transparent: 'true',
@@ -5020,6 +5028,16 @@ async function updateStressLevelsOnMap() {
 
             });
         }
+        else if (layer == "maharashtra_rivers_from_osm3") {
+            var layer = 'maharashtra_rivers_from_osm';
+            wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+                layers: layer,
+                format: 'image/png',
+                transparent: 'true',
+                zoom: '14',
+
+            });
+        }
         else if (layer == "maha_rivers_withDistrict17june24") {
             wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
                 layers: layer,
@@ -5144,7 +5162,7 @@ async function updateStressLevelsOnMap() {
     console.log(wms_legend);
     addWMSLegend(layer);
     addWMSLegend1(layer);
-    // TRIBLAYER = "https://geoserver2.communitygis.net/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
+    // TRIBLAYER = "https://geonode.communitygis.in/geoserver/rtp/wms?service=WMS&version=1.1.0&request=GetMap&layers=" + wms_layer.options.layers + "&QUERY_LAYERS=" + wms_layer.options.layers;
     TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + wms_layer1.options.layers + "&QUERY_LAYERS=" + wms_layer1.options.layers;
     tableurl2 = "https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=" + wms_layer1.options.layers + "&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326";
         // console.log(TRIBLAYER);
