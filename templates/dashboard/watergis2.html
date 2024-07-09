@@ -1447,30 +1447,29 @@
     
                 // Add popupLayer to map if checkbox is checked
                 // alert(idSelectedBoolean)
-                if (document.getElementById("bh_tap_connection_layer").checked) {
-                    popupLayersArray.forEach(function(layer) {
-                        layer.addTo(mymap);
-                    });
-                    tap_stress_legend.addTo(mymap);
-                } else {
-                    tap_stress_legend.remove();
-                    popupLayersArray.forEach(function(layer) {
-                        mymap.removeLayer(layer);
-                    });
-                    popupLayersArray = [];
-                }
-                if (document.getElementById("tap_connection_layer").checked) {
-                    popupLayersArray.forEach(function(layer) {
-                        layer.addTo(mymap);
-                    });
-                    tap_conn_legend.addTo(mymap);
-                } else {
-                    tap_conn_legend.remove();
-                    popupLayersArray.forEach(function(layer) {
-                        mymap.removeLayer(layer);
-                    });
-                    popupLayersArray = [];
-                }
+                if (document.getElementById("bh_tap_connection_layer").checked || document.getElementById("tap_connection_layer").checked) {
+    popupLayersArray.forEach(function(layer) {
+        layer.addTo(mymap);
+    });
+    if (document.getElementById("bh_tap_connection_layer").checked) {
+        tap_stress_legend.addTo(mymap);
+    } else {
+        tap_stress_legend.remove();
+    }
+    if (document.getElementById("tap_connection_layer").checked) {
+        tap_conn_legend.addTo(mymap);
+    } else {
+        tap_conn_legend.remove();
+    }
+} else {
+    tap_stress_legend.remove();
+    tap_conn_legend.remove();
+    popupLayersArray.forEach(function(layer) {
+        mymap.removeLayer(layer);
+    });
+    popupLayersArray = [];
+}
+
     
                 // Hide throbber after loading
                 document.getElementById('throbber').style.display = 'none';
@@ -1540,15 +1539,15 @@
  
      function getColor(d) {
         return d === 1 ? '#197db6' :
-                d > 0.95 ? '#f5c8b5' :
-                d > 0.80 ? '#ef9075' :
-                d > 0.60 ? '#e77364' :
-                d >0.40 ? '#df504f' : 
-                d >0.20 ? '#df504f' : 
-                d >0.075 ? '#df504f' : 
-                d === 0 ? '#cb0523' : 
-                                '#ab0c24';
-}
+               d > 0.95 ? '#f5c8b5' :
+               d > 0.80 ? '#ef9075' :
+               d > 0.60 ? '#e77364' :
+               d >0.40 ? '#df504f' : 
+               d >0.20 ? '#df504f' : 
+               d >0.075 ? '#df504f' : 
+               d === 0 ? '#cb0523' : 
+                        '#ab0c24';
+     }                   
  
      for (var i = 0; i < grades.length; i++) {
          from = grades[i];
