@@ -2,54 +2,65 @@
 {% load static%} {% block content %}{% load i18n %}
 
 <style>
-    /* ... Your existing styles ... */
-
+    /* Your existing styles */
     .scrollable-container {
         height: 500px;
         /* Set the desired height for the scrollable container */
         overflow: auto;
         /* Enable scrolling */
     }
+    .block {
+        margin-bottom: 30px;
+        /* Add space between blocks */
+    }
 </style>
 
 <!-- Your existing code -->
 
 <div class="container mt-5 scrollable-container">
-    <!-- Content goes here -->
     <h1>{% trans "Resources" %}</h1>
     <hr>
-    <h6>{% trans "Documents" %}</h6>
-    <ul class="list-group">
-
-        {% for doc in documents %}
-        <li class="list-group-item">
-            <a href="{{ doc.url }}">{{ doc }}</a>
-        </li>
-        {% endfor %}
-    </ul><br>
-    <h6>{% trans "Images" %}</h6>
-    <div class="row mt-5">
-
-        {% for image in images %}
-        <div class="col-md-6 mb-4">
-            <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
-                <img src="{{ image.file.url }}" alt="{{ image.title }}">
-            </a>
+    <div class="row">
+        <!-- Documents Block -->
+        <div class="col-md-4 block">
+            <h6>{% trans "Documents" %}</h6>
+            <ul class="list-group">
+                {% for doc in documents %}
+                <li class="list-group-item">
+                    <a href="{{ doc.url }}">{{ doc }}</a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-        {% endfor %}
+
+        <!-- Links Block -->
+        <div class="col-md-4 block">
+            <h6>{% trans "Links" %}</h6>
+            <ul class="list-group">
+                {% for link in links %}
+                <li class="list-group-item">
+                    <a href="{{ link.url }}">
+                        {{ link.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Images Block -->
+        <div class="col-md-4 block">
+            <h6>{% trans "Images" %}</h6>
+            <div class="row">
+                {% for image in images %}
+                <div class="col-md-12 mb-4">
+                    <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
+                        <img src="{{ image.file.url }}" alt="{{ image.title }}" class="img-fluid">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-    <h6>{% trans "Links" %}</h6><br>
-    <ul class="list-group">
-
-        {% for link in links %}
-        <li class="list-group-item">
-            <a href="{{ link.url }}">
-                {{ link.title }}
-            </a>
-        </li>
-        {% endfor %}
-    </ul>
 </div>
-
 
 {% endblock %}
