@@ -169,123 +169,126 @@
 </div>
 
 <script>
-var newLayerList = [];
-var cen2011Values = [];
-
-document.getElementById('toggleQuerySection').addEventListener('change', function () {
-    document.getElementById('querySection').style.display = this.checked ? 'block' : 'none';
-});
-
-document.getElementById('toggleQuerySection2').addEventListener('change', function () {
-    document.getElementById('querySection2').style.display = this.checked ? 'block' : 'none';
-});
-
-document.getElementById('enableColumn2').addEventListener('change', function () {
-    document.getElementById('column2Options').style.display = this.checked ? 'block' : 'none';
-});
-
-function clearMap() {
-    newLayerList.forEach(layer => {
-        mymap.removeLayer(layer);
+    var newLayerList = [];
+    var cen2011Values = [];
+    var districtLayerName;
+    
+    document.getElementById('toggleQuerySection').addEventListener('change', function () {
+        document.getElementById('querySection').style.display = this.checked ? 'block' : 'none';
     });
-    newLayerList = [];
-}
-
-function putWMSspatial(layer, filter) {
-    clearMap();
-    var wms_layer1;
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
-
-    var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
-
-    wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
-        layers: districtLayerName,
-        format: 'image/png',
-        transparent: true,
-        zoom: 14, 
-        CQL_FILTER: filter,
+    
+    document.getElementById('toggleQuerySection2').addEventListener('change', function () {
+        document.getElementById('querySection2').style.display = this.checked ? 'block' : 'none';
     });
-    wms_layer1.addTo(mymap);
-    newLayerList.push(wms_layer1);
-    TRIBLAYER = "https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=" + districtLayerName + "&QUERY_LAYERS=" + districtLayerName;
-}
-
-function showValidationAlert(message) {
-    const alertContainer = document.getElementById('alert-container');
-    alertContainer.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-        ${message}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>`;
-}
-
-function executeCombinedQuery() {
-    var populationThreshold = document.getElementById('population_threshold').value;
-    var farmThreshold = document.getElementById('farm_threshold').value;
-
-    if (populationThreshold < 50 || populationThreshold > 5000) {
-        showValidationAlert('Population threshold must be between 50 and 5000.');
-        return;
+    
+    document.getElementById('enableColumn2').addEventListener('change', function () {
+        document.getElementById('column2Options').style.display = this.checked ? 'block' : 'none';
+    });
+    
+    function clearMap() {
+        newLayerList.forEach(layer => {
+            mymap.removeLayer(layer);
+        });
+        newLayerList = [];
     }
-
-    if (farmThreshold < 50 || farmThreshold > 5000) {
-        showValidationAlert('Farm threshold must be between 50 and 5000.');
-        return;
-    }
-
-    fetchCen2011Values(populationThreshold, function () {
-        var filter = '';
-        if (farmThreshold && cen2011Values.length > 0) {
-            var cen2011Filter = cen2011Values.join(',');
-            filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
-        }
-
+    
+    function putWMSspatial(layer, filter) {
+        clearMap();
+        var wms_layer1;
         const url = new URL(window.location.href);
         const districtName = url.searchParams.get('district');
-        var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
-
-        putWMSspatial(districtLayerName, filter);
-    });
-}
-
-function fetchCen2011Values(populationThreshold, callback) {
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
-
-    const wfsUrl = 'https://geonode.communitygis.in/geoserver/wfs';
-    const params = new URLSearchParams({
-        service: 'WFS',
-        version: '1.0.0',
-        request: 'GetFeature',
-        typeName: 'maha_demo_v21_26april24',
-        outputFormat: 'application/json',
-        CQL_FILTER: `tot_p <= ${populationThreshold} AND dist_name='${districtName}'`,
-        propertyName: 'cen_2011'
-    });
-
-    fetch(`${wfsUrl}?${params.toString()}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            cen2011Values = [];
-            const features = data.features;
-            features.forEach(feature => {
-                let cen2011Int = parseInt(feature.properties.cen_2011);
-                if (!isNaN(cen2011Int) && cen2011Int !== 0) {
-                    cen2011Values.push(cen2011Int);
-                }
-            });
-
-            callback();
-        })
-        .catch(error => {
-            console.error('Error fetching cen_2011 values:', error);
+    
+        districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
+    
+        wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+            layers: districtLayerName,
+            format: 'image/png',
+            transparent: true,
+            zoom: 14, 
+            CQL_FILTER: filter,
         });
-}
-</script>
+        wms_layer1.addTo(mymap);
+        newLayerList.push(wms_layer1);
+    
+        TRIBLAYER = `https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=${districtLayerName}&QUERY_LAYERS=${districtLayerName}&CQL_FILTER=${encodeURIComponent(filter)}`;
+    }
+    
+    function showValidationAlert(message) {
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>`;
+    }
+    
+    function executeCombinedQuery() {
+        var populationThreshold = document.getElementById('population_threshold').value;
+        var farmThreshold = document.getElementById('farm_threshold').value;
+    
+        if (populationThreshold < 50 || populationThreshold > 5000) {
+            showValidationAlert('Population threshold must be between 50 and 5000.');
+            return;
+        }
+    
+        if (farmThreshold < 50 || farmThreshold > 5000) {
+            showValidationAlert('Farm threshold must be between 50 and 5000.');
+            return;
+        }
+    
+        fetchCen2011Values(populationThreshold, function () {
+            var filter = '';
+            if (farmThreshold && cen2011Values.length > 0) {
+                var cen2011Filter = cen2011Values.join(',');
+                filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
+            }
+    
+            const url = new URL(window.location.href);
+            const districtName = url.searchParams.get('district');
+            districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
+    
+            putWMSspatial(districtLayerName, filter);
+        });
+    }
+    
+    function fetchCen2011Values(populationThreshold, callback) {
+        const url = new URL(window.location.href);
+        const districtName = url.searchParams.get('district');
+    
+        const wfsUrl = 'https://geonode.communitygis.in/geoserver/wfs';
+        const params = new URLSearchParams({
+            service: 'WFS',
+            version: '1.0.0',
+            request: 'GetFeature',
+            typeName: 'maha_demo_v21_26april24',
+            outputFormat: 'application/json',
+            CQL_FILTER: `tot_p <= ${populationThreshold} AND dist_name='${districtName}'`,
+            propertyName: 'cen_2011'
+        });
+    
+        fetch(`${wfsUrl}?${params.toString()}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                cen2011Values = [];
+                const features = data.features;
+                features.forEach(feature => {
+                    let cen2011Int = parseInt(feature.properties.cen_2011);
+                    if (!isNaN(cen2011Int) && cen2011Int !== 0) {
+                        cen2011Values.push(cen2011Int);
+                    }
+                });
+    
+                callback();
+            })
+            .catch(error => {
+                console.error('Error fetching cen_2011 values:', error);
+            });
+    }
+    </script>
+    
