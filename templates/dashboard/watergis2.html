@@ -687,9 +687,6 @@
                     </button>
                 </div>
             </div>
-
-
-
         </div>
 
 
@@ -1345,9 +1342,10 @@
                     return;
                 }
     
-                // Load JSON data
+                // Load JSON data of maha_demo_v21_26april24
                 const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&CQL_FILTER=dist_name='Bhandara'");
-    
+                // Load JSON data of bhandara_antyodaya_refactored
+                const bhandaraData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Abhandara_antyodaya_refactored&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=tot_malech,tot_femalc,census_201");
                 // Process CSV and JSON data
                 csvData.forEach(function(csvRow) {
                     const block = csvRow.Block;
@@ -1359,24 +1357,78 @@
                         return jsonRow.properties.taluka_nam.toLowerCase() === csvRow.Block.toLowerCase() &&
                                jsonRow.properties.area_name.toLowerCase() === csvRow.Village.toLowerCase();
                     });
-    
-                    if (matchingJsonRecord) {
+                    if (matchingJsonRecord ) {
+                        const census2011 = parseFloat(matchingJsonRecord.properties.cen_2011);
+                        //console.log('Type of census2011:', typeof census2011);
+                        const matchingBhandaraRecord = bhandaraData.features.find(function(bhandaraRow) {
+                            const census201 = parseFloat(bhandaraRow.properties.census_201); // Ensure it's parsed as a number
+                            //console.log('Type of census_201:', typeof census201);
+                            return census201 === parseFloat(census2011);
+                        });
+                        //console.log(matchingBhandaraRecord);
                         const totalPop = matchingJsonRecord.properties.tot_p;
+                        const scPop = matchingJsonRecord.properties.p_sc;
+                        const stPop = matchingJsonRecord.properties.p_st;
+                        const scst = (scPop + stPop);
+                        const scstPercentage = (((scPop + stPop )/ totalPop) * 100).toFixed(3);
+                        const scstTapStress = (parseFloat(scst) / parseFloat(houseConnection)).toFixed(2);
                         const totConsumption = 55 * parseFloat(houseConnection) * parseFloat(totalPop);
                         const stress = (parseFloat(totalPop) / parseFloat(houseConnection)).toFixed(2);
-    
-                        const popupContent = `
+                        
+                        let  popupContent = `
                             <b>Village:</b> ${village}<br>
                             <b>Block:</b> ${block}<br>
                             <b>Daily Total Consumption:</b> ${totConsumption} liters<br>
-                            <b>Stress:</b> ${stress} people per tap connection<br>
                             <b>Taps:</b> ${houseConnection}<br>
+                            <b>Total population:</b> ${totalPop}<br>
+                            <b>Stress:</b> ${stress} people per tap connection<br>
                         `;
+                        if (document.getElementById("scst_tap_connection").checked || document.getElementById("scst_population").checked){
+                            popupContent += `<b>SC + ST Population Percentage:</b> ${scstPercentage}%<br>
+                                             <b>Total SC + ST Population:</b> ${scst}<br>
+                                             <b>Stress on taps w.r.t sc+st:</b> ${scstTapStress}  
+                                              `;
+                        }
+                        if (matchingBhandaraRecord) {
+                             //console.log(totMaleCH, totFemalC);
+                             const totMaleCH = matchingBhandaraRecord.properties.tot_malech;
+                             const totFemalC = matchingBhandaraRecord.properties.tot_femalc;
+                             const children = totMaleCH + totFemalC;
+                             const chPercentage = ((children / totalPop) * 100).toFixed(3);
+                             const chTapStress = (children / parseFloat(houseConnection)).toFixed(2);
+                             if (document.getElementById("ch_tap_connection").checked){
+                             popupContent += `
+                                 <b>Total Male Children:</b> ${totMaleCH}<br>
+                                 <b>Total Female Children:</b> ${totFemalC}<br>
+                                 <b>Children Percentage:</b> ${chPercentage}%<br>
+                                 <b>Stress on taps w.r.t Children:</b> ${chTapStress}<br>
+                             `;
+                             }
+                         }
+
                         const popupOptions = {
                             maxWidth: 350
                         };
     
-                        function getColor(stress) {
+                        function getColor(stress, scstTapStress, scstPercentage) {
+                            if (document.getElementById("scst_tap_connection").checked) {
+                                    if (scstTapStress < 5) return 'green';       //  low stress
+                                    if (scstTapStress > 5 && scstTapStress <= 10) return 'yellow';  // moderate stress
+                                    if (scstTapStress > 10 && scstTapStress <= 50) return 'orange';  // high stress
+                                    if (scstTapStress > 50) return 'red';       // high stress
+                            }else if (document.getElementById("scst_population").checked) {
+                                if (scstPercentage < 20) return '#CAF0F8';  // low p_sc+p_st
+                                if (scstPercentage < 40) return '#90E0EF';  // Moderate p_sc+p_st
+                                if (scstPercentage < 60) return '#00B4D8';      // High p_sc+p_st
+                                if (scstPercentage < 80) return '#0077B6';      // High p_sc+p_st
+                                if (scstPercentage <= 100) return '#03045E';      // High p_sc+p_st
+                        } else if (document.getElementById("ch_tap_connection").checked) {
+                            if (chTapStress < 5) return '#CAF0F8';  
+                            if (chTapStress < 10) return '#90E0EF';  
+                            if (chTapStress < 50) return '#00B4D8';      
+                            if (chTapStress < 80) return '#0077B6';      
+                            if (chTapStress < 100) return '#03045E';      
+                    } else {
                             return stress > 70 ? '#cb0523' :
                                    stress > 60 ? '#d11c31' :
                                    stress > 50 ? '#d52938' :
@@ -1388,6 +1440,7 @@
                                    stress > 3  ? '#81bbd8' :
                                                  '#197db6';
                         }
+                    }
     
                         popupLayer = L.geoJSON(matchingJsonRecord, {
                             style: function(feature) {
@@ -1395,7 +1448,7 @@
                                     color: 'black', // Boundary color
                                     weight: 0.5,
                                     opacity: 1,
-                                    fillColor: getColor(stress), // Fill color based on stress
+                                    fillColor: getColor(stress, scstTapStress, scstPercentage), 
                                     fillOpacity: 0.7
                                 };
                             },
@@ -1404,6 +1457,7 @@
                             }
                         });
                         popupLayersArray.push(popupLayer);
+                        //console.log(`Block=${block}, Village=${village}, p_sc=${scPop}, p_st=${stPop}, scst%=${scstPercentage},totalpop=${totalPop} ,Taps= ${houseConnection}`,scstTapStress, stress);
                     } else {
                         //console.log(`No match found for Block=${block}, Village=${village}`);
                     }
@@ -1415,8 +1469,26 @@
                         layer.addTo(mymap);
                     });
                     tap_stress_legend.addTo(mymap);
-                } else {
+                }
+                    else if (document.getElementById("scst_tap_connection").checked){
+                        popupLayersArray.forEach(function(layer) {
+                            layer.addTo(mymap);
+                        });
+                        scst_tap_legend.addTo(mymap);
+                    }else if (document.getElementById("scst_population").checked){
+                        popupLayersArray.forEach(function(layer) {
+                            layer.addTo(mymap);
+                        });
+                        scst_legend.addTo(mymap);
+                    }else if (document.getElementById("ch_tap_connection").checked){
+                       popupLayersArray.forEach(function(layer) {
+                           layer.addTo(mymap);
+                       });
+                       //scst_legend.addTo(mymap);
+                    }else {
                     tap_stress_legend.remove();
+                    scst_tap_legend.remove();
+                    scst_legend.remove();
                     popupLayersArray.forEach(function(layer) {
                         mymap.removeLayer(layer);
                     });
@@ -1451,7 +1523,7 @@
  
  tap_stress_legend.onAdd = function (map) {
      var div = L.DomUtil.create('div', 'info legend'),
-     grades = [0, 3, 5, 10, 25, 45, 55, 70],
+     grades = [0, 3, 5, 10, 20, 30, 40, 50, 60, 70],
      labels = ['<strong>Stress on taps</strong>'],
      from, to;
  
@@ -1469,6 +1541,74 @@
                  '#197db6';
 }
  
+     for (var i = 0; i < grades.length; i++) {
+         from = grades[i];
+         to = grades[i + 1];
+ 
+         labels.push(
+             '<i style="background:' + getColor(from + 1) + '"></i> ' +
+             from + (to ? '&ndash;' + to : '+'));
+     }
+ 
+     div.innerHTML = labels.join('<br>');
+     return div;
+ };
+
+ var scst_tap_legend = L.control({position: 'bottomright'});
+ 
+ scst_tap_legend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'info legend'),
+     grades = [0, 5, 10, 50],
+     labels = ['<strong>Stress on taps w.r.t. SC+ST</strong>'],
+     from, to;
+ 
+ 
+     function getColor(d) {
+        return d < 5 ? 'green' :
+        d < 10 ? 'yellow' :
+        d < 50 ? 'orange' :
+                 'red';
+}
+     for (var i = 0; i < grades.length; i++) {
+         from = grades[i];
+         to = grades[i + 1];
+ 
+         labels.push(
+             '<i style="background:' + getColor(from + 1) + '"></i> ' +
+             from + (to ? '&ndash;' + to : '+'));
+     }
+ 
+     div.innerHTML = labels.join('<br>');
+     return div;
+ };
+
+
+    
+    // Function to remove layer from map
+    function removeLayerFromMap(layer) {
+        mymap.eachLayer(function(mapLayer) {
+            if (mapLayer.options.layers === layer) {
+                mymap.removeLayer(mapLayer);
+            }
+        });
+    }
+
+    var scst_legend = L.control({position: 'bottomright'});
+ 
+ scst_legend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'info legend'),
+     grades = [0, 20, 40, 60, 80],
+     labels = ['<strong>SC+ST population</strong>'],
+     from, to;
+ 
+ 
+     function getColor(d) {
+        return d < 20 ? '#CAF0F8' :
+        d < 40 ? '#90E0EF' :
+        d < 60 ? '#00B4D8' :
+        d < 80 ? '#0077B6' :
+                 '#03045E' ;
+}
      for (var i = 0; i < grades.length; i++) {
          from = grades[i];
          to = grades[i + 1];
@@ -4827,14 +4967,14 @@ async function updateStressLevelsOnMap() {
    
     function getColorWell(stressLevel) {
         if (stressLevel === 'N/A') return 'blue';
-        if (stressLevel < 0.05) return '#FC9CA2';
-        if (stressLevel <= 0.1) return '#FA4C58';
-        if (stressLevel <= 0.134) return '#E30613';
+        if (stressLevel < 0.05) return '#500207';
+        if (stressLevel <= 0.1) return '#77030B';
+        if (stressLevel <= 0.134) return '#9F040E';
         if (stressLevel === 0.135) return '#C70512';
-        if (stressLevel <= 0.2) return '#9F040E';
-        if (stressLevel > 0.2) return '#77030B';
-        return '#500207'; // Fallback color for unexpected values
-    }
+        if (stressLevel <= 0.2) return '#E30613';
+        if (stressLevel > 0.2) return '#FA4C58';
+        return '#FC9CA2'; // Fallback color for unexpected values
+    } 
    
     mymap.eachLayer(function(layer) {
     if (layer.feature) {
@@ -4858,15 +4998,15 @@ async function updateStressLevelsOnMap() {
     function addStressLegend() {
         stress_legend.onAdd = function (map) {
             const div = L.DomUtil.create('div', 'info stress_legend');
-            const labels = ['<strong>Premonsoon Stress Level (Assuming 135 liters per head per day)</strong>'];
+            const labels = ['<strong>Premonsoon Stress Level (Assuming 135 liters per capita per day)</strong>'];
             const ranges = [
-                {label: 'N/A', color: 'blue'},
-                {label: '0 - 0.05 cubic m per head', color: '#FC9CA2'},
-                {label: '0.05 - 0.1 cubic m per head', color: '#FA4C58'},
-                {label: '0.1 - 0.134 cubic m per head', color: '#E30613'},
-                {label: '== 0.135 cubic m per head', color: '#C70512'},
-                {label: '0.135 - 0.2 cubic m per head', color: '#9F040E'},
-                {label: '> 0.2 cubic m per head', color: '#77030B'}
+                {label: 'Population data missing', color: 'blue'},
+                {label: '0 - 0.05 cubic m per capita', color: '#500207'},
+                {label: '0.05 - 0.1 cubic m per capita', color: '#77030B'},
+                {label: '0.1 - 0.134 cubic m per capita', color: '#9F040E'},
+                {label: '== 0.135 cubic m per capita', color: '#C70512'},
+                {label: '0.135 - 0.2 cubic m per capita', color: '#E30613'},
+                {label: '> 0.2 cubic m per capita', color: '#FA4C58'}
             ];
     
             for (const range of ranges) {
