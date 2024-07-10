@@ -24,8 +24,8 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
 import os, requests,json,io
-import pandas as pd
-import matplotlib.pyplot as plt
+#import pandas as pd
+#import matplotlib.pyplot as plt
 # from urllib.parse import quote
 
 
@@ -557,3 +557,13 @@ def timeseries(request):
 
     # Pass the image to the template
     return render(request, 'dashboard/timeseries.html', {'graph': graph})
+
+
+
+def water_stress(request):
+    # Logic to handle the request and prepare data for the template
+    context = {
+        'message': 'This is the Water Stress view',
+        # Add any other context variables here
+    }
+    return render(request, 'dashboard/water_stress.html', context)

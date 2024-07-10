@@ -1322,7 +1322,14 @@
     var popupLayer;
     var popupLayersArray = [];
     
-    async function tapStress() {
+    async function tapStress(request) {
+        // console.log("this ",request.value)
+        var valueSelected = request.value;
+        console.log("Value Selected is ",valueSelected)
+        var idSelected =request.id;
+        // alert(idSelected)
+        var idSelectedBoolean = request.id.checked ? true : false;
+        // alert(idSelectedBoolean)
         try {
             // Show throbber while loading
             document.getElementById('throbber').style.display = 'block';
@@ -1333,14 +1340,24 @@
                     console.error('Error loading the CSV file:', error);
                     return;
                 }
+                if (csvData.length > 0) {
+                    console.log('CSV Header:', Object.keys(csvData[0]));
+                }
     
                 // Load JSON data
                 const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&CQL_FILTER=dist_name='Bhandara'");
-    
+                
+                // set view and zoom for tap stress at bhandara
+                if (jsonData.features && jsonData.features.length > 0) {
+                // Set the view to Bhandara's coordinates
+                       mymap.setView([21.1710, 79.6550], 10);
+                }
+
                 // Process CSV and JSON data
                 csvData.forEach(function(csvRow) {
                     const block = csvRow.Block;
                     const village = csvRow.Village;
+                    const TapPerHH = parseFloat(csvRow['House Connection'] /csvRow['House Holds']);
                     const houseConnection = csvRow['House Connection'];
     
                     // Find matching JSON record based on Block and Village
@@ -1357,15 +1374,19 @@
                         const popupContent = `
                             <b>Village:</b> ${village}<br>
                             <b>Block:</b> ${block}<br>
-                            <b>Daily Total Consumption:</b> ${totConsumption} liters<br>
-                            <b>Stress:</b> ${stress} people per tap connection<br>
-                            <b>Taps:</b> ${houseConnection}<br>
+                            <b>Village Population:</b>${totalPop}<br>
+                            ${valueSelected === 'bh_tap_connection_layer' ? `<b>Daily Consumption:</b> ${totConsumption} litres. (Optimum : 155 litres per person per day.)<br>` : ''}
+                            ${valueSelected === 'bh_tap_connection_layer' ? `<b>Stress:</b> ${stress} people per tap connection<br>` : ''}
+
+                            <b>Tap Connections:</b> ${houseConnection}<br>
+                            <b>Tap per household:</b>${TapPerHH}<br>
                         `;
                         const popupOptions = {
                             maxWidth: 350
                         };
     
                         function getColor(stress) {
+                            // alert("Stress called",stress)
                             return stress > 70 ? '#cb0523' :
                                    stress > 60 ? '#d11c31' :
                                    stress > 50 ? '#d52938' :
@@ -1377,14 +1398,40 @@
                                    stress > 3  ? '#81bbd8' :
                                                  '#197db6';
                         }
-    
+                        function getColorForTap(TapPerHH) {
+                            return TapPerHH === 1 ? '#197db6' :
+                                   TapPerHH > 0.95 ? '#f5c8b5' :
+                                   TapPerHH > 0.80 ? '#ef9075' :
+                                   TapPerHH > 0.60 ? '#e77364' :
+                                   TapPerHH >0.40 ? '#df504f' : 
+                                   TapPerHH >0.20 ? '#df504f' : 
+                                   TapPerHH >0.075 ? '#df504f' : 
+                                   TapPerHH === 0 ? '#cb0523' : 
+                                                    '#ab0c24';
+                                                 
+                        }
+                        
                         popupLayer = L.geoJSON(matchingJsonRecord, {
+                            
                             style: function(feature) {
+                                let fillColor;
+                                // console.log("Value selected at go", valueSelected)       
+                                // Example condition: Change fill color based on stress value
+                                if (valueSelected === '{tap_connection_layer_url}') {
+                                    // console.log("Valeue selected",valueSelected, "-",TapPerHH)
+                                    fillColor = getColorForTap(TapPerHH); // Use your existing getColor function
+                                    // console.log("fill color ",fillColor)
+                                } else {
+                                    // console.log("Valeue selected",valueSelected, "-",stress)
+                                    fillColor = getColor(stress); // Set a default color when the condition is not met
+                                }
+                                // console.log("Fill color:", fillColor);
+
                                 return {
                                     color: 'black', // Boundary color
                                     weight: 0.5,
                                     opacity: 1,
-                                    fillColor: getColor(stress), // Fill color based on stress
+                                    fillColor: fillColor, // Fill color based on stress
                                     fillOpacity: 0.7
                                 };
                             },
@@ -1399,18 +1446,30 @@
                 });
     
                 // Add popupLayer to map if checkbox is checked
-                if (document.getElementById("tap_connection_layer").checked) {
-                    popupLayersArray.forEach(function(layer) {
-                        layer.addTo(mymap);
-                    });
-                    tap_stress_legend.addTo(mymap);
-                } else {
-                    tap_stress_legend.remove();
-                    popupLayersArray.forEach(function(layer) {
-                        mymap.removeLayer(layer);
-                    });
-                    popupLayersArray = [];
-                }
+                // alert(idSelectedBoolean)
+                if (document.getElementById("bh_tap_connection_layer").checked || document.getElementById("tap_connection_layer").checked) {
+    popupLayersArray.forEach(function(layer) {
+        layer.addTo(mymap);
+    });
+    if (document.getElementById("bh_tap_connection_layer").checked) {
+        tap_stress_legend.addTo(mymap);
+    } else {
+        tap_stress_legend.remove();
+    }
+    if (document.getElementById("tap_connection_layer").checked) {
+        tap_conn_legend.addTo(mymap);
+    } else {
+        tap_conn_legend.remove();
+    }
+} else {
+    tap_stress_legend.remove();
+    tap_conn_legend.remove();
+    popupLayersArray.forEach(function(layer) {
+        mymap.removeLayer(layer);
+    });
+    popupLayersArray = [];
+}
+
     
                 // Hide throbber after loading
                 document.getElementById('throbber').style.display = 'none';
@@ -1437,7 +1496,7 @@
     
 
  var tap_stress_legend = L.control({position: 'bottomright'});
- 
+ var tap_conn_legend = L.control({position: 'bottomright'});
  tap_stress_legend.onAdd = function (map) {
      var div = L.DomUtil.create('div', 'info legend'),
      grades = [0, 3, 5, 10, 25, 45, 55, 70],
@@ -1464,6 +1523,38 @@
  
          labels.push(
              '<i style="background:' + getColor(from + 1) + '"></i> ' +
+             from + (to ? '&ndash;' + to : '+'));
+     }
+ 
+     div.innerHTML = labels.join('<br>');
+     return div;
+ };
+ tap_conn_legend.onAdd = function (map) {
+     var div = L.DomUtil.create('div', 'info legend'),
+     grades = [0, 0.075, 0.20, 0.40, 0.60, 0.80,0.95, 1],
+    
+     labels = ['<strong>Tap Connections in HouseHold</strong>'],
+     from, to;
+ 
+ 
+     function getColor(d) {
+        return d === 1 ? '#197db6' :
+               d > 0.95 ? '#f5c8b5' :
+               d > 0.80 ? '#ef9075' :
+               d > 0.60 ? '#e77364' :
+               d >0.40 ? '#df504f' : 
+               d >0.20 ? '#df504f' : 
+               d >0.075 ? '#df504f' : 
+               d === 0 ? '#cb0523' : 
+                        '#ab0c24';
+     }                   
+ 
+     for (var i = 0; i < grades.length; i++) {
+         from = grades[i];
+         to = grades[i + 1];
+ 
+         labels.push(
+             '<i style="background:' + getColor(from + 0.5) + '"></i> ' +
              from + (to ? '&ndash;' + to : '+'));
      }
  
@@ -3635,10 +3726,12 @@ function addnashikWMSLegend(obj) {
                 putWFSFacility("nashik_wells", "Nashik");
             }
             else if (fac == "{bhandara_obs_wells}") {
+                mymap.setView([21.0736, 79.8297], 10);
                 putWFSFacility("bhandara_obs_wells", "Bhandara");
             }
             else if (fac == "{bhandara_obs_wells_stress}") {
                 //document.getElementById('throbber').style.display = 'block'; // Show throbber
+                mymap.setView([21.0736, 79.8297], 10);
                 putWFSFacilityStress("bhandara_obs_wells", "Bhandara");
                 //setTimeout(() => {
                 //   document.getElementById('throbber').style.display = 'none'; // Hide throbber after 2 seconds

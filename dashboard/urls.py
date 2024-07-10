@@ -30,6 +30,7 @@ urlpatterns = [
     path('dashboard/uploadwellpic', views.uploadwellpic, name='uploadwellpic'),
     path('dashboard/resources', views.static_files_view, name='resources'),
     path('dashboard/water_related_forms', views.water_related_forms, name='water_related_forms'),
+    path('dashboard/Water_stress', views.water_stress, name='water_stress'),
     path('nearestquery',views.nearestquery,name='nearestquery'),
     path('get_layer/', views.get_layer, name='get_layer'),
     # path('get_villages_near_river/', views.get_villages_near_river, name='get_villages_near_river'),

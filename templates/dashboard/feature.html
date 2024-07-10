@@ -1,75 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'dashboard/watergis_base2.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+  <div class="row justify-content-center mt-5"style="max-height: 500px; overflow-y: auto;">
+    <a href="{% url 'water_related_forms' %}" class="btn btn-primary py-2 px-4 hover:bg-blue-700">
+      {% trans "Back to Water Related Forms" %}
+    </a>
 
 
-{% load static %}{% load i18n %}{% block content %}
+  <div class="container mt-5" >
+    <h2 class="text-center">{% trans "Natural Features" %}</h2>
+    <h4 class="text-center mb-5"><u>{% trans "Biological Features Form" %}</u></h4>
 
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <title>Features Form</title>
-  <style>
-    
-   
-  </style>
-</head> 
-
-<body>
-    <a href="/dashboard/water_related_forms" class="btn btn-primary py-2 px-4 hover:bg-blue-700">
-      {% trans "Back to WaterRelated Forms" %}
-      </a>
-    </div>
-
-  <div class="container ">
-    <h2 class=" mt-3 text-center">{% trans "Natural Features" %}</h2>
-    <h4 class="text-center mb-5"><u> {% trans "Biological Features Form" %} </u></h4>
-    <form class="offset-md-3" id="form" action="{% url 'feature' %}" name="form" method="post">
+    <form class="offset-md-3 col-md-6" id="form" action="{% url 'feature' %}" method="post">
       {% csrf_token %}
-      
-      <div class="form-group col-md-9">
+
+      <div class="form-group">
         <label for="district">{% trans "District Name:" %}</label>
-        <input type="text" class="form-control" name = "district" id="district" placeholder="Enter district name">
+        <input type="text" class="form-control" name="district" id="district" placeholder="{% trans 'Enter district name' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="taluka">{% trans "Taluka Name:" %}</label>
-        <input type="text" class="form-control" name="taluka" id="taluka" placeholder="Enter taluka name">
+        <input type="text" class="form-control" name="taluka" id="taluka" placeholder="{% trans 'Enter taluka name' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="village">{% trans "Village Name:" %}</label>
-        <input type="text" class="form-control" name="village" id="village" placeholder="Enter village name">
+        <input type="text" class="form-control" name="village" id="village" placeholder="{% trans 'Enter village name' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="stretchNo">{% trans "Stretch No.:" %}</label>
-        <input type="text" class="form-control" name="stretchNo" id="stretchNo" placeholder="Enter stretch number">
+        <input type="text" class="form-control" name="stretchNo" id="stretchNo" placeholder="{% trans 'Enter stretch number' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="stretchStart">{% trans "Stretch Start:" %}</label>
         <input type="date" class="form-control" name="stretchStart" id="stretchStart">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="stretchEnd">{% trans "Stretch End:" %}</label>
         <input type="date" class="form-control" name="stretchEnd" id="stretchEnd">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="owner">{% trans "Owner Name:" %}</label>
-        <input type="text" class="form-control" name="owner" id="owner" placeholder="Enter owner">
+        <input type="text" class="form-control" name="owner" id="owner" placeholder="{% trans 'Enter owner' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="projectIncharge">{% trans "Project Incharge:" %}</label>
-        <input type="text" class="form-control" name="projectIncharge" id="projectIncharge" placeholder="Enter project incharge">
+        <input type="text" class="form-control" name="projectIncharge" id="projectIncharge" placeholder="{% trans 'Enter project incharge' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="revisionNo">{% trans "Revision No.:" %}</label>
-        <input type="text" class="form-control" name="revisionNo" id="revisionNo" placeholder="Enter revision number">
+        <input type="text" class="form-control" name="revisionNo" id="revisionNo" placeholder="{% trans 'Enter revision number' %}">
       </div>
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="contactNo">{% trans "Contact No.:" %}</label>
-        <input type="tel" class="form-control" name="contactNo" id="contactNo" placeholder="Enter contact number">
+        <input type="tel" class="form-control" name="contactNo" id="contactNo" placeholder="{% trans 'Enter contact number' %}">
       </div>
 
-      <div class="form-group col-md-9">
+      <div class="form-group">
         <label for="feature">{% trans "Feature:" %}</label>
         <select class="form-control" name="feature" id="feature">
           <option value="">{% trans "---Search---" %}</option>
@@ -78,66 +66,37 @@
           <option value="fish-breeding-sites">{% trans "Fish Breeding Sites" %}</option>
           <option value="aquatic-vegetation">{% trans "Aquatic Vegetation" %}</option>
           <option value="specific-sighting">{% trans "Specific Sightings" %}</option>
-          </select>
+        </select>
       </div>
 
-      <div class="form-group col-md-9 ">
-        <label for="latitude" class="">{% trans "Latitude:" %}</label>
-        <input type="text" placeholder="Allow location access to capture your location" class="form-control" id="latitude" name="latitude" readonly>
+      <div class="form-group">
+        <label for="latitude">{% trans "Latitude:" %}</label>
+        <input type="text" placeholder="{% trans 'Allow location access to capture your location' %}" class="form-control" id="latitude" name="latitude" readonly>
       </div>
-        <div class="form-group col-md-9">
-          <label for="longitude">{% trans "Longitude:" %}</label>
-          <input type="text" placeholder="Allow location access to capture your location" class="form-control" id="longitude" name="longitude" readonly>
-        </div>   
-      <div class="form-group col-md-9">
+      <div class="form-group">
+        <label for="longitude">{% trans "Longitude:" %}</label>
+        <input type="text" placeholder="{% trans 'Allow location access to capture your location' %}" class="form-control" id="longitude" name="longitude" readonly>
+      </div>
+
+      <div class="form-group">
         <label for="date">{% trans "Date:" %}</label>
         <input type="date" class="form-control" name="date" id="date">
       </div>
-      <div class="form-group col-md-12" >        
+      <div class="form-group">
         <label for="description">{% trans "Description:" %}</label>
         <textarea id="description" name="description" class="form-control" rows="4" cols="4"></textarea>
       </div>
 
-      <div class="col-md-5">
-        <input type="button" class="btn btn-primary col-5 mt-2" value="Get Location" onclick="getLocation()">
-      </div>
+      <div class="row justify-content-center mt-3">
         <div class="col-md-5">
-          <input type="submit" name="submit" id="submit" value="Submit" onClick="ValidateAll()"
-          class="btn btn-primary col-5 mt-2">
-        <input type="reset" name="reset" id="reset" value="Reset"
-          class="btn btn-secondary col-5 mt-2">
-        </div><br><br>
-         
-
+          <input type="button" class="btn btn-primary col-12 mt-2" value="{% trans 'Get Location' %}" onclick="getLocation()">
+        </div>
+        <div class="col-md-5">
+          <input type="submit" name="submit" id="submit" value="{% trans 'Submit' %}" onClick="ValidateAll()" class="btn btn-primary col-12 mt-2">
+          <input type="reset" name="reset" id="reset" value="{% trans 'Reset' %}" class="btn btn-secondary col-12 mt-2">
+        </div>
+      </div>
     </form>
   </div>
-</body>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const closeButtons = document.querySelectorAll(".close-btn");
-  
-      closeButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          this.parentNode.parentNode.remove();
-        });
-      });
-    });
-  </script>
-
-<script>
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-
-  function showPosition(position) {
-    var latitude = position.coords.latitude;
-    var longitude = position.coords.longitude;
-    document.getElementById("latitude").value = latitude;
-    document.getElementById("longitude").value = longitude;
-  }
-</script>
-  {% endblock %}
+</div>
+{% endblock %}
