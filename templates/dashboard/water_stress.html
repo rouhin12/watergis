@@ -1,0 +1,30 @@
+{% extends 'dashboard/watergis_base2.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+<body>
+    <h1>{{ message }}</h1>
+    <!-- Add more HTML and template code here -->
+</body>
+
+<!-- Footer -->
+<footer class="bg-dark text-light text-center py-3 fixed-bottom">
+    <div class="h-full p-2" style="background-color: rgba(0, 0, 0, 0.2);">
+        <a class="text-white">
+            <p>
+                <b>Software:</b> This prototype is developed using FOSS technology and is licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License, Version 3 (GPL-3.0)</a>.
+                <br><b>Content:</b> Unless otherwise specified, the content on this website is licensed under a <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+                <br><b>Developed by:</b> <a href="mailto:monikapatira@gmail.com">Monika Shah (Consultant at CTARA, IIT-B)</a> under the guidance of <a href="jituviju@gmail.com">Prof. Jitendra Shah (Senior Consultant, Senior Research Scientist at GISE Lab CSE & CTARA, IIT-B)</a>.
+                <br><b>Attribution credits to:</b> <a href='https://www.ctara.iitb.ac.in'>CTARA, IIT-B</a> and <a href='https://gise.cse.iitb.ac.in/'>GISE HUB, IIT-B</a>.
+            </p>
+        </a>
+    </div>
+</footer>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock %}

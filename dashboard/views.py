@@ -557,3 +557,13 @@ def timeseries(request):
 
     # Pass the image to the template
     return render(request, 'dashboard/timeseries.html', {'graph': graph})
+
+
+
+def water_stress(request):
+    # Logic to handle the request and prepare data for the template
+    context = {
+        'message': 'This is the Water Stress view',
+        # Add any other context variables here
+    }
+    return render(request, 'dashboard/water_stress.html', context)
