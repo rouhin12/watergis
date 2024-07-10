@@ -24,8 +24,8 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
 import os, requests,json,io
-import pandas as pd
-import matplotlib.pyplot as plt
+#import pandas as pd
+#import matplotlib.pyplot as plt
 # from urllib.parse import quote
 
 
