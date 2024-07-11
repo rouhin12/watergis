@@ -1316,454 +1316,461 @@
         }
     }
 
-    var popupLayer;
-    var popupLayersArray = [];
-    
-    async function tapStress() {
-        try {
-            // Show throbber while loading
-            //document.getElementById('throbber').style.display = 'block';
-    
-            // Load CSV data
-            d3.csv("{% static 'bhandara_tap_connection/bhandara_villages_fhtc.csv' %}", async function(error, csvData) {
-                if (error) {
-                    console.error('Error loading the CSV file:', error);
-                    return;
-                }
-    
-                // Load JSON data of maha_demo_v21_26april24
-                const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&CQL_FILTER=dist_name='Bhandara'");
-                // Load JSON data of bhandara_antyodaya_refactored
-                const bhandaraData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Abhandara_antyodaya_refactored&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=tot_malech,tot_femalc,census_201");
-                // Process CSV and JSON data
-                csvData.forEach(function(csvRow) {
-                    const block = csvRow.Block;
-                    const village = csvRow.Village;
-                    const houseConnection = csvRow['House Connection'];
-                    const households = csvRow['House Holds'];
-                    const TapPerHH = parseFloat(csvRow['House Connection'] /csvRow['House Holds']);
-    
-                    // Find matching JSON record based on Block and Village
-                    const matchingJsonRecord = jsonData.features.find(function(jsonRow) {
-                        return jsonRow.properties.taluka_nam.toLowerCase() === csvRow.Block.toLowerCase() &&
-                               jsonRow.properties.area_name.toLowerCase() === csvRow.Village.toLowerCase();
-                    });
-                    if (matchingJsonRecord ) {
-                        const census2011 = parseFloat(matchingJsonRecord.properties.cen_2011);
-                        //console.log('Type of census2011:', typeof census2011);
-                        const matchingBhandaraRecord = bhandaraData.features.find(function(bhandaraRow) {
-                            const census201 = parseFloat(bhandaraRow.properties.census_201); // Ensure it's parsed as a number
-                            //console.log('Type of census_201:', typeof census201);
-                            return census201 === parseFloat(census2011);
-                        });
-                        //console.log(matchingBhandaraRecord);
-                        const totalPop = matchingJsonRecord.properties.tot_p;
-                        const scPop = matchingJsonRecord.properties.p_sc;
-                        const stPop = matchingJsonRecord.properties.p_st;
-                        const scst = (scPop + stPop);
-                        const scstPercentage = (((scPop + stPop )/ totalPop) * 100).toFixed(3);
-                        const scstTapStress = (parseFloat(scst) / parseFloat(houseConnection)).toFixed(2);
-                        const totConsumption = 55 * parseFloat(houseConnection) * parseFloat(totalPop);
-                        const stress = (parseFloat(totalPop) / parseFloat(houseConnection)).toFixed(2);
-                        
-                        let  popupContent = `
-                            <b>Village:</b> ${village}<br>
-                            <b>Block:</b> ${block}<br>
-                            <b>Total population:</b> ${totalPop}<br>
-                            <b>Tap Connections:</b> ${houseConnection}<br>
-                        `;
-                        if (document.getElementById("bhtap_connection").checked){
-                            popupContent += `<b>Total households:</b> ${households}<br>
-                                             <b>Tap per household:</b>${TapPerHH}<br>
-                                              `;
-                        }
-                        if (document.getElementById("scst_tap_connection").checked || document.getElementById("scst_population").checked){
-                            popupContent += `<b>SC + ST Population Percentage:</b> ${scstPercentage}%<br>
-                                             <b>Total SC + ST Population:</b> ${scst}<br>
-                                             <b>Stress on taps w.r.t sc+st:</b> ${scstTapStress}  
-                                              `;
-                        }
-                        if (document.getElementById("tap_connection_layer").checked){
-                            popupContent += `<b>Stress:</b> ${stress} people per tap connection<br>`;
-                        }
-                        let chTapStress;
-                        let chPercentage;
-                        if (matchingBhandaraRecord) {
-                             //console.log(totMaleCH, totFemalC);
-                             const totMaleCH = matchingBhandaraRecord.properties.tot_malech;
-                             const totFemalC = matchingBhandaraRecord.properties.tot_femalc;
-                             const children = totMaleCH + totFemalC;
-                             chPercentage = ((children / totalPop) * 100).toFixed(3);
-                            chTapStress = (children / parseFloat(houseConnection)).toFixed(2);
-                             if (document.getElementById("ch_tap_connection").checked || document.getElementById("ch_population").checked){
-                             popupContent += `
-                                 <b>Total Male Children:</b> ${totMaleCH}<br>
-                                 <b>Total Female Children:</b> ${totFemalC}<br>
-                                 <b>Children Percentage:</b> ${chPercentage}%<br>
-                                 <b>Stress on taps w.r.t Children:</b> ${chTapStress}<br>
-                             `;
-                             }
-                         }
-                        const popupOptions = {
-                            maxWidth: 350
-                        };
-    
-                        function getColor(stress, scstTapStress, scstPercentage, TapPerHH, chTapStress) {
-                            if (document.getElementById("scst_tap_connection").checked) {
-                                    if (scstTapStress < 5) return 'green';       //  low stress
-                                    if (scstTapStress > 5 && scstTapStress <= 10) return 'yellow';  // moderate stress
-                                    if (scstTapStress > 10 && scstTapStress <= 50) return 'orange';  // high stress
-                                    if (scstTapStress > 50) return 'red';       // high stress
-                            }else if (document.getElementById("scst_population").checked || document.getElementById("ch_population").checked) {
-                                if (isNaN(scstPercentage) || isNaN(chPercentage)) return '#FF0000';  // Red for NaN
-
-                                var percentage = document.getElementById("scst_population").checked ? scstPercentage : chPercentage;
-
-                                if (percentage < 20) return '#CAF0F8';   // Low percentage
-                                if (percentage < 40) return '#90E0EF';   // Moderate percentage
-                                if (percentage < 60) return '#00B4D8';   // High percentage
-                                if (percentage < 80) return '#0077B6';   // High percentage
-                                if (percentage <= 100) return '#03045E'; // High percentage
-                        } else if (document.getElementById("ch_tap_connection").checked ) {
-                            return chTapStress === 0 ? '#0077b6' :
-                            chTapStress > 5 ? '#d91e36' :
-                            chTapStress > 4 ? '#da344d' :
-                            chTapStress > 3 ? '#ec5766' :
-                            chTapStress > 2 ? '#ef7674' :
-                            chTapStress > 1 ? '#caf0f8' :
-                            chTapStress > 0.5 ? '#90e0ef' :
-                            chTapStress > 0 ? '#00b4d8' :
-                                           '#0077b6';
-                    } else if (document.getElementById("bhtap_connection").checked) {
-                        return TapPerHH === 1 ? '#197db6' :
-                        TapPerHH > 0.95 ? '#f5c8b5' :
-                        TapPerHH > 0.80 ? '#ef9075' :
-                        TapPerHH > 0.60 ? '#e77364' :
-                        TapPerHH >0.40 ? '#df504f' : 
-                        TapPerHH >0.20 ? '#df504f' : 
-                        TapPerHH >0.075 ? '#df504f' : 
-                        TapPerHH === 0 ? '#cb0523' : 
-                                         '#ab0c24';
-                    }else {
-                            return stress > 70 ? '#cb0523' :
-                                   stress > 60 ? '#d11c31' :
-                                   stress > 50 ? '#d52938' :
-                                   stress > 40 ? '#d93a42' :
-                                   stress > 30 ? '#df504f' :
-                                   stress > 20 ? '#e77364' :
-                                   stress > 10 ? '#ef9075' :
-                                   stress > 5  ? '#f5c8b5' :
-                                   stress > 3  ? '#81bbd8' :
-                                                 '#197db6';
-                        }
-                    }
-    
-                        popupLayer = L.geoJSON(matchingJsonRecord, {
-                            style: function(feature) {
-                                return {
-                                    color: 'black', // Boundary color
-                                    weight: 0.5,
-                                    opacity: 1,
-                                    fillColor: getColor(stress, scstTapStress, scstPercentage, chPercentage, TapPerHH, chTapStress), 
-                                    fillOpacity: 0.7
-                                };
-                            },
-                            onEachFeature: function(feature, layer) {
-                                layer.bindPopup(popupContent, popupOptions);
-                            }
-                        });
-                        popupLayersArray.push(popupLayer);
-                        //console.log(`Block=${block}, Village=${village}, p_sc=${scPop}, p_st=${stPop}, scst%=${scstPercentage},totalpop=${totalPop} ,Taps= ${houseConnection}`,scstTapStress, stress);
-                    } else {
-                        //console.log(`No match found for Block=${block}, Village=${village}`);
-                    }
-                });
-    
-                // Add popupLayer to map if checkbox is checked
-                if (document.getElementById("tap_connection_layer").checked) {
-                    popupLayersArray.forEach(function(layer) {
-                        layer.addTo(mymap);
-                    });
-                    tap_stress_legend.addTo(mymap);
-                } else if (document.getElementById("bhtap_connection").checked){
-                    popupLayersArray.forEach(function(layer) {
-                        layer.addTo(mymap);
-                    });
-                    bhstress_legend.addTo(mymap);
-                }else if (document.getElementById("scst_tap_connection").checked){
-                        popupLayersArray.forEach(function(layer) {
-                            layer.addTo(mymap);
-                        });
-                        scst_tap_legend.addTo(mymap);
-                    }else if (document.getElementById("scst_population").checked){
-                        popupLayersArray.forEach(function(layer) {
-                            layer.addTo(mymap);
-                        });
-                        scst_legend.addTo(mymap);
-                    }else if (document.getElementById("ch_population").checked){
-                        popupLayersArray.forEach(function(layer) {
-                            layer.addTo(mymap);
-                        });
-                        ch_legend.addTo(mymap);
-                    }else if (document.getElementById("ch_tap_connection").checked){
-                       popupLayersArray.forEach(function(layer) {
-                           layer.addTo(mymap);
-                       });
-                       chTapStressLegend.addTo(mymap);
-                    }else {
-                        bhstress_legend.remove();
-                        chTapStressLegend.remove();
-                    tap_stress_legend.remove();
-                    scst_tap_legend.remove();
-                    scst_legend.remove();
-                    ch_legend.remove();
-                    popupLayersArray.forEach(function(layer) {
-                        mymap.removeLayer(layer);
-                    });
-                    popupLayersArray = [];
-                }
-    // Hide throbber after loading
-                //document.getElementById('throbber').style.display = 'none';
-            });
-    
-        } catch (error) {
-            console.error('Error in tapStress:', error);
-        }
+var popupLayer;
+ var popupLayersArray = [];
+ 
+ async function tapStress() {
+ try {
+ // Show throbber while loading
+ //document.getElementById('throbber').style.display = 'block';
+ 
+ // Load CSV data
+ d3.csv("{% static 'bhandara_tap_connection/bhandara_villages_fhtc.csv' %}", async function(error, csvData) {
+ if (error) {
+ console.error('Error loading the CSV file:', error);
+ return;
+ }
+ 
+ // Load JSON data of maha_demo_v21_26april24
+ const jsonData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Amaha_demo_v21_26april24&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&CQL_FILTER=dist_name='Bhandara'");
+ // Load JSON data of bhandara_antyodaya_refactored
+ const bhandaraData = await fetchJSON("https://geonode.communitygis.in/geoserver/ows?service=WFS&version=1.0.0&request=GetFeature&typename=geonode%3Abhandara_antyodaya_refactored&outputFormat=json&srs=EPSG%3A4326&srsName=EPSG%3A4326&propertyName=tot_malech,tot_femalc,census_201");
+ if (jsonData.features && jsonData.features.length > 0) {
+    // Set the view to Bhandara's coordinates
+           mymap.setView([21.1710, 79.6550], 10);
     }
-    
-    // Fetch JSON function
-    async function fetchJSON(url) {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return await response.json();
-        } catch (error) {
-            console.error('Error fetching JSON:', error);
-            throw error; // Propagate the error
-        }
+ // Process CSV and JSON data
+ csvData.forEach(function(csvRow) {
+ const block = csvRow.Block;
+ const village = csvRow.Village;
+ const houseConnection = csvRow['House Connection'];
+ const households = csvRow['House Holds'];
+ const TapPerHH = parseFloat(csvRow['House Connection'] /csvRow['House Holds']);
+ 
+ // Find matching JSON record based on Block and Village
+ const matchingJsonRecord = jsonData.features.find(function(jsonRow) {
+ return jsonRow.properties.taluka_nam.toLowerCase() === csvRow.Block.toLowerCase() &&
+ jsonRow.properties.area_name.toLowerCase() === csvRow.Village.toLowerCase();
+ });
+ if (matchingJsonRecord ) {
+ const census2011 = parseFloat(matchingJsonRecord.properties.cen_2011);
+ //console.log('Type of census2011:', typeof census2011);
+ const matchingBhandaraRecord = bhandaraData.features.find(function(bhandaraRow) {
+ const census201 = parseFloat(bhandaraRow.properties.census_201); // Ensure it's parsed as a number
+ //console.log('Type of census_201:', typeof census201);
+ return census201 === parseFloat(census2011);
+ });
+ //console.log(matchingBhandaraRecord);
+ const totalPop = matchingJsonRecord.properties.tot_p;
+ const scPop = matchingJsonRecord.properties.p_sc;
+ const stPop = matchingJsonRecord.properties.p_st;
+ const scst = (scPop + stPop);
+ const scstPercentage = (((scPop + stPop )/ totalPop) * 100).toFixed(3);
+ const scstTapStress = (parseFloat(scst) / parseFloat(houseConnection)).toFixed(2);
+ const totConsumption = 55 * parseFloat(houseConnection) * parseFloat(totalPop);
+ const stress = (parseFloat(totalPop) / parseFloat(houseConnection)).toFixed(2);
+ 
+ let popupContent = `
+ <b>Village:</b> ${village}<br>
+ <b>Block:</b> ${block}<br>
+ <b>Taps:</b> ${houseConnection}<br>
+ <b>Total population:</b> ${totalPop}<br>
+ `;
+ if (document.getElementById("bhtap_connection").checked){
+    popupContent += `<b>Total households:</b> ${households}<br>
+    <b>Tap per household:</b>${TapPerHH}<br>
+    `;
     }
-    
+ if (document.getElementById("scst_tap_connection").checked || document.getElementById("scst_population").checked){
+ popupContent += `<b>SC + ST Population Percentage:</b> ${scstPercentage}%<br>
+ <b>Total SC + ST Population:</b> ${scst}<br>
+ <b>Stress on taps w.r.t sc+st:</b> ${scstTapStress} 
+ `;
+ }
+ if (document.getElementById("tap_connection_layer").checked){
+ popupContent += `<b>Stress:</b> ${stress} people per tap connection<br>`;
+ }
+ let chTapStress;
+let chPercentage;
+ if (matchingBhandaraRecord) {
+ //console.log(totMaleCH, totFemalC);
+ const totMaleCH = matchingBhandaraRecord.properties.tot_malech;
+ const totFemalC = matchingBhandaraRecord.properties.tot_femalc;
+ const children = totMaleCH + totFemalC;
+ chPercentage = ((children / totalPop) * 100).toFixed(3);
+ chTapStress = (children / parseFloat(houseConnection)).toFixed(2);
+ if (document.getElementById("ch_tap_connection").checked){
+ popupContent += `
+ <b>Total Male Children:</b> ${totMaleCH}<br>
+ <b>Total Female Children:</b> ${totFemalC}<br>
+ <b>Children Percentage:</b> ${chPercentage}%<br>
+ <b>Stress on taps w.r.t Children:</b> ${chTapStress}<br>
+ `;
+ }
+ }
+ const popupOptions = {
+ maxWidth: 350
+ };
+ 
+ function getColor(stress, scstTapStress, scstPercentage, TapPerHH, chTapStress) {
+ if (document.getElementById("scst_tap_connection").checked) {
+ if (scstTapStress < 5) return 'green'; // low stress
+ if (scstTapStress > 5 && scstTapStress <= 10) return 'yellow'; // moderate stress
+ if (scstTapStress > 10 && scstTapStress <= 50) return 'orange'; // high stress
+ if (scstTapStress > 50) return 'red'; // high stress
+ }else if (document.getElementById("scst_population").checked || document.getElementById("ch_population").checked) {
+    if (isNaN(scstPercentage) || isNaN(chPercentage)) return '#FF0000'; // Red for NaN
+    var percentage = document.getElementById("scst_population").checked ? scstPercentage : chPercentage; if (scstPercentage < 40) return '#90E0EF'; // Moderate p_sc+p_st
+    if (percentage < 20) return '#CAF0F8'; // Low percentage
+    if (percentage < 40) return '#90E0EF'; // Moderate percentage
+    if (percentage < 60) return '#00B4D8'; // High percentage
+ if (percentage < 80) return '#0077B6'; // High percentage
+ if (percentage <= 100) return '#03045E'; // High percentage
+ } else if (document.getElementById("ch_tap_connection").checked) {
+    return chTapStress === 0 ? '#0077b6' :
+ chTapStress > 5 ? '#d91e36' :
+ chTapStress > 4 ? '#da344d' :
+ chTapStress > 3 ? '#ec5766' :
+ chTapStress > 2 ? '#ef7674' :
+ chTapStress > 1 ? '#caf0f8' :
+ chTapStress > 0.5 ? '#90e0ef' :
+ chTapStress > 0 ? '#00b4d8' :
+ '#0077b6';
+ } else if (document.getElementById("bhtap_connection").checked) {
+ return TapPerHH === 1 ? '#197db6' :
+ TapPerHH > 0.95 ? '#f5c8b5' :
+ TapPerHH > 0.80 ? '#ef9075' :
+ TapPerHH > 0.60 ? '#e77364' :
+ TapPerHH >0.40 ? '#df504f' : 
+ TapPerHH >0.20 ? '#df504f' : 
+ TapPerHH >0.075 ? '#df504f' : 
+ TapPerHH === 0 ? '#cb0523' : 
+ '#ab0c24';
+ }else {
+ return stress > 70 ? '#cb0523' :
+ stress > 60 ? '#d11c31' :
+ stress > 50 ? '#d52938' :
+ stress > 40 ? '#d93a42' :
+ stress > 30 ? '#df504f' :
+ stress > 20 ? '#e77364' :
+ stress > 10 ? '#ef9075' :
+ stress > 5 ? '#f5c8b5' :
+ stress > 3 ? '#81bbd8' :
+ '#197db6';
+ }
+ }
+ 
+ popupLayer = L.geoJSON(matchingJsonRecord, {
+ style: function(feature) {
+ return {
+ color: 'black', // Boundary color
+ weight: 0.5,
+ opacity: 1,
+ fillColor: getColor(stress, scstTapStress, scstPercentage, TapPerHH, chTapStress), 
+ fillOpacity: 0.7
+ };
+ },
+ onEachFeature: function(feature, layer) {
+ layer.bindPopup(popupContent, popupOptions);
+ }
+ });
+ popupLayersArray.push(popupLayer);
+ //console.log(`Block=${block}, Village=${village}, p_sc=${scPop}, p_st=${stPop}, scst%=${scstPercentage},totalpop=${totalPop} ,Taps= ${houseConnection}`,scstTapStress, stress);
+ } else {
+ //console.log(`No match found for Block=${block}, Village=${village}`);
+ }
+ });
+ 
+ // Add popupLayer to map if checkbox is checked
+ if (document.getElementById("tap_connection_layer").checked) {
+ popupLayersArray.forEach(function(layer) {
+ layer.addTo(mymap);
+ });
+ tap_stress_legend.addTo(mymap);
+ } else if (document.getElementById("bhtap_connection").checked){
+ popupLayersArray.forEach(function(layer) {
+ layer.addTo(mymap);
+ });
+ bhstress_legend.addTo(mymap);
+ }else if (document.getElementById("scst_tap_connection").checked){
+ popupLayersArray.forEach(function(layer) {
+ layer.addTo(mymap);
+ });
+ scst_tap_legend.addTo(mymap);
+ }else if (document.getElementById("scst_population").checked){
+ popupLayersArray.forEach(function(layer) {
+ layer.addTo(mymap);
+ });
+ scst_legend.addTo(mymap);
+ }else if (document.getElementById("ch_population").checked){
+    popupLayersArray.forEach(function(layer) {
+    layer.addTo(mymap);
+    });
+    ch_legend.addTo(mymap);
+}else if (document.getElementById("ch_tap_connection").checked){
+ popupLayersArray.forEach(function(layer) {
+ layer.addTo(mymap);
+ });
+ chTapStressLegend.addTo(mymap);
+ }else {
+ bhstress_legend.remove();
+ chTapStressLegend.remove();
+ tap_stress_legend.remove();
+ scst_tap_legend.remove();
+ scst_legend.remove();
+ ch_legend.remove();
+ popupLayersArray.forEach(function(layer) {
+ mymap.removeLayer(layer);
+ });
+ popupLayersArray = [];
+ }
+ 
+ // Hide throbber after loading
+ //document.getElementById('throbber').style.display = 'none';
+ });
+ 
+ } catch (error) {
+ console.error('Error in tapStress:', error);
+ }
+ }
+ 
+ // Fetch JSON function
+ async function fetchJSON(url) {
+ try {
+ const response = await fetch(url);
+ if (!response.ok) {
+ throw new Error(`HTTP error! Status: ${response.status}`);
+ }
+ return await response.json();
+ } catch (error) {
+ console.error('Error fetching JSON:', error);
+ throw error; // Propagate the error
+ }
+ }
+ 
 
  var tap_stress_legend = L.control({position: 'bottomright'});
  
  tap_stress_legend.onAdd = function (map) {
-     var div = L.DomUtil.create('div', 'info legend'),
-     grades = [0, 3, 5, 10, 20, 30, 40, 50, 60, 70],
-     labels = ['<strong>Stress on taps</strong>'],
-     from, to;
+ var div = L.DomUtil.create('div', 'info legend'),
+ grades = [0, 3, 5, 10, 20, 30, 40, 50, 60, 70],
+ labels = ['<strong>Stress on taps</strong>'],
+ from, to;
  
  
-     function getColor(d) {
-        return d > 70 ? '#cb0523' :
-        d > 60 ? '#d11c31' :
-        d > 50 ? '#d52938' :
-        d > 40 ? '#d93a42' :
-        d > 30 ? '#df504f' :
-        d > 20 ? '#e77364' :
-        d > 10 ? '#ef9075' :
-        d > 5  ? '#f5c8b5' :
-        d > 3  ? '#81bbd8' :
-                 '#197db6';
+ function getColor(d) {
+ return d > 70 ? '#cb0523' :
+ d > 60 ? '#d11c31' :
+ d > 50 ? '#d52938' :
+ d > 40 ? '#d93a42' :
+ d > 30 ? '#df504f' :
+ d > 20 ? '#e77364' :
+ d > 10 ? '#ef9075' :
+ d > 5 ? '#f5c8b5' :
+ d > 3 ? '#81bbd8' :
+ '#197db6';
 }
  
-     for (var i = 0; i < grades.length; i++) {
-         from = grades[i];
-         to = grades[i + 1];
+ for (var i = 0; i < grades.length; i++) {
+ from = grades[i];
+ to = grades[i + 1];
  
-         labels.push(
-            '<i style="background:' + getColor(from + 1) + '"></i> ' +
-            from + (to ? '&ndash;' + to : '+') + ' people per tap');
-    }
+ labels.push(
+ '<i style="background:' + getColor(from + 1) + '"></i> ' +
+ from + (to ? '&ndash;' + to : '+') + ' people per tap');
+ }
  
-     div.innerHTML = labels.join('<br>');
-     return div;
+ div.innerHTML = labels.join('<br>');
+ return div;
  };
 
  var scst_tap_legend = L.control({position: 'bottomright'});
  
  scst_tap_legend.onAdd = function (map) {
-     var div = L.DomUtil.create('div', 'info legend'),
-     grades = [0, 5, 10, 50],
-     labels = ['<strong>Stress on taps w.r.t. SC+ST</strong>'],
-     from, to;
+ var div = L.DomUtil.create('div', 'info legend'),
+ grades = [0, 5, 10, 50],
+ labels = ['<strong>Stress on taps w.r.t. SC+ST</strong>'],
+ from, to;
  
  
-     function getColor(d) {
-        return d < 5 ? 'green' :
-        d < 10 ? 'yellow' :
-        d < 50 ? 'orange' :
-                 'red';
+ function getColor(d) {
+ return d < 5 ? 'green' :
+ d < 10 ? 'yellow' :
+ d < 50 ? 'orange' :
+ 'red';
 }
-     for (var i = 0; i < grades.length; i++) {
-         from = grades[i];
-         to = grades[i + 1];
+ for (var i = 0; i < grades.length; i++) {
+ from = grades[i];
+ to = grades[i + 1];
  
-         labels.push(
-             '<i style="background:' + getColor(from + 1) + '"></i> ' +
-             from + (to ? '&ndash;' + to : '+'));
-     }
+ labels.push(
+ '<i style="background:' + getColor(from + 1) + '"></i> ' +
+ from + (to ? '&ndash;' + to : '+'));
+ }
  
-     div.innerHTML = labels.join('<br>');
-     return div;
+ div.innerHTML = labels.join('<br>');
+ return div;
  };
 
  var bhstress_legend = L.control({position: 'bottomright'});
-
+ 
  bhstress_legend.onAdd = function (map) {
-    const legendContainer = L.DomUtil.create('div', 'info legend');
-    legendContainer.style.background = 'white';
-    legendContainer.style.padding = '10px';
-    legendContainer.style.font = '14px/1.5 "Arial", sans-serif';
-    legendContainer.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.2)';
-    legendContainer.style.borderRadius = '5px';
-
-    const legendTitle = L.DomUtil.create('strong', '', legendContainer);
-    legendTitle.textContent = 'Taps per household';
-    legendTitle.style.fontSize = '16px';
-
-    const legendList = L.DomUtil.create('ul', '', legendContainer);
-    legendList.style.listStyleType = 'none';
-    legendList.style.paddingLeft = '0';
-
-    const conditions = [
-        { value: 1, color: '#197db6' },
-        { value: 0.95, color: '#f5c8b5' },
-        { value: 0.80, color: '#ef9075' },
-        { value: 0.60, color: '#e77364' },
-        { value: 0.40, color: '#df504f' },
-        { value: 0.20, color: '#df504f' },
-        { value: 0.075, color: '#df504f' },
-        { value: 0, color: '#cb0523' },
-        { value: null, color: '#ab0c24' } // For other values
-    ];
-
-    conditions.forEach(condition => {
-        if (condition.value !== null) {
-        const listItem = L.DomUtil.create('li', '', legendList);
-            const colorBox = L.DomUtil.create('i', '', listItem);
-            colorBox.style.backgroundColor = condition.color;
-            colorBox.style.width = '18px';
-            colorBox.style.height = '18px';
-            colorBox.style.float = 'left';
-            colorBox.style.marginRight = '8px';
-            colorBox.style.opacity = '0.7';
-        
-            const text = document.createTextNode(
-                ` Taps per household ${(condition.value === 0 || condition.value === 1) ? '=' : '>'} ${condition.value}`
-            );
-        listItem.appendChild(colorBox);
-        listItem.appendChild(text);
-        }
-    });
-
-    return legendContainer;
-};
+ const legendContainer = L.DomUtil.create('div', 'info legend');
+ legendContainer.style.background = 'white';
+ legendContainer.style.padding = '10px';
+ legendContainer.style.font = '14px/1.5 "Arial", sans-serif';
+ legendContainer.style.boxShadow = '0 0 15px rgba(0, 0, 0, 0.2)';
+ legendContainer.style.borderRadius = '5px';
+ 
+ const legendTitle = L.DomUtil.create('strong', '', legendContainer);
+ legendTitle.textContent = 'Taps per household';
+ legendTitle.style.fontSize = '16px';
+ 
+ const legendList = L.DomUtil.create('ul', '', legendContainer);
+ legendList.style.listStyleType = 'none';
+ legendList.style.paddingLeft = '0';
+ 
+ const conditions = [
+ { value: 1, color: '#197db6' },
+ { value: 0.95, color: '#f5c8b5' },
+ { value: 0.80, color: '#ef9075' },
+ { value: 0.60, color: '#e77364' },
+ { value: 0.40, color: '#df504f' },
+ { value: 0.20, color: '#df504f' },
+ { value: 0.075, color: '#df504f' },
+ { value: 0, color: '#cb0523' },
+ { value: null, color: '#ab0c24' } // For other values
+ ];
+ 
+ conditions.forEach(condition => {
+ if (condition.value !== null) {
+ const listItem = L.DomUtil.create('li', '', legendList);
+ const colorBox = L.DomUtil.create('i', '', listItem);
+ colorBox.style.backgroundColor = condition.color;
+ colorBox.style.width = '18px';
+ colorBox.style.height = '18px';
+ colorBox.style.float = 'left';
+ colorBox.style.marginRight = '8px';
+ colorBox.style.opacity = '0.7';
+ 
+ const text = document.createTextNode(
+ ` Taps per household ${(condition.value === 0 || condition.value === 1) ? '=' : '>'} ${condition.value}`
+ );
+ listItem.appendChild(colorBox);
+ listItem.appendChild(text);
+ }
+ });
+ 
+ return legendContainer;
+ };
 
 var chTapStressLegend = L.control({ position: 'bottomright' });
 
 chTapStressLegend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
-        grades = [0, 0.5, 1, 2, 3, 4, 5],
-        labels = ['<strong>Stress on taps w.r.t Children</strong>'],
-        from, to;
-
+    grades = [0, 0.5, 1, 2, 3, 4, 5],
+    labels = ['<strong>Stress on taps w.r.t Children</strong>'],
+    from, to;
+    
     function getColor(d) {
-        return d === 0 ? '#0077b6' :
-               d > 5 ? '#d91e36' :
-               d > 4 ? '#da344d' :
-               d > 3 ? '#ec5766' :
-               d > 2 ? '#ef7674' :
-               d > 1 ? '#caf0f8' :
-               d > 0.5 ? '#90e0ef' :
-               d > 0 ? '#00b4d8' :
-                       '#00b4d8';
+    return d === 0 ? '#0077b6' :
+    d > 5 ? '#d91e36' :
+    d > 4 ? '#da344d' :
+    d > 3 ? '#ec5766' :
+    d > 2 ? '#ef7674' :
+    d > 1 ? '#caf0f8' :
+    d > 0.5 ? '#90e0ef' :
+    d > 0 ? '#00b4d8' :
+    '#00b4d8';
     }
-
+    
     for (var i = grades.length - 1; i > 0; i--) {
-        from = grades[i];
-        to = grades[i + 1];
-
-        labels.push(
-            '<i style="background:' + getColor(from) + '"></i> >' +
-            from + (to ? ` &ndash; ${to}` : '+')
-        );
+    from = grades[i];
+    to = grades[i + 1];
+    
+    labels.push(
+    '<i style="background:' + getColor(from) + '"></i> >' +
+    from + (to ? ` &ndash; ${to}` : '+')
+    );
     }
     labels.push(
-        '<i style="background:' + getColor(0) + '"></i> ==0'
+    '<i style="background:' + getColor(0) + '"></i> ==0'
     );
-
+    
     div.innerHTML = labels.join('<br>');
     return div;
-};
+    };
+ 
+ // Function to remove layer from map
+ function removeLayerFromMap(layer) {
+ mymap.eachLayer(function(mapLayer) {
+ if (mapLayer.options.layers === layer) {
+ mymap.removeLayer(mapLayer);
+ }
+ });
+ }
 
-    var scst_legend = L.control({position: 'bottomright'});
+ var scst_legend = L.control({position: 'bottomright'});
  
  scst_legend.onAdd = function (map) {
-     var div = L.DomUtil.create('div', 'info legend'),
-     grades = [0, 20, 40, 60, 80],
-     labels = ['<strong>SC+ST population</strong>'],
-     from, to;
+ var div = L.DomUtil.create('div', 'info legend'),
+ grades = [0, 20, 40, 60, 80],
+ labels = ['<strong>SC+ST population</strong>'],
+ from, to;
  
  
-     function getColor(d) {
-        if (isNaN(d)) return '#FF0000'; // Red for NaN
-        return d < 20 ? '#CAF0F8' :
-        d < 40 ? '#90E0EF' :
-        d < 60 ? '#00B4D8' :
-        d < 80 ? '#0077B6' :
-                 '#03045E' ;
+ function getColor(d) {
+ return d < 20 ? '#CAF0F8' :
+ d < 40 ? '#90E0EF' :
+ d < 60 ? '#00B4D8' :
+ d < 80 ? '#0077B6' :
+ '#03045E' ;
 }
-labels.push(
-        '<i style="background:#FF0000"></i> NaN'
-    );
-     for (var i = 0; i < grades.length; i++) {
-         from = grades[i];
-         to = grades[i + 1];
+ for (var i = 0; i < grades.length; i++) {
+ from = grades[i];
+ to = grades[i + 1];
  
-         labels.push(
-             '<i style="background:' + getColor(from + 1) + '"></i> ' +
-             from + (to ? '&ndash;' + to : '+') + '%');
-     }
+ labels.push(
+ '<i style="background:' + getColor(from + 1) + '"></i> ' +
+ from + (to ? '&ndash;' + to : '+') + '%');
+ }
  
-     div.innerHTML = labels.join('<br>');
-     return div;
+ div.innerHTML = labels.join('<br>');
+ return div;
  };
 
  var ch_legend = L.control({position: 'bottomright'});
  
-ch_legend.onAdd = function (map) {
-     var div = L.DomUtil.create('div', 'info legend'),
-     grades = [0, 20, 40, 60, 80],
-     labels = ['<strong>Number of children</strong>'],
-     from, to;
+ ch_legend.onAdd = function (map) {
+ var div = L.DomUtil.create('div', 'info legend'),
+ grades = [0, 20, 40, 60, 80],
+ labels = ['<strong>Number of children</strong>'],
+ from, to;
  
  
-     function getColor(d) {
-        if (isNaN(d)) return '#FF0000'; // Red for NaN
-        return d < 20 ? '#CAF0F8' :
-        d < 40 ? '#90E0EF' :
-        d < 60 ? '#00B4D8' :
-        d < 80 ? '#0077B6' :
-                 '#03045E' ;
-}
-labels.push(
-        '<i style="background:#FF0000"></i> NaN'
-    );
-     for (var i = 0; i < grades.length; i++) {
-         from = grades[i];
-         to = grades[i + 1];
+ function getColor(d) {
+ if (isNaN(d)) return '#FF0000'; // Red for NaN
+ return d < 20 ? '#CAF0F8' :
+ d < 40 ? '#90E0EF' :
+ d < 60 ? '#00B4D8' :
+ d < 80 ? '#0077B6' :
+ '#03045E' ;
+ }
+ labels.push(
+ '<i style="background:#FF0000"></i> NaN'
+ );
+ for (var i = 0; i < grades.length; i++) {
+ from = grades[i];
+ to = grades[i + 1];
  
-         labels.push(
-             '<i style="background:' + getColor(from + 1) + '"></i> ' +
-             from + (to ? '&ndash;' + to : '+') + '%');
-     }
+ labels.push(
+ '<i style="background:' + getColor(from + 1) + '"></i> ' +
+ from + (to ? '&ndash;' + to : '+') + '%');
+ }
  
-     div.innerHTML = labels.join('<br>');
-     return div;
+ div.innerHTML = labels.join('<br>');
+ return div;
  };
-
 
        // Function to remove layer from map
        function removeLayerFromMap(layer) {
@@ -3927,10 +3934,12 @@ function addnashikWMSLegend(obj) {
                 putWFSFacility("nashik_wells", "Nashik");
             }
             else if (fac == "{bhandara_obs_wells}") {
+                mymap.setView([21.0736, 79.8297], 10);
                 putWFSFacility("bhandara_obs_wells", "Bhandara");
             }
             else if (fac == "{bhandara_obs_wells_stress}") {
                 //document.getElementById('throbber').style.display = 'block'; // Show throbber
+                mymap.setView([21.0736, 79.8297], 10);
                 putWFSFacilityStress("bhandara_obs_wells", "Bhandara");
                 //setTimeout(() => {
                 //   document.getElementById('throbber').style.display = 'none'; // Hide throbber after 2 seconds

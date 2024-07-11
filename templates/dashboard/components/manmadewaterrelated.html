@@ -1,4 +1,7 @@
 <style>
+    .d-none {
+        display: none;
+    }
     .throbber {
         border: 16px solid #f3f3f3; /* Light grey */
         border-top: 16px solid #3498db; /* Blue */
@@ -56,26 +59,26 @@
         <label class="custom-control-label" for="chwells">Show Wells</label>
         <label><em>Wells Last updated 20-04-2023</em></label><br>
     </div>
-    <div class="custom-control custom-switch m-2"
-        style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
+    
+    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Nashik' %}d-none{% endif %}">
         <input type="checkbox" class="custom-control-input" value="{nashik_wells}" id="nashik_wells"
             onchange="GetSelectedWells(this)">
         <label class="custom-control-label" for="nashik_wells">Nashik Wells</label>
     </div>
-    <div class="custom-control custom-switch m-2"
-        style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+    
+    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
         <input type="checkbox" class="custom-control-input" value="{chwells1}" id="chwells1"
             onchange="defineWell(this)">
         <label class="custom-control-label" for="chwells1">Bhandara Wells(Captured by Students)</label>
     </div>
-    <div class="custom-control custom-switch m-2"
-        style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+   
+    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
         <input type="checkbox" class="custom-control-input" value="{bhandara_obs_wells}" id="bhandara_obs_wells"
             onchange="GetSelectedWells(this)">
         <label class="custom-control-label" for="bhandara_obs_wells">Observation Wells</label>
     </div>
-    <div class="custom-control custom-switch m-2"
-    style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+
+    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
     <input type="checkbox" class="custom-control-input" value="{bhandara_obs_wells_stress}" id="bhandara_obs_wells_stress"
         onchange="GetSelectedWells(this)">
     <label class="custom-control-label" for="bhandara_obs_wells_stress">Observation Wells Stress</label>
@@ -117,13 +120,13 @@
              style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
             <input type="checkbox" class="custom-control-input" value="{no_of_children}" id="ch_population"
                    onchange="tapStress(this)">
-            <label class="custom-control-label" for="scst_population">Number of children</label>
+            <label class="custom-control-label" for="ch_population">Number of children</label>
         </div>
     </div>
 <!-- Throbber -->
       {% comment %} <div id="throbber" class="throbber"></div>   {% endcomment %}
     
-    <div class="card" style="{% if feature.district_name != 'Nashik' %}display:none{% endif %}">
+    <div class="card {% if feature.district_name != 'Nashik' %}d-none{% endif %}">
         <div class="card-header" id="headingsix">
             <h2 class="mb-0">
                 <button class="btn btn-block text-left collapsed" type="button" data-toggle="collapse"
@@ -182,6 +185,7 @@
             </div>
         </div>
     </div>
+    
 </div>
 
 <script>
