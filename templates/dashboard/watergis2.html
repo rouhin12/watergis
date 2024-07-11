@@ -581,6 +581,19 @@
                     </div>
                 </a>
 
+                <a onclick="showContent('WaterStress')" class="bg-dark list-group-item list-group-item-action"
+                    style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="Water Stress">
+                    <div class="d-flex w-100 justify-content-start align-items-center">
+                        <span class="fa fa-tint fa-fw mr-3"></span>
+                        <span class="menu-collapsed" style="flex-grow: 1;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        margin-right: 10px;">Water Stress</span>
+                    </div>
+                </a>
+
                 <a onclick="showContent('Manmadeotherfeatures')" class="bg-dark list-group-item list-group-item-action"
                     style="{% if feature.man_made_other_features == False %}display:none{% endif %}"
                     data-bs-toggle="tooltip" data-bs-placement="right" title="Man-made other features">
@@ -659,6 +672,7 @@
 
             {%include "dashboard/components/naturalfeatures.html"%}
             {%include "dashboard/components/manmadewaterrelated.html"%}
+            {%include "dashboard/components/waterstress.html"%}
             {%include "dashboard/components/manmadeother.html"%}
             {%include "dashboard/components/population.html"%}
             {%include "dashboard/components/antyodaya.html"%}
@@ -1317,7 +1331,7 @@
     }
 
 var popupLayer;
- var popupLayersArray = [];
+var popupLayersArray = [];
  
  async function tapStress() {
  try {
