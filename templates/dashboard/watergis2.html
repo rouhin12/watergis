@@ -1322,7 +1322,7 @@ var popupLayer;
  async function tapStress() {
  try {
  // Show throbber while loading
- //document.getElementById('throbber').style.display = 'block';
+ document.getElementById('throbber').style.display = 'block';
  
  // Load CSV data
  d3.csv("{% static 'bhandara_tap_connection/bhandara_villages_fhtc.csv' %}", async function(error, csvData) {
@@ -1388,8 +1388,13 @@ var popupLayer;
  `;
  }
  if (document.getElementById("tap_connection_layer").checked){
+    if (isFinite(stress)){
  popupContent += `<b>Stress:</b> ${stress} people per tap connection<br>`;
  }
+ else {
+    popupContent += `</b> Taps not available<br>`;
+}
+}
  let chTapStress;
 let chPercentage;
  if (matchingBhandaraRecord) {
@@ -1399,7 +1404,7 @@ let chPercentage;
  const children = totMaleCH + totFemalC;
  chPercentage = ((children / totalPop) * 100).toFixed(3);
  chTapStress = (children / parseFloat(houseConnection)).toFixed(2);
- if (document.getElementById("ch_tap_connection").checked){
+ if (document.getElementById("ch_tap_connection").checked || document.getElementById("ch_population").checked){
  popupContent += `
  <b>Total Male Children:</b> ${totMaleCH}<br>
  <b>Total Female Children:</b> ${totFemalC}<br>
@@ -1419,13 +1424,13 @@ let chPercentage;
  if (scstTapStress > 10 && scstTapStress <= 50) return 'orange'; // high stress
  if (scstTapStress > 50) return 'red'; // high stress
  }else if (document.getElementById("scst_population").checked || document.getElementById("ch_population").checked) {
-    if (isNaN(scstPercentage) || isNaN(chPercentage)) return '#FF0000'; // Red for NaN
-    var percentage = document.getElementById("scst_population").checked ? scstPercentage : chPercentage; if (scstPercentage < 40) return '#90E0EF'; // Moderate p_sc+p_st
+    var percentage = document.getElementById("scst_population").checked ? scstPercentage : chPercentage; 
+    if (isNaN(percentage)) return '#FF0000'; // Red for NaN
     if (percentage < 20) return '#CAF0F8'; // Low percentage
     if (percentage < 40) return '#90E0EF'; // Moderate percentage
     if (percentage < 60) return '#00B4D8'; // High percentage
- if (percentage < 80) return '#0077B6'; // High percentage
- if (percentage <= 100) return '#03045E'; // High percentage
+    if (percentage < 80) return '#0077B6'; // High percentage
+    if (percentage <= 100) return '#03045E'; // High percentage
  } else if (document.getElementById("ch_tap_connection").checked) {
     return chTapStress === 0 ? '#0077b6' :
  chTapStress > 5 ? '#d91e36' :
@@ -1526,7 +1531,7 @@ let chPercentage;
  }
  
  // Hide throbber after loading
- //document.getElementById('throbber').style.display = 'none';
+document.getElementById('throbber').style.display = 'none';
  });
  
  } catch (error) {
@@ -1594,11 +1599,17 @@ let chPercentage;
  
  
  function getColor(d) {
- return d < 5 ? 'green' :
+ return d === 0 ? 'black' : 
+ d < 5 ? 'green' :
  d < 10 ? 'yellow' :
  d < 50 ? 'orange' :
  'red';
 }
+
+labels.push(
+    '<i style="background:black"></i> No SC+ST population'
+);
+
  for (var i = 0; i < grades.length; i++) {
  from = grades[i];
  to = grades[i + 1];
@@ -1726,6 +1737,9 @@ chTapStressLegend.onAdd = function (map) {
  d < 80 ? '#0077B6' :
  '#03045E' ;
 }
+labels.push(
+    '<i style="background:#FF0000"></i> NaN'
+    );
  for (var i = 0; i < grades.length; i++) {
  from = grades[i];
  to = grades[i + 1];
