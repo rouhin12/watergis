@@ -51,6 +51,12 @@
     .info.stress_legend .red { background: #ff0000; }
     .info.stress_legend .blue { background: #0004ff; }
 </style>
+<style>
+    .custom-hr {
+        border: 0.5px solid #ccc; /* Change the color and thickness as needed */
+        margin: 10px 0; /* Adjust the top and bottom margins */
+    }
+</style>
 <div class="subContent" id="Manmadewaterfeatures">
     <h5 class="heading">Man-made water related features</h5>
     <hr>
@@ -83,12 +89,14 @@
         onchange="GetSelectedWells(this)">
     <label class="custom-control-label" for="bhandara_obs_wells_stress">Observation Wells Stress</label>
          </div>
+         <hr class="custom-hr">
          <div class="custom-control custom-switch m-2"
          style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
          <input type="checkbox" class="custom-control-input" value="{bh_tap_connection}" id="bhtap_connection"
              onchange="tapStress(this)">
          <label class="custom-control-label" for="bhtap_connection">Tap Connections (rural)</label>
      </div>
+     <hr class="custom-hr">
          <div class="custom-control custom-switch m-2"
          style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
          <input type="checkbox" class="custom-control-input" value="{bh_tap_connection_layer}" id="tap_connection_layer"
@@ -124,7 +132,7 @@
         </div>
     </div>
 <!-- Throbber -->
-      {% comment %} <div id="throbber" class="throbber"></div>   {% endcomment %}
+      <div id="throbber" class="throbber"></div> 
     
     <div class="card {% if feature.district_name != 'Nashik' %}d-none{% endif %}">
         <div class="card-header" id="headingsix">
