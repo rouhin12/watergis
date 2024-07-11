@@ -1404,7 +1404,7 @@ let chPercentage;
  const children = totMaleCH + totFemalC;
  chPercentage = ((children / totalPop) * 100).toFixed(3);
  chTapStress = (children / parseFloat(houseConnection)).toFixed(2);
- if (document.getElementById("ch_tap_connection").checked){
+ if (document.getElementById("ch_tap_connection").checked || document.getElementById("ch_population").checked){
  popupContent += `
  <b>Total Male Children:</b> ${totMaleCH}<br>
  <b>Total Female Children:</b> ${totFemalC}<br>
