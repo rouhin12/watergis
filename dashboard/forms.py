@@ -1,5 +1,5 @@
 from django.db import models
-from .models import UploadWellPictureModel,water_quality_model,featuresForm, physical_features_model
+from .models import UploadWellPictureModel,WaterQualityModel,featuresForm, physical_features_model
 from .models import water_usable_model, cultural_model, human_form_model
 from django import forms
 
@@ -10,7 +10,7 @@ class UploadWellPictureForm(forms.ModelForm):
 
 class quality_form(forms.ModelForm):
     class Meta:
-        model = water_quality_model
+        model = WaterQualityModel
         fields = ('name','state','district','taluka','village','gram_panch', 'water_quality','color','odour','taste', 'ph','turbid','hard','chloride','alkaline','nitrate','fluoride','iron','chlorine','calcium','magnesium','date')
 
 class features_form(forms.ModelForm):
