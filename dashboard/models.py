@@ -129,7 +129,7 @@ class Layers(models.Model):
        db_table = 'layers'
     
     
-class water_quality_model(models.Model):
+class WaterQualityModel(models.Model):
     name = models.CharField(max_length=100, blank=True, null=True)
     state = models.CharField(max_length=100)
     district = models.CharField(max_length=100, blank=True, null=True)
@@ -140,21 +140,24 @@ class water_quality_model(models.Model):
     color=models.CharField(max_length=100, null=True)
     odour=models.CharField(max_length=100, null=True)
     taste=models.CharField(max_length=100, null=True)
-    ph = models.IntegerField(max_length=5,blank=True, null=True)
-    turbid = models.IntegerField(max_length=5,blank=True, null=True)
-    hard = models.IntegerField(max_length=15,blank=True, null=True)
-    chloride = models.IntegerField(max_length=15,blank=True, null=True)
-    alkaline = models.IntegerField(max_length=15,blank=True, null=True)
-    nitrate = models.FloatField(max_length=15,blank=True, null=True)
-    fluoride = models.FloatField(max_length=15,blank=True, null=True)
-    iron = models.FloatField(max_length=15,blank=True, null=True)
-    chlorine = models.FloatField(max_length=15,blank=True, null=True)
-    calcium = models.FloatField(max_length=15,blank=True, null=True)
-    magnesium = models.FloatField(max_length=15,blank=True, null=True)
+    ph = models.IntegerField(blank=True, null=True)
+    turbid = models.IntegerField(blank=True, null=True)
+    hard =models.IntegerField(blank=True, null=True)
+    chloride = models.IntegerField(blank=True, null=True)
+    alkaline = models.IntegerField(blank=True, null=True)
+    nitrate = models.FloatField(blank=True, null=True)
+    fluoride = models.FloatField(blank=True, null=True)
+    iron = models.FloatField(blank=True, null=True)
+    chlorine = models.FloatField(blank=True, null=True)
+    calcium = models.FloatField(blank=True, null=True)
+    magnesium = models.FloatField(blank=True, null=True)
     date = models.DateField()
 
     def __str__(self):
         return self.name
+    class Meta:
+       managed = True
+       db_table = 'water_quality_model'
 class links(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=100)
@@ -180,6 +183,7 @@ class featuresForm(models.Model):
 
     def __str__(self):
         return self.district_name
+    
     
 class physical_features_model(models.Model):
     district = models.CharField(max_length=100)
@@ -260,6 +264,7 @@ class human_form_model(models.Model):
 
     def __str__(self):
         return self.district_name
+    
     
 class MahaRiversFromOsmV116June23(models.Model):
     geom = models.GeometryField(srid=4326)

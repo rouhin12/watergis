@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .models import UploadWellPictureModel
 from .models import Features
 from .models import Layers
-from .models import water_quality_model
+from .models import WaterQualityModel
 from .models import links
 from .models import MahaDemoV2126April24
 from .models import MahaRiversFromOsmV116June23
@@ -17,8 +17,8 @@ from .forms import UploadWellPictureForm
 from .forms import quality_form, features_form, physical_features_form
 from .forms import human_form_form, cultural_form, water_usable_form
 from django.http import JsonResponse
-from wagtail.documents.models import Document
-from wagtail.images.models import Image
+from wagtail.documents.models import Document # type: ignore
+from wagtail.images.models import Image #type: ignore
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
@@ -194,7 +194,7 @@ def water_quality_form(request):
             date = request.POST['date']
             
                 # Create and save the model instance
-            quality_model = water_quality_model(name=name, state=state, district=district, taluka=taluka,
+            quality_model = WaterQualityModel(name=name, state=state, district=district, taluka=taluka,
                                                     village=village, gram_panch=gram_panch, water_quality=water_quality,
                                                     color=color,odour=odour,taste=taste,
                                                     ph=ph, turbid=turbid, hard=hard, chloride=chloride,
