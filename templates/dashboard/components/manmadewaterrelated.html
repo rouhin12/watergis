@@ -83,41 +83,48 @@
         onchange="GetSelectedWells(this)">
     <label class="custom-control-label" for="bhandara_obs_wells_stress">Observation Wells Stress</label>
          </div>
-
-    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
-    <input type="checkbox" class="custom-control-input" value="{tap_connection_layer_url}" id="tap_connection_layer"
-        onchange="tapStress(this)">
-    <label class="custom-control-label" for="tap_connection_layer">Tap Connection in rural areas</label>
-</div>
-
-<div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
-    <input type="checkbox" class="custom-control-input" value="{bh_tap_connection_layer}" id="bh_tap_connection_layer"
-        onchange="tapStress(this)">
-    <label class="custom-control-label" for="bh_tap_connection_layer">Stress on Tap Connections (rural)</label>
-</div>
-
-<div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
-<input type="checkbox" class="custom-control-input" value="{tap_connection_sc}" id="scst_tap_connection"
-    onchange="tapStress(this)">
-<label class="custom-control-label" for="scst_tap_connection">Stress on Tap Connections w.r.t SC and ST</label>
-</div>
-
-<div class="ml-4"> <!-- Adjust margin-left as needed for spacing -->
-    <div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
-        <input type="checkbox" class="custom-control-input" value="{tap_connection_scst}" id="scst_population"
-               onchange="tapStress(this)">
-        <label class="custom-control-label" for="scst_population">SC and ST population</label>
+         <div class="custom-control custom-switch m-2"
+         style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+         <input type="checkbox" class="custom-control-input" value="{bh_tap_connection}" id="bhtap_connection"
+             onchange="tapStress(this)">
+         <label class="custom-control-label" for="bhtap_connection">Tap Connections (rural)</label>
+     </div>
+         <div class="custom-control custom-switch m-2"
+         style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+         <input type="checkbox" class="custom-control-input" value="{bh_tap_connection_layer}" id="tap_connection_layer"
+             onchange="tapStress(this)">
+         <label class="custom-control-label" for="tap_connection_layer">Stress on Tap Connections (rural)</label>
+     </div>
+     <div class="custom-control custom-switch m-2"
+     style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+     <input type="checkbox" class="custom-control-input" value="{tap_connection_sc}" id="scst_tap_connection"
+         onchange="tapStress(this)">
+     <label class="custom-control-label" for="scst_tap_connection">Stress on Tap Connections w.r.t SC and ST</label>
+     </div>
+     <div class="ml-4"> <!-- Adjust margin-left as needed for spacing -->
+         <div class="custom-control custom-switch m-2"
+              style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+             <input type="checkbox" class="custom-control-input" value="{tap_connection_scst}" id="scst_population"
+                    onchange="tapStress(this)">
+             <label class="custom-control-label" for="scst_population">SC and ST population</label>
+         </div>
+     </div>
+     <div class="custom-control custom-switch m-2"
+     style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+     <input type="checkbox" class="custom-control-input" value="{tap_connection_ch}" id="ch_tap_connection"
+         onchange="tapStress(this)">
+     <label class="custom-control-label" for="ch_tap_connection">Stress on Taps w.r.t no. of children</label>
+     </div>
+     <div class="ml-4"> <!-- Adjust margin-left as needed for spacing -->
+        <div class="custom-control custom-switch m-2"
+             style="{% if feature.district_name != 'Bhandara' %}display:none{% endif %}">
+            <input type="checkbox" class="custom-control-input" value="{no_of_children}" id="ch_population"
+                   onchange="tapStress(this)">
+            <label class="custom-control-label" for="ch_population">Number of children</label>
+        </div>
     </div>
-</div>
-
-<div class="custom-control custom-switch m-2 {% if feature.district_name != 'Bhandara' %}d-none{% endif %}">
-<input type="checkbox" class="custom-control-input" value="{tap_connection_ch}" id="ch_tap_connection"
-    onchange="tapStress(this)">
-<label class="custom-control-label" for="ch_tap_connection">Stress on Taps w.r.t no. of children</label>
-</div>
-
 <!-- Throbber -->
-      <div id="throbber" class="throbber"></div>  
+      {% comment %} <div id="throbber" class="throbber"></div>   {% endcomment %}
     
     <div class="card {% if feature.district_name != 'Nashik' %}d-none{% endif %}">
         <div class="card-header" id="headingsix">
