@@ -35,7 +35,9 @@ urlpatterns = [
     # path('get_villages_near_river/', views.get_villages_near_river, name='get_villages_near_river'),
     path('intersecting_villages/', views.intersecting_villages, name='intersecting_villages'),
     path('timeseries',views.timeseries,name='timeseries'),
-    path('dashboard/water_stress',views.water_stress,name='water_stress')
+    path('dashboard/water_stress',views.water_stress,name='water_stress'),
+    path('dashboard/GeeCode',views.GeeCode,name='GeeCode')
+
 ]
     
 

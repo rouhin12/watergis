@@ -26,8 +26,70 @@ from django.utils.translation import gettext as _
 import os, requests,json,io
 import pandas as pd
 import matplotlib.pyplot as plt
-from urllib.parse import quote
+# from urllib.parse import quote
+# For Google Earth Engine Code 
+import folium
+from folium import plugins
+from django.views.generic import TemplateView 
+import ee
 
+
+def GeeCode(request):
+    try:
+        # Initialize Earth Engine
+        ee.Initialize()
+
+        # Create a Folium Figure object
+        figure = folium.Figure()
+
+        # Create a Folium Map object
+        m = folium.Map(
+            location=[21.1710, 79.6550],
+            zoom_start=8
+        )
+
+        # Add the map to the figure
+        m.add_to(figure)
+
+        # Select the dataset (MODIS NDVI)
+        dataset = (ee.ImageCollection('MODIS/006/MOD13Q1')
+                  .filterDate('2019-07-01', '2019-11-30')
+                  .first())
+        modisndvi = dataset.select('NDVI')
+
+        # Define visualization parameters
+        vis_paramsNDVI = {
+            'min': 0,
+            'max': 9000,
+            'palette': ['FE8374', 'C0E5DE', '3A837C', '034B48']
+        }
+
+        # Get the map ID dictionary from Earth Engine
+        map_id_dict = ee.Image(modisndvi).getMapId(vis_paramsNDVI)
+
+        # Add the Earth Engine raster data as a TileLayer to the Folium map
+        folium.raster_layers.TileLayer(
+            tiles=map_id_dict['tile_fetcher'].url_format,
+            attr='Google Earth Engine',
+            name='NDVI',
+            overlay=True,
+            control=True
+        ).add_to(m)
+
+        # Add layer control to the Folium map
+        m.add_child(folium.LayerControl())
+
+        # Render the figure
+        figure.render()
+
+        # Pass the rendered map to the template
+        map_html = figure.render()
+
+        return render(request, 'dashboard/index.html', {'map_html': map_html})
+
+    except ee.EEException as e:
+        error_message = f"Earth Engine error: {str(e)}"
+        return render(request, 'dashboard/index.html', {'error_message': error_message})
 
 
 def HomePage(request):
