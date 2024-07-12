@@ -1,0 +1,10 @@
+{% extends 'dashboard/watergis_base2.html' %}
+
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+    
+    <h1>Water Level Over Time</h1>
+    <img src="data:image/png;base64,{{ graph }}" alt="Water Level Over Time">
+{% endblock %}

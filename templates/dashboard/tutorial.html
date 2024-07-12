@@ -1,55 +1,154 @@
 {% extends 'dashboard/watergis_base2.html' %}
-{% load static%} {% block content %}{% load i18n %}
+{% load static %}
+{% load i18n %}
+{% block content %}
 
 <style>
-    /* ... Your existing styles ... */
-
+    /* Container styling */
     .scrollable-container {
         height: 500px;
-        /* Set the desired height for the scrollable container */
         overflow: auto;
-        /* Enable scrolling */
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Tab styling */
+    .nav-tabs {
+        margin-bottom: 20px;
+    }
+
+    .nav-tabs .nav-link {
+        border: 1px solid transparent;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        color: #007bff;
+        font-weight: 500;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .nav-tabs .nav-link.active {
+        background-color: #007bff;
+        color: #ffffff;
+        border-color: #007bff #007bff #ffffff;
+    }
+
+    /* List group item styling */
+    .list-group-item {
+        border: 1px solid #ddd;
+        padding: 15px 20px;
+        margin-bottom: 5px;
+        border-radius: 4px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Image styling */
+    .img-fluid {
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .img-fluid:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Tab pane header styling */
+    .tab-pane h6 {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* General spacing */
+    .tab-pane ul, .tab-pane .row {
+        margin-top: 10px;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #007bff;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #0056b3;
     }
 </style>
 
-<!-- Your existing code -->
-
 <div class="container mt-5 scrollable-container">
-    <!-- Content goes here -->
     <h1>{% trans "Resources" %}</h1>
     <hr>
-    <h6>{% trans "Documents" %}</h6>
-    <ul class="list-group">
-
-        {% for doc in documents %}
-        <li class="list-group-item">
-            <a href="{{ doc.url }}">{{ doc }}</a>
+    <ul class="nav nav-tabs" id="resourceTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="true">{% trans "Documents" %}</a>
         </li>
-        {% endfor %}
-    </ul><br>
-    <h6>{% trans "Images" %}</h6>
-    <div class="row mt-5">
-
-        {% for image in images %}
-        <div class="col-md-6 mb-4">
-            <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
-                <img src="{{ image.file.url }}" alt="{{ image.title }}">
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-    <h6>{% trans "Links" %}</h6><br>
-    <ul class="list-group">
-
-        {% for link in links %}
-        <li class="list-group-item">
-            <a href="{{ link.url }}">
-                {{ link.title }}
-            </a>
+        <li class="nav-item">
+            <a class="nav-link" id="links-tab" data-toggle="tab" href="#links" role="tab" aria-controls="links" aria-selected="false">{% trans "Links" %}</a>
         </li>
-        {% endfor %}
+        <li class="nav-item">
+            <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">{% trans "Images" %}</a>
+        </li>
     </ul>
+    <div class="tab-content" id="resourceTabsContent">
+        <!-- Documents Tab -->
+        <div class="tab-pane fade show active" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+            <h6>{% trans "Documents" %}</h6>
+            <ul class="list-group">
+                {% for doc in documents %}
+                <li class="list-group-item">
+                    <a href="{{ doc.url }}">{{ doc }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Links Tab -->
+        <div class="tab-pane fade" id="links" role="tabpanel" aria-labelledby="links-tab">
+            <h6>{% trans "Links" %}</h6>
+            <ul class="list-group">
+                {% for link in links %}
+                <li class="list-group-item">
+                    <a href="{{ link.url }}">
+                        {{ link.title }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Images Tab -->
+        <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
+            <h6>{% trans "Images" %}</h6>
+            <div class="row">
+                {% for image in images %}
+                <div class="col-md-6 mb-4">
+                    <a href="{{ image.file.url }}" data-lightbox="images" data-title="{{ image.title }}">
+                        <img src="{{ image.file.url }}" alt="{{ image.title }}" class="img-fluid">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 {% endblock %}

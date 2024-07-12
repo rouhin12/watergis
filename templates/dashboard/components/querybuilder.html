@@ -2,6 +2,7 @@
 {% load i18n %}
 <style>
     #showWellsDiv,
+    #wells_nashik,
     #obs_wells_district0 {
         display: none;
     }
@@ -27,82 +28,95 @@
 
     <div class="tab-content mt-4" id="queryTabContent">
         <div class="tab-pane fade show active" id="attribute" role="tabpanel" aria-labelledby="attribute-tab">
-            <div class="mb-3">
-                <select class="form-control form-control-sm" id="qry_layers">
-                    <option>--SELECT LAYER--</option>
-                    {% for layer in alllayers %}
-                    <option value="{{ layer.name }}">{{ layer.name }}</option>
-                    {% endfor %}
-                </select>
+            <div class="col-6">
+                <input type="checkbox" id="toggleQuerySection">
+                <label for="toggleQuerySection">Single Layer</label>
             </div>
-            <div class="mb-3">
-                <label>Select Column</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="qry_columns"></select>
-            </div>
-            <div class="mb-3">
-                <label>Select operator</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
-                    id="qry_operator"></select>
-            </div>
-            <div class="mb-3">
-                <label>Select Value</label>
-                <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values"></select>
-            </div>
-            <div class="mb-3">
-                <input type="checkbox" id="enableColumn2"> <!-- Add this checkbox -->
-                <label for="enableColumn2">Enable Column 2</label> <!-- Add label for checkbox -->
-            </div>
-            <div id="column2Options" style="display: none;"> <!-- Wrap Column 2 options in a container with display none -->
+            <div id="querySection" style="display: none;">
                 <div class="mb-3">
-                    <label>Select Logical Operator</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_logical_operator">
-                        <option value="AND">AND</option>
-                        <option value="OR">OR</option>
+                    <select class="form-control form-control-sm" id="qry_layers">
+                        <option>--SELECT LAYER--</option>
+                        {% for layer in alllayers %}
+                        <option value="{{ layer.name }}">{{ layer.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label>Select Column 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns_2"></select>
+                    <label>Select Column</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                        id="qry_columns"></select>
                 </div>
                 <div class="mb-3">
-                    <label>Select Operator 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator_2"></select>
+                    <label>Select operator</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example"
+                        id="qry_operator"></select>
                 </div>
                 <div class="mb-3">
-                    <label>Select Value 2</label>
-                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values_2"></select>
+                    <label>Select Value</label>
+                    <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values"></select>
+                </div>
+                <div class="mb-3">
+                    <input type="checkbox" id="enableColumn2">
+                    <label for="enableColumn2">Enable Column 2</label>
+                </div>
+                <div id="column2Options" style="display: none;">
+                    <div class="mb-3">
+                        <label>Select Logical Operator</label>
+                        <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_logical_operator">
+                            <option value="AND">AND</option>
+                            <option value="OR">OR</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Select Column 2</label>
+                        <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_columns_2"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Select Operator 2</label>
+                        <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_operator_2"></select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Select Value 2</label>
+                        <select class="form-control form-select form-select-sm" aria-label=".form-select-sm example" id="qry_values_2"></select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="exampleFormControlTextarea1" class="form-label"><strong>SQL Where Clause:</strong></label>
+                    <textarea class="form-control form-control-sm" id="rawquery" rows="2"></textarea>
+                    <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span> Clear Text</button>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i class="icofont-check-circled"></i> Apply</button>
+                    <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i class="icofont-eraser"></i> Clear Graphic</button>
                 </div>
             </div>
-
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label"><strong>SQL Where Clause:</strong></label>
-                <textarea class="form-control form-control-sm" id="rawquery" rows="2"></textarea>
-                <button class="btn btn-dark btn-sm mt-2 rounded-pill" id="clearText"><span class="fas fa-eraser"></span>
-                    Clear Text</button>
+            <div class="col-6">
+                <input type="checkbox" id="toggleQuerySection2">
+                <label for="toggleQuerySection2">Multiple Layer</label>
             </div>
-
-            <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="showQueryResult()"><i
-                        class="icofont-check-circled"></i> Apply</button>
-                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="clearGraphic()"><i
-                        class="icofont-eraser"></i> Clear Graphic</button>
+            <div id="querySection2" style="display: none;">
+                <div id="alert-container" class="mb-3"></div>
+                <div class="mb-3">
+                    <label for="population_threshold">Population Threshold</label>
+                    <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="50" max="5000">
+                </div>
+                <div class="mb-3">
+                    <label for="farm_threshold">Total Households Engaged In Farm Activities Threshold</label>
+                    <input type="number" class="form-control form-control-sm" id="farm_threshold" value="500" min="50" max="5000">
+                </div>
+                <div class="mb-3 text-center">
+                    <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeCombinedQuery()">
+                        <i class="icofont-check-circled"></i> Apply Query
+                    </button>
+                </div>
             </div>
         </div>
 
         <div class="tab-pane fade" id="spatial" role="tabpanel" aria-labelledby="spatial-tab">
             <div class="mb-3">
-                <label for="population_threshold">Population Threshold</label>
-                <input type="number" class="form-control form-control-sm" id="population_threshold" value="1000" min="50" max="5000">
-            </div>
-            <div class="mb-3">
-                <label for="farm_threshold">Total Households Engaged In Farm Activities Threshold</label>
-                <input type="number" class="form-control form-control-sm" id="farm_threshold" value="500" min="50" max="5000">
-            </div>
-            <div class="mb-3 text-center">
-                <button class="btn btn-success btn-sm w-100 mb-2 rounded-pill" onclick="executeCombinedQuery()">
-                    <i class="icofont-check-circled"></i> Apply Query
-                </button>
+                Coming soon!
             </div>
         </div>
 
@@ -123,119 +137,158 @@
                         </label>
                     </div>
                 </div>
-                <div class="tooltips" title="Toggle both types of wells">
+                <div class="tooltips" title="Please select Wells">
                     <label>
                         <input type="checkbox" value="Wells" id="toggleWellsCheckbox" onchange="toggleWells(this)">
                         <span style="color:black;"><b> Wells</b></span>
                     </label>
                 </div>
-                <div class="d-flex justify-content-center m-1">
-                    <button type="button" class="btn btn-primary" id="setlocation">Set Location</button>
-                </div>
-                <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
-                <div id="slider">
-                    <label>Set Range</label><br>
-                    <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
-                    <div class="sliderticks">
-                        <p>1</p>
-                        <p>5</p>
-                        <p>10</p>
-                        <p>15</p>
-                        <p>20</p>
+                <div id="wellControls" style="display:none;">
+                    <div class="d-flex justify-content-center m-1">
+                        <button type="button" class="btn btn-primary" id='setlocation'>Set Location</button>
                     </div>
-                    <button type="button" class="btn btn-primary" id='setbuffer'>Wells within <span id="demo"></span> Km</button>
+
+                    <button type="button" class="btn btn-primary" id='find-nearest'>Find Nearest Well</button>
+
+                    <div id="slider">
+                        <label>Set Range</label><br>
+                        <input type="range" min="1" max="20" value="1" class="slider" id="myRange" step="1">
+                        <div class="sliderticks">
+                            <p>1</p>
+                            <p>5</p>
+                            <p>10</p>
+                            <p>15</p>
+                            <p>20</p>
+                        </div>
+                        <button type="button" class="btn btn-primary" id='setbuffer'>Wells within <span id="demo"></span> Km</button>
+                    </div>
                 </div>
-            </div> 
-        </div>        
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
- var newLayerList = [];
-var cen2011Values = [];
-
-function clearMap() {
-    newLayerList.forEach(layer => {
-        mymap.removeLayer(layer);
+    var newLayerList = [];
+    var cen2011Values = [];
+    var districtLayerName;
+    
+    document.getElementById('toggleQuerySection').addEventListener('change', function () {
+        document.getElementById('querySection').style.display = this.checked ? 'block' : 'none';
     });
-    newLayerList = [];
-}
-
-function putWMSspatial(layer, filter) {
-    clearMap();
-    var wms_layer1;
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
-
-    var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
-
-    wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
-        layers: districtLayerName,
-        format: 'image/png',
-        transparent: true,
-        zoom: 14,
-        CQL_FILTER: filter,
+    
+    document.getElementById('toggleQuerySection2').addEventListener('change', function () {
+        document.getElementById('querySection2').style.display = this.checked ? 'block' : 'none';
     });
-    wms_layer1.addTo(mymap);
-    newLayerList.push(wms_layer1);
-}
-
-function executeCombinedQuery() {
-    var populationThreshold = document.getElementById('population_threshold').value;
-    var farmThreshold = document.getElementById('farm_threshold').value;
-
-    fetchCen2011Values(populationThreshold, function() {
-        var filter = '';
-        if (farmThreshold && cen2011Values.length > 0) {
-            var cen2011Filter = cen2011Values.join(',');
-            filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
-        }
-
+    
+    document.getElementById('enableColumn2').addEventListener('change', function () {
+        document.getElementById('column2Options').style.display = this.checked ? 'block' : 'none';
+    });
+    
+    function clearMap() {
+        newLayerList.forEach(layer => {
+            mymap.removeLayer(layer);
+        });
+        newLayerList = [];
+    }
+    
+    function putWMSspatial(layer, filter) {
+        clearMap();
+        var wms_layer1;
         const url = new URL(window.location.href);
         const districtName = url.searchParams.get('district');
-        var districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
-
-        putWMSspatial(districtLayerName, filter);
-    });
-}
-
-function fetchCen2011Values(populationThreshold, callback) {
-    const url = new URL(window.location.href);
-    const districtName = url.searchParams.get('district');
     
-    const wfsUrl = 'https://geonode.communitygis.in/geoserver/wfs';
-    const params = new URLSearchParams({
-        service: 'WFS',
-        version: '1.0.0',
-        request: 'GetFeature',
-        typeName: 'maha_demo_v21_26april24',
-        outputFormat: 'application/json',
-        CQL_FILTER: `tot_p <= ${populationThreshold} AND dist_name='${districtName}'`,
-        propertyName: 'cen_2011'
-    });
-
-    fetch(`${wfsUrl}?${params.toString()}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            cen2011Values = [];
-            const features = data.features;
-            features.forEach(feature => {
-                let cen2011Int = parseInt(feature.properties.cen_2011);
-                if (!isNaN(cen2011Int) && cen2011Int !== 0) {
-                    cen2011Values.push(cen2011Int);
-                }
-            });
-            
-            callback();
-        })
-        .catch(error => {
-            console.error('Error fetching cen_2011 values:', error);
+        districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : layer;
+    
+        wms_layer1 = L.tileLayer.wms('https://geonode.communitygis.in/geoserver/wms', {
+            layers: districtLayerName,
+            format: 'image/png',
+            transparent: true,
+            zoom: 14, 
+            CQL_FILTER: filter,
         });
-}
-
-</script>
+        wms_layer1.addTo(mymap);
+        newLayerList.push(wms_layer1);
+    
+        TRIBLAYER = `https://geonode.communitygis.in/geoserver/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetFeatureInfo&LAYERS=${districtLayerName}&QUERY_LAYERS=${districtLayerName}&CQL_FILTER=${encodeURIComponent(filter)}`;
+    }
+    
+    function showValidationAlert(message) {
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            ${message}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>`;
+    }
+    
+    function executeCombinedQuery() {
+        var populationThreshold = document.getElementById('population_threshold').value;
+        var farmThreshold = document.getElementById('farm_threshold').value;
+    
+        if (populationThreshold < 50 || populationThreshold > 5000) {
+            showValidationAlert('Population threshold must be between 50 and 5000.');
+            return;
+        }
+    
+        if (farmThreshold < 50 || farmThreshold > 5000) {
+            showValidationAlert('Farm threshold must be between 50 and 5000.');
+            return;
+        }
+    
+        fetchCen2011Values(populationThreshold, function () {
+            var filter = '';
+            if (farmThreshold && cen2011Values.length > 0) {
+                var cen2011Filter = cen2011Values.join(',');
+                filter = `tot_farm_h <= ${farmThreshold} AND census_201 IN (${cen2011Filter})`;
+            }
+    
+            const url = new URL(window.location.href);
+            const districtName = url.searchParams.get('district');
+            districtLayerName = districtName ? districtName.toLowerCase() + '_antyodaya_refactored' : 'maha_demo_v21_26april24';
+    
+            putWMSspatial(districtLayerName, filter);
+        });
+    }
+    
+    function fetchCen2011Values(populationThreshold, callback) {
+        const url = new URL(window.location.href);
+        const districtName = url.searchParams.get('district');
+    
+        const wfsUrl = 'https://geonode.communitygis.in/geoserver/wfs';
+        const params = new URLSearchParams({
+            service: 'WFS',
+            version: '1.0.0',
+            request: 'GetFeature',
+            typeName: 'maha_demo_v21_26april24',
+            outputFormat: 'application/json',
+            CQL_FILTER: `tot_p <= ${populationThreshold} AND dist_name='${districtName}'`,
+            propertyName: 'cen_2011'
+        });
+    
+        fetch(`${wfsUrl}?${params.toString()}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                cen2011Values = [];
+                const features = data.features;
+                features.forEach(feature => {
+                    let cen2011Int = parseInt(feature.properties.cen_2011);
+                    if (!isNaN(cen2011Int) && cen2011Int !== 0) {
+                        cen2011Values.push(cen2011Int);
+                    }
+                });
+    
+                callback();
+            })
+            .catch(error => {
+                console.error('Error fetching cen_2011 values:', error);
+            });
+    }
+    </script>
+    

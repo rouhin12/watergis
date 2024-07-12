@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-{% load static %}{% load i18n %}
+
+
+{% load static %}{% load i18n %}{% block content %}
 
 <head>
   <meta charset="UTF-8">
@@ -103,8 +105,8 @@
 
 <body>
   <div class="m-5 ">
-    <a href="/dashboard/watergis" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  ">
-      {% trans "Back to HomePage" %}
+    <a href="/dashboard/water_related_forms" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  ">
+      {% trans "Back to WaterRelated Forms" %}
     </a>
   </div>
 
@@ -272,5 +274,4 @@
     });
   });
 </script>
-
-</html>
+{% endblock %}

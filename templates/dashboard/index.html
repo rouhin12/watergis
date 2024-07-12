@@ -1,0 +1,106 @@
+
+{% load static %}
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Earth Engine Map</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="{% static 'leaflet.css'%}" />
+    <script src="{% static 'leaflet.js' %}"></script>
+
+    <style>
+        #map { height: 600px; }
+    </style>
+</head>
+<body>
+    <h1>Earth Engine Map</h1>
+
+    <!-- {% if map_html %}
+        <div id="map">
+            {{ map_html|safe }}
+        </div>
+    {% elif error_message %}
+        <p>{{ error_message }}</p>
+    {% else %}
+        <p>No map or error message to display.</p>
+    {% endif %} -->
+
+    <!-- Include Leaflet JS -->
+     <!-- GEE code for Bhandara to compute water area for surface bodies for wet and dry seasons -->
+    <script>
+    var T1 = ee.FeatureCollection("projects/ee-bhandara/assets/1"),
+    T2 = ee.FeatureCollection("projects/ee-bhandara/assets/2"),
+    T3 = ee.FeatureCollection("projects/ee-bhandara/assets/3"),
+    T4 = ee.FeatureCollection("projects/ee-bhandara/assets/4"),
+    T5 = ee.FeatureCollection("projects/ee-bhandara/assets/5"),
+    T6 = ee.FeatureCollection("projects/ee-bhandara/assets/6"),
+    T7 = ee.FeatureCollection("projects/ee-bhandara/assets/7"),
+    ROI = ee.FeatureCollection("projects/ee-bhandara/assets/DIST_BOUNDRY_1"),
+    table = ee.FeatureCollection("projects/ee-bhandara/assets/1");
+     // Define your regions of interest (ROIs)
+     var ROIs = [T1, T2, T3, T4, T5, T6, T7];
+     
+     // Define the image visualization parameters
+     var imageVisParam = {"opacity":1,"bands":["B4","B3","B2"],"min":0.031892000000000004,"max":0.204308,"gamma":1};
+     var imageVisParam2 = {"opacity":1,"bands":["B4","B3","B2"],"min":0.029560000000000003,"max":0.17644,"gamma":1};
+     
+     var sentinel2 = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED");
+     
+     // Function to process each ROI
+     var processROI = function(roi, index) {
+       var Image_dry = sentinel2.filterBounds(roi)
+                      .filterDate('2020-04-01', '2020-05-30')
+                      .sort('CLOUDY_PIXEL_PERCENTAGE', false)
+                      .mosaic()
+                      .multiply(0.0001)
+                      .clip(roi);
+       Map.addLayer(Image_dry, imageVisParam, 'Image_dry_' + index);
+     
+       var Image_wet = sentinel2.filterBounds(roi)
+                      .filterDate('2020-09-01', '2020-10-30')
+                      .sort('CLOUDY_PIXEL_PERCENTAGE', false)
+                      .mosaic()
+                      .multiply(0.0001)
+                      .clip(roi);
+       Map.addLayer(Image_wet, imageVisParam2, 'Image_wet_' + index);
+     
+       var NDWI_dry = Image_dry.normalizedDifference(['B3','B8']);
+       var NDWI_wet = Image_wet.normalizedDifference(['B3','B8']);
+     
+       Map.addLayer(NDWI_dry, {min: -1, max: 0.5, palette: ['red', 'yellow', 'green', 'blue']}, 'NDWI_Dry_' + index);
+       Map.addLayer(NDWI_wet, {min: -1, max: 0.5, palette: ['red', 'yellow', 'green', 'blue']}, 'NDWI_Rainy_' + index);
+     
+       var wet_season_water = NDWI_wet.gt(0.2).and(NDWI_dry.lt(0.2));
+       var water_mask = wet_season_water.updateMask(wet_season_water);
+     
+       Map.addLayer(water_mask, {palette: 'blue'}, 'rainy season water_' + index);
+     
+       // Calculate the pixel area in square meters
+       var area_water = water_mask.multiply(ee.Image.pixelArea());
+     
+       // Sum the pixel areas to get the total area of water in the wet season
+       var area_stats = area_water.reduceRegion({
+         reducer: ee.Reducer.sum(),
+         geometry: roi,
+         scale: 10,  // Sentinel-2 spatial resolution is 10 meters
+         maxPixels: 1e10
+       });
+     
+       // Get the total area of water in square meters
+       var total_area_water = area_stats.get('nd');  // 'nd' is the default band name for the result of normalizedDifference
+     
+       // Print the total area of water in the wet season
+       print('Total area of water in the wet season (sq meters) for T' + (index + 1) + ':', total_area_water);
+     };
+     
+     // Loop through each ROI and process it
+     for (var i = 0; i < ROIs.length; i++) {
+       processROI(ROIs[i], i);
+     }
+    </script>
+
+</body>
+</html>

@@ -32,6 +32,10 @@ urlpatterns = [
     path('dashboard/water_related_forms', views.water_related_forms, name='water_related_forms'),
     path('nearestquery',views.nearestquery,name='nearestquery'),
     path('get_layer/', views.get_layer, name='get_layer'),
+    # path('get_villages_near_river/', views.get_villages_near_river, name='get_villages_near_river'),
+    path('intersecting_villages/', views.intersecting_villages, name='intersecting_villages'),
+    path('timeseries',views.timeseries,name='timeseries'),
+
 ]
     
 

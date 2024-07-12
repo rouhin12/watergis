@@ -4,8 +4,10 @@ from .models import Features
 from .models import Layers
 from .models import water_quality_model
 from .models import links
-from django.http import HttpResponse
-# from .models import 
+from .models import MahaDemoV2126April24
+from .models import MahaRiversFromOsmV116June23
+from django.http import HttpResponse, Http404
+from django.contrib.gis.geos import GEOSGeometry
 from django.contrib import messages
 import re,base64,time
 from django.core.files.base import ContentFile
@@ -21,7 +23,12 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
-import os, requests
+import os, requests,json,io
+import pandas as pd
+import matplotlib.pyplot as plt
+# from urllib.parse import quote
+
+
 
 def HomePage(request):
     return render(request, "HomePage.html")
@@ -345,11 +352,12 @@ def get_river_names_for_district(district_name):
         'outputFormat': 'application/json',
         'cql_filter': f"district='{district_name}'"
     }
+
     response = requests.get(url, params=params)
     data = response.json()
     # Extract river names
     river_names = sorted({feature['properties']['name'] for feature in data['features'] if 'name' in feature['properties'] and feature['properties']['name']})
-
+    
     return river_names
 
 def district_rivers_view(request, district_name):
@@ -364,3 +372,188 @@ def district_rivers_view(request, district_name):
         'district_name': district_name
     }
     return render(request, 'naturalfeatures.html', context)
+
+# def get_villages_near_river(request):
+#     river_name = request.GET.get('river_name')
+#     print("Requested river name:", river_name)
+    
+#     # Replace with your GeoNode's URL and appropriate parameters
+#     geonode_url = 'https://geonode.communitygis.in/geoserver/wfs'
+#     params = {
+#         'service': 'WFS',
+#         'version': '1.0.0',
+#         'request': 'GetFeature',
+#         'typeName': 'geonode:maha_rivers_withDistrict17june24',
+#         'outputFormat': 'application/json',
+#         'cql_filter': f"name='{river_name}'"  # Adjust filter as per your data schema
+#     }
+    
+#     try:
+#         # Fetch river data from GeoNode
+#         response = requests.get(geonode_url, params=params)
+#         response.raise_for_status()  # Raise an exception for HTTP errors
+
+#         river_data = response.json()
+        
+#         river_geometry = None  # Initialize river_geometry
+        
+#         for feature in river_data['features']:
+#             if feature['properties']['name'] == river_name:
+#                 print("River found")
+#                 river_geometry = feature['geometry']
+#                 print(river_geometry)
+#                 break
+        
+#         # If river with given name not found
+#         if river_geometry is None:
+#             print(f"River '{river_name}' not found in GeoNode data.")
+#             return JsonResponse({'error': f"River '{river_name}' not found in GeoNode data."}, status=404)
+
+#         # Convert MultiLineString coordinates to WKT format
+#         def multiline_to_wkt(multiline):
+#             try:
+#                 lines_str = ', '.join([
+#                     f"({', '.join([f'{lon} {lat}' for lon, lat in line])})"
+#                     for line in multiline if all(len(coord) == 2 for coord in line)
+#                 ])
+#                 return f"MULTILINESTRING({lines_str})"
+#             except Exception as e:
+#                 raise ValueError(f"Error in converting coordinates to WKT: {e}")
+
+#         try:
+#             river_geometry_wkt = multiline_to_wkt(river_geometry['coordinates'])
+#         except ValueError as ve:
+#             print(ve)
+#             river_geometry_wkt = None
+
+#         if river_geometry_wkt:
+#             # Now fetch villages near the specified river using another GeoNode API endpoint
+#             villages_geonode_url = 'https://geonode.communitygis.in/geoserver/wfs'
+            
+#             # Parameters for villages WFS GetFeature request
+#             villages_params = {
+#                 'service': 'WFS',
+#                 'version': '1.0.0',
+#                 'request': 'GetFeature',
+#                 'typeName': 'geonode:maha_demo_v21_26april24',
+#                 'outputFormat': 'application/json',
+#                 'cql_filter': f"INTERSECTS(the_geom,MULTILINESTRING((74.4814618 20.1435521, 74.4811614 20.14325)))"
+#             }
+            
+#             # Fetch villages data from GeoNode
+#             villages_response = requests.get(villages_geonode_url, params=villages_params)
+#             villages_response.raise_for_status()  # Raise an exception for HTTP errors
+
+#             villages_data = villages_response.json()
+#             print("Villages data:", villages_data)
+
+#             # Extract relevant information from villages data
+#             villages = []
+#             for feature in villages_data.get('features', []):
+#                 village_name = feature['properties'].get('area_name')  # Adjust based on your actual property name
+#                 village_geom = feature.get('geometry')
+#                 villages.append({
+#                     'name': village_name,
+#                     'geom': village_geom
+#                 })
+            
+#             return JsonResponse({'villages': villages}, safe=False, status=200)  # Ensure to set a proper status code
+    
+#     except requests.exceptions.RequestException as e:
+#         print(f"RequestException: {e}")
+#         return JsonResponse({'error': f"Error fetching data from GeoNode: {e}"}, status=500)
+
+#     except KeyError as e:
+#         print(f"KeyError: {e}")
+#         return JsonResponse({'error': f"KeyError: {e}"}, status=500)
+
+#     except Exception as e:
+#         print(f"Unexpected error: {e}")
+#         return JsonResponse({'error': f"Unexpected error: {e}"}, status=500)
+
+
+def intersecting_villages(request):
+    river_name = request.GET.get('river_name')
+    print(river_name)
+    # Example: Find villages intersecting with a specific river
+    river_id = 1  # Replace with the actual river ID you are interested in
+
+    rivers = MahaRiversFromOsmV116June23.objects.filter(name=river_name)
+    # for river in rivers:
+    #     print(f"River Name: {river.geom}, ID: {river.fid}")
+    if rivers.exists():
+        # Handle the case where there are multiple rivers with the same name
+        # For simplicity, you might choose the first one
+        river = rivers.first()
+        # return river.id
+        intersecting_villages = MahaDemoV2126April24.objects.filter(geom__intersects=river.geom)
+
+    # Optionally, you can perform further operations with intersecting_villages
+        geojson_features = []
+        for village in intersecting_villages:
+            # print(village.area_name, "-", village.cen_2011)
+            geom_geojson = village.geom.geojson  # Convert GEOSGeometry to GeoJSON
+            
+            geojson_feature = {
+                'type': 'Feature',
+                'geometry': geom_geojson,
+                'properties': {
+                    'area_name': village.area_name,
+                    'cen_2011': village.cen_2011,
+                    # Add other properties as needed
+                }
+            }
+            geojson_features.append(geojson_feature)
+            # print(geojson_features[0])
+    # Return a response or render a template as needed
+        return JsonResponse({'type': 'FeatureCollection', 'features': geojson_features})
+
+    else:
+        # Handle case where no river with the given name exists
+        raise Http404("River with name '{}' does not exist".format(river_name))
+        
+def timeseries(request):
+    # Load the data
+    # file_path = "{% static 'data/healthdash/Dates_and_WaterLevel.csv' %}"
+    file_path = os.path.join(settings.BASE_DIR,'dashboard', 'static', 'data', 'healthdash', 'Dates_and_WaterLevel.csv')
+   
+    data = pd.read_csv(file_path)
+
+    # Convert the 'dates' column to datetime format
+    data['Date'] = pd.to_datetime(data['dates'])
+
+    # Filter the data for years after 2018
+    data = data[data['Date'].dt.year > 2018]
+
+    # Set the 'Date' column as the index
+    data.set_index('Date', inplace=True)
+
+    # Extract year from the 'Date' index
+    data['Year'] = data.index.year
+
+    # Plot the data
+    plt.figure(figsize=(10, 6))
+    for year, group in data.groupby('Year'):
+        plt.plot(group.index, group['water area(hectares)'], marker='o', linestyle='-', label=str(year))
+
+    plt.title('Water Level Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Water Level (hectares)')
+    plt.legend(title='Year')
+    plt.grid(True)
+
+    # Improve date formatting on x-axis
+    plt.gcf().autofmt_xdate()
+
+    # Save the plot to a PNG image in memory
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    image_png = buf.getvalue()
+    buf.close()
+    
+    # Encode the PNG image to base64 string
+    graph = base64.b64encode(image_png).decode('utf-8')
+
+    # Pass the image to the template
+    return render(request, 'dashboard/timeseries.html', {'graph': graph})
