@@ -24,8 +24,12 @@ from django.http import HttpResponseRedirect
 from django.utils.translation import gettext as _
 
 import os, requests,json,io
-import pandas as pd
-import matplotlib.pyplot as plt
+import folium
+from folium import plugins
+from django.views.generic import TemplateView 
+import ee
+#import pandas as pd
+#import matplotlib.pyplot as plt
 # from urllib.parse import quote
 
 
@@ -557,3 +561,74 @@ def timeseries(request):
 
     # Pass the image to the template
     return render(request, 'dashboard/timeseries.html', {'graph': graph})
+
+from django.shortcuts import render
+import ee
+import folium
+
+# Your Google Cloud project ID
+PROJECT_ID = 'your-project-id'
+
+# Initialize Earth Engine once at the start
+def initialize_earth_engine():
+    try:
+        ee.Initialize(project=PROJECT_ID)
+    except ee.EEException as e:
+        return str(e)
+    return None
+
+initialization_error = initialize_earth_engine()
+
+def GeeCode(request):
+    if initialization_error:
+        error_message = f"Failed to initialize Earth Engine: {initialization_error}"
+        return render(request, 'dashboard/index.html', {'error_message': error_message})
+
+    try:
+        # Create a Folium Figure object
+        figure = folium.Figure()
+
+        # Create a Folium Map object
+        m = folium.Map(
+            location=[21.1710, 79.6550],
+            zoom_start=8
+        )
+
+        # Add the map to the figure
+        m.add_to(figure)
+
+        # Select the dataset (MODIS NDVI)
+        dataset = (ee.ImageCollection('MODIS/006/MOD13Q1')
+                    .filterDate('2019-07-01', '2019-11-30')
+                    .first())
+        modisndvi = dataset.select('NDVI')
+
+        # Define visualization parameters
+        vis_paramsNDVI = {
+            'min': 0,
+            'max': 9000,
+            'palette': ['FE8374', 'C0E5DE', '3A837C', '034B48']
+        }
+
+        # Get the map ID dictionary from Earth Engine
+        map_id_dict = ee.Image(modisndvi).getMapId(vis_paramsNDVI)
+
+        # Add the Earth Engine raster data as a TileLayer to the Folium map
+        folium.raster_layers.TileLayer(
+            tiles=map_id_dict['tile_fetcher'].url_format,
+            attr='Google Earth Engine',
+            name='NDVI',
+            overlay=True,
+            control=True
+        ).add_to(m)
+
+        # Add layer control to the Folium map
+        m.add_child(folium.LayerControl())
+
+        # Render the figure
+        map_html = figure.render()
+
+        return render(request, 'dashboard/index.html', {'map_html': map_html})
+    except ee.EEException as e:
+        error_message = f"Earth Engine error: {str(e)}"
+        return render(request, 'dashboard/index.html', {'error_message': error_message})
