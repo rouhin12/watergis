@@ -1433,10 +1433,10 @@ let chPercentage;
  
  function getColor(stress, scstTapStress, scstPercentage, TapPerHH, chTapStress) {
  if (document.getElementById("scst_tap_connection").checked) {
- if (scstTapStress < 5) return 'green'; // low stress
- if (scstTapStress > 5 && scstTapStress <= 10) return 'yellow'; // moderate stress
- if (scstTapStress > 10 && scstTapStress <= 50) return 'orange'; // high stress
- if (scstTapStress > 50) return 'red'; // high stress
+ if (scstTapStress < 5) return '#5FFFA5'; // low stress
+ if (scstTapStress > 5 && scstTapStress <= 10) return '#C0FF5F'; // moderate stress
+ if (scstTapStress > 10 && scstTapStress <= 50) return '#FFD65F'; // high stress
+ if (scstTapStress > 50) return '#FF5F5F'; // high stress
  }else if (document.getElementById("scst_population").checked || document.getElementById("ch_population").checked) {
     var percentage = document.getElementById("scst_population").checked ? scstPercentage : chPercentage; 
     if (isNaN(percentage)) return '#FF0000'; // Red for NaN
@@ -1446,7 +1446,7 @@ let chPercentage;
     if (percentage < 80) return '#0077B6'; // High percentage
     if (percentage <= 100) return '#03045E'; // High percentage
  } else if (document.getElementById("ch_tap_connection").checked) {
-    return chTapStress === 0 ? '#0077b6' :
+    return chTapStress === 0 ? '#FFDFD2' :
  chTapStress > 5 ? '#d91e36' :
  chTapStress > 4 ? '#da344d' :
  chTapStress > 3 ? '#ec5766' :
@@ -1456,7 +1456,7 @@ let chPercentage;
  chTapStress > 0 ? '#00b4d8' :
  '#0077b6';
  } else if (document.getElementById("bhtap_connection").checked) {
- return TapPerHH === 1 ? '#197db6' :
+ return TapPerHH === 1 ? '#FFDFD2' :
  TapPerHH > 0.95 ? '#f5c8b5' :
  TapPerHH > 0.80 ? '#ef9075' :
  TapPerHH > 0.60 ? '#e77364' :
@@ -1614,10 +1614,10 @@ document.getElementById('throbber').style.display = 'none';
  
  function getColor(d) {
  return d === 0 ? 'black' : 
- d < 5 ? 'green' :
- d < 10 ? 'yellow' :
- d < 50 ? 'orange' :
- 'red';
+ d < 5 ? '#5FFFA5' :
+ d < 10 ? '#C0FF5F' :
+ d < 50 ? '#FFD65F' :
+ '#FF5F5F';
 }
 
 labels.push(
@@ -1656,7 +1656,7 @@ labels.push(
  legendList.style.paddingLeft = '0';
  
  const conditions = [
- { value: 1, color: '#197db6' },
+ { value: 1, color: '#FFDFD2' },
  { value: 0.95, color: '#f5c8b5' },
  { value: 0.80, color: '#ef9075' },
  { value: 0.60, color: '#e77364' },
