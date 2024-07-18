@@ -4,10 +4,38 @@
 
 {% block content %}
 
-<a href="/dashboard/water_related_forms" class="btn btn-primary py-2 px-4 hover:bg-blue-700">
-    {% trans "Back to WaterRelated Forms" %}
-</a>
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<style>
+    .success {
+    color: green;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
 
+.error {
+    color: red;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+</style>
 <div class="container mt-5" style="max-height: 500px; overflow-y: auto;">
     <h2 class="text-center">{% trans "Water Quality Form" %}</h2>
     <h4 class="text-center mb-5"><u>{% trans "Water Source Details" %}</u></h4>
