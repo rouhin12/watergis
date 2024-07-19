@@ -6,6 +6,12 @@
             onchange="showDrainagenew(this)">
         <label class="custom-control-label" for="drainage">Show Drainage Basins</label>
     </div>
+
+    <div class="custom-control custom-switch m-2" id="districtCheckbox" style="display:none;">
+        <input type="checkbox" class="custom-control-input" id="specialFeature" onchange="toggleSpecialFeature(this)">
+        <label class="custom-control-label" for="specialFeature">Surface water for Bhandara</label>
+    </div>
+    
     <div class="accordion" id="accordionExample">
         <div class="card" {% if not feature.rivers %}display:none{% endif %}>
             <div class="card-header" id="headingOne">
@@ -284,5 +290,30 @@
             });
         }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+    // Function to get query parameters from URL
+    function getQueryParams() {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        return Object.fromEntries(urlParams.entries());
+    }
+
+    // Check if district parameter is "Bhandara"
+    const params = getQueryParams();
+    if (params.district === 'Bhandara') {
+        document.getElementById('districtCheckbox').style.display = 'block';
+    } else {
+        document.getElementById('districtCheckbox').style.display = 'none';
+    }
+});
+
+function toggleSpecialFeature(checkbox) {
+    // Add your logic here for the special feature
+    if (checkbox.checked) {
+        putWMS("bhandara_surface_water");
+    } else {
+        removeWMS("bhandara_surface_water");
+    }
+}
 
 </script>
