@@ -2,7 +2,13 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
   <div class="row justify-content-center mt-5"style="max-height: 500px; overflow-y: auto;">
     <a href="{% url 'water_related_forms' %}" class="btn btn-primary py-2 px-4 hover:bg-blue-700">
       {% trans "Back to Water Related Forms" %}

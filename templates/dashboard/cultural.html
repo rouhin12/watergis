@@ -1,6 +1,13 @@
 {% extends 'dashboard/watergis_base2.html' %}
 {% load static %}{% load i18n %}
 {% block content %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 <div class="container mt-5" style="max-height: 500px; overflow-y: auto;">
     <h2 class="text-center">{% trans "Man-Made Features" %}</h2>
